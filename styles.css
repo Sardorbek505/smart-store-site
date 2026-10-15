@@ -1,0 +1,397 @@
+/*
+ * Лендинг Smart Store. Тот же язык, что у программы: светлый прохладный фон,
+ * один синий акцент, крупные цифры. Без градиентов и украшений: страница
+ * показывает настоящие экраны программы, они и есть содержание.
+ */
+:root {
+  --paper: oklch(95.5% 0.008 265);
+  --surface: oklch(100% 0 0);
+  --ink: oklch(22% 0.012 260);
+  --muted: oklch(44% 0.014 260);
+  --line: oklch(88% 0.01 265);
+  --accent: oklch(52% 0.2 270);
+  --accent-strong: oklch(45% 0.2 270);
+  --radius: 10px;
+  --gutter: clamp(16px, 4vw, 48px);
+  font-family: 'Onest', 'Segoe UI', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* Шапка */
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px var(--gutter);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.brand img {
+  border-radius: 8px;
+}
+
+.top-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 15px;
+}
+
+.top-links a {
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.top-links a:hover {
+  color: var(--ink);
+}
+
+.top-links .top-enter {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Первый экран */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 7fr);
+  gap: clamp(32px, 4vw, 56px);
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(24px, 6vw, 72px) var(--gutter) clamp(48px, 8vw, 112px);
+}
+
+.eyebrow {
+  margin: 0 0 16px;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+h1 {
+  font-size: clamp(34px, 4.2vw, 54px);
+  font-weight: 700;
+}
+
+.lead {
+  margin: 24px 0 0;
+  color: var(--muted);
+  font-size: 19px;
+  max-width: 34em;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 24px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  font: inherit;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease-out, border-color 120ms ease-out;
+}
+
+.button:hover {
+  border-color: var(--muted);
+}
+
+.button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.button.primary:hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.button:focus-visible,
+input:focus-visible {
+  outline: 3px solid color-mix(in oklch, var(--accent) 40%, transparent);
+  outline-offset: 2px;
+}
+
+.note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  min-height: 1.5em;
+}
+
+/* Снимок программы лежит как лист бумаги: одна тонкая рамка, без устройства вокруг. */
+.hero-shot {
+  margin: 0;
+}
+
+.hero-shot img,
+.step img {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+/* День магазина: шаги идут лентой по времени, а не сеткой карточек. */
+.day {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(48px, 8vw, 112px);
+}
+
+.day > h2,
+.data > h2,
+.store > h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  margin-bottom: clamp(24px, 4vw, 48px);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 0 24px;
+  padding: clamp(24px, 3vw, 40px) 0;
+  border-top: 1px solid var(--line);
+}
+
+.step .step-text {
+  display: contents;
+}
+
+.step .time {
+  margin: 4px 0 0;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 15px;
+  grid-row: span 2;
+}
+
+.step h3 {
+  font-size: clamp(22px, 2.4vw, 28px);
+}
+
+.step p:not(.time) {
+  margin: 10px 0 0;
+  color: var(--muted);
+  max-width: 40em;
+}
+
+.step.with-shot {
+  grid-template-columns: 140px minmax(0, 5fr) minmax(0, 7fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.step.with-shot .step-text {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  grid-column: 1 / 3;
+  gap: 0 24px;
+}
+
+.step.with-shot .step-text .time {
+  grid-row: span 2;
+}
+
+.step.with-shot img {
+  grid-column: 3;
+}
+
+.step img.phone {
+  max-width: 260px;
+  justify-self: start;
+}
+
+/* Данные */
+.data {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.data,
+.store {
+  padding: clamp(48px, 8vw, 96px) var(--gutter);
+}
+
+.data > h2,
+.facts,
+.store > * {
+  max-width: calc(1240px - 2 * var(--gutter));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px 64px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.facts dt {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.facts dd {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+/* Вход в магазин */
+.store p {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.store-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.store-field {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  border: 1.5px solid oklch(62% 0.01 260);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 0 16px;
+  min-width: min(100%, 360px);
+}
+
+.store-field input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 17px;
+  background: transparent;
+  min-width: 0;
+}
+
+.store-suffix {
+  color: var(--muted);
+}
+
+/* Подвал */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px var(--gutter) 48px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.foot strong {
+  color: var(--ink);
+}
+
+.foot p {
+  margin: 4px 0 0;
+}
+
+.foot nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Телефон и узкие окна */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .top-links a:not(.top-enter) {
+    display: none;
+  }
+  .step,
+  .step.with-shot,
+  .step.with-shot .step-text {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .step .step-text {
+    display: block;
+  }
+  .step.with-shot .step-text,
+  .step.with-shot img {
+    grid-column: auto;
+  }
+  .step.with-shot img {
+    margin-top: 16px;
+  }
+  .facts {
+    grid-template-columns: 1fr;
+  }
+}
