@@ -1,5 +1,5 @@
 // Лендинг Smart Store (§47.6 тех-плана): ссылка на свежий установщик и вход в магазин.
-(() => {
+;(() => {
   /*
    * Домен магазинов: каждый магазин — поддомен, адрес выдаётся вместе с ключом туннеля.
    * Пока домен не подключён, вход по коду объясняет, где взять адрес.
@@ -42,7 +42,22 @@
           'Адрес вашего магазина есть в программе: «Система» → «Телефон». Наведите камеру телефона на QR-код.'
         return
       }
-      location.href = `https://${code}.${STORE_DOMAIN}/`
+      // Сначала спрашиваем сервер подключения: опечатка в коде даст понятный текст,
+      // а не страницу ошибки Cloudflare. Сервер недоступен — просто переходим.
+      $('store-note').textContent = 'Проверяем код…'
+      fetch(`https://connect.${STORE_DOMAIN}/lookup?code=${encodeURIComponent(code)}`)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result && result.found === false) {
+            $('store-note').textContent =
+              'Магазин с таким кодом не найден. Код есть в программе: «Система» → «Телефон».'
+            return
+          }
+          location.href = `https://${code}.${STORE_DOMAIN}/`
+        })
+        .catch(() => {
+          location.href = `https://${code}.${STORE_DOMAIN}/`
+        })
     })
   }
 
