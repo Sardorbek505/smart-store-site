@@ -4,7 +4,7 @@
    * Домен магазинов: каждый магазин — поддомен, адрес выдаётся вместе с ключом туннеля.
    * Пока домен не подключён, вход по коду объясняет, где взять адрес.
    */
-  const STORE_DOMAIN = ''
+  const STORE_DOMAIN = 'metov.store'
   const RELEASES = 'https://api.github.com/repos/Sardorbek505/smart-store-releases/releases/latest'
 
   const $ = (id) => document.getElementById(id)
