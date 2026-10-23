@@ -1,12 +1,12 @@
 /* Cinematic gallery: generated studio art with genuine UI screens. */
 .landing-page .top {
-  background: rgba(16, 18, 19, 0.94);
+  background: rgba(17, 17, 22, 0.94);
   border-color: #ffffff14;
-  color: #f5f6f1;
+  color: #ededf5;
   backdrop-filter: blur(20px);
 }
 .landing-page .top a:hover {
-  color: #dcf29c;
+  color: #9bb8ff;
 }
 .landing-page .enter-link {
   border-color: #ffffff2b;
@@ -16,17 +16,17 @@
   border-color: #ffffff2b;
 }
 .landing-page .menu-toggle span {
-  background: #edf0e8;
+  background: #ededf5;
 }
 .landing-page .menu-open .top-links {
-  background: #151819;
+  background: #111116;
   border-color: #ffffff1c;
 }
 .cinema-hero {
   position: relative;
   isolation: isolate;
-  background: #101213;
-  color: #f3f4ef;
+  background: #111116;
+  color: #ededf5;
   overflow: hidden;
   padding-top: 62px;
   padding-bottom: 26px;
@@ -36,8 +36,8 @@
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse at 83% 2%, #65462d40, transparent 38%),
-    radial-gradient(ellipse at 16% 50%, #203d6526, transparent 40%);
+    radial-gradient(ellipse at 83% 2%, #1d4ed82e, transparent 38%),
+    radial-gradient(ellipse at 16% 50%, #1d4ed826, transparent 40%);
   pointer-events: none;
 }
 .cinema-copy {
@@ -49,14 +49,14 @@
   justify-content: center;
   font-size: 9px;
   letter-spacing: 2px;
-  color: #b7c2ad;
+  color: #bfbfd3;
   margin-bottom: 22px;
 }
 .cinema-copy .status-dot {
   width: 5px;
   height: 5px;
-  background: #d7eb9a;
-  box-shadow: 0 0 12px #b6d78070;
+  background: #89aaff;
+  box-shadow: 0 0 12px #1d4ed870;
 }
 .cinema-copy h1 {
   font-size: clamp(48px, 5.4vw, 78px);
@@ -65,11 +65,11 @@
   font-weight: 600;
 }
 .cinema-copy h1 > span {
-  color: #e3ebd5;
+  color: #ededf5;
 }
 .cinema-lead {
   font-size: 13px;
-  color: #abb1aa;
+  color: #b0b0c3;
   line-height: 1.6;
   margin: 22px auto 23px;
   max-width: 550px;
@@ -84,25 +84,25 @@
   gap: 26px;
 }
 .cinema-actions .button {
-  background: #dcefad;
-  color: #20281d;
-  border-color: #dcefad;
+  background: #1d4ed8;
+  color: #ededf5;
+  border-color: #1d4ed8;
   min-height: 47px;
   font-size: 12px;
   padding: 13px 19px;
   gap: 22px;
-  box-shadow: 0 0 35px #c5e4970a;
+  box-shadow: 0 0 35px #1d4ed820;
 }
 .cinema-actions .button:hover {
-  background: #e5f6c0;
-  border-color: #e5f6c0;
+  background: #285de3;
+  border-color: #285de3;
 }
 .cinema-explore {
   display: flex;
   align-items: center;
   gap: 9px;
   font-size: 12px;
-  color: #e2e6da;
+  color: #ededf5;
 }
 .cinema-explore .icon {
   width: 15px;
@@ -110,7 +110,7 @@
   transform: rotate(45deg);
 }
 .cinema-copy .trial-note {
-  color: #8e978b;
+  color: #9b9bb3;
   font-size: 9px;
   margin-top: 13px;
 }
@@ -139,7 +139,7 @@
   right: 15%;
   bottom: 15px;
   height: 60px;
-  background: #030404;
+  background: #09090d;
   filter: blur(25px);
   z-index: -1;
   pointer-events: none;
@@ -153,7 +153,7 @@
   border-radius: 15px;
   overflow: hidden;
   isolation: isolate;
-  background: #151717;
+  background: #111116;
   border: 1px solid #ffffff20;
   box-shadow: 0 15px 50px #0005;
   transform-origin: center;
@@ -166,10 +166,10 @@
 }
 .gallery-card:hover {
   color: inherit;
-  border-color: #d9edb480;
+  border-color: #8faeff80;
 }
 .gallery-card:focus-visible {
-  outline-color: #dcefad;
+  outline-color: #1d4ed8;
 }
 .scene-background {
   position: absolute;
@@ -186,8 +186,8 @@
   inset: 40% 0 0;
   background: linear-gradient(
     transparent,
-    rgba(6, 8, 9, 0.12) 40%,
-    rgba(6, 8, 9, 0.95)
+    rgba(17, 17, 22, 0.12) 40%,
+    rgba(17, 17, 22, 0.95)
   );
   pointer-events: none;
   z-index: 1;
@@ -287,11 +287,11 @@
 .mockup-phone .mockup-display {
   padding: 4px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #a3adac, #303932 30%, #111613);
-  border-color: #d7e5cf99;
+  background: linear-gradient(135deg, #a3a3b8, #30303f 30%, #111116);
+  border-color: #d7def599;
   box-shadow:
-    inset 0 1px 2px #e0e7db99,
-    0 0 0 1px #050706;
+    inset 0 1px 2px #ededf599,
+    0 0 0 1px #09090d;
 }
 .mockup-phone .mockup-display:before {
   top: 6px;
@@ -299,7 +299,7 @@
   width: 24%;
   height: 5px;
   border-radius: 4px;
-  background: #151a16;
+  background: #111116;
   z-index: 2;
 }
 .mockup-phone .mockup-screen {
@@ -318,7 +318,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  color: #edf0e5;
+  color: #ededf5;
   font-size: 11px;
   z-index: 2;
 }
@@ -343,13 +343,13 @@
 }
 .gallery-note {
   font-size: 9px;
-  color: #8d968a;
+  color: #9b9bb3;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 .gallery-note .status-dot {
-  background: #869b68;
+  background: #89aaff;
   width: 4px;
   height: 4px;
 }
@@ -366,7 +366,7 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  color: #cbd3c2;
+  color: #d0d0e3;
   padding: 0;
   transition: background 0.2s;
 }
@@ -388,10 +388,10 @@
   letter-spacing: 1px;
   min-width: 44px;
   text-align: center;
-  color: #6d7965;
+  color: #9b9bb3;
 }
 .gallery-count b {
-  color: #cad4bf;
+  color: #d0d0e3;
   font-weight: 400;
 }
 .play-glyph {
@@ -409,18 +409,18 @@
 }
 .cinema-meta .download-meta {
   font-size: 8px;
-  color: #7f8a79;
+  color: #9b9bb3;
   max-width: none;
   margin: 0;
 }
 .cinema-meta .device-note {
   font-size: 10px;
-  color: #abb5a2;
+  color: #b0b0c3;
   max-width: none;
   margin: 9px auto 0;
 }
 .cinema-meta .device-note a {
-  color: #dcefad;
+  color: #1d4ed8;
 }
 .visually-hidden {
   position: absolute;
@@ -497,7 +497,7 @@
   font-size: 7px;
 }
 .phone-preview {
-  background: #11180f url("img/studio-lime.webp") center/cover;
+  background: #111116 url("img/studio-pearl.webp") center/cover;
   border-radius: 25px;
   padding-block: 45px;
   min-height: 585px;
@@ -508,14 +508,14 @@
 }
 .phone-preview > a {
   box-shadow: 11px 18px 40px #0008;
-  border-color: #353d32;
+  border-color: #353548;
 }
 .phone-preview figcaption {
-  color: #d1dfc4;
+  color: #ededf5;
 }
 .phone-preview .phone-bubble {
-  background: #e7efdc;
-  border-color: #bac9a533;
+  background: #ededf5;
+  border-color: #b4c7f533;
 }
 .phone-preview .bubble-left {
   left: 15px;
@@ -647,7 +647,7 @@
     font-size: 12px;
     margin: 21px auto 24px;
     line-height: 1.8;
-    color: #b1b8ac;
+    color: #b0b0c3;
   }
   .mobile-break {
     display: block;

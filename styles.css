@@ -1,10 +1,10 @@
 :root {
-  --paper: #f6f5f0;
-  --ink: #202322;
-  --muted: #666b66;
-  --blue: #4556e8;
-  --lime: #dbf48c;
-  --line: #dedfd7;
+  --paper: #ededf5;
+  --ink: #111116;
+  --muted: #626275;
+  --blue: #1d4ed8;
+  --accent-soft: #dfe6fa;
+  --line: #d3d3e1;
   --white: #fff;
   --radius: 24px;
   color-scheme: light;
@@ -142,7 +142,7 @@ a:hover {
 .top {
   position: sticky;
   top: 0;
-  background: rgba(246, 245, 240, 0.96);
+  background: rgba(237, 237, 245, 0.96);
   z-index: 20;
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(15px);
@@ -183,7 +183,7 @@ a:hover {
   font-size: 13px;
   font-weight: 600;
   padding: 12px 16px;
-  border: 1px solid #cccfc4;
+  border: 1px solid #c8c8d9;
   border-radius: 9px;
 }
 .enter-link .icon {
@@ -226,7 +226,7 @@ a:hover {
   content: "";
   position: absolute;
   height: 24%;
-  background: var(--lime);
+  background: var(--accent-soft);
   left: -3px;
   right: -6px;
   bottom: 4px;
@@ -236,7 +236,7 @@ a:hover {
 .lead {
   font-size: 17px;
   line-height: 1.65;
-  color: #595e59;
+  color: #5b5b70;
   margin-bottom: 28px;
 }
 .actions {
@@ -270,7 +270,7 @@ a:hover {
   border-color: var(--blue);
 }
 .button.primary:hover {
-  background: #3243d2;
+  background: #173eae;
 }
 .button.dark {
   background: var(--ink);
@@ -288,12 +288,12 @@ a:hover {
 }
 .trial-note {
   font-size: 11px;
-  color: #555c50;
+  color: #5b5b70;
   margin-top: 16px;
 }
 .download-meta {
   font-size: 10px;
-  color: #6b7069;
+  color: #68687a;
   margin-top: 7px;
   max-width: 400px;
 }
@@ -320,7 +320,7 @@ a:hover {
 .orbit {
   position: absolute;
   inset: 10% -1% 3%;
-  border: 1px solid #dcded2;
+  border: 1px solid #d3d3e1;
   border-radius: 50%;
   transform: rotate(-25deg);
   z-index: -1;
@@ -330,7 +330,7 @@ a:hover {
   content: "";
   position: absolute;
   inset: 30px -18px;
-  border: 1px dashed #d6d9ca;
+  border: 1px dashed #d3d3e1;
   border-radius: 50%;
 }
 .art-label {
@@ -339,11 +339,11 @@ a:hover {
   align-items: center;
   gap: 9px;
   background: white;
-  border: 1px solid #e5e6df;
+  border: 1px solid #dcdce8;
   padding: 13px 17px;
   border-radius: 10px;
   font-size: 12px;
-  box-shadow: 0 9px 26px #343d3c09;
+  box-shadow: 0 9px 26px #11111609;
   z-index: 2;
 }
 .art-label-top {
@@ -352,7 +352,7 @@ a:hover {
   transform: rotate(-6deg);
 }
 .art-label-top .status-dot {
-  background: #619844;
+  background: #1d4ed8;
 }
 .art-label-bottom {
   right: 0;
@@ -360,7 +360,7 @@ a:hover {
   transform: rotate(4deg);
 }
 .art-label-bottom .icon {
-  background: var(--lime);
+  background: var(--accent-soft);
   border-radius: 50%;
   padding: 3px;
   width: 23px;
@@ -370,7 +370,7 @@ a:hover {
   position: absolute;
   right: -10px;
   top: 12%;
-  background: var(--lime);
+  background: var(--accent-soft);
   border-radius: 50%;
   width: 114px;
   height: 114px;
@@ -393,7 +393,7 @@ a:hover {
   left: 24%;
   font-size: 9px;
   letter-spacing: 2.5px;
-  color: #757d6e;
+  color: #68687a;
 }
 .benefit-strip {
   border-block: 1px solid var(--line);
@@ -491,10 +491,10 @@ a:hover {
   right: 26px;
   border-radius: 9px 9px 0 0;
   padding: 18px 17px 23px;
-  background: #fffdf7;
-  color: #30332e;
+  background: #f9f9fc;
+  color: #111116;
   transform: rotate(-7deg);
-  box-shadow: 8px 11px #2938b2;
+  box-shadow: 8px 11px #163da8;
 }
 .mini-receipt > span:first-child {
   font-size: 9px;
@@ -516,7 +516,7 @@ a:hover {
   font-size: 10px;
 }
 .receipt-total {
-  border-top: 1px dashed #c9cbbc;
+  border-top: 1px dashed #cecede;
   padding-top: 13px;
   margin-top: 10px;
 }
@@ -527,8 +527,8 @@ a:hover {
   font-size: 10px;
   display: block;
   text-align: center;
-  color: #476130;
-  background: #e4f2ca;
+  color: #1d4ed8;
+  background: #e1e8fa;
   padding: 7px;
 }
 .kaspi-chip {
@@ -537,17 +537,17 @@ a:hover {
   top: 62px;
   transform: rotate(7deg);
   padding: 13px 15px;
-  background: #f8ab87;
-  color: #38261c;
+  background: #d5e0fb;
+  color: #153c9c;
   border-radius: 8px;
   font-weight: 700;
   font-size: 13px;
 }
 .bento-stock {
-  background: #e4ecdb;
+  background: #f9f9fc;
 }
 .bento-stock p {
-  color: #4f5e47;
+  color: #53536b;
 }
 .stock-art {
   position: relative;
@@ -568,15 +568,15 @@ a:hover {
   height: 100%;
 }
 .iso-cube i {
-  background: #f6c397;
+  background: #9eb7f2;
   clip-path: polygon(50% 0, 100% 25%, 50% 50%, 0 25%);
 }
 .iso-cube b {
-  background: #e6a677;
+  background: #4e78df;
   clip-path: polygon(0 25%, 50% 50%, 50% 100%, 0 75%);
 }
 .iso-cube > span {
-  background: #c7804f;
+  background: #1d4ed8;
   clip-path: polygon(100% 25%, 50% 50%, 50% 100%, 100% 75%);
 }
 .iso-cube:after {
@@ -586,7 +586,7 @@ a:hover {
   top: 8%;
   width: 69%;
   height: 28%;
-  background: #ffe6c9;
+  background: #d8e3fc;
   clip-path: polygon(25% 0, 100% 75%, 75% 100%, 0 25%);
 }
 .cube-one {
@@ -611,27 +611,27 @@ a:hover {
   position: absolute;
   left: 52px;
   bottom: 16px;
-  border: 1px solid #bac9a8;
-  background: #fbfff4;
+  border: 1px solid #b8c8ef;
+  background: #f9f9fc;
   padding: 11px 18px;
   border-radius: 7px;
   font-size: 11px;
   transform: rotate(-6deg);
 }
 .bento-reports {
-  background: #e9e7fa;
+  background: #e0e4f5;
 }
 .bento-reports p {
-  color: #615c7b;
+  color: #55556f;
 }
 .chart-art {
   height: 170px;
   margin-top: 28px;
-  background: #f9f8ff;
+  background: #f9f9fc;
   border-radius: 12px 12px 0 0;
   padding: 20px 18px 10px;
   transform: rotate(4deg);
-  box-shadow: 6px 9px #d3d0ef;
+  box-shadow: 6px 9px #c9d4ee;
 }
 .chart-art > span {
   display: flex;
@@ -641,7 +641,7 @@ a:hover {
 }
 .chart-art small {
   font-size: 9px;
-  color: #6e6b85;
+  color: #66667c;
   font-weight: 400;
 }
 .bars {
@@ -651,11 +651,11 @@ a:hover {
   justify-content: space-between;
   gap: 8px;
   padding: 14px 0 0;
-  border-bottom: 1px solid #d7d3e9;
+  border-bottom: 1px solid #d0d5e5;
 }
 .bars i {
   width: 12%;
-  background: #b0a5e6;
+  background: #94abe4;
   border-radius: 4px 4px 0 0;
   height: 35%;
 }
@@ -683,7 +683,7 @@ a:hover {
   display: flex;
   justify-content: space-between;
   font-size: 8px;
-  color: #6e6b85;
+  color: #66667c;
   margin-top: 8px;
 }
 .extra-features {
@@ -701,7 +701,7 @@ a:hover {
 .extra-icon {
   width: 46px;
   height: 46px;
-  background: #ebece3;
+  background: #e0e0ed;
   border-radius: 14px;
   display: grid;
   place-items: center;
@@ -727,21 +727,21 @@ a:hover {
   padding: 10px;
 }
 .product-section {
-  background: #222723;
+  background: #111116;
   color: #fff;
   padding-block: 85px 65px;
   border-radius: 32px;
   margin: 0 20px;
 }
 .product-section .eyebrow {
-  color: #c5d1b8;
+  color: #c7c7dc;
 }
 .product-section .section-heading {
   margin-bottom: 35px;
 }
 .screen-tabs {
   display: flex;
-  border: 1px solid #60665d;
+  border: 1px solid #606078;
   border-radius: 10px;
   padding: 4px;
   gap: 4px;
@@ -753,14 +753,14 @@ a:hover {
   gap: 9px;
   background: transparent;
   border: 0;
-  color: #d2d7cd;
+  color: #d6d6e6;
   padding: 12px 18px;
   border-radius: 7px;
   font-size: 12px;
 }
 .screen-tab.active {
-  background: var(--lime);
-  color: #283226;
+  background: var(--accent-soft);
+  color: #111116;
 }
 .screen-tab .icon {
   width: 17px;
@@ -768,9 +768,9 @@ a:hover {
 }
 .product-preview {
   margin: 0;
-  border: 1px solid #51584e;
+  border: 1px solid #515168;
   border-radius: 14px 14px 0 0;
-  background: #3b413a;
+  background: #30303f;
   padding: 0 7px 7px;
 }
 .window-bar {
@@ -781,10 +781,10 @@ a:hover {
   height: 41px;
   font-size: 10px;
   padding-inline: 9px;
-  color: #c4cbbe;
+  color: #c6c6d9;
 }
 .window-dots {
-  color: #a2ac9a;
+  color: #a2a2bc;
   letter-spacing: 3px;
   font-size: 8px;
 }
@@ -810,9 +810,9 @@ a:hover {
   align-items: center;
   gap: 9px;
   color: white;
-  background: #242921ed;
+  background: #111116ed;
   padding: 13px 17px;
-  border: 1px solid #677161;
+  border: 1px solid #70708b;
   border-radius: 8px;
   font-size: 11px;
 }
@@ -822,8 +822,8 @@ a:hover {
 }
 .product-preview figcaption {
   text-align: center;
-  color: #c3cabc;
-  background: #222723;
+  color: #c4c4d9;
+  background: #111116;
   font-size: 10px;
   padding-top: 17px;
   padding-bottom: 3px;
@@ -856,7 +856,7 @@ a:hover {
   height: 43px;
   padding: 11px;
   border-radius: 13px;
-  background: #e7e9df;
+  background: #e0e3f0;
   color: var(--blue);
 }
 .role-list p {
@@ -900,10 +900,10 @@ a:hover {
 }
 .phone-preview > a {
   width: 245px;
-  border: 7px solid #252a24;
+  border: 7px solid #111116;
   border-radius: 35px;
   overflow: hidden;
-  box-shadow: 14px 18px 0 #d0d7be;
+  box-shadow: 14px 18px 0 #c9d5f0;
   transform: rotate(6deg);
   background: white;
 }
@@ -917,7 +917,7 @@ a:hover {
   left: -6%;
   right: -6%;
   aspect-ratio: 1;
-  background: var(--lime);
+  background: var(--accent-soft);
   border-radius: 50%;
   z-index: -1;
 }
@@ -925,15 +925,15 @@ a:hover {
   content: "";
   position: absolute;
   inset: -25px;
-  border: 1px solid #d4dcc3;
+  border: 1px solid #d0d6eb;
   border-radius: 50%;
 }
 .phone-bubble {
   position: absolute;
   background: white;
   z-index: 2;
-  box-shadow: 0 7px 30px #23341b0c;
-  border: 1px solid #e1e5d7;
+  box-shadow: 0 7px 30px #1111160c;
+  border: 1px solid #dcdce9;
   border-radius: 13px;
   padding: 14px 19px;
   display: flex;
@@ -1012,7 +1012,7 @@ a:hover {
 }
 .start-steps li {
   position: relative;
-  border-top: 1px solid #bdc4b1;
+  border-top: 1px solid #c0c0d3;
   padding-top: 28px;
 }
 .start-steps li > .icon {
@@ -1027,7 +1027,7 @@ a:hover {
   display: block;
   font-size: 44px;
   letter-spacing: -2px;
-  color: #818977;
+  color: #73738c;
   margin-bottom: 28px;
 }
 .start-steps h3 {
@@ -1044,7 +1044,7 @@ a:hover {
 }
 .copy-link {
   padding: 14px 20px;
-  border: 1px solid #bcc3b2;
+  border: 1px solid #c0c0d3;
   border-radius: 8px;
   background: transparent;
   margin-top: 30px;
@@ -1058,7 +1058,7 @@ a:hover {
 .license-section {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
-  background: var(--lime);
+  background: var(--accent-soft);
   border-radius: var(--radius);
   padding: 60px 65px;
   gap: 60px;
@@ -1079,7 +1079,7 @@ a:hover {
   position: absolute;
   inset: 5%;
   border-radius: 50%;
-  border: 1px solid #b2cb6e;
+  border: 1px solid #aabde8;
   transform: rotate(-20deg);
   z-index: -1;
 }
@@ -1087,7 +1087,7 @@ a:hover {
   content: "";
   position: absolute;
   inset: 8% -1%;
-  border: 1px solid #b2cb6e;
+  border: 1px solid #aabde8;
   border-radius: 50%;
   transform: rotate(32deg);
   z-index: -1;
@@ -1098,7 +1098,7 @@ a:hover {
   letter-spacing: -16px;
   font-weight: 600;
   transform: rotate(-9deg);
-  color: #2a3c20;
+  color: #111116;
 }
 .trial-graphic > span:nth-child(2) {
   font-size: 9px;
@@ -1113,7 +1113,7 @@ a:hover {
   height: 61px;
   border-radius: 50%;
   background: var(--ink);
-  color: var(--lime);
+  color: var(--accent-soft);
   display: grid;
   place-items: center;
   font-size: 35px;
@@ -1143,7 +1143,7 @@ a:hover {
   font-size: 10px !important;
   max-width: 400px;
   margin-bottom: 0 !important;
-  color: #495d37;
+  color: #55556f;
 }
 .license-note a {
   text-decoration: underline;
@@ -1179,7 +1179,7 @@ summary::-webkit-details-marker {
   right: 5px;
   top: 20px;
   font-size: 24px;
-  color: #626d59;
+  color: #626279;
 }
 .faq-list details[open] summary:after {
   content: "−";
@@ -1191,7 +1191,7 @@ summary::-webkit-details-marker {
 }
 .store-section {
   padding: 65px 0;
-  background: #e9ece2;
+  background: #e2e2ee;
 }
 .store-layout {
   display: grid;
@@ -1228,10 +1228,10 @@ summary::-webkit-details-marker {
   margin-top: 8px;
 }
 .store-card {
-  border: 1px solid #d5dacd;
+  border: 1px solid #d1d1e2;
   padding: 30px;
   border-radius: 17px;
-  background: #f8f9f4;
+  background: #f9f9fc;
 }
 .store-card label {
   display: block;
@@ -1242,7 +1242,7 @@ summary::-webkit-details-marker {
 .store-card input {
   display: block;
   width: 100%;
-  border: 1px solid #b6beaa;
+  border: 1px solid #b2b2cb;
   border-radius: 8px;
   padding: 16px;
   background: white;
@@ -1298,7 +1298,7 @@ summary::-webkit-details-marker {
   font-size: 11px;
 }
 .preview-dialog {
-  border: 1px solid #b6beaa;
+  border: 1px solid #b2b2cb;
   border-radius: 15px;
   padding: 0;
   width: min(1420px, 95vw);
@@ -1309,7 +1309,7 @@ summary::-webkit-details-marker {
   box-shadow: 0 20px 100px #0005;
 }
 .preview-dialog::backdrop {
-  background: #151c19bf;
+  background: #111116bf;
   backdrop-filter: blur(6px);
 }
 .dialog-bar {
@@ -1329,7 +1329,7 @@ summary::-webkit-details-marker {
 }
 .dialog-bar button {
   border: 0;
-  background: #ebeee5;
+  background: #e4e4f0;
   border-radius: 7px;
   width: 44px;
   height: 44px;
@@ -1489,7 +1489,7 @@ summary::-webkit-details-marker {
     flex-direction: column;
     justify-content: center;
     gap: 6px;
-    border: 1px solid #cccfc4;
+    border: 1px solid #c8c8d9;
     background: transparent;
     border-radius: 8px;
     padding: 12px;
@@ -2464,4 +2464,32 @@ html:not(.js) .screen-tabs {
     gap: 12px 20px;
     padding: 5px 0;
   }
+}
+
+/* Brand palette supplied by the project owner. */
+.license-section {
+  background: var(--blue);
+  color: var(--paper);
+}
+.license-section .trial-graphic > span:first-child {
+  color: var(--paper);
+}
+.license-section .trial-graphic:before,
+.license-section .trial-graphic:after {
+  border-color: #698be7;
+}
+.license-section .trial-graphic i {
+  background: var(--paper);
+  color: var(--blue);
+}
+.license-section .license-copy .license-note {
+  color: #e0e6fb;
+}
+.license-section .text-link:hover,
+.license-section .license-note a:hover {
+  color: white;
+  text-decoration: underline;
+}
+.license-section :focus-visible {
+  outline-color: var(--paper);
 }
