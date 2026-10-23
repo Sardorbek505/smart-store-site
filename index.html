@@ -1,167 +1,614 @@
 <!doctype html>
 <html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Smart Store: учёт магазина без интернета</title>
-<meta name="description" content="Касса, склад, приход, долги и аренда инструмента на ноутбуке магазина. Работает без интернета, телефон служит сканером и показывает выручку.">
-<link rel="icon" href="img/icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f8fc" />
+    <title>Smart Store — касса и склад для магазина инструмента</title>
+    <meta
+      name="description"
+      content="Продажи, склад, закупки, долги и аренда инструмента в одной программе для Windows. Основной учёт работает без интернета. Попробуйте Smart Store 14 дней."
+    />
+    <link rel="canonical" href="https://metov.store/" />
+    <meta
+      property="og:title"
+      content="Smart Store — касса, склад и прибыль в одной программе"
+    />
+    <meta
+      property="og:description"
+      content="Для магазинов инструмента и запчастей. Работает на Windows, основные операции доступны без интернета. Пробные 14 дней."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://metov.store/" />
+    <meta property="og:image" content="https://metov.store/img/sale.png" />
+    <meta property="og:locale" content="ru_RU" />
+    <link rel="icon" href="img/icon.png" />
+    <link rel="stylesheet" href="styles.css?v=2" />
+    <script src="app.js?v=2" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти к содержимому</a>
+    <svg
+      class="icon-library"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M5 12h14m-6-6 6 6-6 6" />
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 24 24">
+        <path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12 4 4L19 6" />
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <rect x="6" y="2" width="12" height="20" rx="3" />
+        <path d="M10 18h4" />
+      </symbol>
+      <symbol id="i-box" viewBox="0 0 24 24">
+        <path
+          d="m3 7 9-5 9 5v10l-9 5-9-5V7Zm0 0 9 5 9-5M12 12v10M7.5 4.5l9 5"
+        />
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24">
+        <path d="M4 3v17h17M8 15v-4m5 4V6m5 9v-7" />
+      </symbol>
+      <symbol id="i-receipt" viewBox="0 0 24 24">
+        <path d="M5 3h14v18l-3-2-4 2-4-2-3 2V3Zm4 5h6m-6 4h6" />
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6l8-4Zm-4 9 3 3 5-6" />
+      </symbol>
+      <symbol id="i-zoom" viewBox="0 0 24 24">
+        <circle cx="10" cy="10" r="6" />
+        <path d="m15 15 6 6M7 10h6m-3-3v6" />
+      </symbol>
+    </svg>
 
-<header class="top">
-  <a class="brand" href="#">
-    <img src="img/icon.png" alt="" width="32" height="32">
-    <span>Smart Store</span>
-  </a>
-  <nav class="top-links">
-    <a href="#day">Как работает</a>
-    <a href="#data">Данные</a>
-    <a href="#store" class="top-enter">Войти в магазин</a>
-  </nav>
-</header>
-
-<main>
-  <section class="hero">
-    <div class="hero-text">
-      <p class="eyebrow">Для магазинов инструмента и запчастей</p>
-      <h1>Учёт магазина, который не ждёт интернета</h1>
-      <p class="lead">
-        Касса со сканером, склад, приход, долги покупателей и поставщикам, аренда
-        инструмента. Всё живёт на ноутбуке магазина. Телефон служит вторым сканером
-        и показывает выручку, где бы вы ни были.
-      </p>
-      <div class="actions">
-        <a id="download" class="button primary" href="https://github.com/Sardorbek505/smart-store-releases/releases/latest">
-          Скачать для Windows
-        </a>
-        <a class="button" href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20Smart%20Store">Написать в WhatsApp</a>
+    <header class="top">
+      <div class="top-inner wrap">
+        <a class="brand" href="#main" aria-label="Smart Store — на главную"
+          ><img src="img/icon.png" alt="" width="34" height="34" /><span
+            >Smart Store</span
+          ></a
+        >
+        <nav class="top-links" id="site-nav" aria-label="Навигация по сайту">
+          <a href="#features">Возможности</a><a href="#start">Как начать</a
+          ><a href="#license">Стоимость</a><a href="#faq">Вопросы</a>
+        </nav>
+        <a
+          href="#store"
+          class="enter-link"
+          aria-label="Вход в магазин с телефона"
+          ><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg
+          ><span class="enter-wide">Вход с телефона</span
+          ><span class="enter-short" aria-hidden="true">Вход</span></a
+        >
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Открыть меню"
+        >
+          <span></span><span></span>
+        </button>
       </div>
-      <p id="download-note" class="note">Ищу последнюю версию…</p>
-    </div>
-    <figure class="hero-shot">
-      <img src="img/sale.png" alt="Экран кассы Smart Store: чек из трёх товаров на 31 400 ₸" width="1440" height="900">
-    </figure>
-  </section>
+    </header>
 
-  <section id="day" class="day">
-    <h2>Один день магазина</h2>
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="status-dot"></span> Для магазинов инструмента и
+            запчастей
+          </p>
+          <h1 id="hero-title">
+            Касса, склад<br />и прибыль.<br /><span>В одной программе.</span>
+          </h1>
+          <p class="lead">
+            Продавайте, принимайте товар и учитывайте долги на компьютере
+            магазина. Основные операции работают даже без интернета.
+          </p>
+          <div class="actions">
+            <a
+              id="download"
+              data-download
+              class="button primary"
+              href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
+              ><svg class="icon" aria-hidden="true">
+                <use href="#i-download" /></svg
+              >Попробовать на Windows</a
+            >
+            <a href="#features" class="text-link"
+              >Посмотреть возможности <span aria-hidden="true">↓</span></a
+            >
+          </div>
+          <p class="trial-note">14 дней бесплатно · Без кода активации</p>
+          <p class="download-meta" id="download-note" role="status">
+            Windows 10 / 11 · 64 бит
+          </p>
+          <p id="mobile-note" class="device-note" hidden>
+            Программа устанавливается на компьютер Windows. На телефоне можно
+            подключиться к уже работающему магазину.
+            <a href="#store">Перейти ко входу</a>
+          </p>
+          <ul class="hero-points" aria-label="Основные преимущества">
+            <li>
+              <svg class="icon" aria-hidden="true"><use href="#i-check" /></svg
+              >Данные на вашем компьютере
+            </li>
+            <li>
+              <svg class="icon" aria-hidden="true"><use href="#i-check" /></svg
+              >Русский и казахский
+            </li>
+          </ul>
+        </div>
+        <figure class="product-preview">
+          <div class="preview-caption">
+            <span
+              ><span class="status-dot"></span> Рабочий день в Smart Store</span
+            ><span>Экран продажи</span>
+          </div>
+          <a
+            class="screenshot-link"
+            href="img/sale.png"
+            data-preview
+            data-title="Экран продажи Smart Store"
+            aria-label="Увеличить экран продажи Smart Store"
+            ><img
+              src="img/sale.png"
+              alt="Касса: товары, позиции чека, способы оплаты и сумма продажи"
+              width="1440"
+              height="900"
+              fetchpriority="high"
+            /><span class="zoom-label"
+              ><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg
+              >Рассмотреть экран</span
+            ></a
+          >
+          <figcaption>
+            Интерфейс программы с демонстрационными данными. Нажмите, чтобы
+            рассмотреть детали.
+          </figcaption>
+        </figure>
+      </section>
 
-    <article class="step">
-      <div class="step-text">
-        <p class="time">Утро</p>
-        <h3>Пришёл товар</h3>
-        <p>
-          Приход по накладной в тенге или в долларах, курс Нацбанка подтягивается сам.
-          Сфотографируйте накладную, и помощник соберёт черновик прихода. Если платите
-          позже, долг поставщику запишется в той валюте, в которой взяли.
-        </p>
+      <div class="benefit-strip">
+        <div class="wrap benefit-inner">
+          <span
+            ><svg class="icon" aria-hidden="true"><use href="#i-receipt" /></svg
+            >Продажи и оплаты</span
+          ><span
+            ><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg
+            >Склад и закупки</span
+          ><span
+            ><svg class="icon" aria-hidden="true"><use href="#i-chart" /></svg
+            >Прибыль и долги</span
+          ><span
+            ><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg
+            >Доступ с телефона</span
+          >
+        </div>
       </div>
-    </article>
 
-    <article class="step">
-      <div class="step-text">
-        <p class="time">День</p>
-        <h3>Продажа за секунды</h3>
-        <p>
-          Сканер кладёт товар в чек сразу, без мыши. Наличные, Kaspi, в долг или вперемешку.
-          Покупатель отошёл, чек можно отложить и обслужить следующего. Чек уходит
-          в WhatsApp, если покупатель попросит.
-        </p>
-      </div>
-    </article>
+      <section
+        id="features"
+        class="section wrap"
+        aria-labelledby="features-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Каждый день в магазине</p>
+            <h2 id="features-title">От первой поставки<br />до итогов дня.</h2>
+          </div>
+          <p>
+            Товары, деньги и остатки связаны между собой. Меньше повторного
+            ввода — больше ясности в учёте.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature">
+            <span class="feature-number">01 / Продажа</span>
+            <h3>Соберите чек,<br />примите оплату.</h3>
+            <p>
+              Находите товар по названию или штрихкоду. Учитывайте наличные,
+              Kaspi и долг покупателя. Отложите чек, если нужно обслужить
+              следующего.
+            </p>
+          </article>
+          <article class="feature">
+            <span class="feature-number">02 / Приход</span>
+            <h3>Принимайте товар<br />и проверяйте закупку.</h3>
+            <p>
+              Количество, закупочная и продажная цена — в одном документе.
+              Приход в тенге или долларах, задолженность поставщику — в валюте
+              накладной.
+            </p>
+          </article>
+          <article class="feature">
+            <span class="feature-number">03 / Контроль</span>
+            <h3>Знайте, что осталось<br />и сколько заработали.</h3>
+            <p>
+              Выручка, прибыль, остатки и долги покупателей. Отчёты помогают
+              увидеть, что заканчивается и какие товары лежат без движения.
+            </p>
+          </article>
+        </div>
+        <div class="secondary-features">
+          <p>
+            <strong>Сдаёте инструмент в аренду?</strong> Учитывайте выдачу, срок
+            возврата, почасовую и посуточную оплату.
+          </p>
+          <p>
+            <strong>Есть накладная на фото или в PDF?</strong> AI поможет
+            собрать черновик. Нужны интернет и ключ Gemini; данные перед
+            проведением проверяете вы.
+          </p>
+        </div>
+      </section>
 
-    <article class="step">
-      <div class="step-text">
-        <p class="time">Аренда</p>
-        <h3>Инструмент напрокат</h3>
-        <p>
-          Почасовой и суточный тариф считаются сами, с потолком в сутки. За полчаса
-          до срока программа напомнит, а клиенту можно написать в WhatsApp одной
-          кнопкой: на русском, казахском или узбекском.
-        </p>
-      </div>
-    </article>
+      <section class="phone-section" aria-labelledby="phone-title">
+        <div class="wrap phone-layout">
+          <figure class="phone-preview">
+            <a
+              href="img/phone.png"
+              data-preview
+              data-title="Smart Store на телефоне"
+              aria-label="Увеличить экран Smart Store на телефоне"
+              ><img
+                src="img/phone.png"
+                alt="Показатели магазина на экране телефона"
+                width="390"
+                height="844"
+                loading="lazy"
+            /></a>
+            <figcaption>Телефон подключается через браузер.</figcaption>
+          </figure>
+          <div class="phone-copy">
+            <p class="eyebrow">Магазин под рукой</p>
+            <h2 id="phone-title">
+              У компьютера — касса.<br />В телефоне — контроль.
+            </h2>
+            <p class="section-lead">
+              Посмотрите показатели магазина, найдите товар или примите
+              накладную, не возвращаясь каждый раз к компьютеру.
+            </p>
+            <ul class="check-list">
+              <li>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-check" /></svg
+                ><span
+                  ><strong>Владельцу — показатели.</strong> Выручка, прибыль,
+                  история и долги.</span
+                >
+              </li>
+              <li>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-check" /></svg
+                ><span
+                  ><strong>Сотруднику — рабочие задачи.</strong> Поиск товара,
+                  пересчёт и добавление в корзину кассы.</span
+                >
+              </li>
+              <li>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-check" /></svg
+                ><span
+                  ><strong>Без отдельной установки.</strong> Откройте QR-код из
+                  программы в браузере телефона.</span
+                >
+              </li>
+            </ul>
+            <p class="connection-note">
+              Для работы с телефона компьютер должен быть включён, а Smart Store
+              открыт. Доступ извне магазина требует интернета.
+            </p>
+            <a href="#store" class="text-link"
+              >Уже пользуетесь? Войти в свой магазин
+              <span aria-hidden="true">→</span></a
+            >
+          </div>
+        </div>
+      </section>
 
-    <article class="step with-shot reverse">
-      <div class="step-text">
-        <p class="time">Вечер</p>
-        <h3>Выручка в кармане</h3>
-        <p>
-          Выручка, прибыль, чеки и долги видны с телефона: из дома, с дороги, с мобильного
-          интернета. Продавец входит под своим логином и видит только товар, пересчёт
-          и корзину. Деньги магазина видит владелец.
-        </p>
-      </div>
-      <img class="phone" src="img/phone.png" alt="Итоги дня на телефоне: выручка 100 000 ₸" loading="lazy" width="390" height="844">
-    </article>
+      <section id="start" class="section wrap" aria-labelledby="start-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Первый запуск</p>
+            <h2 id="start-title">Понятно, с чего начать.</h2>
+          </div>
+          <p>
+            Не нужно сразу переносить весь магазин. Начните с нескольких товаров
+            и проверьте свой рабочий сценарий.
+          </p>
+        </div>
+        <ol class="start-steps">
+          <li>
+            <span class="step-number">1</span>
+            <h3>Установите на Windows</h3>
+            <p>
+              Скачайте установщик на компьютер магазина. Пройдите первоначальную
+              настройку и проверьте принтер, если планируете печатать документы.
+            </p>
+            <a
+              href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
+              data-download
+              class="text-link"
+              >Скачать установщик <span aria-hidden="true">↓</span></a
+            >
+          </li>
+          <li>
+            <span class="step-number">2</span>
+            <h3>Добавьте первый приход</h3>
+            <p>
+              Укажите товар, количество, цену закупки и продажи. Если есть
+              таблица Excel, товары можно загрузить из файла.
+            </p>
+          </li>
+          <li>
+            <span class="step-number">3</span>
+            <h3>Подключите телефон</h3>
+            <p>
+              На компьютере откройте «Система» → настройки телефона. Включите
+              терминал и отсканируйте QR-код камерой телефона.
+            </p>
+          </li>
+        </ol>
+        <button type="button" id="copy-site" class="copy-link" hidden>
+          Скопировать ссылку для компьютера
+        </button>
+        <p id="copy-status" class="note" role="status"></p>
+      </section>
 
-    <article class="step with-shot">
-      <div class="step-text">
-        <p class="time">Итог</p>
-        <h3>Что продаётся и что заканчивается</h3>
-        <p>
-          Главная показывает выручку, прибыль и средний чек со сравнением со вчера.
-          Отчёты подскажут, что закупить, что лежит без движения и где упала наценка.
-        </p>
-      </div>
-      <img src="img/home.png" alt="Главная: выручка, прибыль, продажи по дням" loading="lazy" width="1440" height="900">
-    </article>
-  </section>
+      <section id="data" class="data-section">
+        <div class="wrap data-layout">
+          <div>
+            <p class="eyebrow">Ваш магазин — ваши данные</p>
+            <h2>Учёт остаётся<br />на вашем компьютере.</h2>
+            <p class="section-lead">
+              Касса, склад и основные отчёты доступны без интернета. Программа
+              сохраняет резервные копии, а внешнюю копию стоит держать отдельно
+              от рабочего компьютера.
+            </p>
+          </div>
+          <div class="data-facts">
+            <div>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-shield" />
+              </svg>
+              <div>
+                <h3>Резервное копирование</h3>
+                <p>
+                  Автоматические копии каждые два часа. Копию можно сохранить на
+                  внешний носитель и восстановить на другом компьютере.
+                </p>
+              </div>
+            </div>
+            <div>
+              <svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>
+              <div>
+                <h3>Понятные условия подключения</h3>
+                <p>
+                  Интернет нужен для обновлений, автоматического курса, AI и
+                  доступа с телефона вне магазина. Для AI используется ключ
+                  владельца.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <section id="data" class="data">
-    <h2>Данные остаются у вас</h2>
-    <dl class="facts">
+      <section
+        id="license"
+        class="section wrap license-section"
+        aria-labelledby="license-title"
+      >
+        <div>
+          <p class="eyebrow">Попробуйте на своём магазине</p>
+          <h2 id="license-title">14 дней на знакомство.</h2>
+          <p class="section-lead">
+            Установите программу, добавьте товары и проведите первые операции.
+            Пробный период доступен без кода активации.
+          </p>
+          <p>
+            Лицензия рассчитана на один компьютер магазина. Стоимость, активацию
+            и перенос на другой компьютер можно уточнить в WhatsApp.
+          </p>
+          <a class="text-link" href="privacy.html"
+            >Условия лицензии и работа с данными
+            <span aria-hidden="true">→</span></a
+          >
+        </div>
+        <div class="license-actions">
+          <a
+            href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
+            data-download
+            class="button primary"
+            ><svg class="icon" aria-hidden="true">
+              <use href="#i-download" /></svg
+            >Скачать для Windows</a
+          ><a
+            class="button"
+            href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D1%82%D1%8C%20%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20%D0%B8%20%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%B0%D1%86%D0%B8%D1%8E%20Smart%20Store."
+            >Уточнить стоимость</a
+          >
+          <p class="note">
+            После пробного периода для новых операций нужна лицензия. Уже
+            внесённые данные остаются доступны.
+          </p>
+        </div>
+      </section>
+
+      <section
+        id="faq"
+        class="section wrap faq-section"
+        aria-labelledby="faq-title"
+      >
+        <div>
+          <p class="eyebrow">До установки</p>
+          <h2 id="faq-title">Ответы на частые вопросы.</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Что будет, если пропадёт интернет?</summary>
+            <p>
+              На компьютере можно продолжать продажи, работать со складом и
+              основными отчётами. Онлайн-функции — курс, AI, обновления и
+              удалённый доступ с телефона — потребуют подключения.
+            </p>
+          </details>
+          <details>
+            <summary>Нужно ли устанавливать приложение на телефон?</summary>
+            <p>
+              Нет. Сначала установите Smart Store на Windows, затем откройте
+              QR-код из настроек телефона в программе. На телефоне можно
+              добавить страницу на главный экран. Компьютер со Smart Store
+              должен оставаться включённым.
+            </p>
+          </details>
+          <details>
+            <summary>Что произойдёт через 14 дней?</summary>
+            <p>
+              Для новых продаж и приходов нужна лицензия. Внесённые данные не
+              удаляются: их можно просматривать, печатать, выгружать и
+              копировать. По активации напишите в WhatsApp.
+            </p>
+          </details>
+          <details>
+            <summary>AI и распознавание накладных уже включены?</summary>
+            <p>
+              Для AI нужно настроить собственный ключ Gemini на компьютере.
+              Функция работает через интернет; доступность и стоимость запросов
+              зависят от квот и условий Google. Распознанные данные нужно
+              проверить перед проведением прихода.
+            </p>
+          </details>
+          <details>
+            <summary>Windows предупреждает об установщике. Что делать?</summary>
+            <p>
+              Установщик пока без цифровой подписи, поэтому Windows может
+              показать предупреждение. Проверьте, что скачали файл по кнопке
+              этого сайта или из официального репозитория Smart Store. Если есть
+              сомнения, обратитесь в поддержку перед установкой.
+            </p>
+          </details>
+          <details>
+            <summary>Как приходят обновления?</summary>
+            <p>
+              Программа проверяет новые версии и скачивает их в фоне при наличии
+              интернета. Доступное обновление можно применить из программы;
+              незавершённую продажу сначала нужно закончить. Повторно скачивать
+              установщик с сайта для каждого обновления не требуется.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section id="store" class="store-section" aria-labelledby="store-title">
+        <div class="wrap store-layout">
+          <div>
+            <p class="eyebrow">Для действующих клиентов</p>
+            <h2 id="store-title">Откройте свой магазин<br />на телефоне.</h2>
+            <p>
+              Введите код или адрес магазина из программы на компьютере. После
+              перехода понадобится PIN либо логин и пароль вашего пользователя.
+            </p>
+            <details class="store-help">
+              <summary>Где взять код магазина?</summary>
+              <p>
+                На компьютере откройте Smart Store → «Система» → настройки
+                телефона. Там находятся код, адрес и QR-код магазина. Если адрес
+                ещё не выдан, проверьте подключение компьютера к интернету.
+              </p>
+            </details>
+          </div>
+          <div class="store-card">
+            <form id="store-form" novalidate>
+              <label for="store-code">Код или адрес магазина</label
+              ><input
+                id="store-code"
+                name="code"
+                type="text"
+                autocomplete="off"
+                autocapitalize="none"
+                spellcheck="false"
+                placeholder="Код из программы Smart Store"
+                aria-describedby="store-hint store-note"
+                required
+                maxlength="200"
+              />
+              <p id="store-hint" class="field-hint">
+                Можно вставить полный адрес вида код.metov.store.
+              </p>
+              <button
+                class="button primary"
+                type="submit"
+                id="store-submit"
+                disabled
+              >
+                Открыть магазин
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" />
+                </svg>
+              </button>
+              <p
+                id="store-note"
+                class="form-note"
+                role="status"
+                aria-live="polite"
+              ></p>
+              <a id="store-direct" class="text-link" hidden
+                >Открыть магазин напрямую <span aria-hidden="true">→</span></a
+              >
+            </form>
+            <noscript
+              ><p>
+                Для входа по коду включите JavaScript или отсканируйте QR-код из
+                Smart Store на компьютере.
+              </p></noscript
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot wrap">
       <div>
-        <dt>Без интернета</dt>
-        <dd>Касса, склад и отчёты работают при выключенном Wi-Fi. Интернет нужен только для курса, обновлений и телефона снаружи магазина.</dd>
+        <a class="brand" href="#main"
+          ><img src="img/icon.png" alt="" width="28" height="28" /><span
+            >Smart Store</span
+          ></a
+        >
+        <p>
+          Учёт для магазинов инструмента и запчастей.<br />Windows 10 / 11 ·
+          Русский и казахский
+        </p>
       </div>
-      <div>
-        <dt>На вашем ноутбуке</dt>
-        <dd>База не уезжает в облако. Копия сохраняется каждые два часа, раз в неделю программа попросит флешку.</dd>
-      </div>
-      <div>
-        <dt>Сломался ноутбук</dt>
-        <dd>Ставите программу на новый, восстанавливаете копию за пару минут. Лицензию переносим.</dd>
-      </div>
-      <div>
-        <dt>Русский и казахский</dt>
-        <dd>Весь интерфейс, чеки и страница телефона переключаются одной кнопкой.</dd>
-      </div>
-    </dl>
-  </section>
+      <nav aria-label="Контакты и документы">
+        <a href="https://wa.me/77066352006">WhatsApp: +7 706 635 20 06</a
+        ><a href="privacy.html">Конфиденциальность и условия</a
+        ><a href="https://github.com/Sardorbek505/smart-store-releases/releases"
+          >Все версии программы</a
+        >
+      </nav>
+    </footer>
 
-  <section id="store" class="store">
-    <h2>Войти в магазин</h2>
-    <p>Введите код магазина, который вам выдали при установке. Откроется страница телефона именно вашего магазина.</p>
-    <form id="store-form" class="store-form">
-      <label for="store-code" class="visually-hidden">Код магазина</label>
-      <div class="store-field">
-        <input id="store-code" name="code" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="код магазина" required pattern="[a-zA-Z0-9-]{2,40}">
-        <span id="store-suffix" class="store-suffix"></span>
+    <dialog
+      id="preview-dialog"
+      class="preview-dialog"
+      aria-labelledby="preview-title"
+    >
+      <div class="dialog-bar">
+        <h2 id="preview-title">Экран Smart Store</h2>
+        <button type="button" id="preview-close" aria-label="Закрыть просмотр">
+          ✕
+        </button>
       </div>
-      <button class="button primary" type="submit">Открыть</button>
-    </form>
-    <p id="store-note" class="note" role="status"></p>
-  </section>
-</main>
-
-<footer class="foot">
-  <div>
-    <strong>Smart Store</strong>
-    <p>Программа для Windows 10 и 11. Одна лицензия на один компьютер магазина.</p>
-  </div>
-  <nav>
-    <a href="https://wa.me/77066352006">WhatsApp: +7 706 635 20 06</a>
-    <a href="privacy.html">Конфиденциальность и условия</a>
-    <a href="https://github.com/Sardorbek505/smart-store-releases/releases">Все версии</a>
-  </nav>
-</footer>
-
-<script src="app.js"></script>
-</body>
+      <img id="preview-image" alt="" />
+    </dialog>
+  </body>
 </html>
