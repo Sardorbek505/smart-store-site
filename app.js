@@ -227,6 +227,37 @@
     });
   }
 
+  function setupScreens() {
+    const screens = {
+      sale: {
+        label: "Продажа",
+        alt: "Касса Smart Store: товары, чек и способы оплаты",
+      },
+      home: {
+        label: "Итоги дня",
+        alt: "Главная Smart Store: выручка, прибыль и продажи по дням",
+      },
+    };
+    const link = $("product-screen-link");
+    for (const button of document.querySelectorAll("[data-screen]")) {
+      button.addEventListener("click", () => {
+        const name = button.dataset.screen;
+        const screen = screens[name];
+        $("product-screen").src = `img/${name}.png`;
+        $("product-screen").alt = screen.alt;
+        link.href = `img/${name}.png`;
+        link.dataset.title = `Smart Store / ${screen.label}`;
+        $("screen-label").textContent = `Smart Store / ${screen.label}`;
+        for (const tab of document.querySelectorAll("[data-screen]")) {
+          const selected = tab === button;
+          tab.setAttribute("aria-pressed", String(selected));
+          tab.classList.toggle("active", selected);
+        }
+      });
+    }
+  }
+
+  setupScreens();
   setupMenu();
   setupPreview();
   setupStoreForm();
