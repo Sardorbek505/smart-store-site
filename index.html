@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f7f8fc" />
+    <meta name="theme-color" content="#f6f5f0" />
     <title>Smart Store — касса и склад для магазина инструмента</title>
     <meta
       name="description"
@@ -23,9 +23,10 @@
     <meta property="og:image" content="https://metov.store/img/sale.png" />
     <meta property="og:locale" content="ru_RU" />
     <link rel="icon" href="img/icon.png" />
-    <link rel="stylesheet" href="styles.css?v=2" />
-    <script src="app.js?v=2" defer></script>
+    <link rel="stylesheet" href="styles.css?v=3" />
+    <script src="app.js?v=3" defer></script>
   </head>
+
   <body>
     <a class="skip-link" href="#main">Перейти к содержимому</a>
     <svg
@@ -77,14 +78,12 @@
           <a href="#features">Возможности</a><a href="#start">Как начать</a
           ><a href="#license">Стоимость</a><a href="#faq">Вопросы</a>
         </nav>
-        <a
-          href="#store"
-          class="enter-link"
-          aria-label="Вход в магазин с телефона"
+        <a href="#store" class="enter-link"
           ><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg
-          ><span class="enter-wide">Вход с телефона</span
-          ><span class="enter-short" aria-hidden="true">Вход</span></a
-        >
+          ><span class="enter-wide">Войти в магазин</span
+          ><span class="enter-short" aria-hidden="true">Вход</span
+          ><svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+        ></a>
         <button
           class="menu-toggle"
           id="menu-toggle"
@@ -97,7 +96,6 @@
         </button>
       </div>
     </header>
-
     <main id="main">
       <section class="hero wrap" aria-labelledby="hero-title">
         <div class="hero-copy">
@@ -106,11 +104,12 @@
             запчастей
           </p>
           <h1 id="hero-title">
-            Касса, склад<br />и прибыль.<br /><span>В одной программе.</span>
+            Магазин<br />в <span class="word-mark">порядке.</span><br />Вы — в
+            деле<span class="blue-dot">.</span>
           </h1>
           <p class="lead">
-            Продавайте, принимайте товар и учитывайте долги на компьютере
-            магазина. Основные операции работают даже без интернета.
+            Касса, склад и прибыль — в одной программе.<br />Работайте спокойно.
+            Даже без интернета.
           </p>
           <div class="actions">
             <a
@@ -118,82 +117,66 @@
               data-download
               class="button primary"
               href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
-              ><svg class="icon" aria-hidden="true">
-                <use href="#i-download" /></svg
-              >Попробовать на Windows</a
-            >
-            <a href="#features" class="text-link"
-              >Посмотреть возможности <span aria-hidden="true">↓</span></a
-            >
+              >Попробовать бесплатно
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ></a>
           </div>
-          <p class="trial-note">14 дней бесплатно · Без кода активации</p>
+          <p class="trial-note">
+            14 дней · Windows 10 / 11 · Без кода активации
+          </p>
           <p class="download-meta" id="download-note" role="status">
-            Windows 10 / 11 · 64 бит
+            Установщик для Windows · 64 бит
           </p>
           <p id="mobile-note" class="device-note" hidden>
-            Программа устанавливается на компьютер Windows. На телефоне можно
-            подключиться к уже работающему магазину.
-            <a href="#store">Перейти ко входу</a>
+            Установите программу на компьютер Windows. Уже пользуетесь?
+            <a href="#store">Войдите с телефона</a>.
           </p>
-          <ul class="hero-points" aria-label="Основные преимущества">
-            <li>
-              <svg class="icon" aria-hidden="true"><use href="#i-check" /></svg
-              >Данные на вашем компьютере
-            </li>
-            <li>
-              <svg class="icon" aria-hidden="true"><use href="#i-check" /></svg
-              >Русский и казахский
-            </li>
-          </ul>
         </div>
-        <figure class="product-preview">
-          <div class="preview-caption">
-            <span
-              ><span class="status-dot"></span> Рабочий день в Smart Store</span
-            ><span>Экран продажи</span>
-          </div>
-          <a
-            class="screenshot-link"
-            href="img/sale.png"
-            data-preview
-            data-title="Экран продажи Smart Store"
-            aria-label="Увеличить экран продажи Smart Store"
-            ><img
-              src="img/sale.png"
-              alt="Касса: товары, позиции чека, способы оплаты и сумма продажи"
-              width="1440"
-              height="900"
-              fetchpriority="high"
-            /><span class="zoom-label"
-              ><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg
-              >Рассмотреть экран</span
-            ></a
+        <div class="hero-art">
+          <div class="orbit" aria-hidden="true"></div>
+          <span class="art-label art-label-top"
+            ><span class="status-dot"></span> Всё под контролем</span
           >
-          <figcaption>
-            Интерфейс программы с демонстрационными данными. Нажмите, чтобы
-            рассмотреть детали.
-          </figcaption>
-        </figure>
+          <img
+            class="isometric-store"
+            src="img/store-isometric.svg"
+            alt="Изометрическая иллюстрация: касса на ноутбуке, складские коробки, чек и растущая диаграмма"
+            width="720"
+            height="650"
+            fetchpriority="high"
+          />
+          <span class="art-label art-label-bottom"
+            ><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>
+            Продажа проведена</span
+          >
+          <span class="art-sticker" aria-hidden="true"
+            >Работает<br /><strong
+              >офлайн
+              <svg class="icon diagonal-arrow" aria-hidden="true">
+                <use href="#i-arrow" /></svg></strong
+          ></span>
+          <span class="art-caption">КАССА + СКЛАД + КОНТРОЛЬ</span>
+        </div>
       </section>
-
       <div class="benefit-strip">
         <div class="wrap benefit-inner">
           <span
-            ><svg class="icon" aria-hidden="true"><use href="#i-receipt" /></svg
-            >Продажи и оплаты</span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#i-receipt" />
+            </svg>
+            Продажи и оплаты</span
           ><span
-            ><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg
-            >Склад и закупки</span
+            ><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>
+            Склад и закупки</span
           ><span
-            ><svg class="icon" aria-hidden="true"><use href="#i-chart" /></svg
-            >Прибыль и долги</span
+            ><svg class="icon" aria-hidden="true"><use href="#i-chart" /></svg>
+            Прибыль и долги</span
           ><span
-            ><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg
-            >Доступ с телефона</span
+            ><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>
+            Доступ с телефона</span
           >
         </div>
       </div>
-
       <section
         id="features"
         class="section wrap"
@@ -201,160 +184,299 @@
       >
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Каждый день в магазине</p>
-            <h2 id="features-title">От первой поставки<br />до итогов дня.</h2>
+            <p class="eyebrow">Меньше рутины. Больше дела.</p>
+            <h2 id="features-title">
+              Весь магазин.<br />В одной системе<span class="blue-dot">.</span>
+            </h2>
           </div>
-          <p>
-            Товары, деньги и остатки связаны между собой. Меньше повторного
-            ввода — больше ясности в учёте.
-          </p>
+          <p>От первой поставки<br />до последнего чека.</p>
         </div>
-        <div class="feature-grid">
-          <article class="feature">
-            <span class="feature-number">01 / Продажа</span>
-            <h3>Соберите чек,<br />примите оплату.</h3>
+        <div class="bento-grid">
+          <article class="bento bento-sale">
+            <div class="bento-top">
+              <span class="pill">01 / ПРОДАЖИ</span
+              ><svg class="icon" aria-hidden="true">
+                <use href="#i-receipt" />
+              </svg>
+            </div>
+            <h3>Пик. И товар<br />уже в чеке.</h3>
             <p>
-              Находите товар по названию или штрихкоду. Учитывайте наличные,
-              Kaspi и долг покупателя. Отложите чек, если нужно обслужить
-              следующего.
+              Сканируйте. Принимайте наличные, Kaspi<br />или записывайте
+              покупку в долг.
             </p>
+            <div class="payment-art" aria-hidden="true">
+              <span class="scan-lines"></span>
+              <div class="mini-receipt">
+                <span>SMART STORE</span>
+                <div class="receipt-line">
+                  <span>Шуруповёрт 18 В</span><b>39 900 ₸</b>
+                </div>
+                <div class="receipt-line">
+                  <span>Диск отрезной</span><b>650 ₸</b>
+                </div>
+                <div class="receipt-total">
+                  <span>Итого</span><b>40 550 ₸</b>
+                </div>
+                <span class="paid">✓ Оплата принята</span>
+              </div>
+              <span class="kaspi-chip"
+                >Kaspi
+                <svg class="icon diagonal-arrow" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+              ></span>
+            </div>
           </article>
-          <article class="feature">
-            <span class="feature-number">02 / Приход</span>
-            <h3>Принимайте товар<br />и проверяйте закупку.</h3>
-            <p>
-              Количество, закупочная и продажная цена — в одном документе.
-              Приход в тенге или долларах, задолженность поставщику — в валюте
-              накладной.
-            </p>
+          <article class="bento bento-stock">
+            <div class="bento-top">
+              <span class="pill">02 / СКЛАД</span
+              ><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>
+            </div>
+            <h3>Каждый товар<br />на своём месте.</h3>
+            <p>Приход в ₸ и $. Остатки и закупки — перед глазами.</p>
+            <div class="stock-art" aria-hidden="true">
+              <div class="iso-cube cube-one"><i></i><b></b><span></span></div>
+              <div class="iso-cube cube-two"><i></i><b></b><span></span></div>
+              <div class="iso-cube cube-three"><i></i><b></b><span></span></div>
+              <span class="stock-tag">✓ Товар принят</span>
+            </div>
           </article>
-          <article class="feature">
-            <span class="feature-number">03 / Контроль</span>
-            <h3>Знайте, что осталось<br />и сколько заработали.</h3>
+          <article class="bento bento-reports">
+            <div class="bento-top">
+              <span class="pill">03 / КОНТРОЛЬ</span
+              ><svg class="icon" aria-hidden="true">
+                <use href="#i-chart" />
+              </svg>
+            </div>
+            <h3>Цифры яснее.<br />Решения проще.</h3>
             <p>
-              Выручка, прибыль, остатки и долги покупателей. Отчёты помогают
-              увидеть, что заканчивается и какие товары лежат без движения.
+              Выручка, прибыль и долги.<br />Видно, что продать и что закупить.
             </p>
+            <div class="chart-art" aria-hidden="true">
+              <span>Продажи по дням <small>демо</small></span>
+              <div class="bars">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="chart-days">
+                <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span
+                ><span>Пт</span><span>Сб</span><span>Вс</span>
+              </div>
+            </div>
           </article>
         </div>
-        <div class="secondary-features">
-          <p>
-            <strong>Сдаёте инструмент в аренду?</strong> Учитывайте выдачу, срок
-            возврата, почасовую и посуточную оплату.
-          </p>
-          <p>
-            <strong>Есть накладная на фото или в PDF?</strong> AI поможет
-            собрать черновик. Нужны интернет и ключ Gemini; данные перед
-            проведением проверяете вы.
-          </p>
+        <div class="extra-features">
+          <div>
+            <span class="extra-icon" aria-hidden="true">↺</span>
+            <p>
+              <strong>Инструмент напрокат</strong
+              ><span>Тарифы, выдача и сроки возврата.</span>
+            </p>
+          </div>
+          <div>
+            <span class="extra-icon" aria-hidden="true">✦</span>
+            <p>
+              <strong>Накладная → черновик</strong
+              ><span>AI распознаёт фото и PDF. Вы проверяете.</span>
+            </p>
+            <a href="#ai-info" aria-label="Условия работы AI"
+              ><svg class="icon diagonal-arrow" aria-hidden="true">
+                <use href="#i-arrow" /></svg
+            ></a>
+          </div>
         </div>
       </section>
-
-      <section class="phone-section" aria-labelledby="phone-title">
-        <div class="wrap phone-layout">
-          <figure class="phone-preview">
+      <section class="product-section" aria-labelledby="product-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Вот как это выглядит</p>
+              <h2 id="product-title">Всё нужное.<br />Прямо под рукой.</h2>
+            </div>
+            <div
+              class="screen-tabs"
+              role="group"
+              aria-label="Выбрать экран программы"
+            >
+              <button
+                class="screen-tab active"
+                type="button"
+                data-screen="sale"
+                aria-pressed="true"
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-receipt" />
+                </svg>
+                Касса</button
+              ><button
+                class="screen-tab"
+                type="button"
+                data-screen="home"
+                aria-pressed="false"
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-chart" />
+                </svg>
+                Итоги дня
+              </button>
+            </div>
+          </div>
+          <figure class="product-preview">
+            <div class="window-bar">
+              <span class="window-dots" aria-hidden="true">● ● ●</span
+              ><span id="screen-label">Smart Store / Продажа</span
+              ><span class="demo-label">ДЕМО-ДАННЫЕ</span>
+            </div>
             <a
+              id="product-screen-link"
+              class="screenshot-link"
+              href="img/sale.png"
+              data-preview
+              data-title="Экран продажи Smart Store"
+              aria-label="Увеличить экран программы"
+              ><img
+                id="product-screen"
+                src="img/sale.png"
+                alt="Касса Smart Store: товары, чек и способы оплаты"
+                width="1440"
+                height="900"
+                loading="lazy"
+              /><span class="zoom-label"
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-zoom" />
+                </svg>
+                Рассмотреть экран</span
+              ></a
+            >
+            <figcaption>
+              Реальные экраны программы с демонстрационными данными.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="section wrap phone-section" aria-labelledby="phone-title">
+        <div class="phone-layout">
+          <div class="phone-copy">
+            <p class="eyebrow">Не обязательно быть у кассы</p>
+            <h2 id="phone-title">
+              Магазин рядом.<br />Даже когда<br />вы далеко<span
+                class="blue-dot"
+                >.</span
+              >
+            </h2>
+            <p class="section-lead">
+              Откройте телефон. Посмотрите, как идут дела.
+            </p>
+            <div class="role-list">
+              <div>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-chart" />
+                </svg>
+                <p>
+                  <strong>Владельцу — контроль</strong
+                  ><span>Выручка, прибыль, история и долги.</span>
+                </p>
+              </div>
+              <div>
+                <svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>
+                <p>
+                  <strong>Продавцу — инструменты</strong
+                  ><span>Поиск, пересчёт и корзина кассы.</span>
+                </p>
+              </div>
+            </div>
+            <p class="connection-note">
+              Без установки на телефон. Компьютер со Smart Store должен быть
+              включён; для доступа извне нужен интернет.
+            </p>
+            <a href="#store" class="text-link"
+              >Войти в свой магазин
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ></a>
+          </div>
+          <figure class="phone-preview">
+            <span class="phone-orbit" aria-hidden="true"></span
+            ><span class="phone-bubble bubble-left" aria-hidden="true"
+              ><svg class="icon diagonal-arrow" aria-hidden="true">
+                <use href="#i-arrow" />
+              </svg>
+              <span>Дела идут.<br /><strong>Вы в курсе.</strong></span></span
+            ><a
               href="img/phone.png"
               data-preview
               data-title="Smart Store на телефоне"
-              aria-label="Увеличить экран Smart Store на телефоне"
+              aria-label="Увеличить экран телефона"
               ><img
                 src="img/phone.png"
-                alt="Показатели магазина на экране телефона"
+                alt="Smart Store на телефоне: товары, поиск и корзина продавца"
                 width="390"
                 height="844"
-                loading="lazy"
-            /></a>
-            <figcaption>Телефон подключается через браузер.</figcaption>
-          </figure>
-          <div class="phone-copy">
-            <p class="eyebrow">Магазин под рукой</p>
-            <h2 id="phone-title">
-              У компьютера — касса.<br />В телефоне — контроль.
-            </h2>
-            <p class="section-lead">
-              Посмотрите показатели магазина, найдите товар или примите
-              накладную, не возвращаясь каждый раз к компьютеру.
-            </p>
-            <ul class="check-list">
-              <li>
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-check" /></svg
-                ><span
-                  ><strong>Владельцу — показатели.</strong> Выручка, прибыль,
-                  история и долги.</span
-                >
-              </li>
-              <li>
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-check" /></svg
-                ><span
-                  ><strong>Сотруднику — рабочие задачи.</strong> Поиск товара,
-                  пересчёт и добавление в корзину кассы.</span
-                >
-              </li>
-              <li>
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-check" /></svg
-                ><span
-                  ><strong>Без отдельной установки.</strong> Откройте QR-код из
-                  программы в браузере телефона.</span
-                >
-              </li>
-            </ul>
-            <p class="connection-note">
-              Для работы с телефона компьютер должен быть включён, а Smart Store
-              открыт. Доступ извне магазина требует интернета.
-            </p>
-            <a href="#store" class="text-link"
-              >Уже пользуетесь? Войти в свой магазин
-              <span aria-hidden="true">→</span></a
+                loading="lazy" /></a
+            ><span class="phone-bubble bubble-right"
+              ><svg class="icon" aria-hidden="true">
+                <use href="#i-phone" />
+              </svg>
+              В вашем браузере</span
             >
-          </div>
+            <figcaption>Демонстрационные данные</figcaption>
+          </figure>
         </div>
       </section>
-
+      <section id="data" class="wrap data-section">
+        <div class="data-heading">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield" /></svg>
+          <h2>Ваш магазин.<br />Ваши данные.</h2>
+        </div>
+        <div class="data-item">
+          <strong>Без интернета</strong>
+          <p>Касса, склад и основные отчёты работают офлайн.</p>
+        </div>
+        <div class="data-item">
+          <strong>С резервной копией</strong>
+          <p>Автокопии каждые два часа. Внешнюю копию храните отдельно.</p>
+        </div>
+        <div class="data-item">
+          <strong>На двух языках</strong>
+          <p>Русский и казахский. В программе и на телефоне.</p>
+        </div>
+      </section>
       <section id="start" class="section wrap" aria-labelledby="start-title">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Первый запуск</p>
-            <h2 id="start-title">Понятно, с чего начать.</h2>
+            <p class="eyebrow">От установки до первого чека</p>
+            <h2 id="start-title">
+              Начните с малого<span class="blue-dot">.</span>
+            </h2>
           </div>
-          <p>
-            Не нужно сразу переносить весь магазин. Начните с нескольких товаров
-            и проверьте свой рабочий сценарий.
-          </p>
+          <p>Проверьте Smart Store<br />на нескольких товарах.</p>
         </div>
         <ol class="start-steps">
           <li>
-            <span class="step-number">1</span>
-            <h3>Установите на Windows</h3>
-            <p>
-              Скачайте установщик на компьютер магазина. Пройдите первоначальную
-              настройку и проверьте принтер, если планируете печатать документы.
-            </p>
+            <span class="step-number">01</span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#i-download" />
+            </svg>
+            <h3>Установите</h3>
+            <p>На компьютер с Windows 10 или 11.</p>
             <a
               href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
               data-download
               class="text-link"
-              >Скачать установщик <span aria-hidden="true">↓</span></a
-            >
+              >Скачать
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ></a>
           </li>
           <li>
-            <span class="step-number">2</span>
-            <h3>Добавьте первый приход</h3>
-            <p>
-              Укажите товар, количество, цену закупки и продажи. Если есть
-              таблица Excel, товары можно загрузить из файла.
-            </p>
+            <span class="step-number">02</span
+            ><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>
+            <h3>Добавьте товары</h3>
+            <p>Первый приход или импорт из Excel.</p>
           </li>
           <li>
-            <span class="step-number">3</span>
-            <h3>Подключите телефон</h3>
-            <p>
-              На компьютере откройте «Система» → настройки телефона. Включите
-              терминал и отсканируйте QR-код камерой телефона.
-            </p>
+            <span class="step-number">03</span
+            ><svg class="icon" aria-hidden="true">
+              <use href="#i-receipt" />
+            </svg>
+            <h3>Проведите продажу</h3>
+            <p>Соберите чек и выберите способ оплаты.</p>
           </li>
         </ol>
         <button type="button" id="copy-site" class="copy-link" hidden>
@@ -362,87 +484,47 @@
         </button>
         <p id="copy-status" class="note" role="status"></p>
       </section>
-
-      <section id="data" class="data-section">
-        <div class="wrap data-layout">
-          <div>
-            <p class="eyebrow">Ваш магазин — ваши данные</p>
-            <h2>Учёт остаётся<br />на вашем компьютере.</h2>
-            <p class="section-lead">
-              Касса, склад и основные отчёты доступны без интернета. Программа
-              сохраняет резервные копии, а внешнюю копию стоит держать отдельно
-              от рабочего компьютера.
-            </p>
-          </div>
-          <div class="data-facts">
-            <div>
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-shield" />
-              </svg>
-              <div>
-                <h3>Резервное копирование</h3>
-                <p>
-                  Автоматические копии каждые два часа. Копию можно сохранить на
-                  внешний носитель и восстановить на другом компьютере.
-                </p>
-              </div>
-            </div>
-            <div>
-              <svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>
-              <div>
-                <h3>Понятные условия подключения</h3>
-                <p>
-                  Интернет нужен для обновлений, автоматического курса, AI и
-                  доступа с телефона вне магазина. Для AI используется ключ
-                  владельца.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section
         id="license"
-        class="section wrap license-section"
+        class="wrap license-section"
         aria-labelledby="license-title"
       >
-        <div>
-          <p class="eyebrow">Попробуйте на своём магазине</p>
-          <h2 id="license-title">14 дней на знакомство.</h2>
-          <p class="section-lead">
-            Установите программу, добавьте товары и проведите первые операции.
-            Пробный период доступен без кода активации.
-          </p>
-          <p>
-            Лицензия рассчитана на один компьютер магазина. Стоимость, активацию
-            и перенос на другой компьютер можно уточнить в WhatsApp.
-          </p>
-          <a class="text-link" href="privacy.html"
-            >Условия лицензии и работа с данными
-            <span aria-hidden="true">→</span></a
-          >
+        <div class="trial-graphic" aria-hidden="true">
+          <span>14</span><span>ДНЕЙ НА ЗНАКОМСТВО</span
+          ><i
+            ><svg class="icon diagonal-arrow" aria-hidden="true">
+              <use href="#i-arrow" /></svg
+          ></i>
         </div>
-        <div class="license-actions">
-          <a
-            href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
-            data-download
-            class="button primary"
-            ><svg class="icon" aria-hidden="true">
-              <use href="#i-download" /></svg
-            >Скачать для Windows</a
-          ><a
-            class="button"
-            href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D1%82%D1%8C%20%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20%D0%B8%20%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%B0%D1%86%D0%B8%D1%8E%20Smart%20Store."
-            >Уточнить стоимость</a
-          >
-          <p class="note">
-            После пробного периода для новых операций нужна лицензия. Уже
-            внесённые данные остаются доступны.
+        <div class="license-copy">
+          <p class="eyebrow">Ваш следующий рабочий инструмент</p>
+          <h2 id="license-title">Попробуйте<br />на своём магазине.</h2>
+          <p>
+            14 дней бесплатно, без кода активации.<br />Стоимость лицензии
+            уточните в WhatsApp.
+          </p>
+          <div class="actions">
+            <a
+              href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
+              data-download
+              class="button dark"
+              >Скачать для Windows
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-download" /></svg></a
+            ><a
+              class="text-link"
+              href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D1%82%D1%8C%20%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20Smart%20Store."
+              >Узнать стоимость
+              <svg class="icon diagonal-arrow" aria-hidden="true">
+                <use href="#i-arrow" /></svg
+            ></a>
+          </div>
+          <p class="license-note">
+            После пробы для новых операций нужна лицензия. Данные остаются
+            доступны. <a href="privacy.html">Условия →</a>
           </p>
         </div>
       </section>
-
       <section
         id="faq"
         class="section wrap faq-section"
@@ -450,7 +532,7 @@
       >
         <div>
           <p class="eyebrow">До установки</p>
-          <h2 id="faq-title">Ответы на частые вопросы.</h2>
+          <h2 id="faq-title">Ещё пара<br />вопросов?</h2>
         </div>
         <div class="faq-list">
           <details>
@@ -478,7 +560,7 @@
               копировать. По активации напишите в WhatsApp.
             </p>
           </details>
-          <details>
+          <details id="ai-info">
             <summary>AI и распознавание накладных уже включены?</summary>
             <p>
               Для AI нужно настроить собственный ключ Gemini на компьютере.
@@ -575,7 +657,6 @@
         </div>
       </section>
     </main>
-
     <footer class="foot wrap">
       <div>
         <a class="brand" href="#main"

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 650" fill="none">
+<defs>
+ <linearGradient id="base" x1="170" y1="340" x2="560" y2="600" gradientUnits="userSpaceOnUse"><stop stop-color="#5767F3"/><stop offset="1" stop-color="#2539CF"/></linearGradient>
+ <linearGradient id="screen" x1="265" y1="180" x2="520" y2="365" gradientUnits="userSpaceOnUse"><stop stop-color="#414FE3"/><stop offset="1" stop-color="#242B7A"/></linearGradient>
+ <linearGradient id="lid" x1="255" y1="193" x2="532" y2="350" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF"/><stop offset="1" stop-color="#C9CDF9"/></linearGradient>
+ <filter id="shadow" x="-40%" y="-40%" width="180%" height="200%"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+<!-- Ground and raised platform -->
+<ellipse cx="354" cy="549" rx="256" ry="50" fill="#22309B" opacity=".12" filter="url(#shadow)"/>
+<path d="M62 418 355 249 657 423v43L365 635 62 461Z" fill="#2537BA"/>
+<path d="m62 418 303 175 292-170-302-174Z" fill="url(#base)"/>
+<path d="M365 593v42l292-169v-43Z" fill="#1D2AA6"/>
+<path d="m84 418 281 162 269-157" stroke="#8894FF" stroke-width="2" opacity=".5"/>
+<!-- Floor seams -->
+<path d="m143 371 303 175M228 322l303 175M146 467l292-169M241 522l292-169" stroke="#A5AEFF" opacity=".13"/>
+<!-- Back shelf -->
+<path d="m108 215 111-64 17 10v213l-17 10-111-64Z" fill="#CCD0EF"/>
+<path d="m108 215 111-64v213l-111 64Z" fill="#F9FAFF"/>
+<path d="m121 226 86-50v174l-86 50Z" fill="#DFE2F5"/>
+<path d="m121 278 86-50M121 337l86-50" stroke="#FAFBFF" stroke-width="10"/>
+<path d="m133 224 25-14 20 12v32l-25 15-20-12Z" fill="#F0A66E"/>
+<path d="m133 224 20 12 25-14M153 236v33" stroke="#BD6D39" stroke-width="2"/>
+<path d="m166 291 24-14 13 8v27l-24 14-13-8Z" fill="#C5EE59"/>
+<path d="m129 341 26-15 21 12v30l-26 15-21-12Z" fill="#7986F5"/>
+<!-- Laptop shadow -->
+<ellipse cx="390" cy="438" rx="152" ry="39" fill="#1D2676" opacity=".3" filter="url(#shadow)"/>
+<!-- Display enclosure -->
+<path d="m247 178 21-13 288 167-18 13-14 131-285-163Z" fill="#A9B0E8"/>
+<path d="m247 178 289 167-13 129-289-166Z" fill="url(#lid)" stroke="#EFF0FF" stroke-width="2"/>
+<path d="m261 196 261 151-10 105-261-150Z" fill="url(#screen)"/>
+<!-- App UI in perspective -->
+<g transform="matrix(1 .578 -.08 .83 275 218)">
+ <rect width="233" height="88" rx="3" fill="#F6F7FD"/>
+ <path d="M0 0h45v88H0Z" fill="#E4E7F6"/>
+ <rect x="7" y="8" width="30" height="7" rx="2" fill="#4E5DE2"/>
+ <path d="M8 28h24M8 40h18M8 52h22M8 64h16" stroke="#A0A9D2" stroke-width="3" stroke-linecap="round"/>
+ <rect x="53" y="10" width="78" height="8" rx="3" fill="#DDE1F2"/>
+ <rect x="53" y="25" width="35" height="39" rx="4" fill="#E5E8F6"/>
+ <rect x="94" y="25" width="35" height="39" rx="4" fill="#E5E8F6"/>
+ <path d="m65 36 12 7-7 13-7-4ZM104 37h15v12h-15Z" fill="#5866D9"/>
+ <path d="M145 16h72M145 28h72M145 40h72" stroke="#DDE1F2" stroke-width="4" stroke-linecap="round"/>
+ <rect x="143" y="54" width="78" height="24" rx="4" fill="#C9EF69"/>
+ <path d="m166 66 5 5 10-13" stroke="#23391B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<!-- Keyboard base -->
+<path d="m234 308 289 166-99 59-289-168Z" fill="#D4D9F9" stroke="#F4F5FF" stroke-width="2"/>
+<path d="m135 365 289 168v10L135 376Z" fill="#A8B0E3"/>
+<path d="m424 533 99-59v11l-99 58Z" fill="#8793CE"/>
+<path d="m251 334 233 134-45 26-233-134Z" fill="#919DD8"/>
+<g stroke="#CDD3F5" stroke-width="3"><path d="m240 347 231 134M224 356l231 134M276 348l-30 18m55-4-30 18m55-3-30 18m55-4-30 18m55-3-30 18m55-4-30 18m55-4-30 18m55-3-30 18"/></g>
+<path d="m283 402 75 43-31 18-75-43Z" fill="#BAC3EC" stroke="#9CA9DC"/>
+<!-- Front boxes -->
+<path d="m88 440 61-35 65 38v65l-61 35-65-38Z" fill="#EAA272"/>
+<path d="m88 440 65 38 61-35-65-38Z" fill="#FFCCA2"/>
+<path d="m153 478 61-35v65l-61 35Z" fill="#CC7D4E"/>
+<path d="m111 427 65 38 18-11-65-38Z" fill="#FFE9C8"/>
+<path d="M176 465v22l18-10v-23" fill="#F3C58D"/>
+<path d="m105 475 24 14v17l-24-14Z" fill="#FFF1D9"/>
+<path d="m177 383 40-23 43 25v44l-40 23-43-25Z" fill="#DEEEAD"/>
+<path d="m177 383 43 25 40-23-43-25Z" fill="#E6FFAA"/>
+<path d="m220 408 40-23v44l-40 23Z" fill="#9CC357"/>
+<!-- Chart pedestal -->
+<path d="m560 471 26-15 27 16v35l-26 15-27-16Z" fill="#D5EFA5"/>
+<path d="m560 471 27 16 26-15-27-16Z" fill="#F0FFC6"/>
+<path d="m587 487 26-15v35l-26 15Z" fill="#91B940"/>
+<path d="m596 420 26-15 27 16v65l-26 15-27-16Z" fill="#C9EE77"/>
+<path d="m596 420 27 16 26-15-27-16Z" fill="#ECFFB5"/>
+<path d="m623 436 26-15v65l-26 15Z" fill="#8CB533"/>
+<!-- Floating receipt -->
+<g transform="translate(536 146) rotate(10)">
+ <path d="M0 0h90v137l-9-6-9 6-9-6-9 6-9-6-9 6-9-6-9 6-9-6-9 6Z" fill="#1F2670" opacity=".12" transform="translate(6 8)"/>
+ <path d="M0 0h90v137l-9-6-9 6-9-6-9 6-9-6-9 6-9-6-9 6-9-6-9 6Z" fill="#FFFEF7"/>
+ <circle cx="45" cy="29" r="14" fill="#D7F59B"/>
+ <path d="m38 28 5 5 9-10" stroke="#365326" stroke-width="3" stroke-linecap="round"/>
+ <path d="M17 58h56M17 70h45M17 82h56" stroke="#D7D9DF" stroke-width="3" stroke-linecap="round"/>
+ <path d="M18 102v13m5-13v13m7-13v13m3-13v13m8-13v13m5-13v13m4-13v13m8-13v13m4-13v13m8-13v13" stroke="#292D38" stroke-width="2"/>
+</g>
+<!-- Orbit / stars -->
+<path d="M349 91v34m-17-17h34M608 314v21m-10-11h21" stroke="#E99A68" stroke-width="4" stroke-linecap="round"/>
+<circle cx="215" cy="106" r="9" fill="#C7E983"/>
+<circle cx="89" cy="355" r="5" fill="#8E9BF4"/>
+<path d="m402 113 15 9-15 9-15-9Z" fill="#4A5AE7"/>
+</svg>
