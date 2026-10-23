@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f6f5f0" />
+    <meta name="theme-color" content="#101213" />
     <title>Smart Store — касса и склад для магазина инструмента</title>
     <meta
       name="description"
@@ -23,11 +23,12 @@
     <meta property="og:image" content="https://metov.store/img/sale.png" />
     <meta property="og:locale" content="ru_RU" />
     <link rel="icon" href="img/icon.png" />
-    <link rel="stylesheet" href="styles.css?v=3" />
-    <script src="app.js?v=3" defer></script>
+    <link rel="stylesheet" href="styles.css?v=4" />
+    <link rel="stylesheet" href="cinema.css?v=4" />
+    <script src="app.js?v=4" defer></script>
   </head>
 
-  <body>
+  <body class="landing-page">
     <a class="skip-link" href="#main">Перейти к содержимому</a>
     <svg
       class="icon-library"
@@ -97,65 +98,304 @@
       </div>
     </header>
     <main id="main">
-      <section class="hero wrap" aria-labelledby="hero-title">
-        <div class="hero-copy">
+      <section class="cinema-hero" aria-labelledby="hero-title">
+        <div class="hero-aura" aria-hidden="true"></div>
+        <div class="cinema-copy wrap">
           <p class="eyebrow">
-            <span class="status-dot"></span> Для магазинов инструмента и
-            запчастей
+            <span class="status-dot"></span> SMART STORE · КАССА, СКЛАД И
+            КОНТРОЛЬ
           </p>
           <h1 id="hero-title">
-            Магазин<br />в <span class="word-mark">порядке.</span><br />Вы — в
-            деле<span class="blue-dot">.</span>
+            Весь магазин.<br /><span>В вашем фокусе.</span>
           </h1>
-          <p class="lead">
-            Касса, склад и прибыль — в одной программе.<br />Работайте спокойно.
-            Даже без интернета.
+          <p class="cinema-lead">
+            От первой поставки до итогов дня.<br class="mobile-break" />
+            Одна программа. Даже без интернета.
           </p>
-          <div class="actions">
+          <div class="cinema-actions">
             <a
               id="download"
               data-download
               class="button primary"
               href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
               >Попробовать бесплатно
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-arrow" /></svg></a
+            ><a class="cinema-explore" href="#features"
+              >Что внутри
               <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
             ></a>
           </div>
-          <p class="trial-note">
-            14 дней · Windows 10 / 11 · Без кода активации
-          </p>
+          <p class="trial-note">14 дней бесплатно · Windows 10 / 11</p>
+        </div>
+        <div
+          class="hero-gallery"
+          role="region"
+          aria-roledescription="карусель"
+          aria-label="Экраны Smart Store"
+          tabindex="-1"
+        >
+          <div class="gallery-stage">
+            <a
+              class="gallery-card scene-blue"
+              href="img/sale.png"
+              data-gallery-card
+              data-preview
+              data-title="Продажи без пауз"
+              data-preview-alt="Касса: товары, чек и способы оплаты"
+              aria-label="Продажи без пауз. Увеличить экран"
+              style="--slot: 0"
+            >
+              <img
+                class="scene-background"
+                src="img/studio-blue.webp"
+                alt=""
+                aria-hidden="true"
+                width="1536"
+                height="1024"
+                fetchpriority="high"
+              />
+              <div class="device-mockup mockup-laptop">
+                <div class="mockup-display">
+                  <img
+                    class="mockup-screen"
+                    src="img/sale.png"
+                    alt="Касса: товары, чек и способы оплаты"
+                    width="1440"
+                    height="900"
+                  />
+                </div>
+                <span class="device-base" aria-hidden="true"></span>
+              </div>
+              <span class="gallery-card-caption"
+                ><span
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-receipt" /></svg
+                  >Продажи без пауз</span
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-zoom" /></svg
+              ></span> </a
+            ><a
+              class="gallery-card scene-amber"
+              href="img/home.png"
+              data-gallery-card
+              data-preview
+              data-title="Главное — перед глазами"
+              data-preview-alt="Отчёты: выручка, прибыль и продажи по дням"
+              aria-label="Главное — перед глазами. Увеличить экран"
+              style="--slot: 1"
+            >
+              <img
+                class="scene-background"
+                src="img/studio-amber.webp"
+                alt=""
+                aria-hidden="true"
+                width="1536"
+                height="1024"
+                loading="lazy"
+              />
+              <div class="device-mockup mockup-monitor">
+                <div class="mockup-display">
+                  <img
+                    class="mockup-screen"
+                    src="img/home.png"
+                    alt="Отчёты: выручка, прибыль и продажи по дням"
+                    width="1440"
+                    height="900"
+                  />
+                </div>
+                <span class="device-base" aria-hidden="true"></span>
+              </div>
+              <span class="gallery-card-caption"
+                ><span
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-chart" /></svg
+                  >Главное — перед глазами</span
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-zoom" /></svg
+              ></span> </a
+            ><a
+              class="gallery-card scene-lime"
+              href="img/phone.png"
+              data-gallery-card
+              data-preview
+              data-title="Магазин всегда рядом"
+              data-preview-alt="Smart Store на телефоне: выручка, прибыль и рабочие инструменты"
+              aria-label="Магазин всегда рядом. Увеличить экран"
+              style="--slot: 2"
+            >
+              <img
+                class="scene-background"
+                src="img/studio-lime.webp"
+                alt=""
+                aria-hidden="true"
+                width="1536"
+                height="1024"
+                loading="lazy"
+              />
+              <div class="device-mockup mockup-phone">
+                <div class="mockup-display">
+                  <img
+                    class="mockup-screen"
+                    src="img/phone.png"
+                    alt="Smart Store на телефоне: выручка, прибыль и рабочие инструменты"
+                    width="390"
+                    height="844"
+                  />
+                </div>
+                <span class="device-base" aria-hidden="true"></span>
+              </div>
+              <span class="gallery-card-caption"
+                ><span
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-phone" /></svg
+                  >Магазин всегда рядом</span
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-zoom" /></svg
+              ></span> </a
+            ><a
+              class="gallery-card scene-amber"
+              href="img/sale.png"
+              data-gallery-card
+              data-preview
+              data-title="От сканера до оплаты"
+              data-preview-alt="Продажа в Smart Store с демонстрационными товарами"
+              aria-label="От сканера до оплаты. Увеличить экран"
+              style="--slot: 3"
+            >
+              <img
+                class="scene-background"
+                src="img/studio-amber.webp"
+                alt=""
+                aria-hidden="true"
+                width="1536"
+                height="1024"
+                loading="lazy"
+              />
+              <div class="device-mockup mockup-laptop">
+                <div class="mockup-display">
+                  <img
+                    class="mockup-screen"
+                    src="img/sale.png"
+                    alt="Продажа в Smart Store с демонстрационными товарами"
+                    width="1440"
+                    height="900"
+                    loading="lazy"
+                  />
+                </div>
+                <span class="device-base" aria-hidden="true"></span>
+              </div>
+              <span class="gallery-card-caption"
+                ><span
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-receipt" /></svg
+                  >От сканера до оплаты</span
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-zoom" /></svg
+              ></span> </a
+            ><a
+              class="gallery-card scene-blue"
+              href="img/home.png"
+              data-gallery-card
+              data-preview
+              data-title="Каждая цифра на месте"
+              data-preview-alt="Главная Smart Store с демонстрационными показателями"
+              aria-label="Каждая цифра на месте. Увеличить экран"
+              style="--slot: 4"
+            >
+              <img
+                class="scene-background"
+                src="img/studio-blue.webp"
+                alt=""
+                aria-hidden="true"
+                width="1536"
+                height="1024"
+                loading="lazy"
+              />
+              <div class="device-mockup mockup-monitor">
+                <div class="mockup-display">
+                  <img
+                    class="mockup-screen"
+                    src="img/home.png"
+                    alt="Главная Smart Store с демонстрационными показателями"
+                    width="1440"
+                    height="900"
+                    loading="lazy"
+                  />
+                </div>
+                <span class="device-base" aria-hidden="true"></span>
+              </div>
+              <span class="gallery-card-caption"
+                ><span
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-chart" /></svg
+                  >Каждая цифра на месте</span
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-zoom" /></svg
+              ></span>
+            </a>
+          </div>
+          <div class="gallery-bottom wrap">
+            <p class="gallery-note">
+              <span class="status-dot"></span> Реальная программа.
+              Демонстрационные данные.
+            </p>
+            <div class="gallery-controls" hidden>
+              <button
+                id="gallery-prev"
+                type="button"
+                aria-label="Предыдущий экран"
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" />
+                </svg></button
+              ><span class="gallery-count" aria-hidden="true"
+                ><b id="gallery-count">01</b> / 05</span
+              ><button
+                id="gallery-next"
+                type="button"
+                aria-label="Следующий экран"
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" />
+                </svg></button
+              ><button
+                id="gallery-pause"
+                type="button"
+                aria-pressed="false"
+                aria-label="Приостановить анимацию"
+              >
+                <svg
+                  class="icon pause-glyph"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M9 5v14M15 5v14" /></svg
+                ><svg
+                  class="icon play-glyph"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="m8 4 12 8-12 8Z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p
+            id="gallery-status"
+            class="visually-hidden"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </div>
+        <div class="cinema-meta wrap">
           <p class="download-meta" id="download-note" role="status">
-            Установщик для Windows · 64 бит
+            Установщик для Windows · 64 бит · Без кода активации
           </p>
           <p id="mobile-note" class="device-note" hidden>
-            Установите программу на компьютер Windows. Уже пользуетесь?
-            <a href="#store">Войдите с телефона</a>.
+            Программа для компьютера Windows. Уже с нами?
+            <a href="#store">Войти с телефона →</a>
           </p>
-        </div>
-        <div class="hero-art">
-          <div class="orbit" aria-hidden="true"></div>
-          <span class="art-label art-label-top"
-            ><span class="status-dot"></span> Всё под контролем</span
-          >
-          <img
-            class="isometric-store"
-            src="img/store-isometric.svg"
-            alt="Изометрическая иллюстрация: касса на ноутбуке, складские коробки, чек и растущая диаграмма"
-            width="720"
-            height="650"
-            fetchpriority="high"
-          />
-          <span class="art-label art-label-bottom"
-            ><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>
-            Продажа проведена</span
-          >
-          <span class="art-sticker" aria-hidden="true"
-            >Работает<br /><strong
-              >офлайн
-              <svg class="icon diagonal-arrow" aria-hidden="true">
-                <use href="#i-arrow" /></svg></strong
-          ></span>
-          <span class="art-caption">КАССА + СКЛАД + КОНТРОЛЬ</span>
         </div>
       </section>
       <div class="benefit-strip">
@@ -319,37 +559,39 @@
               </button>
             </div>
           </div>
-          <figure class="product-preview">
-            <div class="window-bar">
-              <span class="window-dots" aria-hidden="true">● ● ●</span
-              ><span id="screen-label">Smart Store / Продажа</span
-              ><span class="demo-label">ДЕМО-ДАННЫЕ</span>
-            </div>
-            <a
-              id="product-screen-link"
-              class="screenshot-link"
-              href="img/sale.png"
-              data-preview
-              data-title="Экран продажи Smart Store"
-              aria-label="Увеличить экран программы"
-              ><img
-                id="product-screen"
-                src="img/sale.png"
-                alt="Касса Smart Store: товары, чек и способы оплаты"
-                width="1440"
-                height="900"
-                loading="lazy"
-              /><span class="zoom-label"
-                ><svg class="icon" aria-hidden="true">
-                  <use href="#i-zoom" />
-                </svg>
-                Рассмотреть экран</span
-              ></a
-            >
-            <figcaption>
-              Реальные экраны программы с демонстрационными данными.
-            </figcaption>
-          </figure>
+          <div class="studio-demo">
+            <figure class="product-preview">
+              <div class="window-bar">
+                <span class="window-dots" aria-hidden="true">● ● ●</span
+                ><span id="screen-label">Smart Store / Продажа</span
+                ><span class="demo-label">ДЕМО-ДАННЫЕ</span>
+              </div>
+              <a
+                id="product-screen-link"
+                class="screenshot-link"
+                href="img/sale.png"
+                data-preview
+                data-title="Экран продажи Smart Store"
+                aria-label="Увеличить экран программы"
+                ><img
+                  id="product-screen"
+                  src="img/sale.png"
+                  alt="Касса Smart Store: товары, чек и способы оплаты"
+                  width="1440"
+                  height="900"
+                  loading="lazy"
+                /><span class="zoom-label"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-zoom" />
+                  </svg>
+                  Рассмотреть экран</span
+                ></a
+              >
+              <figcaption>
+                Реальные экраны программы с демонстрационными данными.
+              </figcaption>
+            </figure>
+          </div>
         </div>
       </section>
       <section class="section wrap phone-section" aria-labelledby="phone-title">
@@ -406,7 +648,7 @@
               aria-label="Увеличить экран телефона"
               ><img
                 src="img/phone.png"
-                alt="Smart Store на телефоне: товары, поиск и корзина продавца"
+                alt="Smart Store на телефоне: выручка, прибыль, поиск и корзина"
                 width="390"
                 height="844"
                 loading="lazy" /></a
