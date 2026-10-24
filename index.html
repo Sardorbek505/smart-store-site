@@ -30,13 +30,13 @@
         root.dataset.viewportWidth = String(innerWidth);
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=23" />
-    <link rel="stylesheet" href="cinema.css?v=23" />
-    <link rel="stylesheet" href="buttons.css?v=23" />
-    <link rel="stylesheet" href="screens.css?v=23" />
-    <link rel="stylesheet" href="components.css?v=23" />
-    <link rel="stylesheet" href="story.css?v=23" />
-    <script src="app.js?v=23" type="module"></script>
+    <link rel="stylesheet" href="styles.css?v=24" />
+    <link rel="stylesheet" href="cinema.css?v=24" />
+    <link rel="stylesheet" href="buttons.css?v=24" />
+    <link rel="stylesheet" href="screens.css?v=24" />
+    <link rel="stylesheet" href="components.css?v=24" />
+    <link rel="stylesheet" href="story.css?v=24" />
+    <script src="app.js?v=24" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -937,18 +937,69 @@
         </div>
       </section>
       <section
+        id="mobile"
         class="section phone-section screen-section"
         aria-labelledby="phone-title"
       >
         <div class="screen-content wrap">
           <div class="phone-layout">
             <div class="phone-copy">
-              <h2 id="phone-title">Магазин в телефоне.</h2>
+              <h2 id="phone-title">Магазин.<br /><span>Под рукой.</span></h2>
               <p class="phone-lead">
-                Выручка, товары и корзина — в вашем браузере.
+                Итоги дня, товары и корзина — в браузере.
               </p>
             </div>
             <div class="phone-showcase">
+              <div class="phone-campaign-orbit" aria-hidden="true"></div>
+              <a
+                class="phone-mockup-link"
+                id="phone-screen-link"
+                href="img/phone.png"
+                data-preview
+                data-title="Smart Store на телефоне / Контроль"
+                data-preview-alt="Главная телефона: выручка и прибыль"
+                aria-label="Увеличить оригинальный экран Smart Store"
+                ><img
+                  id="phone-mockup"
+                  src="img/mobile-campaign-overview.webp"
+                  width="1024"
+                  height="1536"
+                  loading="lazy"
+                  decoding="async"
+                  alt="iPhone 18 Pro Max с итогами Smart Store, в диагональном ракурсе на объёмной подставке" /><span
+                  class="phone-zoom"
+                  aria-hidden="true"
+                  ><svg class="icon"><use href="#i-zoom" /></svg></span
+              ></a>
+              <div
+                class="phone-metric"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                <span class="visually-hidden">Демонстрационные данные. </span>
+                <span class="scene-metric-top"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-chart" /></svg
+                  ><span class="scene-demo">ДЕМО</span></span
+                ><span class="scene-metric-label" id="scene-metric-label"
+                  >Выручка сегодня</span
+                ><strong class="scene-metric-value" id="scene-metric-value"
+                  >79 800 ₸</strong
+                >
+              </div>
+              <button
+                class="phone-query"
+                id="phone-query-hotspot"
+                type="button"
+                aria-label="Показать поиск товара на телефоне"
+                disabled
+              >
+                <svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg
+                ><span><small>Найти товар</small>Шуруповёрт</span><b>12 шт</b>
+              </button>
+            </div>
+            <div class="phone-foot">
               <div
                 class="phone-selector"
                 role="group"
@@ -961,7 +1012,9 @@
                   aria-controls="phone-mockup"
                   disabled
                 >
-                  Контроль
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-chart" /></svg
+                  >Контроль
                 </button>
                 <button
                   type="button"
@@ -970,7 +1023,9 @@
                   aria-controls="phone-mockup"
                   disabled
                 >
-                  Поиск
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-zoom" /></svg
+                  >Поиск
                 </button>
                 <button
                   type="button"
@@ -979,40 +1034,19 @@
                   aria-controls="phone-mockup"
                   disabled
                 >
-                  Корзина
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-receipt" /></svg
+                  >Корзина
                 </button>
               </div>
-              <a
-                class="phone-mockup-link"
-                id="phone-screen-link"
-                href="img/phone.png"
-                data-preview
-                data-title="Smart Store на телефоне / Контроль"
-                data-preview-alt="Главная телефона: выручка и прибыль"
-                aria-label="Увеличить оригинальный экран Smart Store"
-              >
-                <img
-                  id="phone-mockup"
-                  src="img/iphone18-overview.webp"
-                  width="1024"
-                  height="1536"
-                  loading="lazy"
-                  decoding="async"
-                  alt="Мокап iPhone 18 Pro Max: выручка и прибыль Smart Store, серебристый корпус на синем подиуме"
-                />
-                <span class="phone-zoom" aria-hidden="true"
-                  ><svg class="icon"><use href="#i-zoom" /></svg
-                ></span>
-              </a>
-            </div>
-            <div class="phone-foot">
-              <a href="#store" class="text-link"
-                >Войти в свой магазин<svg class="icon" aria-hidden="true">
-                  <use href="#i-arrow" /></svg
+              <a href="#store" class="button phone-enter"
+                ><span class="button-label">Войти в свой магазин</span
+                ><span class="button-icon" aria-hidden="true"
+                  ><svg class="icon"><use href="#i-arrow" /></svg></span
               ></a>
               <p class="connection-note">
-                Компьютер со Smart Store должен быть включён. Для доступа извне
-                нужен интернет.
+                Компьютер со Smart Store должен быть включён. Извне нужен
+                интернет.
               </p>
             </div>
           </div>
