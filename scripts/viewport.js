@@ -5,7 +5,14 @@ export function init() {
   const touch = matchMedia("(pointer: coarse)");
   const frames = [...document.querySelectorAll(".screen-content")];
   let width = window.innerWidth;
-  let height = window.innerHeight;
+  const initialWidth = Number(document.documentElement.dataset.viewportWidth);
+  const initialHeight = parseFloat(
+    document.documentElement.style.getPropertyValue("--initial-screen-height"),
+  );
+  let height =
+    Math.abs(initialWidth - width) < 2 && initialHeight > 0
+      ? initialHeight
+      : window.innerHeight;
   let resizeTimer = 0;
   let measureFrame = 0;
   let lastScrollAt = -1000;

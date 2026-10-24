@@ -22,7 +22,8 @@ with sync_playwright() as p:
     assert page.locator('#download').get_attribute('href').endswith('.exe')
     assert page.locator('#installation').is_hidden()
     assert page.locator('#store-submit').is_enabled()
-    assert page.locator('.ribbon-canvas').count() == 1
+    assert page.locator('canvas').count() == 0
+    assert page.locator('[data-ribbon-track]').count() == 1
     page.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
     geometry = page.locator('[data-gallery-card]').nth(1).evaluate(r"""e=>{const p=e.style.clipPath.match(/[-+]?[0-9]*\.?[0-9]+/g).map(Number);const n=p.length/4;return {bend:Math.abs(p[Math.floor((n-1)/2)*2+1]-(p[1]+p[(n-1)*2+1])/2),transform:getComputedStyle(e).transform}}""")
     assert geometry['bend'] > 2, geometry

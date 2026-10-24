@@ -1,17 +1,18 @@
 /* One landing section fills the current viewport; dialogs remain independent. */
 .landing-page {
-  --screen-height: 100vh;
+  --screen-height: var(--initial-screen-height, 100vh);
   --navigation-height: 88px;
   --screen-gap: clamp(16px, calc(var(--screen-height) * 0.03), 32px);
 }
 @supports (height: 100svh) {
   .landing-page {
-    --screen-height: 100svh;
+    --screen-height: var(--initial-screen-height, 100svh);
   }
 }
 html:has(.landing-page) {
   scroll-padding-top: 0;
   scroll-behavior: auto;
+  scrollbar-gutter: stable;
 }
 html:has(#preview-dialog[open]) {
   overflow: hidden;
