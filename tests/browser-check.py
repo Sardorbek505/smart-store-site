@@ -101,7 +101,24 @@ with sync_playwright() as p:
     for w in [320, 390, 620, 768, 1440]:
         m.set_viewport_size({'width': w, 'height': 844})
         assert m.evaluate('document.documentElement.scrollWidth<=innerWidth'), w
+        heights = m.locator('main > section').evaluate_all('(xs)=>xs.map(e=>e.getBoundingClientRect().height).filter(Boolean)')
+        assert all(abs(height - 844) < 1 for height in heights), (w, heights)
     m.set_viewport_size({'width': 390, 'height': 844})
+    m.locator('#feature-next').click()
+    m.wait_for_function('document.getElementById("feature-count").textContent==="02 / 03"')
+    m.locator('#feature-next').click()
+    m.wait_for_function('document.getElementById("feature-count").textContent==="03 / 03"')
+    assert m.locator('#feature-next').is_disabled()
+    m.locator('.bento-grid').focus()
+    m.keyboard.press('Home')
+    m.wait_for_function('document.getElementById("feature-count").textContent==="01 / 03"')
+    assert m.locator('#feature-prev').is_disabled()
+    m.goto(BASE + '/#faq', wait_until='networkidle')
+    for question in m.locator('.faq-list summary').all():
+        question.click()
+    assert m.locator('#faq').evaluate('(e)=>e.getBoundingClientRect().height') == 844
+    m.locator('.faq-list details').last.locator('p').scroll_into_view_if_needed()
+    assert m.locator('.faq-list details').last.locator('p').is_visible()
     m.locator('#menu-toggle').click()
     assert m.locator('#menu-toggle').get_attribute('aria-expanded') == 'true'
     m.keyboard.press('Escape')
@@ -113,5 +130,5 @@ with sync_playwright() as p:
     assert plain.locator('.screen-tabs').is_hidden()
     assert plain.locator('#download').get_attribute('href').endswith('/releases/latest')
     assert not errors, errors
-    print('PASS: Windows install, mobile handoff/copy, URL validation, lookup outcomes, stale responses, constructed redirect, isolated module/runtime failure, original-screen fallback, FAQ deep link, responsive menu, no-JS fallback. No unexpected JS errors.')
+    print('PASS: Windows install, mobile handoff/copy, URL validation, lookup outcomes, stale responses, constructed redirect, isolated module/runtime failure, original-screen fallback, FAQ deep link/expanded answers, viewport section heights, feature buttons/keyboard, responsive menu, no-JS fallback. No unexpected JS errors.')
     b.close()
