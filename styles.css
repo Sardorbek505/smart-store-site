@@ -479,70 +479,6 @@ a:hover {
 .bento-sale p {
   color: #e0e5ff;
 }
-.payment-art {
-  position: relative;
-  height: 196px;
-  margin-top: 20px;
-}
-.mini-receipt {
-  position: absolute;
-  top: 13px;
-  left: 14px;
-  right: 26px;
-  border-radius: 9px 9px 0 0;
-  padding: 18px 17px 23px;
-  background: #f9f9fc;
-  color: #111116;
-  transform: rotate(-7deg);
-  box-shadow: 8px 11px #163da8;
-}
-.mini-receipt > span:first-child {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  display: block;
-  text-align: center;
-  margin-bottom: 20px;
-}
-.receipt-line,
-.receipt-total {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 12px;
-  margin-bottom: 11px;
-}
-.receipt-line b {
-  font-size: 12px;
-}
-.receipt-total {
-  border-top: 1px dashed #cecede;
-  padding-top: 13px;
-  margin-top: 10px;
-}
-.receipt-total b {
-  font-size: 16px;
-}
-.paid {
-  font-size: 12px;
-  display: block;
-  text-align: center;
-  color: #1d4ed8;
-  background: #e1e8fa;
-  padding: 7px;
-}
-.kaspi-chip {
-  position: absolute;
-  right: -9px;
-  top: 62px;
-  transform: rotate(7deg);
-  padding: 13px 15px;
-  background: #d5e0fb;
-  color: #153c9c;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 13px;
-}
 .bento-stock {
   background: #f9f9fc;
 }
@@ -1433,10 +1369,6 @@ summary::-webkit-details-marker {
   .bento p {
     font-size: 16px;
   }
-  .mini-receipt {
-    left: 0;
-    right: 10px;
-  }
   .stock-art {
     transform: scale(0.9);
     transform-origin: top left;
@@ -1632,25 +1564,6 @@ summary::-webkit-details-marker {
   }
   .bento br {
     display: none;
-  }
-  .payment-art {
-    margin-top: 25px;
-  }
-  .mini-receipt {
-    right: -10px;
-    padding: 16px 10px;
-  }
-  .receipt-line {
-    font-size: 12px;
-  }
-  .receipt-line b {
-    font-size: 12px;
-  }
-  .kaspi-chip {
-    right: -9px;
-    font-size: 12px;
-    padding: 10px;
-    top: 90px;
   }
   .stock-art {
     transform: scale(0.72);
@@ -2009,29 +1922,6 @@ summary::-webkit-details-marker {
   .bento p {
     font-size: 16px;
     max-width: 290px;
-  }
-  .payment-art {
-    height: 190px;
-    width: 280px;
-    max-width: 100%;
-    margin: 24px auto 0;
-  }
-  .mini-receipt {
-    left: 0;
-    right: 15px;
-    padding: 18px 15px;
-  }
-  .receipt-line {
-    font-size: 12px;
-  }
-  .receipt-line b {
-    font-size: 12px;
-  }
-  .kaspi-chip {
-    font-size: 12px;
-    right: -10px;
-    top: 60px;
-    padding: 12px;
   }
   .stock-art {
     transform: none;
@@ -2637,4 +2527,17 @@ h3 {
 .dialog-bar button {
   min-width: 44px;
   min-height: 44px;
+}
+
+/* Generated receipt photograph replaces the HTML/CSS receipt illustration. */
+.payment-art {
+  margin: 24px 0 0;
+}
+.payment-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/2;
+  object-fit: contain;
+  border-radius: 14px;
 }
