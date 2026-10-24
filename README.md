@@ -28,6 +28,7 @@ python tests/browser-check.py
 
 - `index.html`, `privacy.html` — содержание и рабочие статические ссылки.
 - `styles.css`, `cinema.css` — оформление и лента фотосцен.
+- `components.css` — адаптированные кнопка, переключатель экранов, FAQ, поле копирования и рамка формы. Источники и лицензии: [third-party/README.md](third-party/README.md).
 - `app.js` — независимый запуск функций.
 - `scripts/core.js` — настройки сервисов, проверка адреса магазина и установщика, сетевой таймаут.
 - `scripts/downloads.js` — скачивание на Windows и продолжение установки с другого устройства.
@@ -40,3 +41,5 @@ python tests/browser-check.py
 При изменении браузерного JavaScript повышать `?v=` у `app.js` в HTML: загрузчик передаёт тот же параметр всем модулям. При изменении CSS повышать версию соответствующей ссылки. Проверка PR запускает `npm test` и проверяет синтаксис модулей; опубликованную версию нужно проверить после завершения GitHub Pages.
 
 Подробная логика переходов: [docs/site-architecture.md](docs/site-architecture.md).
+
+Проверка адаптированных компонентов: `python tests/components-check.py`; для движка WebKit — `BROWSER=webkit python tests/components-check.py`. Проверяются положение выбранной подложки, клавиатура FAQ, успех/отказ копирования, завершение эффекта рамки и reduced motion.

@@ -13,6 +13,7 @@ with sync_playwright() as p:
         page=b.new_page(viewport={'width':w,'height':h},has_touch=w<851,is_mobile=w<851,reduced_motion='reduce')
         errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(BASE+'/#ai-info',wait_until='networkidle')
+        page.wait_for_function('document.documentElement.classList.contains("js")')
         page.wait_for_timeout(150)
         answer=page.locator('#ai-info')
         assert answer.get_attribute('open') is not None

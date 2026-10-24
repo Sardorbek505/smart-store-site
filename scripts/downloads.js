@@ -27,9 +27,17 @@ export function init({ config, installerFromRelease, fetchJson }) {
   const field = $("installation-url");
   field.value = config.siteUrl;
   field.addEventListener("click", () => field.select());
-  $("copy-site").addEventListener("click", async () => {
+  const copy = $("copy-site");
+  copy.addEventListener("click", async () => {
+    copy.dataset.copied = "false";
+    copy.setAttribute("aria-label", "Скопировать ссылку");
     try {
       await navigator.clipboard.writeText(config.siteUrl);
+      copy.dataset.copied = "true";
+      copy.setAttribute(
+        "aria-label",
+        "Ссылка скопирована. Скопировать ещё раз",
+      );
       $("copy-status").textContent =
         "Ссылка скопирована. Отправьте её себе и откройте на компьютере Windows.";
     } catch {
