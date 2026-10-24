@@ -123,7 +123,7 @@ a:hover {
 }
 .eyebrow {
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 1.5px;
   font-weight: 700;
   display: flex;
@@ -167,14 +167,14 @@ a:hover {
   border-radius: 11px;
 }
 .brand-dot {
-  font-size: 11px;
+  font-size: 12px;
   vertical-align: top;
   margin-left: 3px;
 }
 .top-links {
   display: flex;
   gap: 29px;
-  font-size: 13px;
+  font-size: 14px;
 }
 .enter-link {
   display: flex;
@@ -208,7 +208,7 @@ a:hover {
   z-index: 2;
 }
 .hero .eyebrow {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 1px;
 }
 .hero h1 {
@@ -287,12 +287,12 @@ a:hover {
   height: 19px;
 }
 .trial-note {
-  font-size: 11px;
+  font-size: 12px;
   color: #5b5b70;
   margin-top: 16px;
 }
 .download-meta {
-  font-size: 10px;
+  font-size: 12px;
   color: #68687a;
   margin-top: 7px;
   max-width: 400px;
@@ -391,7 +391,7 @@ a:hover {
   position: absolute;
   bottom: 0;
   left: 24%;
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 2.5px;
   color: #68687a;
 }
@@ -456,7 +456,7 @@ a:hover {
   border: 1px solid currentColor;
   border-radius: 30px;
   padding: 7px 10px;
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 1.2px;
 }
 .bento-top > .icon {
@@ -468,7 +468,7 @@ a:hover {
   margin-bottom: 16px;
 }
 .bento p {
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.6;
   max-width: 295px;
 }
@@ -497,7 +497,7 @@ a:hover {
   box-shadow: 8px 11px #163da8;
 }
 .mini-receipt > span:first-child {
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
   display: block;
@@ -509,11 +509,11 @@ a:hover {
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  font-size: 10px;
+  font-size: 12px;
   margin-bottom: 11px;
 }
 .receipt-line b {
-  font-size: 10px;
+  font-size: 12px;
 }
 .receipt-total {
   border-top: 1px dashed #cecede;
@@ -524,7 +524,7 @@ a:hover {
   font-size: 16px;
 }
 .paid {
-  font-size: 10px;
+  font-size: 12px;
   display: block;
   text-align: center;
   color: #1d4ed8;
@@ -615,7 +615,7 @@ a:hover {
   background: #f9f9fc;
   padding: 11px 18px;
   border-radius: 7px;
-  font-size: 11px;
+  font-size: 12px;
   transform: rotate(-6deg);
 }
 .bento-reports {
@@ -636,11 +636,11 @@ a:hover {
 .chart-art > span {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
 }
 .chart-art small {
-  font-size: 9px;
+  font-size: 12px;
   color: #66667c;
   font-weight: 400;
 }
@@ -682,7 +682,7 @@ a:hover {
 .chart-days {
   display: flex;
   justify-content: space-between;
-  font-size: 8px;
+  font-size: 12px;
   color: #66667c;
   margin-top: 8px;
 }
@@ -708,7 +708,7 @@ a:hover {
   font-size: 27px;
 }
 .extra-features p {
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.7;
 }
 .extra-features strong,
@@ -779,17 +779,17 @@ a:hover {
   justify-content: space-between;
   gap: 20px;
   height: 41px;
-  font-size: 10px;
+  font-size: 12px;
   padding-inline: 9px;
   color: #c6c6d9;
 }
 .window-dots {
   color: #a2a2bc;
   letter-spacing: 3px;
-  font-size: 8px;
+  font-size: 12px;
 }
 .demo-label {
-  font-size: 8px;
+  font-size: 12px;
   letter-spacing: 1px;
 }
 .screenshot-link {
@@ -814,7 +814,7 @@ a:hover {
   padding: 13px 17px;
   border: 1px solid #70708b;
   border-radius: 8px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .zoom-label .icon {
   width: 16px;
@@ -824,7 +824,7 @@ a:hover {
   text-align: center;
   color: #c4c4d9;
   background: #111116;
-  font-size: 10px;
+  font-size: 12px;
   padding-top: 17px;
   padding-bottom: 3px;
   margin: 7px -8px -34px;
@@ -860,7 +860,7 @@ a:hover {
   color: var(--blue);
 }
 .role-list p {
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.7;
 }
 .role-list strong,
@@ -874,7 +874,7 @@ a:hover {
   color: var(--muted);
 }
 .connection-note {
-  font-size: 11px;
+  font-size: 16px;
   color: var(--muted);
   max-width: 380px;
   margin-bottom: 22px;
@@ -883,7 +883,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 .text-link .icon {
@@ -939,7 +939,7 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .bubble-left {
   left: -25px;
@@ -963,7 +963,7 @@ a:hover {
   height: 17px;
 }
 .phone-preview figcaption {
-  font-size: 9px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 30px;
 }
@@ -995,10 +995,10 @@ a:hover {
   padding-left: 25px;
 }
 .data-item strong {
-  font-size: 13px;
+  font-size: 14px;
 }
 .data-item p {
-  font-size: 11px;
+  font-size: 16px;
   color: var(--muted);
   margin-top: 8px;
 }
@@ -1036,7 +1036,7 @@ a:hover {
   letter-spacing: -0.6px;
 }
 .start-steps p {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--muted);
 }
 .start-steps .text-link {
@@ -1101,7 +1101,7 @@ a:hover {
   color: #111116;
 }
 .trial-graphic > span:nth-child(2) {
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 2px;
   margin-top: 23px;
 }
@@ -1120,7 +1120,7 @@ a:hover {
   font-style: normal;
 }
 .license-copy .eyebrow {
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 1px;
   margin-bottom: 20px;
 }
@@ -1129,7 +1129,7 @@ a:hover {
   letter-spacing: -1.9px;
 }
 .license-copy > p:not(.eyebrow) {
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.6;
   margin-block: 23px;
 }
@@ -1137,10 +1137,10 @@ a:hover {
   gap: 22px;
 }
 .license-copy .text-link {
-  font-size: 12px;
+  font-size: 14px;
 }
 .license-copy .license-note {
-  font-size: 10px !important;
+  font-size: 12px !important;
   max-width: 400px;
   margin-bottom: 0 !important;
   color: #55556f;
@@ -1185,7 +1185,7 @@ summary::-webkit-details-marker {
   content: "−";
 }
 .faq-list p {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--muted);
   padding-bottom: 25px;
 }
@@ -1204,11 +1204,11 @@ summary::-webkit-details-marker {
   letter-spacing: -1.3px;
 }
 .store-layout .eyebrow {
-  font-size: 9px;
+  font-size: 12px;
   margin-bottom: 16px;
 }
 .store-layout > div > p {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--muted);
   margin-top: 20px;
   max-width: 430px;
@@ -1223,7 +1223,7 @@ summary::-webkit-details-marker {
   padding-block: 8px;
 }
 .store-help p {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--muted);
   margin-top: 8px;
 }
@@ -1235,7 +1235,7 @@ summary::-webkit-details-marker {
 }
 .store-card label {
   display: block;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   margin-bottom: 12px;
 }
@@ -1246,7 +1246,7 @@ summary::-webkit-details-marker {
   border-radius: 8px;
   padding: 16px;
   background: white;
-  font-size: 13px;
+  font-size: 16px;
   min-height: 51px;
   color: var(--ink);
 }
@@ -1254,7 +1254,7 @@ summary::-webkit-details-marker {
   border-color: #b23427;
 }
 .field-hint {
-  font-size: 10px;
+  font-size: 14px;
   margin: 9px 0 20px;
   color: var(--muted);
 }
@@ -1262,7 +1262,7 @@ summary::-webkit-details-marker {
   width: 100%;
 }
 .form-note {
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 10px;
   color: var(--muted);
 }
@@ -1273,7 +1273,7 @@ summary::-webkit-details-marker {
   color: #a32f24;
 }
 .store-card .text-link {
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 13px;
 }
 .foot {
@@ -1286,7 +1286,7 @@ summary::-webkit-details-marker {
   font-size: 18px;
 }
 .foot p {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 14px;
 }
@@ -1295,7 +1295,7 @@ summary::-webkit-details-marker {
   flex-direction: column;
   align-items: flex-end;
   gap: 13px;
-  font-size: 11px;
+  font-size: 14px;
 }
 .preview-dialog {
   border: 1px solid #b2b2cb;
@@ -1395,7 +1395,7 @@ summary::-webkit-details-marker {
     letter-spacing: -3.7px;
   }
   .hero .eyebrow {
-    font-size: 8px;
+    font-size: 12px;
   }
   .hero-art .art-sticker {
     width: 90px;
@@ -1406,18 +1406,18 @@ summary::-webkit-details-marker {
     font-size: 15px;
   }
   .art-label {
-    font-size: 10px;
+    font-size: 12px;
     padding: 11px;
   }
   .top-links {
     gap: 20px;
-    font-size: 12px;
+    font-size: 14px;
   }
   .top-inner {
     gap: 15px;
   }
   .enter-link {
-    font-size: 11px;
+    font-size: 12px;
     padding: 11px;
   }
   .brand {
@@ -1431,7 +1431,7 @@ summary::-webkit-details-marker {
     font-size: 27px;
   }
   .bento p {
-    font-size: 12px;
+    font-size: 16px;
   }
   .mini-receipt {
     left: 0;
@@ -1465,7 +1465,7 @@ summary::-webkit-details-marker {
     gap: 15px;
   }
   .license-copy .button {
-    font-size: 12px;
+    font-size: 14px;
     padding-inline: 17px;
   }
   .data-section {
@@ -1529,7 +1529,7 @@ summary::-webkit-details-marker {
   }
   .hero .eyebrow {
     max-width: 300px;
-    font-size: 8px;
+    font-size: 12px;
     line-height: 1.8;
     letter-spacing: 0.6px;
   }
@@ -1540,18 +1540,18 @@ summary::-webkit-details-marker {
     margin-right: -10px;
   }
   .hero .button {
-    font-size: 13px;
+    font-size: 14px;
     padding: 15px 18px;
     gap: 15px;
   }
   .trial-note {
-    font-size: 9px;
+    font-size: 12px;
   }
   .download-meta {
-    font-size: 9px;
+    font-size: 12px;
   }
   .art-label {
-    font-size: 9px;
+    font-size: 12px;
     padding: 9px;
   }
   .art-label-top {
@@ -1567,13 +1567,13 @@ summary::-webkit-details-marker {
     top: 13%;
     width: 75px;
     height: 75px;
-    font-size: 9px;
+    font-size: 12px;
   }
   .art-sticker strong {
     font-size: 13px;
   }
   .art-caption {
-    font-size: 7px;
+    font-size: 12px;
     bottom: -6%;
     left: 13%;
     letter-spacing: 2px;
@@ -1583,7 +1583,7 @@ summary::-webkit-details-marker {
     gap: 15px;
   }
   .benefit-inner > span {
-    font-size: 10px;
+    font-size: 12px;
     gap: 8px;
   }
   .benefit-inner .icon {
@@ -1619,7 +1619,7 @@ summary::-webkit-details-marker {
     height: 18px;
   }
   .pill {
-    font-size: 8px;
+    font-size: 12px;
     letter-spacing: 0.6px;
     padding: 6px 8px;
   }
@@ -1628,7 +1628,7 @@ summary::-webkit-details-marker {
     letter-spacing: -0.7px;
   }
   .bento p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .bento br {
     display: none;
@@ -1641,14 +1641,14 @@ summary::-webkit-details-marker {
     padding: 16px 10px;
   }
   .receipt-line {
-    font-size: 8px;
+    font-size: 12px;
   }
   .receipt-line b {
-    font-size: 9px;
+    font-size: 12px;
   }
   .kaspi-chip {
     right: -9px;
-    font-size: 10px;
+    font-size: 12px;
     padding: 10px;
     top: 90px;
   }
@@ -1664,7 +1664,7 @@ summary::-webkit-details-marker {
     padding-inline: 10px;
   }
   .chart-art > span {
-    font-size: 9px;
+    font-size: 12px;
   }
   .extra-features {
     gap: 20px;
@@ -1673,10 +1673,10 @@ summary::-webkit-details-marker {
     gap: 10px;
   }
   .extra-features strong {
-    font-size: 12px;
+    font-size: 14px;
   }
   .extra-features p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .extra-icon {
     width: 37px;
@@ -1691,7 +1691,7 @@ summary::-webkit-details-marker {
   }
   .screen-tab {
     padding: 10px 12px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .phone-layout {
     gap: 35px;
@@ -1707,11 +1707,11 @@ summary::-webkit-details-marker {
     font-size: 30px;
   }
   .bubble-left span {
-    font-size: 10px;
+    font-size: 12px;
   }
   .bubble-right {
     right: -10px;
-    font-size: 9px;
+    font-size: 12px;
   }
   .phone-orbit {
     left: -5%;
@@ -1719,22 +1719,22 @@ summary::-webkit-details-marker {
     top: 17%;
   }
   .phone-copy .eyebrow {
-    font-size: 9px;
-  }
-  .phone-copy .section-lead {
-    font-size: 14px;
-  }
-  .role-list strong {
     font-size: 12px;
   }
+  .phone-copy .section-lead {
+    font-size: 16px;
+  }
+  .role-list strong {
+    font-size: 14px;
+  }
   .role-list p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .role-list > div {
     gap: 12px;
   }
   .connection-note {
-    font-size: 10px;
+    font-size: 16px;
   }
   .data-section {
     grid-template-columns: 1fr 1fr;
@@ -1757,7 +1757,7 @@ summary::-webkit-details-marker {
     font-size: 18px;
   }
   .start-steps p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .license-section {
     padding: 35px;
@@ -1767,7 +1767,7 @@ summary::-webkit-details-marker {
     font-size: 145px;
   }
   .trial-graphic > span:nth-child(2) {
-    font-size: 7px;
+    font-size: 12px;
     letter-spacing: 1px;
   }
   .trial-graphic i {
@@ -1779,19 +1779,19 @@ summary::-webkit-details-marker {
     font-size: 33px;
   }
   .license-copy .eyebrow {
-    font-size: 8px;
-  }
-  .license-copy > p:not(.eyebrow) {
     font-size: 12px;
   }
+  .license-copy > p:not(.eyebrow) {
+    font-size: 16px;
+  }
   .license-copy .button {
-    font-size: 11px;
+    font-size: 14px;
     gap: 14px;
     padding: 14px;
     min-height: 50px;
   }
   .license-copy .text-link {
-    font-size: 11px;
+    font-size: 14px;
   }
   .license-copy .actions {
     gap: 18px;
@@ -1805,7 +1805,7 @@ summary::-webkit-details-marker {
     padding-block: 20px;
   }
   .faq-list p {
-    font-size: 12px;
+    font-size: 16px;
   }
   .store-layout {
     gap: 40px;
@@ -1817,13 +1817,13 @@ summary::-webkit-details-marker {
     padding: 24px;
   }
   .store-card input {
-    font-size: 11px;
+    font-size: 16px;
   }
   .store-layout > div > p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .foot nav {
-    font-size: 10px;
+    font-size: 14px;
   }
 }
 @media (max-width: 620px) {
@@ -1847,7 +1847,7 @@ summary::-webkit-details-marker {
     border-radius: 9px;
   }
   .brand-dot {
-    font-size: 8px;
+    font-size: 12px;
   }
   .enter-wide {
     display: none;
@@ -1856,7 +1856,7 @@ summary::-webkit-details-marker {
     display: inline;
   }
   .enter-link {
-    font-size: 11px;
+    font-size: 12px;
     padding: 11px 12px;
     gap: 6px;
   }
@@ -1887,7 +1887,7 @@ summary::-webkit-details-marker {
   }
   .hero .eyebrow {
     max-width: none;
-    font-size: 8px;
+    font-size: 12px;
     margin-bottom: 23px;
   }
   .lead {
@@ -1896,16 +1896,16 @@ summary::-webkit-details-marker {
   }
   .hero .button {
     min-height: 53px;
-    font-size: 13px;
+    font-size: 14px;
     padding: 15px 21px;
     gap: 24px;
   }
   .trial-note {
-    font-size: 10px;
+    font-size: 12px;
     margin-top: 14px;
   }
   .download-meta {
-    font-size: 9px;
+    font-size: 12px;
     max-width: 350px;
   }
   .hero-art {
@@ -1924,7 +1924,7 @@ summary::-webkit-details-marker {
     top: 10%;
     width: 83px;
     height: 83px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .art-sticker strong {
     font-size: 14px;
@@ -1932,17 +1932,17 @@ summary::-webkit-details-marker {
   .art-label-top {
     top: 5%;
     left: 0;
-    font-size: 10px;
+    font-size: 12px;
   }
   .art-label-bottom {
     bottom: 10%;
     right: 1%;
-    font-size: 10px;
+    font-size: 12px;
   }
   .art-caption {
     bottom: -1%;
     left: 21%;
-    font-size: 7px;
+    font-size: 12px;
   }
   .benefit-inner {
     display: grid;
@@ -1951,7 +1951,7 @@ summary::-webkit-details-marker {
     padding-block: 24px;
   }
   .benefit-inner > span {
-    font-size: 11px;
+    font-size: 12px;
     gap: 10px;
   }
   .benefit-inner .icon {
@@ -1977,7 +1977,7 @@ summary::-webkit-details-marker {
     letter-spacing: -1.8px;
   }
   .section-heading .eyebrow {
-    font-size: 9px;
+    font-size: 12px;
     margin-bottom: 17px;
   }
   .bento-grid {
@@ -1996,7 +1996,7 @@ summary::-webkit-details-marker {
     height: 23px;
   }
   .pill {
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 1px;
   }
   .bento h3 {
@@ -2007,7 +2007,7 @@ summary::-webkit-details-marker {
     display: initial;
   }
   .bento p {
-    font-size: 13px;
+    font-size: 16px;
     max-width: 290px;
   }
   .payment-art {
@@ -2022,10 +2022,10 @@ summary::-webkit-details-marker {
     padding: 18px 15px;
   }
   .receipt-line {
-    font-size: 10px;
+    font-size: 12px;
   }
   .receipt-line b {
-    font-size: 10px;
+    font-size: 12px;
   }
   .kaspi-chip {
     font-size: 12px;
@@ -2061,7 +2061,7 @@ summary::-webkit-details-marker {
     height: 180px;
   }
   .chart-art > span {
-    font-size: 11px;
+    font-size: 12px;
   }
   .bars {
     height: 110px;
@@ -2079,10 +2079,10 @@ summary::-webkit-details-marker {
     border-top: 1px solid var(--line);
   }
   .extra-features strong {
-    font-size: 13px;
+    font-size: 14px;
   }
   .extra-features p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .extra-icon {
     width: 43px;
@@ -2115,18 +2115,18 @@ summary::-webkit-details-marker {
     height: 32px;
     padding-inline: 4px;
     gap: 6px;
-    font-size: 8px;
+    font-size: 12px;
   }
   .window-dots {
-    font-size: 6px;
+    font-size: 12px;
     letter-spacing: 1px;
   }
   .demo-label {
-    font-size: 6px;
+    font-size: 12px;
     letter-spacing: 0.4px;
   }
   .zoom-label {
-    font-size: 9px;
+    font-size: 12px;
     padding: 9px 11px;
     bottom: 10px;
     right: 10px;
@@ -2137,7 +2137,7 @@ summary::-webkit-details-marker {
     height: 13px;
   }
   .product-preview figcaption {
-    font-size: 8px;
+    font-size: 12px;
     margin-inline: -5px;
     padding-top: 12px;
   }
@@ -2152,7 +2152,7 @@ summary::-webkit-details-marker {
     display: none;
   }
   .phone-copy .section-lead {
-    font-size: 15px;
+    font-size: 16px;
     max-width: 320px;
     margin-top: 20px;
   }
@@ -2160,16 +2160,16 @@ summary::-webkit-details-marker {
     margin-block: 24px;
   }
   .role-list strong {
-    font-size: 13px;
+    font-size: 14px;
   }
   .role-list p {
-    font-size: 11px;
+    font-size: 16px;
   }
   .role-list > div {
     gap: 14px;
   }
   .connection-note {
-    font-size: 11px;
+    font-size: 16px;
     max-width: 350px;
   }
   .phone-preview {
@@ -2196,10 +2196,10 @@ summary::-webkit-details-marker {
   .bubble-right {
     right: 0;
     bottom: 17%;
-    font-size: 10px;
+    font-size: 12px;
   }
   .phone-preview figcaption {
-    font-size: 8px;
+    font-size: 12px;
   }
   .data-section {
     grid-template-columns: 1fr 1fr;
@@ -2223,10 +2223,10 @@ summary::-webkit-details-marker {
     align-self: stretch;
   }
   .data-item strong {
-    font-size: 11px;
+    font-size: 14px;
   }
   .data-item p {
-    font-size: 10px;
+    font-size: 16px;
   }
   .start-steps {
     grid-template-columns: 1fr;
@@ -2253,10 +2253,10 @@ summary::-webkit-details-marker {
     font-size: 20px;
   }
   .start-steps p {
-    font-size: 12px;
+    font-size: 16px;
   }
   .start-steps .text-link {
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 12px;
   }
   .license-section {
@@ -2274,7 +2274,7 @@ summary::-webkit-details-marker {
     letter-spacing: -11px;
   }
   .trial-graphic > span:nth-child(2) {
-    font-size: 7px;
+    font-size: 12px;
     margin-top: 12px;
   }
   .trial-graphic i {
@@ -2294,26 +2294,26 @@ summary::-webkit-details-marker {
     font-size: 35px;
   }
   .license-copy .eyebrow {
-    font-size: 8px;
+    font-size: 12px;
     margin-bottom: 17px;
   }
   .license-copy > p:not(.eyebrow) {
-    font-size: 12px;
+    font-size: 16px;
     margin-block: 20px;
   }
   .license-copy .actions {
     gap: 22px;
   }
   .license-copy .button {
-    font-size: 12px;
+    font-size: 14px;
     gap: 15px;
     padding: 15px 18px;
   }
   .license-copy .text-link {
-    font-size: 12px;
+    font-size: 14px;
   }
   .license-copy .license-note {
-    font-size: 9px !important;
+    font-size: 12px !important;
   }
   .faq-section {
     display: block;
@@ -2322,13 +2322,13 @@ summary::-webkit-details-marker {
     margin-bottom: 28px;
   }
   .faq-section .eyebrow {
-    font-size: 9px;
+    font-size: 12px;
   }
   .faq-list summary {
     font-size: 13px;
   }
   .faq-list p {
-    font-size: 12px;
+    font-size: 16px;
   }
   .store-section {
     padding-block: 45px;
@@ -2341,33 +2341,33 @@ summary::-webkit-details-marker {
     font-size: 32px;
   }
   .store-layout > div > p {
-    font-size: 12px;
+    font-size: 16px;
   }
   .store-layout .eyebrow {
-    font-size: 9px;
+    font-size: 12px;
   }
   .store-card {
     padding: 24px 20px;
   }
   .store-card label {
-    font-size: 12px;
+    font-size: 14px;
   }
   .store-card input {
-    font-size: 12px;
+    font-size: 16px;
   }
   .store-card .button {
-    font-size: 12px;
+    font-size: 14px;
   }
   .foot {
     padding-block: 32px;
     display: block;
   }
   .foot p {
-    font-size: 11px;
+    font-size: 12px;
   }
   .foot nav {
     align-items: flex-start;
-    font-size: 11px;
+    font-size: 14px;
     margin-top: 25px;
     gap: 15px;
   }
@@ -2506,17 +2506,17 @@ html:not(.js) .screen-tabs {
   letter-spacing: -1px;
 }
 .installation-guide p {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--muted);
   margin-block: 15px;
   max-width: 440px;
 }
 .installation-guide .text-link {
-  font-size: 12px;
+  font-size: 14px;
 }
 .installation-actions label {
   display: block;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   margin-bottom: 10px;
 }
@@ -2527,14 +2527,14 @@ html:not(.js) .screen-tabs {
   border-radius: 8px;
   background: white;
   color: var(--ink);
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 15px;
 }
 .installation-actions .actions {
   gap: 12px;
 }
 .installation-actions .button {
-  font-size: 12px;
+  font-size: 14px;
   min-height: 46px;
   padding: 12px 16px;
 }
@@ -2563,4 +2563,78 @@ html:not(.js) .screen-tabs {
   .installation-guide h2 {
     font-size: 25px;
   }
+}
+/* UI UX Pro Max review: readable copy and stable, generous interactive targets. */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+.top-links a,
+.foot nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+}
+.screen-tab,
+.menu-toggle,
+.enter-link {
+  min-height: 44px;
+}
+.menu-toggle {
+  min-width: 44px;
+}
+.faq-list summary,
+.store-help summary {
+  min-height: 44px;
+}
+.text-link {
+  min-height: 32px;
+}
+.extra-features p span,
+.role-list p span {
+  font-size: 14px;
+}
+@media (max-width: 620px) {
+  .top-links a,
+  .foot nav a,
+  .text-link {
+    min-height: 44px;
+  }
+  .foot nav {
+    gap: 4px;
+  }
+  .store-card input,
+  .installation-actions input {
+    font-size: 16px;
+  }
+  .extra-features p span,
+  .role-list p span {
+    font-size: 16px;
+  }
+  .data-section {
+    grid-template-columns: 1fr;
+  }
+  .data-heading {
+    display: flex;
+    align-items: center;
+  }
+  .data-heading > .icon {
+    margin: 0;
+  }
+  .data-item {
+    min-height: 0;
+  }
+}
+.section-heading > p {
+  font-size: 16px;
+}
+.extra-features strong,
+.role-list strong,
+.data-item strong {
+  font-size: 16px;
+}
+.dialog-bar button {
+  min-width: 44px;
+  min-height: 44px;
 }
