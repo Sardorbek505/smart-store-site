@@ -30,11 +30,11 @@
         root.dataset.viewportWidth = String(innerWidth);
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=18" />
-    <link rel="stylesheet" href="cinema.css?v=18" />
-    <link rel="stylesheet" href="buttons.css?v=18" />
-    <link rel="stylesheet" href="screens.css?v=18" />
-    <script src="app.js?v=18" type="module"></script>
+    <link rel="stylesheet" href="styles.css?v=19" />
+    <link rel="stylesheet" href="cinema.css?v=19" />
+    <link rel="stylesheet" href="buttons.css?v=19" />
+    <link rel="stylesheet" href="screens.css?v=19" />
+    <script src="app.js?v=19" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -67,6 +67,10 @@
       <symbol id="i-phone" viewBox="0 0 24 24">
         <rect x="6" y="2" width="12" height="20" rx="3" />
         <path d="M10 18h4" />
+      </symbol>
+      <symbol id="i-computer" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="13" rx="2" />
+        <path d="M8 21h8M12 16v5" />
       </symbol>
       <symbol id="i-box" viewBox="0 0 24 24">
         <path
@@ -1012,23 +1016,36 @@
           </div>
         </div>
       </section>
-      <section id="data" class="data-section screen-section">
+      <section
+        id="data"
+        class="data-section screen-section"
+        aria-labelledby="data-title"
+      >
         <div class="screen-content wrap">
           <div class="data-heading">
             <svg class="icon" aria-hidden="true"><use href="#i-shield" /></svg>
-            <h2>Хранение данных.</h2>
+            <h2 id="data-title">Хранение данных.</h2>
           </div>
           <div class="data-item">
-            <strong>Без интернета</strong>
-            <p>Касса, склад и основные отчёты работают офлайн.</p>
+            <div class="data-symbol" aria-hidden="true">
+              <svg class="icon"><use href="#i-computer" /></svg>
+            </div>
+            <strong>На вашем компьютере</strong>
+            <p>База магазина хранится локально.</p>
           </div>
           <div class="data-item">
-            <strong>С резервной копией</strong>
-            <p>Автокопии каждые два часа. Внешнюю копию храните отдельно.</p>
+            <div class="data-symbol" aria-hidden="true">
+              <svg class="icon"><use href="#i-receipt" /></svg>
+            </div>
+            <strong>Работает офлайн</strong>
+            <p>Касса, склад и основные отчёты — без интернета.</p>
           </div>
           <div class="data-item">
-            <strong>На двух языках</strong>
-            <p>Русский и казахский. В программе и на телефоне.</p>
+            <div class="data-symbol data-symbol--time" aria-hidden="true">
+              2<span>ч</span>
+            </div>
+            <strong>Автокопии каждые 2 часа</strong>
+            <p>Внешнюю копию храните отдельно.</p>
           </div>
         </div>
       </section>
@@ -1145,7 +1162,8 @@
                 Нет. Сначала установите Smart Store на Windows, затем откройте
                 QR-код из настроек телефона в программе. На телефоне можно
                 добавить страницу на главный экран. Компьютер со Smart Store
-                должен оставаться включённым.
+                должен оставаться включённым. Интерфейс доступен на русском и
+                казахском.
               </p>
             </details>
             <details>

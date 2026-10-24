@@ -4,6 +4,7 @@ export function init() {
     const toggle = $("menu-toggle"),
       header = document.querySelector(".top");
     const close = () => {
+      if (toggle.getAttribute("aria-expanded") === "false") return;
       header.classList.remove("menu-open");
       toggle.setAttribute("aria-expanded", "false");
       toggle.setAttribute("aria-label", "Открыть меню");
@@ -13,10 +14,15 @@ export function init() {
       header.classList.toggle("menu-open", open);
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+      if (open)
+        header.querySelector(".top-links a")?.focus({ preventScroll: true });
     });
     for (const link of header.querySelectorAll("a"))
       link.addEventListener("click", close);
     document.addEventListener("click", (event) => {
+      if (!header.contains(event.target)) close();
+    });
+    document.addEventListener("focusin", (event) => {
       if (!header.contains(event.target)) close();
     });
     document.addEventListener("keydown", (event) => {
