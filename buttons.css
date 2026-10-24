@@ -1,0 +1,257 @@
+/* Native button treatment informed by Motion Button / 21st.dev.
+   Original implementation for Smart Store: no React or animation dependency. */
+:root {
+  --action-size: 54px;
+  --action-chip: 42px;
+  --action-radius: 999px;
+  --action-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.button.button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--action-size);
+  max-width: 100%;
+  padding: 5px 5px 5px 22px;
+  gap: 22px;
+  border: 1px solid var(--action-border, #c9ccdf);
+  border-radius: var(--action-radius);
+  color: var(--action-text, #111116);
+  background: var(--action-bg, #ededf5);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  transform: none;
+  box-shadow: none;
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease,
+    color 200ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.button.button:hover {
+  transform: none;
+}
+.button.primary {
+  --action-bg: #1d4ed8;
+  --action-text: #ededf5;
+  --action-border: #1d4ed8;
+  --action-fill: #111116;
+}
+.button.dark {
+  --action-bg: #111116;
+  --action-text: #ededf5;
+  --action-border: #111116;
+  --action-fill: #1d4ed8;
+}
+.button:is(.primary, .dark)::before {
+  content: "";
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: var(--action-chip);
+  height: var(--action-chip);
+  border-radius: 50%;
+  background: var(--action-fill);
+  z-index: 0;
+  transform: scale(1);
+  transition: transform 450ms var(--action-ease);
+  pointer-events: none;
+}
+.button-label {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  text-align: left;
+}
+.button-icon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  flex: 0 0 var(--action-chip);
+  width: var(--action-chip);
+  height: var(--action-chip);
+  border-radius: 50%;
+  background: #1111160a;
+}
+.button:is(.primary, .dark) .button-icon {
+  background: transparent;
+}
+.button-icon .icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 300ms var(--action-ease);
+}
+.button.button:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 4px;
+}
+.cinema-hero .button.button:focus-visible,
+.license-section .button.button:focus-visible {
+  outline-color: #ededf5;
+}
+.button.button:active:not(:disabled) {
+  box-shadow: inset 0 2px 6px #0003;
+}
+.button.button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+.button.button.secondary {
+  --action-bg: transparent;
+  --action-text: #111116;
+  --action-border: #c0c6da;
+}
+.license-section .button.secondary {
+  --action-bg: transparent;
+  --action-text: #ededf5;
+  --action-border: #ededf570;
+}
+.license-section .button.secondary .button-icon {
+  background: #ededf51a;
+}
+.button.button.secondary:hover {
+  --action-border: #1d4ed8;
+}
+.license-section .button.secondary:hover {
+  --action-bg: #ededf51a;
+  --action-border: #ededf5;
+}
+.button.is-loading .button-icon .icon {
+  visibility: hidden;
+}
+.button.is-loading .button-icon::after {
+  content: "";
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: action-busy 800ms linear infinite;
+}
+@keyframes action-busy {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.cinema-explore {
+  font-size: 14px;
+  gap: 12px;
+  padding: 12px 3px;
+  min-height: 44px;
+}
+.cinema-explore .icon {
+  transform: none;
+  transition: transform 250ms var(--action-ease);
+}
+.release-note {
+  margin-top: 24px;
+}
+.gallery-controls button {
+  border-color: #ededf533;
+  background: #ededf508;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+.gallery-controls button:hover {
+  background: #ededf5;
+  color: #111116;
+  border-color: #ededf5;
+}
+.screen-tabs {
+  border-radius: 999px;
+  background: #ffffff05;
+  gap: 3px;
+}
+.screen-tab {
+  border-radius: 999px;
+  min-height: 44px;
+  transition:
+    background 180ms ease,
+    color 180ms ease;
+}
+.screen-tab:not(.active):hover {
+  background: #ffffff12;
+  color: #ededf5;
+}
+.screen-tab.active {
+  background: #ededf5;
+  color: #111116;
+}
+.enter-link,
+.js .menu-toggle {
+  border-radius: 999px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .button:is(.primary, .dark):hover:not(:disabled)::before {
+    transform: scale(20);
+  }
+  .button:is(.primary, .dark):hover:not(:disabled) {
+    border-color: #7397f1;
+  }
+  .button:hover:not(:disabled) .button-icon .icon {
+    transform: translateX(2px) rotate(-35deg);
+  }
+  .cinema-explore:hover .icon {
+    transform: translateX(4px);
+  }
+}
+@media (max-width: 620px) {
+  .button.button {
+    gap: 16px;
+    padding-left: 18px;
+  }
+  .cinema-actions {
+    gap: 12px 20px;
+  }
+  .license-copy .actions {
+    align-items: stretch;
+    gap: 12px;
+  }
+  .license-copy .actions .button {
+    width: 100%;
+  }
+  .screen-tabs {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    border-radius: 22px;
+  }
+  .screen-tab {
+    flex: 1 1 auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .button.button,
+  .button:is(.primary, .dark)::before,
+  .button-icon .icon,
+  .screen-tab,
+  .gallery-controls button,
+  .cinema-explore .icon {
+    transition: none;
+  }
+  .button.is-loading .button-icon::after {
+    animation: none;
+  }
+}
+/* The hidden toolbar does not leave an empty caption band in the opening hero. */
+.gallery-bottom {
+  position: relative;
+  height: 0;
+  min-height: 0;
+  padding: 0;
+}
+.gallery-controls {
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  transform: translateX(-50%);
+}

@@ -23,9 +23,10 @@
     <meta property="og:image" content="https://metov.store/img/sale.png" />
     <meta property="og:locale" content="ru_RU" />
     <link rel="icon" href="img/icon.png" />
-    <link rel="stylesheet" href="styles.css?v=9" />
-    <link rel="stylesheet" href="cinema.css?v=11" />
-    <script src="app.js?v=11" type="module"></script>
+    <link rel="stylesheet" href="styles.css?v=12" />
+    <link rel="stylesheet" href="cinema.css?v=12" />
+    <link rel="stylesheet" href="buttons.css?v=12" />
+    <script src="app.js?v=12" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -112,16 +113,12 @@
       <section class="cinema-hero" aria-labelledby="hero-title">
         <div class="hero-aura" aria-hidden="true"></div>
         <div class="cinema-copy wrap">
-          <p class="eyebrow">
-            <span class="status-dot"></span> SMART STORE · КАССА, СКЛАД И
-            КОНТРОЛЬ
-          </p>
+          <p class="eyebrow">SMART STORE</p>
           <h1 id="hero-title">
             Весь магазин.<br /><span>В вашем фокусе.</span>
           </h1>
           <p class="cinema-lead">
-            От первой поставки до итогов дня.<br class="mobile-break" />
-            Одна программа. Даже без интернета.
+            Касса, склад и прибыль. Работает без интернета.
           </p>
           <div class="cinema-actions">
             <a
@@ -129,15 +126,17 @@
               data-download
               class="button primary"
               href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
-              ><span id="download-label">Попробовать бесплатно</span>
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-arrow" /></svg></a
+              ><span id="download-label" class="button-label"
+                >Попробовать бесплатно</span
+              ><span class="button-icon" aria-hidden="true"
+                ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" /></svg></span></a
             ><a class="cinema-explore" href="#features"
               >Что внутри
               <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
             ></a>
           </div>
-          <p class="trial-note">14 дней бесплатно · Windows 10 / 11</p>
+          <p class="trial-note">14 дней бесплатно</p>
         </div>
         <div
           class="hero-gallery"
@@ -260,10 +259,6 @@
             ></a>
           </div>
           <div class="gallery-bottom wrap">
-            <p class="gallery-note">
-              <span class="status-dot"></span>От кассы до итогов дня — всё в
-              фокусе.
-            </p>
             <div class="gallery-controls" hidden>
               <button
                 id="gallery-prev"
@@ -312,15 +307,6 @@
             aria-live="polite"
           ></p>
         </div>
-        <div class="cinema-meta wrap">
-          <p class="download-meta" id="download-note" role="status">
-            Установщик для Windows · 64 бит · Без кода активации
-          </p>
-          <p id="mobile-note" class="device-note" hidden>
-            Для установки нужен компьютер с Windows. Уже с нами?
-            <a href="#store">Войти с телефона →</a>
-          </p>
-        </div>
       </section>
       <section
         id="installation"
@@ -330,11 +316,9 @@
         aria-labelledby="installation-title"
       >
         <div>
-          <p class="eyebrow">Продолжите на компьютере</p>
-          <h2 id="installation-title">Smart Store работает на Windows.</h2>
+          <h2 id="installation-title">Установка на Windows.</h2>
           <p>
-            Отправьте себе ссылку. Откройте её на компьютере магазина и скачайте
-            установщик.
+            Откройте эту ссылку на компьютере магазина и скачайте установщик.
           </p>
           <a class="text-link" href="#store"
             >Уже установили? Войти в магазин →</a
@@ -350,33 +334,30 @@
           />
           <div class="actions">
             <button id="copy-site" type="button" class="button primary">
-              Скопировать ссылку</button
-            ><button id="share-site" type="button" class="button" hidden>
-              Поделиться
+              <span class="button-label">Скопировать ссылку</span
+              ><span class="button-icon" aria-hidden="true"
+                ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="12" height="12" rx="3" />
+                  <path
+                    d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"
+                  /></svg
+              ></span></button
+            ><button
+              id="share-site"
+              type="button"
+              class="button secondary"
+              hidden
+            >
+              <span class="button-label">Поделиться</span
+              ><span class="button-icon" aria-hidden="true"
+                ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" /></svg
+              ></span>
             </button>
           </div>
           <p id="copy-status" class="note" role="status"></p>
         </div>
       </section>
-      <div class="benefit-strip">
-        <div class="wrap benefit-inner">
-          <span
-            ><svg class="icon" aria-hidden="true">
-              <use href="#i-receipt" />
-            </svg>
-            Продажи и оплаты</span
-          ><span
-            ><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>
-            Склад и закупки</span
-          ><span
-            ><svg class="icon" aria-hidden="true"><use href="#i-chart" /></svg>
-            Прибыль и долги</span
-          ><span
-            ><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>
-            Доступ с телефона</span
-          >
-        </div>
-      </div>
       <section
         id="features"
         class="section wrap"
@@ -384,12 +365,8 @@
       >
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Меньше рутины. Больше дела.</p>
-            <h2 id="features-title">
-              Весь магазин.<br />В одной системе<span class="blue-dot">.</span>
-            </h2>
+            <h2 id="features-title">Продажи. Склад. Контроль.</h2>
           </div>
-          <p>От первой поставки<br />до последнего чека.</p>
         </div>
         <div class="bento-grid">
           <article class="bento bento-sale">
@@ -476,8 +453,7 @@
         <div class="wrap">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Вот как это выглядит</p>
-              <h2 id="product-title">Всё нужное.<br />Прямо под рукой.</h2>
+              <h2 id="product-title">Smart Store в работе.</h2>
             </div>
             <div
               class="screen-tabs"
@@ -545,9 +521,6 @@
                   Рассмотреть экран</span
                 ></a
               >
-              <figcaption>
-                Рассмотрите кассу и итоги дня на оригинальных экранах программы.
-              </figcaption>
             </figure>
           </div>
         </div>
@@ -555,16 +528,8 @@
       <section class="section wrap phone-section" aria-labelledby="phone-title">
         <div class="phone-layout">
           <div class="phone-copy">
-            <p class="eyebrow">Не обязательно быть у кассы</p>
-            <h2 id="phone-title">
-              Магазин рядом.<br />Даже когда<br />вы далеко<span
-                class="blue-dot"
-                >.</span
-              >
-            </h2>
-            <p class="section-lead">
-              Откройте телефон. Посмотрите, как идут дела.
-            </p>
+            <h2 id="phone-title">Магазин в вашем телефоне.</h2>
+
             <div class="role-list">
               <div>
                 <svg class="icon" aria-hidden="true">
@@ -609,16 +574,13 @@
                 <svg class="icon" aria-hidden="true">
                   <use href="#i-zoom" /></svg></span
             ></a>
-            <figcaption>
-              Показатели магазина с демонстрационными данными.
-            </figcaption>
           </figure>
         </div>
       </section>
       <section id="data" class="wrap data-section">
         <div class="data-heading">
           <svg class="icon" aria-hidden="true"><use href="#i-shield" /></svg>
-          <h2>Ваш магазин.<br />Ваши данные.</h2>
+          <h2>Хранение данных.</h2>
         </div>
         <div class="data-item">
           <strong>Без интернета</strong>
@@ -636,12 +598,8 @@
       <section id="start" class="section wrap" aria-labelledby="start-title">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">От установки до первого чека</p>
-            <h2 id="start-title">
-              Начните с малого<span class="blue-dot">.</span>
-            </h2>
+            <h2 id="start-title">Три шага до первой продажи.</h2>
           </div>
-          <p>Проверьте Smart Store<br />на нескольких товарах.</p>
         </div>
         <ol class="start-steps">
           <li>
@@ -674,6 +632,9 @@
             <p>Соберите чек и выберите способ оплаты.</p>
           </li>
         </ol>
+        <p class="note release-note" id="download-note" role="status">
+          Установщик для Windows · 64 бит · Без кода активации
+        </p>
       </section>
       <section
         id="license"
@@ -681,15 +642,10 @@
         aria-labelledby="license-title"
       >
         <div class="trial-graphic" aria-hidden="true">
-          <span>14</span><span>ДНЕЙ НА ЗНАКОМСТВО</span
-          ><i
-            ><svg class="icon diagonal-arrow" aria-hidden="true">
-              <use href="#i-arrow" /></svg
-          ></i>
+          <span>14</span><span>ДНЕЙ НА ЗНАКОМСТВО</span>
         </div>
         <div class="license-copy">
-          <p class="eyebrow">Ваш следующий рабочий инструмент</p>
-          <h2 id="license-title">Попробуйте<br />на своём магазине.</h2>
+          <h2 id="license-title">Попробуйте Smart Store.</h2>
           <p>
             14 дней бесплатно, без кода активации.<br />Стоимость лицензии
             уточните в WhatsApp.
@@ -699,15 +655,18 @@
               href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
               data-download
               class="button dark"
-              ><span id="license-download-label">Скачать для Windows</span>
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-download" /></svg></a
+              ><span id="license-download-label" class="button-label"
+                >Скачать для Windows</span
+              ><span class="button-icon" aria-hidden="true"
+                ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" /></svg></span></a
             ><a
-              class="text-link"
+              class="button secondary"
               href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D1%82%D1%8C%20%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20Smart%20Store."
-              >Узнать стоимость
-              <svg class="icon diagonal-arrow" aria-hidden="true">
-                <use href="#i-arrow" /></svg
+              ><span class="button-label">Узнать стоимость</span
+              ><span class="button-icon" aria-hidden="true"
+                ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14m-6-6 6 6-6 6" /></svg></span
             ></a>
           </div>
           <p class="license-note">
@@ -722,8 +681,7 @@
         aria-labelledby="faq-title"
       >
         <div>
-          <p class="eyebrow">До установки</p>
-          <h2 id="faq-title">Ещё пара<br />вопросов?</h2>
+          <h2 id="faq-title">Вопросы и ответы.</h2>
         </div>
         <div class="faq-list">
           <details>
@@ -784,8 +742,7 @@
       <section id="store" class="store-section" aria-labelledby="store-title">
         <div class="wrap store-layout">
           <div>
-            <p class="eyebrow">Для действующих клиентов</p>
-            <h2 id="store-title">Откройте свой магазин<br />на телефоне.</h2>
+            <h2 id="store-title">Войти в свой магазин.</h2>
             <p>
               Введите код или адрес магазина из программы на компьютере. После
               перехода понадобится PIN либо логин и пароль вашего пользователя.
@@ -823,10 +780,11 @@
                 id="store-submit"
                 disabled
               >
-                Открыть магазин
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-arrow" />
-                </svg>
+                <span class="button-label">Открыть магазин</span
+                ><span class="button-icon" aria-hidden="true"
+                  ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14m-6-6 6 6-6 6" /></svg
+                ></span>
               </button>
               <p
                 id="store-note"
@@ -855,10 +813,6 @@
             >Smart Store</span
           ></a
         >
-        <p>
-          Учёт для магазинов инструмента и запчастей.<br />Windows 10 / 11 ·
-          Русский и казахский
-        </p>
       </div>
       <nav aria-label="Контакты и документы">
         <a href="https://wa.me/77066352006">WhatsApp: +7 706 635 20 06</a
