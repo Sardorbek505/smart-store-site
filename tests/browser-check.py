@@ -80,7 +80,7 @@ with sync_playwright() as p:
     broken.goto(BASE, wait_until='networkidle')
     assert broken.locator('#store-submit').is_enabled()
     assert broken.locator('#download').get_attribute('href').endswith('.exe')
-    assert broken.locator('.gallery-controls').is_hidden()
+    assert broken.locator('.gallery-controls, .gallery-motion').count() == 0
     broken.goto(BASE + '/#ai-info', wait_until='networkidle')
     assert broken.locator('#ai-info').get_attribute('open') is not None
     runtime = c.new_page()

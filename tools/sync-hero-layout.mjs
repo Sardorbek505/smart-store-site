@@ -3,7 +3,7 @@ import { readFile, writeFile } from "node:fs/promises";
 const file = new URL("../index.html", import.meta.url);
 const html = await readFile(file, "utf8");
 const start = html.indexOf('<div class="gallery-stage">');
-const end = html.indexOf('<div class="gallery-bottom wrap">', start);
+const end = html.indexOf("<!-- hero-ribbon:end -->", start);
 if (start < 0 || end < 0) throw new Error("Gallery markup not found");
 const anchors = html
   .slice(start, end)

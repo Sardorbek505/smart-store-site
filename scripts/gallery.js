@@ -4,7 +4,6 @@ export function init() {
   const stage = gallery.querySelector(".gallery-stage");
   const track = gallery.querySelector("[data-ribbon-track]");
   const cards = [...track.querySelectorAll("[data-gallery-card]")];
-  const pause = document.getElementById("gallery-pause");
   const dialog = document.getElementById("preview-dialog");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const duration = 50000,
@@ -12,7 +11,7 @@ export function init() {
   const wrap = (n) => ((n % cards.length) + cards.length) % cards.length;
   const transformAt = (n) =>
     `translate3d(calc(-1 * var(--ribbon-cycle) + var(--ribbon-offset) - ${n} * var(--ribbon-step)), 0, 0)`;
-  let userPaused = false,
+  let focused = false,
     hovering = false,
     inView = true;
   let pointer = null,
@@ -25,19 +24,15 @@ export function init() {
     .find((a) => a.animationName === "ribbon-flow");
   flow?.pause();
   const phase = () => wrap(Number(flow?.currentTime || 0) / stepTime);
-  const updateCount = (n, announce = false) => {
+  const announce = (n) => {
     const index = wrap(Math.round(n));
-    document.getElementById("gallery-count").textContent = String(
-      index + 1,
-    ).padStart(2, "0");
-    if (announce)
-      document.getElementById("gallery-status").textContent =
-        `${index + 1} из ${cards.length}: ${cards[index].dataset.title}`;
+    document.getElementById("gallery-status").textContent =
+      `${index + 1} из ${cards.length}: ${cards[index].dataset.title}`;
   };
   const sync = () => {
     const running =
       !!flow &&
-      !userPaused &&
+      !focused &&
       !reduced.matches &&
       !hovering &&
       !pointer &&
@@ -48,10 +43,7 @@ export function init() {
       scrollY <= 1;
     if (flow && (flow.playState === "running") !== running) {
       if (running) flow.play();
-      else {
-        flow.pause();
-        if (!manual) updateCount(phase());
-      }
+      else flow.pause();
     }
     if (manual) {
       const advancing = inView && !document.hidden && !dialog.open;
@@ -60,31 +52,15 @@ export function init() {
         else manual.pause();
       }
     }
-    const hidden = reduced.matches || !flow;
-    if (pause.hidden !== hidden) pause.hidden = hidden;
-    const pressed = String(userPaused);
-    if (pause.getAttribute("aria-pressed") !== pressed) {
-      pause.setAttribute("aria-pressed", pressed);
-      pause.setAttribute(
-        "aria-label",
-        userPaused
-          ? "Продолжить движение ленты"
-          : "Приостановить движение ленты",
-      );
-    }
     const motion = running ? "running" : "paused";
     if (stage.dataset.motion !== motion) stage.dataset.motion = motion;
   };
-  const stop = () => {
-    userPaused = true;
-    sync();
-  };
   const go = (next) => {
-    stop();
+    sync();
     const from = getComputedStyle(track).transform;
     manual?.cancel();
     target = next;
-    updateCount(next, true);
+    announce(next);
     if (!track.animate || reduced.matches) {
       if (flow) flow.currentTime = wrap(next) * stepTime;
       else track.style.transform = transformAt(wrap(next));
@@ -114,27 +90,20 @@ export function init() {
     sync();
   };
   const move = (direction) => go(Math.round(target ?? phase()) + direction);
-  gallery.querySelector(".gallery-controls").hidden = false;
-  document
-    .getElementById("gallery-next")
-    .addEventListener("click", () => move(1));
-  document
-    .getElementById("gallery-prev")
-    .addEventListener("click", () => move(-1));
-  pause.addEventListener("click", () => {
-    userPaused = !userPaused;
-    sync();
-  });
   gallery.addEventListener("keydown", (event) => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
     event.preventDefault();
     move(event.key === "ArrowRight" ? 1 : -1);
   });
   gallery.addEventListener("focusin", (event) => {
-    if (event.target === pause) return;
-    stop();
+    focused = true;
+    sync();
     const index = cards.indexOf(event.target);
     if (index >= 0 && !pointer) go(index);
+  });
+  gallery.addEventListener("focusout", (event) => {
+    focused = gallery.contains(event.relatedTarget);
+    sync();
   });
   stage.addEventListener("pointerenter", (event) => {
     if (event.pointerType !== "mouse") return;
@@ -149,7 +118,7 @@ export function init() {
     if (!event.isPrimary || event.button !== 0) return;
     pointer = { id: event.pointerId, x: event.clientX, y: event.clientY };
     dragged = false;
-    stop();
+    sync();
   });
   stage.addEventListener("pointermove", (event) => {
     if (!pointer || pointer.id !== event.pointerId) return;
