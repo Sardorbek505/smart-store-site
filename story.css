@@ -1533,3 +1533,302 @@
     transform: none;
   }
 }
+
+/* Desktop workspace: a large photographic scene, with live type and demo facts. */
+.product-section {
+  background: var(--paper);
+  color: var(--ink);
+}
+.product-section .screen-content {
+  height: 100%;
+}
+.product-section .product-layout {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: "copy stage" "controls stage";
+  gap: 28px 48px;
+}
+.workspace-copy {
+  grid-area: copy;
+  align-self: end;
+}
+.workspace-eyebrow {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+.product-section #product-title {
+  font-size: clamp(48px, 5.2vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.065em;
+  margin: 0;
+  min-height: 1.96em;
+}
+#product-title > span {
+  display: block;
+  width: auto;
+}
+#product-kind {
+  color: var(--blue);
+}
+.workspace-caption {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: none;
+  margin: 24px 0 0;
+  min-height: 3em;
+}
+.workspace-controls {
+  grid-area: controls;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 0;
+  min-height: 164px;
+}
+.workspace-fact {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  min-height: 82px;
+}
+.workspace-fact > div {
+  min-width: 0;
+}
+.workspace-demo {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+.workspace-fact-label {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.workspace-fact > strong {
+  flex: none;
+  white-space: nowrap;
+  font-size: clamp(28px, 2.8vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+.product-section .screen-tabs {
+  width: 100%;
+  margin: 0;
+  border-color: #b7b9cd;
+  background: #dedeea;
+}
+.product-section .screen-tabs::before {
+  background: var(--ink);
+  box-shadow: none;
+}
+.product-section .screen-tab {
+  color: #505065;
+  min-height: 44px;
+  font-size: 13px;
+}
+.product-section .screen-tab.active,
+.product-section .screen-tab.active .icon {
+  color: var(--paper);
+}
+.product-section .screen-tab:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 5px;
+}
+.product-section .screenshot-link:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
+}
+.product-section .studio-demo {
+  grid-area: stage;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  overflow: hidden;
+  border-radius: 28px;
+}
+.product-section .product-preview,
+.product-section .screenshot-link {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-width: none;
+  margin: 0;
+  border-radius: inherit;
+}
+.product-section #product-screen {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: contain;
+  aspect-ratio: auto;
+}
+.product-section .zoom-label {
+  right: 16px;
+  bottom: 16px;
+  min-height: 44px;
+  border-radius: 999px;
+  border-color: #ededf540;
+  padding: 12px 16px;
+  font-size: 12px;
+  gap: 8px;
+}
+@media (max-width: 1100px) {
+  .product-section .product-layout {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 24px;
+  }
+  .product-section #product-title {
+    font-size: clamp(40px, 5.2vw, 62px);
+  }
+}
+@media (max-width: 620px) {
+  .product-section .product-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "copy" "stage" "controls";
+    gap: 16px;
+  }
+  .workspace-copy {
+    align-self: start;
+  }
+  .workspace-eyebrow {
+    margin-bottom: 12px;
+    font-size: 10px;
+  }
+  .product-section #product-title {
+    font-size: clamp(34px, 10.3vw, 55px);
+    line-height: 0.98;
+    min-height: 1.96em;
+  }
+  .workspace-caption {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-top: 12px;
+    max-width: none;
+    min-height: 2.8em;
+  }
+  .product-section .studio-demo {
+    border-radius: 20px;
+  }
+  .workspace-controls {
+    gap: 16px;
+    align-self: stretch;
+    min-height: 132px;
+  }
+  .workspace-fact {
+    align-items: center;
+    min-height: 62px;
+    gap: 10px;
+    padding-top: 12px;
+  }
+  .workspace-demo {
+    margin-bottom: 6px;
+  }
+  .workspace-fact-label {
+    font-size: 12px;
+  }
+  .workspace-fact > strong {
+    font-size: clamp(25px, 8vw, 36px);
+  }
+  .product-section .screen-tab {
+    font-size: 12px;
+  }
+  .product-section .zoom-label {
+    right: 8px;
+    bottom: 8px;
+    padding: 12px;
+    font-size: 0;
+    gap: 0;
+  }
+  .product-section .zoom-label .icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+@media (max-height: 650px) and (max-width: 620px) {
+  .product-section .product-layout {
+    gap: 10px;
+  }
+  .workspace-eyebrow {
+    display: none;
+  }
+  .product-section #product-title {
+    font-size: 30px;
+  }
+  .workspace-caption {
+    margin-top: 8px;
+    min-height: 2.8em;
+    font-size: 12px;
+  }
+  .workspace-controls {
+    gap: 10px;
+    min-height: 112px;
+  }
+  .workspace-fact {
+    min-height: 48px;
+    padding-top: 8px;
+  }
+  .workspace-fact-label {
+    font-size: 11px;
+  }
+  .workspace-demo {
+    display: none;
+  }
+  .workspace-fact > strong {
+    font-size: 24px;
+  }
+}
+@media (min-width: 621px) and (max-height: 600px) {
+  .product-section .product-layout {
+    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-rows: 1fr auto;
+    gap: 12px 24px;
+  }
+  .product-section #product-title {
+    font-size: 36px;
+    min-height: 1.96em;
+  }
+  .workspace-eyebrow,
+  .workspace-caption {
+    display: none;
+  }
+  .workspace-controls {
+    gap: 12px;
+    min-height: 110px;
+  }
+  .workspace-fact {
+    padding-top: 8px;
+    min-height: 44px;
+    align-items: center;
+  }
+  .workspace-fact-label {
+    font-size: 12px;
+  }
+  .workspace-demo {
+    display: none;
+  }
+  .workspace-fact > strong {
+    font-size: 26px;
+  }
+  .product-section .screen-tabs {
+    width: 100%;
+  }
+  .product-section .screen-tab .icon {
+    display: none;
+  }
+}

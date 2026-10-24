@@ -46,3 +46,5 @@ python tests/browser-check.py
 Проверка адаптированных компонентов: `python tests/components-check.py`; для движка WebKit — `BROWSER=webkit python tests/components-check.py`. Проверяются положение выбранной подложки, клавиатура FAQ, успех/отказ копирования, завершение эффекта рамки и reduced motion.
 
 Проверка демонстрационных блоков: `python tests/story-check.py`, а также `BROWSER=webkit python tests/story-check.py`. Происхождение скриншотов и сценарии: [docs/product-stories.md](docs/product-stories.md).
+
+Три крупные предметные сцены для каталога, кассы и итогов: [docs/workspace-campaign.md](docs/workspace-campaign.md). Этот блок переключается в `scripts/interface.js`; его композиция также находится в `story.css`.

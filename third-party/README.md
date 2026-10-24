@@ -1,5 +1,7 @@
 # Component sources
 
+The desktop workspace scenes, live headings and demo facts are original to this landing. Generated device photographs use the project's real application screenshots; provenance and prompts: [workspace-campaign.md](../docs/workspace-campaign.md). The existing native sliding selector remains in use. No additional library code or runtime dependency was introduced.
+
 These components are native HTML/CSS adaptations. No React, Motion, GSAP or remote component scripts are loaded by the website.
 
 | Website component       | Source used                                                                                                                                                                                                                                             | Integration                                                                                                                                                                                            |

@@ -30,13 +30,13 @@
         root.dataset.viewportWidth = String(innerWidth);
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=25" />
-    <link rel="stylesheet" href="cinema.css?v=25" />
-    <link rel="stylesheet" href="buttons.css?v=25" />
-    <link rel="stylesheet" href="screens.css?v=25" />
-    <link rel="stylesheet" href="components.css?v=25" />
-    <link rel="stylesheet" href="story.css?v=25" />
-    <script src="app.js?v=25" type="module"></script>
+    <link rel="stylesheet" href="styles.css?v=26" />
+    <link rel="stylesheet" href="cinema.css?v=26" />
+    <link rel="stylesheet" href="buttons.css?v=26" />
+    <link rel="stylesheet" href="screens.css?v=26" />
+    <link rel="stylesheet" href="components.css?v=26" />
+    <link rel="stylesheet" href="story.css?v=26" />
+    <script src="app.js?v=26" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -853,14 +853,37 @@
         </div>
       </section>
       <section
+        id="workspace"
         class="product-section screen-section"
         aria-labelledby="product-title"
       >
         <div class="screen-content wrap">
           <div class="product-layout">
-            <div class="section-heading">
-              <div>
-                <h2 id="product-title">Smart Store в работе.</h2>
+            <div class="workspace-copy">
+              <p class="workspace-eyebrow">SMART STORE / НА КОМПЬЮТЕРЕ</p>
+              <h2 id="product-title">
+                <span id="product-kind">Товары.</span>
+                <span id="product-headline">Всё на месте.</span>
+              </h2>
+              <p class="workspace-caption" id="product-caption">
+                Цена, остаток и поиск — в одном окне.
+              </p>
+            </div>
+            <div class="workspace-controls">
+              <div
+                class="workspace-fact"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                <span class="visually-hidden">Демонстрационные данные. </span>
+                <div>
+                  <span class="workspace-demo">ДЕМО</span>
+                  <span class="workspace-fact-label" id="product-fact-label"
+                    >На складе · Шуруповёрт 18 В</span
+                  >
+                </div>
+                <strong id="product-fact-value">12 шт</strong>
               </div>
               <div
                 class="screen-tabs"
@@ -874,16 +897,18 @@
                   type="button"
                   data-screen="scene"
                   aria-pressed="true"
+                  aria-controls="product-screen"
                 >
                   <svg class="icon" aria-hidden="true">
                     <use href="#i-box" /></svg
-                  >В магазине
+                  >Товары
                 </button>
                 <button
                   class="screen-tab"
                   type="button"
                   data-screen="sale"
                   aria-pressed="false"
+                  aria-controls="product-screen"
                 >
                   <svg class="icon" aria-hidden="true">
                     <use href="#i-receipt" />
@@ -894,35 +919,32 @@
                   type="button"
                   data-screen="home"
                   aria-pressed="false"
+                  aria-controls="product-screen"
                 >
                   <svg class="icon" aria-hidden="true">
                     <use href="#i-chart" />
                   </svg>
-                  Итоги дня
+                  Итоги
                 </button>
               </div>
             </div>
             <div class="studio-demo">
               <figure class="product-preview">
-                <div class="window-bar">
-                  <span class="window-dots" aria-hidden="true">● ● ●</span
-                  ><span id="screen-label">Smart Store / В магазине</span>
-                </div>
                 <a
                   id="product-screen-link"
-                  data-preview-alt="Касса Smart Store: товары, чек и способы оплаты"
+                  data-preview-alt="Каталог Smart Store: названия, цены и остатки товаров"
                   class="screenshot-link"
-                  href="img/sale.png"
+                  href="img/products.png"
                   data-preview
-                  data-title="Экран продажи Smart Store"
-                  aria-label="Увеличить экран программы"
+                  data-title="Smart Store / Товары"
+                  aria-label="Рассмотреть исходный экран Smart Store"
                   ><img
                     decoding="async"
                     id="product-screen"
-                    src="img/editorial-laptop.webp"
-                    alt="Мокап ноутбука с кассой Smart Store, вид три четверти"
-                    width="1440"
-                    height="960"
+                    src="img/workspace-catalog.webp"
+                    alt="Каталог Smart Store на крупном ноутбуке с синей подставкой и инструментом"
+                    width="1122"
+                    height="1402"
                     loading="lazy"
                   /><span class="zoom-label"
                     ><svg class="icon" aria-hidden="true">
