@@ -1,3 +1,7 @@
+const { createRibbonRenderer, createStaticRenderer } = await import(
+  `./ribbon-renderer.js${new URL(import.meta.url).search}`
+);
+
 export function init() {
   const $ = (id) => document.getElementById(id);
   function setupGallery() {
@@ -21,28 +25,44 @@ export function init() {
     let announced = -1;
     const count = cards.length;
     const wrap = (value) => ((value % count) + count) % count;
-    // Project each photograph onto the inside of a cylinder. Vertical texture
-    // strips bend with the surface, unlike individually rotated flat cards.
-    const canvas = document.createElement("canvas");
+    const photos = cards.map((card) => card.querySelector("img"));
+    const counter = $("gallery-count");
+    let canvas = document.createElement("canvas");
     canvas.className = "ribbon-canvas";
     canvas.setAttribute("aria-hidden", "true");
-    const context = canvas.getContext("2d", { alpha: true });
+    let renderer;
+    try {
+      renderer = createRibbonRenderer(canvas, photos);
+    } catch {
+      // A fresh canvas can use 2D even after a GPU shader initialization failure.
+      canvas = canvas.cloneNode();
+      renderer = createStaticRenderer(canvas, photos);
+    }
+    if (!renderer) return;
+    stage.prepend(canvas);
+    stage.dataset.renderer = renderer.name;
+    stage.classList.add("ribbon-ready");
     let width = stage.clientWidth;
     let height = stage.clientHeight;
-    const photos = cards.map((card) => card.querySelector("img"));
-    if (context) stage.prepend(canvas);
+    let needsResize = true;
+    let needsPaint = true;
+    let scrolling = false;
+    let scrollTimer = 0;
+    let paintFrame = 0;
+    let displayed = -1;
     const resize = () => {
       width = stage.clientWidth;
       height = stage.clientHeight;
-      if (!context) return;
-      const density = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(width * density);
-      canvas.height = Math.round(height * density);
-      context.setTransform(density, 0, 0, density, 0, 0);
+      const density = Math.min(window.devicePixelRatio || 1, 3);
+      const pixelsWide = Math.round(width * density);
+      const pixelsHigh = Math.round(height * density);
+      if (canvas.width !== pixelsWide) canvas.width = pixelsWide;
+      if (canvas.height !== pixelsHigh) canvas.height = pixelsHigh;
+      needsResize = false;
     };
-    const render = () => {
-      if (!context) return;
-      context.clearRect(0, 0, width, height);
+    const render = (syncLinks = false, paint = true) => {
+      if (needsResize) resize();
+      if (!width || !height) return;
       const radius = width * (width < 621 ? 0.5 : width < 851 ? 0.38 : 0.28);
       const camera = radius * 1.5;
       const step = 0.85;
@@ -51,135 +71,99 @@ export function init() {
         height * (width < 851 ? 0.65 : 0.5),
         width * (width < 621 ? 0.33 : width < 851 ? 0.22 : 0.15),
       );
-      const slices = width < 621 ? 48 : 96;
-      const project = (angle) => {
-        const depth = radius * (1 - Math.cos(angle));
-        const scale = camera / (camera - depth);
-        return {
-          x: width / 2 + radius * Math.sin(angle) * scale,
-          top: height / 2 - (photoHeight * scale) / 2,
-          bottom: height / 2 + (photoHeight * scale) / 2,
-        };
-      };
+      const segments = width < 621 ? 40 : 64;
+      const selected = wrap(Math.round(position));
+      // Link hit areas only change at rest, on interaction or at a slide change.
+      // Painting a moving texture never causes per-frame layout/style work.
+      syncLinks ||= selected !== displayed;
+      const items = [];
       for (const [index, card] of cards.entries()) {
         const distance = wrap(index - position + count / 2) - count / 2;
         const leftAngle = distance * step - (step - gap) / 2;
         const rightAngle = leftAngle + step - gap;
-        // Clip to the visible arc before projection; wrapped photos never cross
-        // the camera plane or flash through the middle of the ribbon.
         if (rightAngle < -1.55 || leftAngle > 1.55) {
-          card.hidden = true;
+          if (syncLinks) card.hidden = true;
           continue;
         }
-        const visibleLeft = Math.max(leftAngle, -1.55);
-        const visibleRight = Math.min(rightAngle, 1.55);
-        const points = Array.from({ length: slices + 1 }, (_, slice) =>
-          project(
-            visibleLeft + ((visibleRight - visibleLeft) * slice) / slices,
-          ),
-        );
-        const left = points[0].x;
-        const right = points[slices].x;
+        const start = Math.max(leftAngle, -1.55);
+        const end = Math.min(rightAngle, 1.55);
+        const points = Array.from({ length: segments + 1 }, (_, slice) => {
+          const angle = start + ((end - start) * slice) / segments;
+          const scale = camera / (camera - radius * (1 - Math.cos(angle)));
+          return {
+            x: width / 2 + radius * Math.sin(angle) * scale,
+            top: height / 2 - (photoHeight * scale) / 2,
+            bottom: height / 2 + (photoHeight * scale) / 2,
+            scale,
+            u: (angle - leftAngle) / (step - gap),
+          };
+        });
+        const left = points[0].x,
+          right = points.at(-1).x;
         const top = Math.min(...points.map((point) => point.top));
         const bottom = Math.max(...points.map((point) => point.bottom));
-        const inView = right > 0 && left < width && right > left;
-        card.hidden = !inView;
-        if (!inView) continue;
-        const polygon = [
-          ...points.map((point) => `${point.x - left}px ${point.top - top}px`),
-          ...points
-            .toReversed()
-            .map((point) => `${point.x - left}px ${point.bottom - top}px`),
-        ];
-        card.style.cssText = `left:${left}px;top:${top}px;width:${right - left}px;height:${bottom - top}px;clip-path:polygon(${polygon.join(",")});`;
-        card.tabIndex = Math.abs(distance) < 1.4 ? 0 : -1;
-        const path = new Path2D();
-        const rounding = 6;
-        path.moveTo(left, points[0].top + rounding);
-        path.quadraticCurveTo(left, points[0].top, points[1].x, points[1].top);
-        for (let slice = 2; slice < slices; slice++)
-          path.lineTo(points[slice].x, points[slice].top);
-        path.quadraticCurveTo(
-          right,
-          points[slices].top,
-          right,
-          points[slices].top + rounding,
-        );
-        path.lineTo(right, points[slices].bottom - rounding);
-        path.quadraticCurveTo(
-          right,
-          points[slices].bottom,
-          points[slices - 1].x,
-          points[slices - 1].bottom,
-        );
-        for (let slice = slices - 2; slice > 0; slice--)
-          path.lineTo(points[slice].x, points[slice].bottom);
-        path.quadraticCurveTo(
-          left,
-          points[0].bottom,
-          left,
-          points[0].bottom - rounding,
-        );
-        path.closePath();
-        const image = photos[index];
-        if (image.complete && image.naturalWidth) {
-          const aspect = (radius * (step - gap)) / photoHeight;
-          const sourceWidth = Math.min(
-            image.naturalWidth,
-            image.naturalHeight * aspect,
-          );
-          const sourceHeight = sourceWidth / aspect;
-          const visibleStart = (visibleLeft - leftAngle) / (step - gap);
-          const visibleFraction = (visibleRight - visibleLeft) / (step - gap);
-          const sourceX =
-            (image.naturalWidth - sourceWidth) / 2 + sourceWidth * visibleStart;
-          const visibleSourceWidth = sourceWidth * visibleFraction;
-          const sourceY = (image.naturalHeight - sourceHeight) / 2;
-          context.save();
-          context.clip(path);
-          for (let slice = 0; slice < slices; slice++) {
-            const a = points[slice];
-            const b = points[slice + 1];
-            context.drawImage(
-              image,
-              sourceX + (visibleSourceWidth * slice) / slices,
-              sourceY,
-              visibleSourceWidth / slices + 0.5,
-              sourceHeight,
-              a.x,
-              Math.min(a.top, b.top),
-              b.x - a.x + 0.6,
-              Math.max(a.bottom, b.bottom) - Math.min(a.top, b.top),
-            );
-          }
-          context.restore();
+        if (right <= 0 || left >= width || right <= left) {
+          if (syncLinks) card.hidden = true;
+          continue;
         }
-        const keyboardFocus =
-          card === document.activeElement && card.matches(":focus-visible");
-        context.strokeStyle = keyboardFocus
-          ? "#EDEDF5"
-          : "rgba(237,237,245,0.16)";
-        context.lineWidth = keyboardFocus ? 3 : 1;
-        context.stroke(path);
+        if (syncLinks) {
+          card.hidden = false;
+          const polygon = [
+            ...points.map(
+              (point) =>
+                `${(point.x - left).toFixed(2)}px ${(point.top - top).toFixed(2)}px`,
+            ),
+            ...points
+              .toReversed()
+              .map(
+                (point) =>
+                  `${(point.x - left).toFixed(2)}px ${(point.bottom - top).toFixed(2)}px`,
+              ),
+          ];
+          card.style.cssText = `left:${left}px;top:${top}px;width:${right - left}px;height:${bottom - top}px;clip-path:polygon(${polygon.join(",")});`;
+          card.tabIndex = Math.abs(distance) < 1.4 ? 0 : -1;
+        }
+        items.push({
+          index,
+          points,
+          left,
+          right,
+          top,
+          bottom,
+          cardWidth: radius * (step - gap),
+          photoHeight,
+          aspect: (radius * (step - gap)) / photoHeight,
+          focused:
+            card === document.activeElement && card.matches(":focus-visible"),
+        });
       }
-      $("gallery-count").textContent = String(
-        wrap(Math.round(position)) + 1,
-      ).padStart(2, "0");
+      if (paint) {
+        renderer.draw(items, width, height);
+        needsPaint = false;
+      }
+      if (displayed !== selected) {
+        counter.textContent = String(selected + 1).padStart(2, "0");
+        displayed = selected;
+      }
     };
-    if (context) {
-      stage.classList.add("ribbon-ready");
-      for (const image of photos) {
-        image.loading = "eager";
-        image.addEventListener("load", render);
-      }
-      resize();
-    } else {
-      // Static native image links remain usable when Canvas is unavailable.
-      return;
+    const requestPaint = () => {
+      needsPaint = true;
+      if (scrolling || !visible || document.hidden || paintFrame) return;
+      paintFrame = requestAnimationFrame(() => {
+        paintFrame = 0;
+        if (!scrolling && visible && !document.hidden) render(true);
+      });
+    };
+    renderer.onReady = requestPaint;
+    for (const photo of photos) {
+      photo.loading = "eager";
+      photo.addEventListener("load", requestPaint);
     }
     const preview = $("preview-dialog");
     const wantsMotion = () =>
       visible &&
+      !scrolling &&
+      renderer.animated &&
       !document.hidden &&
       !preview.open &&
       (target !== null ||
@@ -187,6 +171,10 @@ export function init() {
     let lastPaint = 0;
     const tick = (time) => {
       frame = 0;
+      if (!wantsMotion()) {
+        lastTime = 0;
+        return;
+      }
       const delta = lastTime ? Math.min(time - lastTime, 48) : 16;
       lastTime = time;
       if (target !== null) {
@@ -205,7 +193,7 @@ export function init() {
         position += delta / 8500;
       }
       if (time - lastPaint >= 1000 / 30 || !wantsMotion()) {
-        render();
+        render(target === null && (paused || hovered || focused));
         lastPaint = time - ((time - lastPaint) % (1000 / 30));
       }
       if (wantsMotion()) frame = requestAnimationFrame(tick);
@@ -221,7 +209,7 @@ export function init() {
       }
     };
     const updatePause = () => {
-      pause.hidden = reduced.matches;
+      pause.hidden = reduced.matches || !renderer.animated;
       pause.setAttribute("aria-pressed", String(paused));
       pause.setAttribute(
         "aria-label",
@@ -237,10 +225,10 @@ export function init() {
           `${index + 1} из ${count}: ${cards[index].dataset.title}`;
         announced = index;
       }
-      if (reduced.matches) {
+      if (reduced.matches || !renderer.animated || scrolling || !visible) {
         position = target;
         target = null;
-        render();
+        render(true);
       }
       resume();
     };
@@ -254,6 +242,7 @@ export function init() {
     stage.addEventListener("pointerenter", (event) => {
       if (event.pointerType === "mouse") {
         hovered = true;
+        render(true, false);
         resume();
       }
     });
@@ -263,13 +252,13 @@ export function init() {
     });
     gallery.addEventListener("focusin", () => {
       focused = true;
-      render();
+      render(true);
       resume();
     });
     gallery.addEventListener("focusout", (event) => {
       if (!gallery.contains(event.relatedTarget)) {
         focused = false;
-        render();
+        render(true);
         resume();
       }
     });
@@ -281,6 +270,7 @@ export function init() {
     });
     stage.addEventListener("pointerdown", (event) => {
       if (!event.isPrimary || event.button !== 0) return;
+      render(true, false);
       pointer = { id: event.pointerId, x: event.clientX, y: event.clientY };
       dragged = false;
       resume();
@@ -316,7 +306,35 @@ export function init() {
       true,
     );
     stage.addEventListener("dragstart", (event) => event.preventDefault());
-    document.addEventListener("visibilitychange", resume);
+    const suspendForScroll = () => {
+      scrolling = true;
+      if (paintFrame) cancelAnimationFrame(paintFrame);
+      paintFrame = 0;
+      resume();
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        scrolling = false;
+        if (visible && !document.hidden)
+          render(true, needsResize || needsPaint);
+        resume();
+      }, 160);
+    };
+    window.addEventListener("scroll", suspendForScroll, { passive: true });
+    window.addEventListener(
+      "wheel",
+      (event) => {
+        if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) suspendForScroll();
+      },
+      { passive: true },
+    );
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && paintFrame) {
+        cancelAnimationFrame(paintFrame);
+        paintFrame = 0;
+      }
+      if (!document.hidden && (needsPaint || needsResize)) requestPaint();
+      resume();
+    });
     new MutationObserver(resume).observe(preview, {
       attributes: true,
       attributeFilter: ["open"],
@@ -325,21 +343,37 @@ export function init() {
       paused = reduced.matches;
       target = null;
       position = Math.round(position);
-      render();
+      requestPaint();
       updatePause();
     });
-    new ResizeObserver(() => {
-      resize();
-      render();
-    }).observe(stage);
+    const queueResize = () => {
+      needsResize = true;
+      requestPaint();
+    };
+    if (typeof ResizeObserver === "function")
+      new ResizeObserver(queueResize).observe(stage);
+    else window.addEventListener("resize", queueResize, { passive: true });
     new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
+        if (visible && (needsResize || needsPaint)) requestPaint();
         resume();
       },
-      { threshold: 0.1 },
+      { threshold: 0.01 },
     ).observe(gallery);
-    render();
+    canvas.addEventListener("webglcontextlost", (event) => {
+      event.preventDefault();
+      const replacement = canvas.cloneNode();
+      canvas.replaceWith(replacement);
+      canvas = replacement;
+      renderer = createStaticRenderer(canvas, photos);
+      renderer.onReady = requestPaint;
+      stage.dataset.renderer = renderer.name;
+      needsResize = true;
+      requestPaint();
+      updatePause();
+    });
+    render(true);
     updatePause();
   }
 

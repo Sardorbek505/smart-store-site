@@ -24,6 +24,10 @@ html:has(.landing-page) {
   border-radius: 0;
   scroll-margin-top: 0;
 }
+.landing-page .screen-section:not(.cinema-hero) {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto var(--screen-height);
+}
 .screen-content {
   min-height: 0;
   max-height: 100%;
