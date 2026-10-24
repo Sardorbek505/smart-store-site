@@ -70,9 +70,11 @@ with sync_playwright() as p:
         page.evaluate('testFlow.currentTime=150000')
         page.locator('.hero-gallery').focus()
         page.keyboard.press('ArrowRight')
-        page.wait_for_timeout(700)
+        # Wait for the finite transition's completion callback; a fixed delay
+        # can race the compositor when large browser checks run concurrently.
+        page.wait_for_function("document.querySelector('.ribbon-track').getAnimations().every(a=>a.animationName==='ribbon-flow')",timeout=2000)
         card = page.locator('[data-gallery-card]').nth(1).bounding_box()
-        assert abs(card['x']+card['width']/2-box['width']/2) < 1, 'navigation after multiple loops must keep the selected photo visible'
+        assert abs(card['x']+card['width']/2-box['width']/2) < 1, {'message':'navigation after multiple loops must keep the selected photo visible','card':card,'window':box,'animation':page.locator('.ribbon-track').evaluate('e=>e.getAnimations().map(a=>({time:a.currentTime,state:a.playState,name:a.animationName}))')}
         page.locator('[data-gallery-card]').first.focus()
         page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="paused"')
         page.emulate_media(reduced_motion='reduce')

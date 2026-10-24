@@ -25,7 +25,7 @@ const copies = cards.map((card, i) =>
   ),
 );
 const gallery = `<div class="gallery-stage">
-  <svg class="ribbon-defs" width="0" height="0" aria-hidden="true"><defs><clipPath id="hero-ribbon-clip" clipPathUnits="objectBoundingBox"><path d="M0 .035 C.16 .15 .32 .24 .5 .24 C.68 .24 .84 .15 1 .035 L1 .965 C.84 .85 .68 .76 .5 .76 C.32 .76 .16 .85 0 .965 Z"/></clipPath></defs></svg>
+  <svg class="ribbon-defs" width="0" height="0" aria-hidden="true"><defs><clipPath id="hero-ribbon-clip" clipPathUnits="objectBoundingBox"><path d="M0 .035 C.16 .07 .32 .10 .5 .10 C.68 .10 .84 .07 1 .035 L1 .965 C.84 .93 .68 .90 .5 .90 C.32 .90 .16 .93 0 .965 Z"/></clipPath></defs></svg>
   <div class="ribbon-window">
     <div class="ribbon-track" data-ribbon-track>
       <div class="ribbon-set" data-ribbon-set="before" aria-hidden="true">${copies.join("\n")}</div>

@@ -48,3 +48,5 @@ python tests/browser-check.py
 Проверка демонстрационных блоков: `python tests/story-check.py`, а также `BROWSER=webkit python tests/story-check.py`. Происхождение скриншотов и сценарии: [docs/product-stories.md](docs/product-stories.md).
 
 Три крупные предметные сцены для каталога, кассы и итогов: [docs/workspace-campaign.md](docs/workspace-campaign.md). Этот блок переключается в `scripts/interface.js`; его композиция также находится в `story.css`.
+
+Полные изображения во всех демонстрационных блоках: [docs/complete-scenes.md](docs/complete-scenes.md). Проверка фактических границ предметов: `BROWSER=webkit python tests/image-fit-check.py` или `BROWSER=chromium python tests/image-fit-check.py` (Playwright + Pillow).

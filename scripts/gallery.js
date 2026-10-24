@@ -17,13 +17,15 @@ export function init() {
   let pointer = null,
     dragged = false,
     manual = null,
-    target = null;
+    target = null,
+    staticPhase = 0;
   track.classList.add("motion-ready");
   const flow = track
     .getAnimations?.()
     .find((a) => a.animationName === "ribbon-flow");
   flow?.pause();
-  const phase = () => wrap(Number(flow?.currentTime || 0) / stepTime);
+  const phase = () =>
+    flow ? wrap(Number(flow.currentTime || 0) / stepTime) : staticPhase;
   const announce = (n) => {
     const index = wrap(Math.round(n));
     document.getElementById("gallery-status").textContent =
@@ -62,8 +64,9 @@ export function init() {
     target = next;
     announce(next);
     if (!track.animate || reduced.matches) {
-      if (flow) flow.currentTime = wrap(next) * stepTime;
-      else track.style.transform = transformAt(wrap(next));
+      staticPhase = wrap(next);
+      if (flow) flow.currentTime = staticPhase * stepTime;
+      else track.style.transform = transformAt(staticPhase);
       manual = null;
       target = null;
       sync();

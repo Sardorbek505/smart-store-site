@@ -29,7 +29,7 @@ with sync_playwright() as p:
             page.locator(f'[data-screen="{name}"]').click()
             image=page.locator('#product-screen')
             image.evaluate('e=>e.decode()')
-            assert image.get_attribute('src')==f'img/workspace-{render}.webp'
+            assert image.get_attribute('src')==f'img/workspace-{render}-full.webp'
             assert image.evaluate('e=>e.naturalWidth>=1100&&e.naturalHeight>=1400')
             assert page.locator('#product-screen-link').get_attribute('href')=='img/'+original
             assert page.locator('#product-fact-value').inner_text()==value
