@@ -65,6 +65,7 @@ html:has(#preview-dialog[open]) {
 /* Keep the curved ribbon flexible instead of giving it a fixed pixel height. */
 .landing-page .cinema-hero {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
   align-items: stretch;
   padding-block: clamp(24px, calc(var(--screen-height) * 0.06), 64px) 20px;
@@ -73,12 +74,14 @@ html:has(#preview-dialog[open]) {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  min-width: 0;
   margin-top: clamp(12px, calc(var(--screen-height) * 0.03), 28px);
 }
 .cinema-hero .gallery-stage {
   flex: 1;
   height: auto;
   min-height: 0;
+  min-width: 0;
 }
 .cinema-hero .gallery-bottom {
   flex: none;

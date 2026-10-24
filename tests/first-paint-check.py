@@ -24,7 +24,8 @@ with sync_playwright() as p:
   page.locator('.hero-gallery img').evaluate_all('(xs)=>Promise.all(xs.map(i=>i.decode()))')
   page.evaluate('async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))}')
   before=page.evaluate(SNAP)
-  assert all(x['transform']=='none' and (x['hidden'] or x['clip']!='none') for x in before['cards']),before
+  assert all(x['transform']=='none' for x in before['cards']),before
+  assert 'hero-ribbon-clip' in page.locator('.ribbon-window').evaluate('e=>getComputedStyle(e).clipPath')
   first=page.locator('.cinema-hero').screenshot()
   (OUT/f'before-{w}.png').write_bytes(first)
   page.evaluate('window.dispatchEvent(new Event("release-app"))')

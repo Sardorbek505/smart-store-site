@@ -475,7 +475,7 @@
 }
 
 .hero-gallery {
-  width: min(1280px, 100%);
+  width: 100%;
   margin-inline: auto;
 }
 @media (max-width: 620px) {
@@ -565,7 +565,7 @@
 }
 /* Reference geometry: photographs follow one concave surface, without card shells. */
 .hero-gallery {
-  width: min(1280px, 100%);
+  width: 100%;
   margin-top: 16px;
 }
 .gallery-stage {
@@ -654,29 +654,82 @@
   }
 }
 
-/* One native gallery layout, present before scripts and image decoding. */
+/* A static curved aperture; only the photo strip moves on the compositor. */
 .gallery-stage {
   overflow: hidden;
+  overflow: clip;
   container-type: size;
 }
-.ribbon-track {
+.ribbon-defs {
   position: absolute;
-  left: 50%;
+  pointer-events: none;
+}
+.ribbon-window {
+  position: absolute;
+  contain: strict;
+  left: 0;
   top: 50%;
   width: 100%;
   aspect-ratio: 5 / 2;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   overflow: hidden;
+  overflow: clip;
+  clip-path: url(#hero-ribbon-clip);
+  --ribbon-card-width: 30vw;
+  --ribbon-gap: clamp(6px, 0.8vw, 14px);
+  --ribbon-step: calc(var(--ribbon-card-width) + var(--ribbon-gap));
+  --ribbon-cycle: calc(5 * var(--ribbon-step));
+  --ribbon-offset: calc(50vw - var(--ribbon-card-width) / 2);
 }
 @supports (width: 1cqh) {
-  .ribbon-track {
-    width: 100%;
-    height: min(40cqw, 133.33333cqh);
+  .ribbon-window {
+    height: min(100cqh, 40cqw);
+    --ribbon-card-width: 30cqw;
+    --ribbon-offset: calc(50cqw - var(--ribbon-card-width) / 2);
+  }
+}
+.ribbon-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  transform: translate3d(
+    calc(-1 * var(--ribbon-cycle) + var(--ribbon-offset)),
+    0,
+    0
+  );
+}
+.ribbon-track.motion-ready {
+  animation: ribbon-flow 50s linear infinite paused;
+}
+.ribbon-set {
+  display: flex;
+  gap: var(--ribbon-gap);
+  padding-right: var(--ribbon-gap);
+  flex: none;
+  height: 100%;
+}
+@keyframes ribbon-flow {
+  from {
+    transform: translate3d(
+      calc(-1 * var(--ribbon-cycle) + var(--ribbon-offset)),
+      0,
+      0
+    );
+  }
+  to {
+    transform: translate3d(
+      calc(-2 * var(--ribbon-cycle) + var(--ribbon-offset)),
+      0,
+      0
+    );
   }
 }
 .gallery-card {
-  position: absolute;
+  position: relative;
   display: block;
+  flex: 0 0 var(--ribbon-card-width);
+  width: var(--ribbon-card-width);
+  height: 100%;
   overflow: hidden;
   border: 0;
   border-radius: 0;
@@ -713,27 +766,54 @@
   min-height: 44px;
   padding: 0;
 }
+.gallery-motion {
+  position: absolute;
+  bottom: 0;
+  right: clamp(16px, 4vw, 64px);
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: #d0d0e3;
+  border: 1px solid #ffffff24;
+  border-radius: 50%;
+  background: transparent;
+}
+.gallery-motion:hover {
+  background: #ffffff14;
+}
+.gallery-motion .icon {
+  width: 16px;
+  height: 16px;
+}
+.gallery-motion[aria-pressed="true"] .play-glyph {
+  display: block;
+}
+.gallery-motion[aria-pressed="true"] .pause-glyph {
+  display: none;
+}
 @media (max-width: 850px) {
-  .ribbon-track {
-    width: 135.714286%;
-    aspect-ratio: 2.3133117;
+  .ribbon-window {
+    aspect-ratio: 1.7;
+    --ribbon-card-width: 44vw;
   }
   @supports (width: 1cqh) {
-    .ribbon-track {
-      width: 135.714286%;
-      height: min(58.666667cqw, 173.333333cqh);
+    .ribbon-window {
+      height: min(100cqh, 60cqw);
+      --ribbon-card-width: 44cqw;
     }
   }
 }
 @media (max-width: 620px) {
-  .ribbon-track {
-    width: 178.571429%;
-    aspect-ratio: 2.0292208;
+  .ribbon-window {
+    aspect-ratio: 1.25;
+    --ribbon-card-width: 62vw;
   }
   @supports (width: 1cqh) {
-    .ribbon-track {
-      width: 178.571429%;
-      height: min(88cqw, 173.333333cqh);
+    .ribbon-window {
+      height: min(100cqh, 80cqw);
+      --ribbon-card-width: 62cqw;
     }
   }
 }
