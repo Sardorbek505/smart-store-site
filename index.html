@@ -23,11 +23,11 @@
     <meta property="og:image" content="https://metov.store/img/sale.png" />
     <meta property="og:locale" content="ru_RU" />
     <link rel="icon" href="img/icon.png" />
-    <link rel="stylesheet" href="styles.css?v=15" />
-    <link rel="stylesheet" href="cinema.css?v=15" />
-    <link rel="stylesheet" href="buttons.css?v=15" />
-    <link rel="stylesheet" href="screens.css?v=15" />
-    <script src="app.js?v=15" type="module"></script>
+    <link rel="stylesheet" href="styles.css?v=16" />
+    <link rel="stylesheet" href="cinema.css?v=16" />
+    <link rel="stylesheet" href="buttons.css?v=16" />
+    <link rel="stylesheet" href="screens.css?v=16" />
+    <script src="app.js?v=16" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -84,9 +84,13 @@
     <header class="top">
       <div class="top-inner wrap">
         <a class="brand" href="#main" aria-label="Smart Store — на главную"
-          ><img src="img/icon.png" alt="" width="34" height="34" /><span
-            >Smart Store</span
-          ></a
+          ><img
+            decoding="async"
+            src="img/icon.png"
+            alt=""
+            width="34"
+            height="34"
+          /><span>Smart Store</span></a
         >
         <nav class="top-links" id="site-nav" aria-label="Навигация по сайту">
           <a href="#features">Возможности</a><a href="#start">Как начать</a
@@ -308,25 +312,6 @@
               >
                 <svg class="icon" aria-hidden="true">
                   <use href="#i-arrow" />
-                </svg></button
-              ><button
-                id="gallery-pause"
-                type="button"
-                aria-pressed="false"
-                aria-label="Приостановить анимацию"
-              >
-                <svg
-                  class="icon pause-glyph"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path d="M9 5v14M15 5v14" /></svg
-                ><svg
-                  class="icon play-glyph"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path d="m8 4 12 8-12 8Z" />
                 </svg>
               </button>
             </div>
@@ -421,6 +406,7 @@
               </div>
               <figure class="feature-art">
                 <img
+                  decoding="async"
                   src="img/feature-sale.webp"
                   alt="Демонстрационный чек Smart Store: два товара на 40 550 ₸, оплата принята"
                   width="960"
@@ -442,6 +428,7 @@
               </div>
               <figure class="feature-art" aria-hidden="true">
                 <img
+                  decoding="async"
                   src="img/feature-stock.webp"
                   alt=""
                   width="960"
@@ -463,6 +450,7 @@
               </div>
               <figure class="feature-art" aria-hidden="true">
                 <img
+                  decoding="async"
                   src="img/feature-reports.webp"
                   alt=""
                   width="960"
@@ -586,6 +574,7 @@
                   data-title="Экран продажи Smart Store"
                   aria-label="Увеличить экран программы"
                   ><img
+                    decoding="async"
                     id="product-screen"
                     src="img/editorial-laptop.webp"
                     alt="Мокап ноутбука с кассой Smart Store, вид три четверти"
@@ -651,6 +640,7 @@
                 data-preview-alt="Показатели магазина: выручка, прибыль и рабочие инструменты"
                 aria-label="Рассмотреть оригинальный экран телефона"
                 ><img
+                  decoding="async"
                   src="img/editorial-phone.webp"
                   alt="Мокап Smart Store: телефон по диагонали на синем цилиндре"
                   width="1440"
@@ -919,9 +909,13 @@
     <footer class="foot wrap">
       <div>
         <a class="brand" href="#main"
-          ><img src="img/icon.png" alt="" width="28" height="28" /><span
-            >Smart Store</span
-          ></a
+          ><img
+            decoding="async"
+            src="img/icon.png"
+            alt=""
+            width="28"
+            height="28"
+          /><span>Smart Store</span></a
         >
       </div>
       <nav aria-label="Контакты и документы">
@@ -945,7 +939,7 @@
         </button>
       </div>
       <p id="preview-status" class="preview-status" role="status"></p>
-      <img id="preview-image" alt="" /><a
+      <img decoding="async" id="preview-image" alt="" /><a
         id="preview-original"
         class="preview-original"
         target="_blank"

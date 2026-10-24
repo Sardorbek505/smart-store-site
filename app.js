@@ -3,7 +3,7 @@ const version = new URL(import.meta.url).search;
 const load = (name) => import(`./scripts/${name}.js${version}`);
 const core = await load("core");
 await Promise.allSettled(
-  ["interface", "preview", "gallery", "downloads", "store"].map(
+  ["viewport", "interface", "preview", "gallery", "downloads", "store"].map(
     async (name) => {
       try {
         const feature = await load(name);

@@ -2,15 +2,22 @@
 .landing-page {
   --screen-height: 100vh;
   --navigation-height: 88px;
-  --screen-gap: clamp(16px, 3vh, 32px);
+  --screen-gap: clamp(16px, calc(var(--screen-height) * 0.03), 32px);
 }
-@supports (height: 100dvh) {
+@supports (height: 100svh) {
   .landing-page {
-    --screen-height: 100dvh;
+    --screen-height: 100svh;
   }
 }
 html:has(.landing-page) {
   scroll-padding-top: 0;
+  scroll-behavior: auto;
+}
+html:has(#preview-dialog[open]) {
+  overflow: hidden;
+}
+#preview-dialog::backdrop {
+  backdrop-filter: none;
 }
 .landing-page .screen-section {
   width: 100%;
@@ -24,10 +31,6 @@ html:has(.landing-page) {
   border-radius: 0;
   scroll-margin-top: 0;
 }
-.landing-page .screen-section:not(.cinema-hero) {
-  content-visibility: auto;
-  contain-intrinsic-block-size: auto var(--screen-height);
-}
 .screen-content {
   min-height: 0;
   max-height: 100%;
@@ -35,12 +38,26 @@ html:has(.landing-page) {
   overflow: auto;
   scrollbar-width: thin;
 }
+.viewport-ready .screen-content {
+  overflow: visible;
+}
+.viewport-ready .screen-content.is-scrollable {
+  overflow: auto;
+}
+.navigation-sentinel {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
 .screen-section h2 {
   font-size: clamp(28px, 4vw, 56px);
   letter-spacing: -0.045em;
 }
 .screen-section .section-heading {
-  margin-bottom: clamp(16px, 3vh, 32px);
+  margin-bottom: clamp(16px, calc(var(--screen-height) * 0.03), 32px);
   flex: none;
 }
 
@@ -49,13 +66,13 @@ html:has(.landing-page) {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   align-items: stretch;
-  padding-block: clamp(24px, 6vh, 64px) 20px;
+  padding-block: clamp(24px, calc(var(--screen-height) * 0.06), 64px) 20px;
 }
 .cinema-hero .hero-gallery {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  margin-top: clamp(12px, 3vh, 28px);
+  margin-top: clamp(12px, calc(var(--screen-height) * 0.03), 28px);
 }
 .cinema-hero .gallery-stage {
   flex: 1;
@@ -86,10 +103,10 @@ html:has(.landing-page) {
 }
 #features .bento-copy {
   flex: none;
-  padding: clamp(18px, 2.5vh, 28px) 24px 0;
+  padding: clamp(18px, calc(var(--screen-height) * 0.025), 28px) 24px 0;
 }
 #features .bento-top {
-  margin-bottom: clamp(14px, 2.5vh, 24px);
+  margin-bottom: clamp(14px, calc(var(--screen-height) * 0.025), 24px);
 }
 #features .feature-art {
   display: flex;
