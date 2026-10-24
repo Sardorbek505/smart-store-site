@@ -1,9 +1,11 @@
 """Manual gallery: no background/GPU work, sharp sources, controls and fallback."""
 from playwright.sync_api import sync_playwright
+from PIL import Image
+from io import BytesIO
 import os,shutil
 BASE=os.environ.get('SITE_TEST_URL','http://127.0.0.1:4173').rstrip('/')
 BROWSER=os.environ.get('BROWSER','chromium')
-INSTRUMENT='''(()=>{window.draws=0;window.webglContexts=0;window.sourceWidths=[];const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(t,...a){if(t.includes('webgl'))window.webglContexts++;return get.call(this,t,...a)};const p=CanvasRenderingContext2D.prototype,draw=p.drawImage;p.drawImage=function(i,...a){window.draws++;window.sourceWidths.push(i.width||i.naturalWidth);return draw.call(this,i,...a)}})();'''
+INSTRUMENT='''(()=>{window.draws=0;window.webglContexts=0;const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(t,...a){if(t.includes('webgl'))window.webglContexts++;return get.call(this,t,...a)};const p=CanvasRenderingContext2D.prototype,draw=p.drawImage;p.drawImage=function(i,...a){window.draws++;return draw.call(this,i,...a)}})();'''
 with sync_playwright() as p:
     args={'headless':True}
     if BROWSER=='chromium':args.update(executable_path=os.environ.get('CHROMIUM_BINARY') or shutil.which('chromium'),args=['--no-sandbox'])
@@ -42,8 +44,10 @@ with sync_playwright() as p:
     touch=c.new_page();touch.add_init_script(INSTRUMENT)
     touch.goto(BASE,wait_until='networkidle')
     touch.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
-    assert touch.locator('canvas').evaluate('e=>e.width===e.clientWidth*3')
-    assert touch.evaluate('Math.max(...window.sourceWidths)>=768')
+    assert touch.locator('canvas').count()==0
+    source=touch.locator('.hero-gallery img').first.evaluate('e=>e.currentSrc')
+    response=touch.request.get(source)
+    assert Image.open(BytesIO(response.body())).width>=768
     stage=touch.locator('.gallery-stage')
     stage.dispatch_event('pointerdown',{'pointerId':1,'pointerType':'touch','isPrimary':True,'button':0,'clientX':280,'clientY':620})
     stage.dispatch_event('pointermove',{'pointerId':1,'pointerType':'touch','isPrimary':True,'clientX':160,'clientY':620})
@@ -56,15 +60,12 @@ with sync_playwright() as p:
     fallback=b.new_page(viewport={'width':390,'height':844})
     fallback.add_init_script('HTMLCanvasElement.prototype.getContext=()=>null')
     fallback.goto(BASE,wait_until='networkidle')
-    assert fallback.locator('.ribbon-canvas').count()==0
-    assert fallback.locator('.gallery-controls').is_hidden()
+    fallback.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
+    assert fallback.locator('canvas').count()==0
     assert fallback.locator('#store-submit').is_enabled()
-    bitmap_fallback=b.new_page(viewport={'width':390,'height':844},device_scale_factor=3)
-    bitmap_fallback.add_init_script(INSTRUMENT)
-    bitmap_fallback.add_init_script('window.createImageBitmap=()=>Promise.reject(new Error("unsupported source"))')
-    bitmap_fallback.goto(BASE,wait_until='networkidle')
-    bitmap_fallback.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
-    assert bitmap_fallback.evaluate('Math.max(...window.sourceWidths)>=768')
+    fallback.evaluate('scrollTo({top:100,behavior:"instant"})')
+    fallback.locator('#gallery-next').click()
+    fallback.wait_for_function('document.getElementById("gallery-count").textContent==="02"')
     assert not errors,errors
-    print('PASS',BROWSER,'manual gallery, no background/GPU drawing, burst scrolling, controls/keyboard, originals, Retina, swipe/tap, native fallback.')
+    print('PASS',BROWSER,'native gallery, no Canvas/GPU/background drawing, burst scrolling, controls/keyboard, originals, Retina, swipe/tap, unavailable graphics APIs.')
     b.close()

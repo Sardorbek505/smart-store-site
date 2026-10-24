@@ -23,11 +23,18 @@
     <meta property="og:image" content="https://metov.store/img/sale.png" />
     <meta property="og:locale" content="ru_RU" />
     <link rel="icon" href="img/icon.png" />
-    <link rel="stylesheet" href="styles.css?v=16" />
-    <link rel="stylesheet" href="cinema.css?v=16" />
-    <link rel="stylesheet" href="buttons.css?v=16" />
-    <link rel="stylesheet" href="screens.css?v=16" />
-    <script src="app.js?v=16" type="module"></script>
+    <script>
+      (() => {
+        const root = document.documentElement;
+        root.style.setProperty("--initial-screen-height", `${innerHeight}px`);
+        root.dataset.viewportWidth = String(innerWidth);
+      })();
+    </script>
+    <link rel="stylesheet" href="styles.css?v=17" />
+    <link rel="stylesheet" href="cinema.css?v=17" />
+    <link rel="stylesheet" href="buttons.css?v=17" />
+    <link rel="stylesheet" href="screens.css?v=17" />
+    <script src="app.js?v=17" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -151,147 +158,577 @@
           tabindex="-1"
         >
           <div class="gallery-stage">
-            <a
-              class="gallery-card editorial-card"
-              href="img/sale.png"
-              data-gallery-card
-              data-preview
-              data-title="Продажи без пауз"
-              data-preview-alt="Экран Smart Store: Продажи без пауз"
-              aria-label="Продажи без пауз. Открыть оригинальный экран"
-              style="--slot: 0"
-              ><img
-                class="editorial-photo"
-                src="img/hero-laptop-1536.webp"
-                srcset="
-                  img/hero-laptop-768.webp   768w,
-                  img/hero-laptop-1536.webp 1536w
+            <div class="ribbon-track" data-ribbon-track data-position="0.35">
+              <a
+                class="gallery-card editorial-card"
+                href="img/sale.png"
+                data-gallery-card
+                data-preview
+                data-title="Продажи без пауз"
+                data-preview-alt="Экран Smart Store: Продажи без пауз"
+                aria-label="Продажи без пауз. Открыть оригинальный экран"
+                tabindex="0"
+                style="
+                  left: 28.1157%;
+                  top: 27.6088%;
+                  width: 25.2101%;
+                  height: 44.7823%;
+                  clip-path: polygon(
+                    0% 0%,
+                    2.5049% 0.4431%,
+                    4.9762% 0.8695%,
+                    7.4152% 1.2798%,
+                    9.8235% 1.6745%,
+                    12.2023% 2.0541%,
+                    14.553% 2.419%,
+                    16.8768% 2.7696%,
+                    19.1748% 3.1064%,
+                    21.4483% 3.4297%,
+                    23.6982% 3.7399%,
+                    25.9258% 4.0373%,
+                    28.1319% 4.3223%,
+                    30.3177% 4.5951%,
+                    32.484% 4.8561%,
+                    34.6318% 5.1055%,
+                    36.762% 5.3436%,
+                    38.8754% 5.5706%,
+                    40.9729% 5.7868%,
+                    43.0553% 5.9924%,
+                    45.1235% 6.1875%,
+                    47.1781% 6.3724%,
+                    49.22% 6.5473%,
+                    51.2499% 6.7124%,
+                    53.2684% 6.8677%,
+                    55.2764% 7.0134%,
+                    57.2745% 7.1498%,
+                    59.2633% 7.2768%,
+                    61.2436% 7.3947%,
+                    63.216% 7.5035%,
+                    65.1811% 7.6033%,
+                    67.1396% 7.6943%,
+                    69.092% 7.7765%,
+                    71.0391% 7.85%,
+                    72.9814% 7.9148%,
+                    74.9195% 7.9711%,
+                    76.8539% 8.0188%,
+                    78.7854% 8.058%,
+                    80.7145% 8.0888%,
+                    82.6417% 8.1112%,
+                    84.5677% 8.1251%,
+                    86.493% 8.1307%,
+                    88.4182% 8.1279%,
+                    90.3439% 8.1167%,
+                    92.2707% 8.097%,
+                    94.1991% 8.069%,
+                    96.1297% 8.0325%,
+                    98.0632% 7.9876%,
+                    100% 7.9341%,
+                    100% 92.0659%,
+                    98.0632% 92.0124%,
+                    96.1297% 91.9675%,
+                    94.1991% 91.931%,
+                    92.2707% 91.903%,
+                    90.3439% 91.8833%,
+                    88.4182% 91.8721%,
+                    86.493% 91.8693%,
+                    84.5677% 91.8749%,
+                    82.6417% 91.8888%,
+                    80.7145% 91.9112%,
+                    78.7854% 91.942%,
+                    76.8539% 91.9812%,
+                    74.9195% 92.0289%,
+                    72.9814% 92.0852%,
+                    71.0391% 92.15%,
+                    69.092% 92.2235%,
+                    67.1396% 92.3057%,
+                    65.1811% 92.3967%,
+                    63.216% 92.4965%,
+                    61.2436% 92.6053%,
+                    59.2633% 92.7232%,
+                    57.2745% 92.8502%,
+                    55.2764% 92.9866%,
+                    53.2684% 93.1323%,
+                    51.2499% 93.2876%,
+                    49.22% 93.4527%,
+                    47.1781% 93.6276%,
+                    45.1235% 93.8125%,
+                    43.0553% 94.0076%,
+                    40.9729% 94.2132%,
+                    38.8754% 94.4294%,
+                    36.762% 94.6564%,
+                    34.6318% 94.8945%,
+                    32.484% 95.1439%,
+                    30.3177% 95.4049%,
+                    28.1319% 95.6777%,
+                    25.9258% 95.9627%,
+                    23.6982% 96.2601%,
+                    21.4483% 96.5703%,
+                    19.1748% 96.8936%,
+                    16.8768% 97.2304%,
+                    14.553% 97.581%,
+                    12.2023% 97.9459%,
+                    9.8235% 98.3255%,
+                    7.4152% 98.7202%,
+                    4.9762% 99.1305%,
+                    2.5049% 99.5569%,
+                    0% 100%
+                  );
                 "
-                sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
-                decoding="async"
-                alt="Ноутбук с кассой Smart Store в ракурсе три четверти на светлом столе"
-                width="1536"
-                height="1024"
-                fetchpriority="high" /><span class="gallery-card-caption"
-                ><span
+                ><img
+                  class="editorial-photo"
+                  src="img/hero-laptop-1536.webp"
+                  srcset="
+                    img/hero-laptop-768.webp   768w,
+                    img/hero-laptop-1536.webp 1536w
+                  "
+                  sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
+                  decoding="async"
+                  alt="Ноутбук с кассой Smart Store в ракурсе три четверти на светлом столе"
+                  width="1536"
+                  height="1024"
+                  fetchpriority="high" /><span class="gallery-card-caption"
+                  ><span
+                    ><svg class="icon" aria-hidden="true">
+                      <use href="#i-receipt" /></svg
+                    >Продажи без пауз</span
                   ><svg class="icon" aria-hidden="true">
-                    <use href="#i-receipt" /></svg
-                  >Продажи без пауз</span
-                ><svg class="icon" aria-hidden="true">
-                  <use href="#i-zoom" /></svg></span></a
-            ><a
-              class="gallery-card editorial-card"
-              href="img/home.png"
-              data-gallery-card
-              data-preview
-              data-title="Главное — перед глазами"
-              data-preview-alt="Экран Smart Store: Главное — перед глазами"
-              aria-label="Главное — перед глазами. Открыть оригинальный экран"
-              style="--slot: 1"
-              ><img
-                class="editorial-photo"
-                src="img/hero-monitor-1536.webp"
-                srcset="
-                  img/hero-monitor-768.webp   768w,
-                  img/hero-monitor-1536.webp 1536w
+                    <use href="#i-zoom" /></svg></span
+              ></a>
+              <a
+                class="gallery-card editorial-card"
+                href="img/home.png"
+                data-gallery-card
+                data-preview
+                data-title="Главное — перед глазами"
+                data-preview-alt="Экран Smart Store: Главное — перед глазами"
+                aria-label="Главное — перед глазами. Открыть оригинальный экран"
+                tabindex="0"
+                style="
+                  left: 53.8339%;
+                  top: 23.6296%;
+                  width: 28.6165%;
+                  height: 52.7408%;
+                  clip-path: polygon(
+                    0% 14.227%,
+                    1.714% 14.1667%,
+                    3.4326% 14.099%,
+                    5.1564% 14.0239%,
+                    6.8859% 13.9414%,
+                    8.6215% 13.8512%,
+                    10.364% 13.7533%,
+                    12.1139% 13.6477%,
+                    13.8717% 13.5342%,
+                    15.6381% 13.4128%,
+                    17.4136% 13.2833%,
+                    19.1989% 13.1455%,
+                    20.9946% 12.9995%,
+                    22.8014% 12.8449%,
+                    24.6198% 12.6817%,
+                    26.4507% 12.5098%,
+                    28.2946% 12.3288%,
+                    30.1523% 12.1387%,
+                    32.0246% 11.9393%,
+                    33.9122% 11.7303%,
+                    35.8158% 11.5116%,
+                    37.7364% 11.2828%,
+                    39.6746% 11.0439%,
+                    41.6315% 10.7944%,
+                    43.6078% 10.5342%,
+                    45.6046% 10.2629%,
+                    47.6227% 9.9803%,
+                    49.6632% 9.686%,
+                    51.7271% 9.3797%,
+                    53.8155% 9.061%,
+                    55.9295% 8.7296%,
+                    58.0703% 8.3851%,
+                    60.2391% 8.027%,
+                    62.4371% 7.6549%,
+                    64.6658% 7.2684%,
+                    66.9264% 6.8668%,
+                    69.2205% 6.4498%,
+                    71.5496% 6.0168%,
+                    73.9152% 5.5671%,
+                    76.3191% 5.1002%,
+                    78.763% 4.6154%,
+                    81.2488% 4.112%,
+                    83.7784% 3.5893%,
+                    86.3539% 3.0465%,
+                    88.9774% 2.4828%,
+                    91.6513% 1.8972%,
+                    94.378% 1.2889%,
+                    97.16% 0.6568%,
+                    100% 0%,
+                    100% 100%,
+                    97.16% 99.3432%,
+                    94.378% 98.7111%,
+                    91.6513% 98.1028%,
+                    88.9774% 97.5172%,
+                    86.3539% 96.9535%,
+                    83.7784% 96.4107%,
+                    81.2488% 95.888%,
+                    78.763% 95.3846%,
+                    76.3191% 94.8998%,
+                    73.9152% 94.4329%,
+                    71.5496% 93.9832%,
+                    69.2205% 93.5502%,
+                    66.9264% 93.1332%,
+                    64.6658% 92.7316%,
+                    62.4371% 92.3451%,
+                    60.2391% 91.973%,
+                    58.0703% 91.6149%,
+                    55.9295% 91.2704%,
+                    53.8155% 90.939%,
+                    51.7271% 90.6203%,
+                    49.6632% 90.314%,
+                    47.6227% 90.0197%,
+                    45.6046% 89.7371%,
+                    43.6078% 89.4658%,
+                    41.6315% 89.2056%,
+                    39.6746% 88.9561%,
+                    37.7364% 88.7172%,
+                    35.8158% 88.4884%,
+                    33.9122% 88.2697%,
+                    32.0246% 88.0607%,
+                    30.1523% 87.8613%,
+                    28.2946% 87.6712%,
+                    26.4507% 87.4902%,
+                    24.6198% 87.3183%,
+                    22.8014% 87.1551%,
+                    20.9946% 87.0005%,
+                    19.1989% 86.8545%,
+                    17.4136% 86.7167%,
+                    15.6381% 86.5872%,
+                    13.8717% 86.4658%,
+                    12.1139% 86.3523%,
+                    10.364% 86.2467%,
+                    8.6215% 86.1488%,
+                    6.8859% 86.0586%,
+                    5.1564% 85.9761%,
+                    3.4326% 85.901%,
+                    1.714% 85.8333%,
+                    0% 85.773%
+                  );
                 "
-                sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
-                decoding="async"
-                alt="Монитор с итогами магазина на рабочем месте среди инструментов"
-                width="1536"
-                height="1024"
-                loading="eager" /><span class="gallery-card-caption"
-                ><span
+                ><img
+                  class="editorial-photo"
+                  src="img/hero-monitor-1536.webp"
+                  srcset="
+                    img/hero-monitor-768.webp   768w,
+                    img/hero-monitor-1536.webp 1536w
+                  "
+                  sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
+                  decoding="async"
+                  alt="Монитор с итогами магазина на рабочем месте среди инструментов"
+                  width="1536"
+                  height="1024"
+                  loading="eager" /><span class="gallery-card-caption"
+                  ><span
+                    ><svg class="icon" aria-hidden="true">
+                      <use href="#i-chart" /></svg
+                    >Главное — перед глазами</span
                   ><svg class="icon" aria-hidden="true">
-                    <use href="#i-chart" /></svg
-                  >Главное — перед глазами</span
-                ><svg class="icon" aria-hidden="true">
-                  <use href="#i-zoom" /></svg></span></a
-            ><a
-              class="gallery-card editorial-card"
-              href="img/phone.png"
-              data-gallery-card
-              data-preview
-              data-title="Магазин всегда рядом"
-              data-preview-alt="Экран Smart Store: Магазин всегда рядом"
-              aria-label="Магазин всегда рядом. Открыть оригинальный экран"
-              style="--slot: 2"
-              ><img
-                class="editorial-photo"
-                src="img/hero-phone-1536.webp"
-                srcset="
-                  img/hero-phone-768.webp   768w,
-                  img/hero-phone-1536.webp 1536w
+                    <use href="#i-zoom" /></svg></span
+              ></a>
+              <a
+                class="gallery-card editorial-card"
+                href="img/phone.png"
+                data-gallery-card
+                data-preview
+                data-title="Магазин всегда рядом"
+                data-preview-alt="Экран Smart Store: Магазин всегда рядом"
+                aria-label="Магазин всегда рядом. Открыть оригинальный экран"
+                tabindex="-1"
+                style="
+                  left: 83.3129%;
+                  top: -4.004%;
+                  width: 47.3157%;
+                  height: 108.008%;
+                  clip-path: polygon(
+                    0% 25.2383%,
+                    1.2112% 25.0046%,
+                    2.4407% 24.7647%,
+                    3.6893% 24.5183%,
+                    4.9575% 24.2652%,
+                    6.2461% 24.0052%,
+                    7.5557% 23.7381%,
+                    8.8872% 23.4636%,
+                    10.2412% 23.1815%,
+                    11.6187% 22.8914%,
+                    13.0204% 22.5932%,
+                    14.4473% 22.2866%,
+                    15.9003% 21.9711%,
+                    17.3804% 21.6466%,
+                    18.8885% 21.3126%,
+                    20.4259% 20.9689%,
+                    21.9936% 20.615%,
+                    23.5927% 20.2506%,
+                    25.2247% 19.8752%,
+                    26.8907% 19.4884%,
+                    28.5923% 19.0898%,
+                    30.3307% 18.6789%,
+                    32.1077% 18.2551%,
+                    33.9248% 17.8179%,
+                    35.7837% 17.3668%,
+                    37.6862% 16.9011%,
+                    39.6344% 16.4202%,
+                    41.6301% 15.9235%,
+                    43.6756% 15.4101%,
+                    45.7732% 14.8795%,
+                    47.9253% 14.3306%,
+                    50.1345% 13.7627%,
+                    52.4035% 13.1749%,
+                    54.7353% 12.5662%,
+                    57.133% 11.9355%,
+                    59.5998% 11.2817%,
+                    62.1394% 10.6036%,
+                    64.7556% 9.9%,
+                    67.4524% 9.1695%,
+                    70.2342% 8.4107%,
+                    73.1057% 7.6219%,
+                    76.0718% 6.8014%,
+                    79.1381% 5.9475%,
+                    82.3103% 5.0582%,
+                    85.5948% 4.1314%,
+                    88.9983% 3.1647%,
+                    92.5283% 2.1558%,
+                    96.1926% 1.1018%,
+                    100% 0%,
+                    100% 100%,
+                    96.1926% 98.8982%,
+                    92.5283% 97.8442%,
+                    88.9983% 96.8353%,
+                    85.5948% 95.8686%,
+                    82.3103% 94.9418%,
+                    79.1381% 94.0525%,
+                    76.0718% 93.1986%,
+                    73.1057% 92.3781%,
+                    70.2342% 91.5893%,
+                    67.4524% 90.8305%,
+                    64.7556% 90.1%,
+                    62.1394% 89.3964%,
+                    59.5998% 88.7183%,
+                    57.133% 88.0645%,
+                    54.7353% 87.4338%,
+                    52.4035% 86.8251%,
+                    50.1345% 86.2373%,
+                    47.9253% 85.6694%,
+                    45.7732% 85.1205%,
+                    43.6756% 84.5899%,
+                    41.6301% 84.0765%,
+                    39.6344% 83.5798%,
+                    37.6862% 83.0989%,
+                    35.7837% 82.6332%,
+                    33.9248% 82.1821%,
+                    32.1077% 81.7449%,
+                    30.3307% 81.3211%,
+                    28.5923% 80.9102%,
+                    26.8907% 80.5116%,
+                    25.2247% 80.1248%,
+                    23.5927% 79.7494%,
+                    21.9936% 79.385%,
+                    20.4259% 79.0311%,
+                    18.8885% 78.6874%,
+                    17.3804% 78.3534%,
+                    15.9003% 78.0289%,
+                    14.4473% 77.7134%,
+                    13.0204% 77.4068%,
+                    11.6187% 77.1086%,
+                    10.2412% 76.8185%,
+                    8.8872% 76.5364%,
+                    7.5557% 76.2619%,
+                    6.2461% 75.9948%,
+                    4.9575% 75.7348%,
+                    3.6893% 75.4817%,
+                    2.4407% 75.2353%,
+                    1.2112% 74.9954%,
+                    0% 74.7617%
+                  );
                 "
-                sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
-                decoding="async"
-                alt="Телефон с показателями Smart Store по диагонали на синем цилиндре"
-                width="1536"
-                height="1024"
-                loading="eager" /><span class="gallery-card-caption"
-                ><span
+                ><img
+                  class="editorial-photo"
+                  src="img/hero-phone-1536.webp"
+                  srcset="
+                    img/hero-phone-768.webp   768w,
+                    img/hero-phone-1536.webp 1536w
+                  "
+                  sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
+                  decoding="async"
+                  alt="Телефон с показателями Smart Store по диагонали на синем цилиндре"
+                  width="1536"
+                  height="1024"
+                  loading="eager" /><span class="gallery-card-caption"
+                  ><span
+                    ><svg class="icon" aria-hidden="true">
+                      <use href="#i-phone" /></svg
+                    >Магазин всегда рядом</span
                   ><svg class="icon" aria-hidden="true">
-                    <use href="#i-phone" /></svg
-                  >Магазин всегда рядом</span
-                ><svg class="icon" aria-hidden="true">
-                  <use href="#i-zoom" /></svg></span></a
-            ><a
-              class="gallery-card editorial-card"
-              href="img/sale.png"
-              data-gallery-card
-              data-preview
-              data-title="На своём рабочем месте"
-              data-preview-alt="Экран Smart Store: На своём рабочем месте"
-              aria-label="На своём рабочем месте. Открыть оригинальный экран"
-              style="--slot: 3"
-              ><img
-                class="editorial-photo"
-                src="img/hero-flatlay-1536.webp"
-                srcset="
-                  img/hero-flatlay-768.webp   768w,
-                  img/hero-flatlay-1536.webp 1536w
+                    <use href="#i-zoom" /></svg></span
+              ></a>
+              <a
+                class="gallery-card editorial-card"
+                href="img/sale.png"
+                data-gallery-card
+                data-preview
+                data-title="На своём рабочем месте"
+                data-preview-alt="Экран Smart Store: На своём рабочем месте"
+                aria-label="На своём рабочем месте. Открыть оригинальный экран"
+                hidden
+                ><img
+                  class="editorial-photo"
+                  src="img/hero-flatlay-1536.webp"
+                  srcset="
+                    img/hero-flatlay-768.webp   768w,
+                    img/hero-flatlay-1536.webp 1536w
+                  "
+                  sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
+                  decoding="async"
+                  alt="Вид сверху: ноутбук с кассой, сканер, чек и блокнот"
+                  width="1536"
+                  height="1024"
+                  loading="eager" /><span class="gallery-card-caption"
+                  ><span
+                    ><svg class="icon" aria-hidden="true">
+                      <use href="#i-receipt" /></svg
+                    >На своём рабочем месте</span
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-zoom" /></svg></span
+              ></a>
+              <a
+                class="gallery-card editorial-card"
+                href="img/sale.png"
+                data-gallery-card
+                data-preview
+                data-title="От сканера до оплаты"
+                data-preview-alt="Экран Smart Store: От сканера до оплаты"
+                aria-label="От сканера до оплаты. Открыть оригинальный экран"
+                tabindex="0"
+                style="
+                  left: -30.6285%;
+                  top: -4.004%;
+                  width: 58.0791%;
+                  height: 108.008%;
+                  clip-path: polygon(
+                    0% 0%,
+                    4.4667% 1.5845%,
+                    8.6943% 3.0708%,
+                    12.7032% 4.4673%,
+                    16.5118% 5.7814%,
+                    20.1361% 7.0201%,
+                    23.5908% 8.1891%,
+                    26.8889% 9.294%,
+                    30.0422% 10.3395%,
+                    33.0613% 11.33%,
+                    35.9557% 12.2696%,
+                    38.7342% 13.1616%,
+                    41.4046% 14.0095%,
+                    43.9743% 14.8161%,
+                    46.4497% 15.5842%,
+                    48.837% 16.3162%,
+                    51.1416% 17.0144%,
+                    53.3687% 17.6809%,
+                    55.523% 18.3176%,
+                    57.6086% 18.9261%,
+                    59.6297% 19.5083%,
+                    61.59% 20.0655%,
+                    63.4928% 20.5991%,
+                    65.3413% 21.1104%,
+                    67.1385% 21.6006%,
+                    68.8872% 22.0709%,
+                    70.5898% 22.5222%,
+                    72.2488% 22.9554%,
+                    73.8664% 23.3716%,
+                    75.4448% 23.7715%,
+                    76.9857% 24.1558%,
+                    78.4912% 24.5254%,
+                    79.9629% 24.8809%,
+                    81.4025% 25.2229%,
+                    82.8114% 25.5521%,
+                    84.1911% 25.8689%,
+                    85.5431% 26.174%,
+                    86.8684% 26.4678%,
+                    88.1684% 26.7508%,
+                    89.4443% 27.0234%,
+                    90.697% 27.286%,
+                    91.9276% 27.539%,
+                    93.1371% 27.7829%,
+                    94.3265% 28.0179%,
+                    95.4965% 28.2443%,
+                    96.6481% 28.4625%,
+                    97.7821% 28.6728%,
+                    98.8991% 28.8754%,
+                    100% 29.0706%,
+                    100% 70.9294%,
+                    98.8991% 71.1246%,
+                    97.7821% 71.3272%,
+                    96.6481% 71.5375%,
+                    95.4965% 71.7557%,
+                    94.3265% 71.9821%,
+                    93.1371% 72.2171%,
+                    91.9276% 72.461%,
+                    90.697% 72.714%,
+                    89.4443% 72.9766%,
+                    88.1684% 73.2492%,
+                    86.8684% 73.5322%,
+                    85.5431% 73.826%,
+                    84.1911% 74.1311%,
+                    82.8114% 74.4479%,
+                    81.4025% 74.7771%,
+                    79.9629% 75.1191%,
+                    78.4912% 75.4746%,
+                    76.9857% 75.8442%,
+                    75.4448% 76.2285%,
+                    73.8664% 76.6284%,
+                    72.2488% 77.0446%,
+                    70.5898% 77.4778%,
+                    68.8872% 77.9291%,
+                    67.1385% 78.3994%,
+                    65.3413% 78.8896%,
+                    63.4928% 79.4009%,
+                    61.59% 79.9345%,
+                    59.6297% 80.4917%,
+                    57.6086% 81.0739%,
+                    55.523% 81.6824%,
+                    53.3687% 82.3191%,
+                    51.1416% 82.9856%,
+                    48.837% 83.6838%,
+                    46.4497% 84.4158%,
+                    43.9743% 85.1839%,
+                    41.4046% 85.9905%,
+                    38.7342% 86.8384%,
+                    35.9557% 87.7304%,
+                    33.0613% 88.67%,
+                    30.0422% 89.6605%,
+                    26.8889% 90.706%,
+                    23.5908% 91.8109%,
+                    20.1361% 92.9799%,
+                    16.5118% 94.2186%,
+                    12.7032% 95.5327%,
+                    8.6943% 96.9292%,
+                    4.4667% 98.4155%,
+                    0% 100%
+                  );
                 "
-                sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
-                decoding="async"
-                alt="Вид сверху: ноутбук с кассой, сканер, чек и блокнот"
-                width="1536"
-                height="1024"
-                loading="eager" /><span class="gallery-card-caption"
-                ><span
+                ><img
+                  class="editorial-photo"
+                  src="img/hero-scanner-1536.webp"
+                  srcset="
+                    img/hero-scanner-768.webp   768w,
+                    img/hero-scanner-1536.webp 1536w
+                  "
+                  sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
+                  decoding="async"
+                  alt="Крупный план сканера, штрихкода и коробок с инструментом"
+                  width="1536"
+                  height="1024"
+                  loading="eager" /><span class="gallery-card-caption"
+                  ><span
+                    ><svg class="icon" aria-hidden="true">
+                      <use href="#i-box" /></svg
+                    >От сканера до оплаты</span
                   ><svg class="icon" aria-hidden="true">
-                    <use href="#i-receipt" /></svg
-                  >На своём рабочем месте</span
-                ><svg class="icon" aria-hidden="true">
-                  <use href="#i-zoom" /></svg></span></a
-            ><a
-              class="gallery-card editorial-card"
-              href="img/sale.png"
-              data-gallery-card
-              data-preview
-              data-title="От сканера до оплаты"
-              data-preview-alt="Экран Smart Store: От сканера до оплаты"
-              aria-label="От сканера до оплаты. Открыть оригинальный экран"
-              style="--slot: 4"
-              ><img
-                class="editorial-photo"
-                src="img/hero-scanner-1536.webp"
-                srcset="
-                  img/hero-scanner-768.webp   768w,
-                  img/hero-scanner-1536.webp 1536w
-                "
-                sizes="(max-width: 620px) 60vw, (max-width: 850px) 40vw, 30vw"
-                decoding="async"
-                alt="Крупный план сканера, штрихкода и коробок с инструментом"
-                width="1536"
-                height="1024"
-                loading="eager" /><span class="gallery-card-caption"
-                ><span
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#i-box" /></svg
-                  >От сканера до оплаты</span
-                ><svg class="icon" aria-hidden="true">
-                  <use href="#i-zoom" /></svg></span
-            ></a>
+                    <use href="#i-zoom" /></svg></span
+              ></a>
+            </div>
           </div>
           <div class="gallery-bottom wrap">
             <div class="gallery-controls" hidden>
@@ -328,7 +765,6 @@
         id="installation"
         tabindex="-1"
         class="installation-guide screen-section"
-        hidden
         aria-labelledby="installation-title"
       >
         <div class="screen-content wrap">

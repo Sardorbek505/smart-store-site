@@ -8,8 +8,9 @@ export function init({ config, installerFromRelease, fetchJson }) {
   const guide = $("installation");
   const revealGuide = () => {
     guide.hidden = false;
+    guide.classList.add("installation-visible");
   };
-  if (!windows || location.hash === "#installation") revealGuide();
+  if (location.hash === "#installation") revealGuide();
   if (location.hash === "#installation")
     requestAnimationFrame(() => guide.scrollIntoView());
   window.addEventListener("hashchange", () => {
@@ -20,7 +21,6 @@ export function init({ config, installerFromRelease, fetchJson }) {
       link.href = "#installation";
       link.addEventListener("click", revealGuide);
     }
-    $("download-label").textContent = "Получить для Windows";
     $("license-download-label").textContent = "Как установить";
     $("start-download-label").textContent = "Продолжить на компьютере";
   }
