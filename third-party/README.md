@@ -26,3 +26,7 @@ These additions use no runtime framework or animation dependency. The original s
 ### Phone revision (v23)
 
 The small expandable fan is superseded by three generated iPhone 18 Pro Max scenes, one visible at a time. The image-generation tool used the real `phone.png`, `phone-search.png`, and `phone-cart.png` as image references. No CSS phone shell or synthetic screenshot card is used. Original screen PNGs remain the preview targets. Hardware cues were checked against [Apple's iPhone 18 Pro specifications](https://www.apple.com/iphone-18-pro/specs/). Scene prompts, assets and display decisions are documented in [iphone-mockups.md](../docs/iphone-mockups.md).
+
+### Campaign revision (v24)
+
+The mobile section now uses three newly generated transparent iPhone cutouts on a native dark/cobalt campaign stage, with oversized typography and two contextual callouts. The primary callout uses demonstration values from the actual referenced screens; the secondary search callout is a working selector shortcut. No third-party component code or runtime dependency was added. See [mobile-campaign.md](../docs/mobile-campaign.md).

@@ -61,13 +61,17 @@ with sync_playwright() as p:
         rect=image.bounding_box()
         displayed_height=min(rect['height'],rect['width']*1.5)
         assert displayed_height >= (420 if w==390 else 230 if w==320 else 210), {'size':[w,h],'image':rect}
-        for i,source,render in [(1,'phone-search.png','iphone18-search.webp'),(2,'phone-cart.png','iphone18-cart.webp'),(0,'phone.png','iphone18-overview.webp')]:
+        for i,source,render,metric in [(1,'phone-search.png','mobile-campaign-search.webp','12 шт'),(2,'phone-cart.png','mobile-campaign-cart.webp','40 550 ₸'),(0,'phone.png','mobile-campaign-overview.webp','79 800 ₸')]:
             page.locator(f'[data-phone-screen="{i}"]').click()
             image.evaluate('e=>e.decode()')
             assert image.get_attribute('src')=='img/'+render
             assert image.evaluate('e=>e.naturalWidth>=1024&&e.naturalHeight>=1536')
             assert page.locator('#phone-screen-link').get_attribute('href')=='img/'+source
             assert page.locator('[data-phone-screen][aria-pressed="true"]').count()==1
+            assert page.locator('#scene-metric-value').inner_text()==metric
+        if w>850:
+            page.locator('#phone-query-hotspot').click()
+            assert page.locator('#phone-mockup').get_attribute('src')=='img/mobile-campaign-search.webp'
         page.locator('[data-phone-screen="0"]').focus();page.keyboard.press('End')
         assert page.locator('#phone-screen-link').get_attribute('href')=='img/phone-cart.png'
         image.evaluate('e=>e.decode()')

@@ -117,24 +117,30 @@ export function init() {
     const link = document.getElementById("phone-screen-link");
     const screens = [
       {
-        image: "iphone18-overview.webp",
+        image: "mobile-campaign-overview.webp",
         original: "phone.png",
         label: "Контроль",
-        alt: "Мокап iPhone 18 Pro Max: выручка и прибыль Smart Store, серебристый корпус на синем подиуме",
+        metricLabel: "Выручка сегодня",
+        metricValue: "79 800 ₸",
+        alt: "iPhone 18 Pro Max с итогами Smart Store, в диагональном ракурсе на объёмной подставке",
         originalAlt: "Главная телефона: выручка, прибыль и рабочие инструменты",
       },
       {
-        image: "iphone18-search.webp",
+        image: "mobile-campaign-search.webp",
         original: "phone-search.png",
         label: "Поиск товара",
-        alt: "Мокап iPhone 18 Pro Max: поиск товара Smart Store, светлый корпус под небольшим углом",
+        metricLabel: "На складе",
+        metricValue: "12 шт",
+        alt: "iPhone 18 Pro Max с поиском товара Smart Store на скульптурной подставке",
         originalAlt: "Поиск товара в телефонном интерфейсе Smart Store",
       },
       {
-        image: "iphone18-cart.webp",
+        image: "mobile-campaign-cart.webp",
         original: "phone-cart.png",
         label: "Корзина",
-        alt: "Мокап iPhone 18 Pro Max: корзина Smart Store на 40 550 ₸, чёрный корпус на ступени",
+        metricLabel: "К оплате",
+        metricValue: "40 550 ₸",
+        alt: "iPhone 18 Pro Max с корзиной Smart Store на 40 550 ₸, диагональная композиция",
         originalAlt: "Корзина продажи Smart Store: два товара на 40 550 ₸",
       },
     ];
@@ -146,6 +152,10 @@ export function init() {
       buttons.forEach((button, i) =>
         button.setAttribute("aria-pressed", String(i === index)),
       );
+      document.getElementById("scene-metric-label").textContent =
+        screen.metricLabel;
+      document.getElementById("scene-metric-value").textContent =
+        screen.metricValue;
       image.src = `img/${screen.image}`;
       image.alt = screen.alt;
       link.href = `img/${screen.original}`;
@@ -157,6 +167,9 @@ export function init() {
       button.addEventListener("click", () => select(index));
       button.disabled = false;
     });
+    const hotspot = document.getElementById("phone-query-hotspot");
+    hotspot.addEventListener("click", () => select(1));
+    hotspot.disabled = false;
     arrows(buttons, select);
   }
   for (const setup of [setupSteps, setupHub, setupPhone]) {
