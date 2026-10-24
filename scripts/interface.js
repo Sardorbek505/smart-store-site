@@ -88,8 +88,10 @@ export function init() {
       },
     };
     const link = $("product-screen-link");
-    document.querySelector(".screen-tabs").hidden = false;
-    for (const button of document.querySelectorAll("[data-screen]")) {
+    const tabs = document.querySelector(".screen-tabs");
+    const screenButtons = [...document.querySelectorAll("[data-screen]")];
+    tabs.hidden = false;
+    for (const [index, button] of screenButtons.entries()) {
       button.addEventListener("click", () => {
         const name = button.dataset.screen;
         const screen = screens[name];
@@ -102,6 +104,7 @@ export function init() {
             : screen.alt;
         link.dataset.title = `Smart Store / ${screen.label}`;
         $("screen-label").textContent = `Smart Store / ${screen.label}`;
+        tabs.dataset.selected = String(index);
         for (const tab of document.querySelectorAll("[data-screen]")) {
           const selected = tab === button;
           tab.setAttribute("aria-pressed", String(selected));

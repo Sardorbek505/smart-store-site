@@ -30,11 +30,12 @@
         root.dataset.viewportWidth = String(innerWidth);
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=19" />
-    <link rel="stylesheet" href="cinema.css?v=19" />
-    <link rel="stylesheet" href="buttons.css?v=19" />
-    <link rel="stylesheet" href="screens.css?v=19" />
-    <script src="app.js?v=19" type="module"></script>
+    <link rel="stylesheet" href="styles.css?v=20" />
+    <link rel="stylesheet" href="cinema.css?v=20" />
+    <link rel="stylesheet" href="buttons.css?v=20" />
+    <link rel="stylesheet" href="screens.css?v=20" />
+    <link rel="stylesheet" href="components.css?v=20" />
+    <script src="app.js?v=20" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -147,10 +148,15 @@
               ><span class="button-icon" aria-hidden="true"
                 ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" /></svg></span></a
-            ><a class="cinema-explore" href="#features"
-              >Что внутри
-              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
-            ></a>
+            ><a class="cinema-explore interactive-link" href="#features">
+              <span class="interactive-main"
+                ><span class="interactive-dot" aria-hidden="true"></span
+                ><span>Что внутри</span></span
+              >
+              <span class="interactive-hover" aria-hidden="true"
+                >Что внутри <svg class="icon"><use href="#i-arrow" /></svg
+              ></span>
+            </a>
           </div>
           <p class="trial-note">14 дней бесплатно</p>
         </div>
@@ -704,24 +710,42 @@
             >
           </div>
           <div class="installation-actions">
-            <label for="installation-url">Ссылка для компьютера</label
-            ><input
-              id="installation-url"
-              readonly
-              value="https://metov.store/"
-              spellcheck="false"
-            />
+            <label for="installation-url">Ссылка для компьютера</label>
+            <div class="copy-field">
+              <input
+                id="installation-url"
+                readonly
+                value="https://metov.store/"
+                spellcheck="false"
+              />
+              <button
+                id="copy-site"
+                type="button"
+                class="copy-field-button"
+                aria-label="Скопировать ссылку"
+                aria-describedby="copy-status"
+              >
+                <svg
+                  class="icon copy-field-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <rect x="8" y="8" width="12" height="12" rx="3" />
+                  <path
+                    d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+                <svg
+                  class="icon copy-field-check"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="m5 12 4 4 10-10" />
+                </svg>
+              </button>
+            </div>
             <div class="actions">
-              <button id="copy-site" type="button" class="button primary">
-                <span class="button-label">Скопировать ссылку</span
-                ><span class="button-icon" aria-hidden="true"
-                  ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <rect x="8" y="8" width="12" height="12" rx="3" />
-                    <path
-                      d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"
-                    /></svg
-                ></span></button
-              ><button
+              <button
                 id="share-site"
                 type="button"
                 class="button secondary"
@@ -884,6 +908,7 @@
               </div>
               <div
                 class="screen-tabs"
+                data-selected="0"
                 hidden
                 role="group"
                 aria-label="Выбрать экран программы"
@@ -1149,7 +1174,14 @@
           </div>
           <div class="faq-list">
             <details>
-              <summary>Что будет, если пропадёт интернет?</summary>
+              <summary>
+                Что будет, если пропадёт интернет?<span
+                  class="faq-symbol"
+                  aria-hidden="true"
+                  ><svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" /></svg
+                ></span>
+              </summary>
               <p>
                 На компьютере можно продолжать продажи, работать со складом и
                 основными отчётами. Онлайн-функции — курс, AI, обновления и
@@ -1157,7 +1189,14 @@
               </p>
             </details>
             <details>
-              <summary>Нужно ли устанавливать приложение на телефон?</summary>
+              <summary>
+                Нужно ли устанавливать приложение на телефон?<span
+                  class="faq-symbol"
+                  aria-hidden="true"
+                  ><svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" /></svg
+                ></span>
+              </summary>
               <p>
                 Нет. Сначала установите Smart Store на Windows, затем откройте
                 QR-код из настроек телефона в программе. На телефоне можно
@@ -1167,7 +1206,14 @@
               </p>
             </details>
             <details>
-              <summary>Что произойдёт через 14 дней?</summary>
+              <summary>
+                Что произойдёт через 14 дней?<span
+                  class="faq-symbol"
+                  aria-hidden="true"
+                  ><svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" /></svg
+                ></span>
+              </summary>
               <p>
                 Для новых продаж и приходов нужна лицензия. Внесённые данные не
                 удаляются: их можно просматривать, печатать, выгружать и
@@ -1175,7 +1221,14 @@
               </p>
             </details>
             <details id="ai-info">
-              <summary>AI и распознавание накладных уже включены?</summary>
+              <summary>
+                AI и распознавание накладных уже включены?<span
+                  class="faq-symbol"
+                  aria-hidden="true"
+                  ><svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" /></svg
+                ></span>
+              </summary>
               <p>
                 Для AI нужно настроить собственный ключ Gemini на компьютере.
                 Функция работает через интернет; доступность и стоимость
@@ -1186,6 +1239,10 @@
             <details>
               <summary>
                 Windows предупреждает об установщике. Что делать?
+                <span class="faq-symbol" aria-hidden="true"
+                  ><svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" /></svg
+                ></span>
               </summary>
               <p>
                 Установщик пока без цифровой подписи, поэтому Windows может
@@ -1195,7 +1252,14 @@
               </p>
             </details>
             <details>
-              <summary>Как приходят обновления?</summary>
+              <summary>
+                Как приходят обновления?<span
+                  class="faq-symbol"
+                  aria-hidden="true"
+                  ><svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" /></svg
+                ></span>
+              </summary>
               <p>
                 Программа проверяет новые версии и скачивает их в фоне при
                 наличии интернета. Доступное обновление можно применить из
@@ -1232,6 +1296,9 @@
               </details>
             </div>
             <div class="store-card">
+              <span class="ui-beam" aria-hidden="true"
+                ><span class="ui-beam-ray"></span
+              ></span>
               <form id="store-form" novalidate>
                 <label for="store-code">Код или адрес магазина</label
                 ><input

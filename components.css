@@ -1,0 +1,399 @@
+/* Native ports and adaptations; sources and MIT notices: third-party/README.md. */
+
+/* Magic UI / 21st: an expanding dot and a sliding second label. */
+.cinema-explore.interactive-link {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 54px;
+  padding: 15px 22px;
+  border: 1px solid #ededf53b;
+  border-radius: 999px;
+  color: #ededf5;
+  font-weight: 600;
+  font-size: 14px;
+}
+.interactive-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.interactive-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ededf5;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.interactive-main > span:last-child {
+  position: relative;
+  transition:
+    transform 300ms ease,
+    opacity 180ms ease;
+}
+.interactive-hover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #111116;
+  opacity: 0;
+  transform: translateX(20px);
+  transition:
+    transform 340ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 200ms ease;
+  pointer-events: none;
+}
+.interactive-hover .icon {
+  width: 16px;
+  height: 16px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .interactive-link:is(:hover, :focus-visible) .interactive-dot {
+    transform: scale(100.8);
+  }
+  .interactive-link:is(:hover, :focus-visible)
+    .interactive-main
+    > span:last-child {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  .interactive-link:is(:hover, :focus-visible) .interactive-hover {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .interactive-link .interactive-hover .icon {
+    transform: none;
+  }
+}
+
+/* Bencho Tab bar / Morphin selector: one sliding selection surface. */
+.product-section .screen-tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(100%, 390px);
+  padding: 4px;
+  gap: 4px;
+  border-radius: 18px;
+  border-color: #ededf533;
+  background: #ededf50a;
+}
+.screen-tabs::before {
+  content: "";
+  position: absolute;
+  inset: 4px auto 4px 4px;
+  width: calc((100% - 16px) / 3);
+  border-radius: 13px;
+  background: #ededf5;
+  box-shadow: 0 1px 3px #0002;
+  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.screen-tabs[data-selected="1"]::before {
+  transform: translateX(calc(100% + 4px));
+}
+.screen-tabs[data-selected="2"]::before {
+  transform: translateX(calc(200% + 8px));
+}
+.product-section .screen-tab {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  border-radius: 13px;
+  background: transparent;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.product-section .screen-tab.active {
+  background: transparent;
+  color: #111116;
+}
+.screen-tab.active .icon {
+  color: #1d4ed8;
+}
+@media (max-width: 1100px) {
+  .product-section .section-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .product-section .screen-tabs {
+    width: 100%;
+  }
+}
+@media (max-width: 620px) {
+  .product-section .screen-tab {
+    padding-inline: 6px;
+    gap: 5px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 380px) {
+  .product-section .screen-tab .icon {
+    display: none;
+  }
+}
+@media (min-width: 621px) and (max-height: 600px) {
+  .product-section .section-heading {
+    flex-direction: row;
+    align-items: center;
+  }
+  .product-section .section-heading > div:first-child {
+    flex: 1;
+    min-width: 0;
+  }
+  .product-section .screen-tabs {
+    width: min(52%, 390px);
+    flex: none;
+  }
+  .product-section #product-screen {
+    max-height: calc(var(--screen-height) - var(--navigation-height) - 120px);
+  }
+  .product-section .zoom-label {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 12px;
+    font-size: 0;
+    gap: 0;
+  }
+}
+
+/* FAQ: native details, outlined rows and an explicit animated close symbol. */
+.faq-list details {
+  margin-bottom: 8px;
+  border: 1px solid #d3d3e1;
+  border-radius: 18px;
+  background: #ffffff47;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+.faq-list details:first-child {
+  border-top: 1px solid #d3d3e1;
+}
+.faq-list details[open] {
+  border-color: #9eb4ef;
+  background: #ffffffb3;
+}
+.faq-list summary {
+  padding: 15px 58px 15px 18px;
+  min-height: 60px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.faq-list summary::after {
+  display: none;
+}
+.faq-symbol {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #1d4ed8;
+  background: #e1e8fa;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+.faq-symbol .icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 220ms ease;
+}
+details[open] .faq-symbol {
+  color: #ededf5;
+  background: #1d4ed8;
+}
+details[open] .faq-symbol .icon {
+  transform: rotate(45deg);
+}
+.faq-list p {
+  padding: 0 18px 18px;
+}
+.faq-list details[open] p {
+  animation: answer-appear 220ms ease both;
+}
+@keyframes answer-appear {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 620px) and (max-height: 700px) {
+  .faq-list details {
+    margin-bottom: 6px;
+    border-radius: 14px;
+  }
+  .faq-list summary {
+    padding: 9px 46px 9px 12px;
+    font-size: 14px;
+    line-height: 1.35;
+    min-height: 44px;
+  }
+  .faq-symbol {
+    right: 10px;
+    width: 28px;
+    height: 28px;
+  }
+  .faq-list p {
+    padding: 0 12px 14px;
+  }
+}
+
+/* Bencho Copy field: icon confirmation follows a successful clipboard write. */
+.copy-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px;
+  gap: 4px;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #b8bdd2;
+  border-radius: 18px;
+  background: #fff;
+  margin-bottom: 16px;
+}
+.copy-field:focus-within {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 2px #1d4ed824;
+}
+.installation-actions .copy-field input {
+  min-width: 0;
+  margin: 0;
+  padding: 14px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  font-size: 16px;
+}
+.copy-field input:focus-visible {
+  outline: none;
+}
+.copy-field-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 13px;
+  background: #e4eafb;
+  color: #1d4ed8;
+}
+.copy-field-button .icon {
+  grid-area: 1/1;
+  width: 20px;
+  height: 20px;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+.copy-field-check {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.copy-field-button[data-copied="true"] {
+  background: #1d4ed8;
+  color: #ededf5;
+}
+.copy-field-button[data-copied="true"] .copy-field-icon {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.copy-field-button[data-copied="true"] .copy-field-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Libraries.dev Border Beam: a static masked border with one transform pass. */
+.store-card {
+  position: relative;
+  isolation: isolate;
+}
+.store-card input:focus-visible {
+  outline-width: 2px;
+  outline-offset: 2px;
+}
+.ui-beam {
+  position: absolute;
+  inset: -1px;
+  display: block;
+  overflow: hidden;
+  padding: 2px;
+  border-radius: inherit;
+  opacity: 0;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+.ui-beam-ray {
+  position: absolute;
+  width: 220%;
+  aspect-ratio: 1;
+  left: 50%;
+  top: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0% 55%,
+    #94afff 70%,
+    #1d4ed8 82%,
+    #94afff 90%,
+    transparent 100%
+  );
+  transform: translate(-50%, -50%) rotate(-120deg);
+}
+.store-card:focus-within .ui-beam {
+  opacity: 1;
+}
+.store-card:focus-within .ui-beam-ray {
+  animation: focus-beam 1200ms ease-out 1 both;
+}
+@keyframes focus-beam {
+  from {
+    transform: translate(-50%, -50%) rotate(-120deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(240deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactive-dot,
+  .interactive-main > span:last-child,
+  .interactive-hover,
+  .screen-tabs::before,
+  .faq-list details,
+  .faq-symbol,
+  .faq-symbol .icon,
+  .copy-field-button .icon,
+  .ui-beam {
+    transition: none;
+  }
+  .faq-list details[open] p,
+  .store-card:focus-within .ui-beam-ray {
+    animation: none;
+  }
+}
