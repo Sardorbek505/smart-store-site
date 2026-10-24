@@ -229,6 +229,12 @@
 
   function setupScreens() {
     const screens = {
+      scene: {
+        label: "В магазине",
+        alt: "Мокап ноутбука с кассой Smart Store в ракурсе три четверти",
+        image: "editorial-laptop.webp",
+        preview: "sale.png",
+      },
       sale: {
         label: "Продажа",
         alt: "Касса Smart Store: товары, чек и способы оплаты",
@@ -243,9 +249,13 @@
       button.addEventListener("click", () => {
         const name = button.dataset.screen;
         const screen = screens[name];
-        $("product-screen").src = `img/${name}.png`;
+        $("product-screen").src = `img/${screen.image || `${name}.png`}`;
         $("product-screen").alt = screen.alt;
-        link.href = `img/${name}.png`;
+        link.href = `img/${screen.preview || `${name}.png`}`;
+        link.dataset.previewAlt =
+          name === "scene"
+            ? "Касса Smart Store: товары, чек и способы оплаты"
+            : screen.alt;
         link.dataset.title = `Smart Store / ${screen.label}`;
         $("screen-label").textContent = `Smart Store / ${screen.label}`;
         for (const tab of document.querySelectorAll("[data-screen]")) {
@@ -276,6 +286,7 @@
     let pointer = null;
     let dragged = false;
     let cardWidth = 0;
+    let perspective = 1050;
     let announced = -1;
     const count = cards.length;
     const wrap = (value) => ((value % count) + count) % count;
@@ -283,15 +294,19 @@
       for (const [index, card] of cards.entries()) {
         const distance = wrap(index - position + count / 2) - count / 2;
         const edge = Math.abs(distance);
-        const x = distance * cardWidth * 1.02;
-        const z = Math.pow(edge, 1.35) * 70;
-        const y = 8 - edge * 10;
-        card.style.transform = `translate3d(calc(-50% + ${x}px), ${y}px, ${z}px) rotateY(${-distance * 18}deg) rotateZ(${-distance * 0.6}deg)`;
+        const z = Math.pow(edge, 1.6) * 92;
+        const x =
+          distance *
+          cardWidth *
+          (1.04 + Math.max(0, edge - 1) * 0.13) *
+          (1 - z / perspective);
+        const y = 18 - edge * 16;
+        card.style.transform = `translate3d(calc(-50% + ${x}px), ${y}px, ${z}px) rotateY(${-distance * 26}deg) rotateZ(${-distance * 0.2}deg)`;
         card.style.opacity = String(
           Math.min(1, Math.max(0, (2.45 - edge) / 0.5)),
         );
         const offscreen = edge > 1.65;
-        if (card.inert !== offscreen) card.inert = offscreen;
+        card.tabIndex = offscreen ? -1 : 0;
       }
       $("gallery-count").textContent = String(
         wrap(Math.round(position)) + 1,
@@ -444,6 +459,8 @@
     });
     new ResizeObserver(() => {
       cardWidth = cards[0].offsetWidth;
+      perspective =
+        Number.parseFloat(getComputedStyle(stage).perspective) || 1050;
       render();
     }).observe(stage);
     new IntersectionObserver(

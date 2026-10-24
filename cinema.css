@@ -28,7 +28,7 @@
   background: #111116;
   color: #ededf5;
   overflow: hidden;
-  padding-top: 62px;
+  padding-top: 52px;
   padding-bottom: 26px;
 }
 .hero-aura {
@@ -59,7 +59,7 @@
   box-shadow: 0 0 12px #1d4ed870;
 }
 .cinema-copy h1 {
-  font-size: clamp(48px, 5.4vw, 78px);
+  font-size: clamp(48px, 5vw, 72px);
   line-height: 1.01;
   letter-spacing: -3.6px;
   font-weight: 600;
@@ -117,12 +117,12 @@
 .hero-gallery {
   position: relative;
   margin-top: 26px;
-  --card-width: clamp(290px, 31vw, 448px);
+  --card-width: clamp(240px, 24vw, 330px);
 }
 .gallery-stage {
-  height: 355px;
+  height: 270px;
   position: relative;
-  perspective: 1200px;
+  perspective: 1050px;
   perspective-origin: 50% 52%;
   transform-style: preserve-3d;
   touch-action: pan-y;
@@ -147,9 +147,9 @@
 .gallery-card {
   position: absolute;
   left: 50%;
-  top: 31px;
+  top: 22px;
   width: var(--card-width);
-  aspect-ratio: 1.5;
+  aspect-ratio: 1.65;
   border-radius: 15px;
   overflow: hidden;
   isolation: isolate;
@@ -171,15 +171,6 @@
 .gallery-card:focus-visible {
   outline-color: #1d4ed8;
 }
-.scene-background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  inset: 0;
-  z-index: -2;
-  opacity: 0.88;
-}
 .gallery-card:after {
   content: "";
   position: absolute;
@@ -191,123 +182,6 @@
   );
   pointer-events: none;
   z-index: 1;
-}
-.device-mockup {
-  position: absolute;
-  left: 50%;
-  top: 46%;
-  transform: translate(-50%, -50%);
-  filter: drop-shadow(0 15px 14px #0009);
-  width: 76%;
-  isolation: isolate;
-}
-.mockup-display {
-  position: relative;
-  background: linear-gradient(135deg, #5b6069, #101217 22%, #303339);
-  padding: 5px 5px 7px;
-  border-radius: 9px 9px 4px 4px;
-  border: 1px solid #cbd0df5c;
-  box-shadow:
-    inset 0 1px 1px #d6ddf45c,
-    0 0 0 1px #000;
-}
-.mockup-display:before {
-  content: "";
-  width: 2px;
-  height: 2px;
-  position: absolute;
-  left: 50%;
-  top: 1px;
-  background: #9aa4b4;
-  border-radius: 50%;
-}
-.mockup-screen {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1.6;
-  object-fit: contain;
-  background: #e9ecf3;
-  border-radius: 3px;
-}
-.mockup-laptop .device-base {
-  display: block;
-  position: absolute;
-  left: -9%;
-  right: -9%;
-  height: 9px;
-  bottom: -7px;
-  border-radius: 1px 1px 50% 50%;
-  background: linear-gradient(#c1c5ce, #858a95 35%, #4b515d 65%, #222732);
-  border-top: 1px solid #f3f4fa99;
-  box-shadow: 0 3px 5px #0009;
-}
-.mockup-laptop .device-base:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 41%;
-  right: 41%;
-  height: 3px;
-  background: #484e59;
-  border-radius: 0 0 4px 4px;
-}
-.mockup-monitor {
-  width: 72%;
-  top: 43%;
-}
-.mockup-monitor .mockup-display {
-  padding: 5px 5px 9px;
-  border-radius: 7px;
-  border-color: #b6c1cf66;
-}
-.mockup-monitor .device-base {
-  position: absolute;
-  top: 100%;
-  left: 43%;
-  width: 14%;
-  height: 18px;
-  background: linear-gradient(90deg, #434a55, #989da7, #313943);
-  z-index: -1;
-}
-.mockup-monitor .device-base:after {
-  content: "";
-  position: absolute;
-  top: 16px;
-  left: -60%;
-  width: 220%;
-  height: 5px;
-  border-radius: 60% 60% 2px 2px;
-  background: linear-gradient(#b8bec6, #4b525f);
-}
-.mockup-phone {
-  width: 25%;
-  top: 44%;
-}
-.mockup-phone .mockup-display {
-  padding: 4px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #a3a3b8, #30303f 30%, #111116);
-  border-color: #d7def599;
-  box-shadow:
-    inset 0 1px 2px #ededf599,
-    0 0 0 1px #09090d;
-}
-.mockup-phone .mockup-display:before {
-  top: 6px;
-  left: 38%;
-  width: 24%;
-  height: 5px;
-  border-radius: 4px;
-  background: #111116;
-  z-index: 2;
-}
-.mockup-phone .mockup-screen {
-  aspect-ratio: 390/844;
-  border-radius: 10px;
-}
-.mockup-phone .device-base {
-  display: none;
 }
 .gallery-card-caption {
   position: absolute;
@@ -433,105 +307,99 @@
   white-space: nowrap;
   border: 0;
 }
-/* The same studio art carries through to the larger, readable mockups. */
+/* Full photographic compositions; original interfaces remain available to inspect. */
+.editorial-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .studio-demo {
-  padding: 54px 72px 74px;
-  position: relative;
-  border-radius: 18px;
-  background: #141820 url("img/studio-blue.webp") center/cover;
-  isolation: isolate;
-}
-.studio-demo:before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #0a0d1450;
-  z-index: -1;
-  border-radius: inherit;
-}
-.studio-demo .product-preview {
-  border: 1px solid #8f9cba66;
-  padding: 0 6px 6px;
-  background: linear-gradient(135deg, #525c70, #202733 70%);
-  border-radius: 12px 12px 8px 8px;
-  box-shadow: 0 30px 60px #000a;
-  position: relative;
-}
-.studio-demo .product-preview:after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 43%;
-  right: 43%;
-  height: 34px;
-  background: linear-gradient(90deg, #4d5c75, #a0acbe, #39465b);
-  z-index: -1;
-  clip-path: polygon(
-    20% 0,
-    80% 0,
-    85% 85%,
-    100% 90%,
-    100% 100%,
-    0 100%,
-    0 90%,
-    15% 85%
-  );
-}
-.studio-demo .product-preview figcaption {
-  position: absolute;
-  top: calc(100% + 43px);
-  margin: 0;
-  left: 0;
-  right: 0;
-  background: transparent;
   padding: 0;
-  font-size: 9px;
-  color: #d0d8e7;
-}
-.studio-demo .window-bar {
-  height: 30px;
-  color: #c4cfdf;
-  font-size: 9px;
-}
-.studio-demo .demo-label {
-  font-size: 7px;
-}
-.phone-preview {
-  background: #111116 url("img/studio-pearl.webp") center/cover;
-  border-radius: 25px;
-  padding-block: 45px;
-  min-height: 585px;
+  background: transparent;
+  border-radius: 18px;
   overflow: hidden;
 }
-.phone-preview .phone-orbit {
+.studio-demo .product-preview {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.studio-demo .window-bar {
   display: none;
 }
+.studio-demo .screenshot-link {
+  border-radius: 16px;
+}
+.studio-demo #product-screen {
+  aspect-ratio: 3/2;
+  object-fit: contain;
+  background: #ededf5;
+}
+.studio-demo .product-preview figcaption {
+  position: static;
+  margin: 0;
+  background: transparent;
+  padding: 18px 0 0;
+  color: #b8b8cf;
+  font-size: 10px;
+}
+.phone-preview {
+  border-radius: 22px;
+  overflow: hidden;
+  padding: 0;
+  background: transparent;
+  min-height: 0;
+}
 .phone-preview > a {
-  box-shadow: 11px 18px 40px #0008;
-  border-color: #353548;
+  position: relative;
+  width: 100%;
+  transform: none;
+  border: 0;
+  border-radius: 22px;
+  box-shadow: none;
+  overflow: hidden;
+  display: block;
+}
+.phone-preview img {
+  width: 100%;
+  height: auto;
 }
 .phone-preview figcaption {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 15px;
+}
+.photo-view-label {
+  position: absolute;
+  right: 17px;
+  bottom: 17px;
+  background: #111116eb;
   color: #ededf5;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  border-radius: 8px;
 }
-.phone-preview .phone-bubble {
-  background: #ededf5;
-  border-color: #b4c7f533;
+.photo-view-label .icon {
+  width: 15px;
+  height: 15px;
 }
-.phone-preview .bubble-left {
-  left: 15px;
-}
-.phone-preview .bubble-right {
-  right: 15px;
+.screen-tabs {
+  flex-wrap: wrap;
 }
 @media (min-width: 1600px) {
   .cinema-hero {
     padding-top: 72px;
   }
   .gallery-stage {
-    height: 390px;
+    height: 290px;
   }
   .hero-gallery {
-    --card-width: 460px;
+    --card-width: 350px;
   }
 }
 @media (max-width: 1150px) {
@@ -539,25 +407,13 @@
     font-size: 68px;
   }
   .hero-gallery {
-    --card-width: 360px;
+    --card-width: 285px;
   }
   .gallery-stage {
-    height: 310px;
+    height: 245px;
   }
   .cinema-hero {
     padding-top: 52px;
-  }
-  .studio-demo {
-    padding: 40px 45px 70px;
-  }
-  .phone-preview {
-    min-height: 550px;
-  }
-  .phone-preview .bubble-left {
-    left: 6px;
-  }
-  .phone-preview .bubble-right {
-    right: 6px;
   }
 }
 @media (max-width: 850px) {
@@ -576,11 +432,11 @@
     font-size: 12px;
   }
   .hero-gallery {
-    --card-width: 320px;
+    --card-width: 255px;
     margin-top: 22px;
   }
   .gallery-stage {
-    height: 280px;
+    height: 225px;
   }
   .gallery-card {
     top: 26px;
@@ -600,31 +456,6 @@
   }
   .cinema-meta {
     padding-top: 17px;
-  }
-  .studio-demo {
-    padding: 30px 30px 65px;
-  }
-  .studio-demo .product-preview figcaption {
-    font-size: 8px;
-  }
-  .phone-preview {
-    min-height: 490px;
-    padding-block: 35px;
-  }
-  .phone-preview > a {
-    width: 185px;
-  }
-  .phone-preview .bubble-left {
-    font-size: 24px;
-    left: 4px;
-  }
-  .phone-preview .bubble-right {
-    right: 3px;
-    font-size: 8px;
-    padding: 11px;
-  }
-  .phone-preview .bubble-left span {
-    font-size: 9px;
   }
 }
 @media (max-width: 620px) {
@@ -674,11 +505,11 @@
     margin-top: 14px;
   }
   .hero-gallery {
-    --card-width: 275px;
+    --card-width: 235px;
     margin-top: 23px;
   }
   .gallery-stage {
-    height: 255px;
+    height: 220px;
     perspective: 1050px;
   }
   .gallery-card {
@@ -723,47 +554,6 @@
     max-width: 300px;
     line-height: 1.8;
   }
-  .studio-demo {
-    padding: 23px 12px 57px;
-    border-radius: 12px;
-  }
-  .studio-demo .product-preview {
-    padding: 0 3px 3px;
-    border-radius: 7px;
-  }
-  .studio-demo .window-bar {
-    height: 22px;
-    font-size: 6px;
-    gap: 5px;
-  }
-  .studio-demo .demo-label {
-    font-size: 5px;
-  }
-  .studio-demo .product-preview figcaption {
-    font-size: 7px;
-    top: calc(100% + 34px);
-  }
-  .studio-demo .product-preview:after {
-    height: 27px;
-  }
-  .phone-preview {
-    padding-block: 35px;
-    min-height: 525px;
-  }
-  .phone-preview > a {
-    width: 200px;
-  }
-  .phone-preview .bubble-left {
-    left: 8px;
-    font-size: 26px;
-  }
-  .phone-preview .bubble-right {
-    right: 8px;
-    font-size: 9px;
-  }
-  .phone-preview .bubble-left span {
-    font-size: 10px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .gallery-card {
@@ -771,5 +561,66 @@
   }
   .gallery-controls button {
     transition: none;
+  }
+}
+
+.hero-gallery {
+  width: min(1280px, 100%);
+  margin-inline: auto;
+}
+.gallery-card-caption {
+  font-size: 9px;
+  bottom: 12px;
+  left: 14px;
+  right: 14px;
+}
+.gallery-card-caption .icon {
+  width: 13px;
+  height: 13px;
+}
+@media (max-width: 620px) {
+  .hero-gallery {
+    margin-top: 21px;
+  }
+  .gallery-stage {
+    perspective: 1000px;
+  }
+  .gallery-card {
+    top: 25px;
+  }
+  .gallery-card-caption {
+    font-size: 8px;
+    left: 12px;
+    right: 12px;
+    bottom: 11px;
+  }
+  .gallery-card-caption .icon {
+    width: 11px;
+    height: 11px;
+  }
+  .gallery-card-caption > span {
+    gap: 5px;
+  }
+  .screen-tabs {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .screen-tab {
+    gap: 6px;
+    padding: 10px 9px;
+    font-size: 10px;
+  }
+  .screen-tab .icon {
+    width: 14px;
+    height: 14px;
+  }
+  .photo-view-label {
+    font-size: 9px;
+    bottom: 12px;
+    right: 12px;
+    padding: 10px 12px;
+  }
+  .phone-preview figcaption {
+    font-size: 9px;
   }
 }
