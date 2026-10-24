@@ -177,10 +177,15 @@
   color: var(--ink);
 }
 .phone-section .phone-enter {
+  width: max-content;
+  max-width: 100%;
   background: var(--blue);
   color: var(--paper);
   border-color: var(--blue);
   min-height: 52px;
+}
+.phone-section .phone-enter .button-label {
+  white-space: nowrap;
 }
 .phone-section .phone-enter .button-icon {
   color: var(--paper);
@@ -426,14 +431,11 @@
     height: 15px;
   }
   .phone-section .phone-enter {
+    --action-chip: 30px;
     align-self: center;
     min-height: 44px;
     padding-block: 8px;
     font-size: 12px;
-  }
-  .phone-section .phone-enter .button-icon {
-    width: 30px;
-    height: 30px;
   }
   .phone-section .connection-note {
     text-align: center;
