@@ -142,10 +142,10 @@ a:hover {
 .top {
   position: sticky;
   top: 0;
-  background: rgba(237, 237, 245, 0.96);
+  background: var(--paper);
   z-index: 20;
   border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(15px);
+  backdrop-filter: none;
 }
 .top-inner {
   height: 88px;

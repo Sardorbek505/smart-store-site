@@ -332,7 +332,13 @@ html:has(#preview-dialog[open]) {
   }
   .product-section .screen-tabs {
     margin: 0;
-    width: max-content;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .product-section .screen-tab {
+    min-width: 0;
+    justify-content: center;
   }
   .phone-layout {
     grid-template-columns: 1fr 1fr;
@@ -400,7 +406,10 @@ html:has(#preview-dialog[open]) {
     padding: 8px 0;
   }
   .product-section .screen-tab {
-    padding-inline: 10px;
+    padding-inline: 6px;
+    gap: 5px;
+    font-size: 12px;
+    white-space: nowrap;
   }
   .phone-layout {
     display: flex;
@@ -526,6 +535,115 @@ html:has(#preview-dialog[open]) {
   }
   .release-note {
     line-height: 1.5;
+  }
+}
+
+@media (max-width: 380px) {
+  .product-section .screen-tab .icon {
+    display: none;
+  }
+}
+
+/* A question link lands below the fixed navigation; section links stay fullscreen. */
+.faq-list details {
+  scroll-margin-top: calc(var(--navigation-height) + 16px);
+}
+
+/* Show the three storage facts with clear visual anchors, without extra copy. */
+.data-section .screen-content {
+  gap: clamp(28px, calc(var(--screen-height) * 0.05), 56px) 32px;
+}
+.data-section .data-item {
+  border: 0;
+  padding: 0;
+}
+.data-symbol {
+  width: clamp(104px, 10vw, 144px);
+  height: clamp(104px, 10vw, 144px);
+  display: grid;
+  place-items: center;
+  border: 1px solid #b8c8f1;
+  border-radius: 30%;
+  color: var(--blue);
+  background: #e4e9fa;
+  margin-bottom: 32px;
+}
+.data-symbol .icon {
+  width: 48%;
+  height: 48%;
+  stroke-width: 1.2;
+}
+.data-symbol--time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(42px, 5vw, 66px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  gap: 5px;
+  color: var(--paper);
+  border-color: var(--blue);
+  background: var(--blue);
+}
+.data-symbol--time span {
+  font-size: 0.4em;
+  letter-spacing: 0;
+  transform: translateY(0.5em);
+}
+.data-item p {
+  max-width: 30ch;
+}
+@media (min-width: 851px) and (min-height: 700px) {
+  .start-steps .step-number {
+    font-size: clamp(64px, 6vw, 96px);
+    color: var(--blue);
+    margin-bottom: 32px;
+  }
+  .start-steps h3 {
+    font-size: 28px;
+  }
+}
+@media (max-width: 620px) {
+  .data-section .screen-content {
+    gap: 28px;
+  }
+  .data-section .data-item {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 6px 18px;
+    align-items: start;
+  }
+  .data-symbol {
+    grid-row: span 2;
+    width: 64px;
+    height: 64px;
+    margin: 0;
+    border-radius: 20px;
+  }
+  .data-symbol--time {
+    font-size: 34px;
+  }
+  .data-section .data-item strong {
+    font-size: 18px;
+  }
+  .data-item p {
+    grid-column: 2;
+    margin: 0;
+    line-height: 1.45;
+  }
+}
+@media (min-width: 621px) and (max-height: 600px) {
+  .data-section .screen-content {
+    gap: 20px 24px;
+  }
+  .data-symbol {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 12px;
+  }
+  .data-symbol--time {
+    font-size: 32px;
   }
 }
 @media (max-width: 620px) and (max-height: 700px) {
