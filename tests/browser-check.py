@@ -25,9 +25,8 @@ with sync_playwright() as p:
     assert page.locator('canvas').count() == 0
     assert page.locator('[data-ribbon-track]').count() == 1
     page.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
-    geometry = page.locator('[data-gallery-card]').nth(1).evaluate(r"""e=>{const p=e.style.clipPath.match(/[-+]?[0-9]*\.?[0-9]+/g).map(Number);const n=p.length/4;return {bend:Math.abs(p[Math.floor((n-1)/2)*2+1]-(p[1]+p[(n-1)*2+1])/2),transform:getComputedStyle(e).transform}}""")
-    assert geometry['bend'] > 2, geometry
-    assert geometry['transform'] == 'none', geometry
+    assert 'hero-ribbon-clip' in page.locator('.ribbon-window').evaluate('e=>getComputedStyle(e).clipPath')
+    assert page.locator('#hero-ribbon-clip path').get_attribute('d').count('C') == 4
 
     assert page.locator('[data-screen="scene"]').is_visible()
     for name, source in [('home', 'home.png'), ('sale', 'sale.png'), ('scene', 'sale.png')]:

@@ -1,4 +1,4 @@
-"""Manual gallery: no background/GPU work, sharp sources, controls and fallback."""
+"""Native gallery: no Canvas work, sharp sources, controls and fallback."""
 from playwright.sync_api import sync_playwright
 from PIL import Image
 from io import BytesIO
@@ -24,9 +24,10 @@ with sync_playwright() as p:
         page.mouse.wheel(0,45)
         page.wait_for_timeout(240)
     assert page.evaluate('window.draws')==before,'scroll pauses must not restart drawing'
-    assert page.locator('#gallery-pause').count()==0
+    assert page.locator('#gallery-pause').count()==1
     page.locator('#gallery-next').click()
     page.wait_for_function('document.getElementById("gallery-count").textContent==="02"')
+    page.wait_for_timeout(700)
     page.locator('#gallery-prev').click()
     page.wait_for_function('document.getElementById("gallery-count").textContent==="01"')
     page.locator('#gallery-next').focus();page.keyboard.press('ArrowRight')
@@ -54,6 +55,7 @@ with sync_playwright() as p:
     stage.dispatch_event('pointerup',{'pointerId':1,'pointerType':'touch','isPrimary':True,'clientX':150,'clientY':620})
     stage.dispatch_event('click')
     touch.wait_for_function('document.getElementById("gallery-count").textContent==="02"')
+    touch.wait_for_timeout(700)
     assert touch.locator('#preview-dialog').is_hidden()
     touch.locator('[data-gallery-card]').nth(1).tap()
     assert touch.locator('#preview-dialog').is_visible()
@@ -67,5 +69,5 @@ with sync_playwright() as p:
     fallback.locator('#gallery-next').click()
     fallback.wait_for_function('document.getElementById("gallery-count").textContent==="02"')
     assert not errors,errors
-    print('PASS',BROWSER,'native gallery, no Canvas/GPU/background drawing, burst scrolling, controls/keyboard, originals, Retina, swipe/tap, unavailable graphics APIs.')
+    print('PASS',BROWSER,'native gallery, no Canvas/WebGL drawing, burst scrolling, controls/keyboard, originals, Retina, swipe/tap, unavailable graphics APIs.')
     b.close()
