@@ -25,23 +25,23 @@ with sync_playwright() as p:
             assert page.locator(section).evaluate('e=>Math.abs(e.getBoundingClientRect().height-innerHeight)<1')
             assert page.locator(section+' .screen-content').evaluate('e=>e.scrollWidth<=e.clientWidth+1&&e.scrollHeight<=e.clientHeight+4'),section
         page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
-        for name,render,original,value in [('sale','sale','sale.png','82 300 ₸'),('home','overview','home.png','11 230 ₸'),('scene','catalog','products.png','12 шт')]:
+        for name,render,original,value in [('sale','sale','demo-sale.png','82 300 ₸'),('home','overview','demo-home.png','142 880 ₸'),('scene','catalog','demo-products.png','12 шт')]:
             page.locator(f'[data-screen="{name}"]').click()
             image=page.locator('#product-screen')
             image.evaluate('e=>e.decode()')
-            assert image.get_attribute('src')==f'img/workspace-{render}-full.webp'
-            assert image.evaluate('e=>e.naturalWidth>=1100&&e.naturalHeight>=1400')
+            assert image.get_attribute('src')==f'img/workspace-demo-{render}.webp'
+            assert image.evaluate('e=>e.naturalWidth>=1024&&e.naturalHeight>=1400')
             assert page.locator('#product-screen-link').get_attribute('href')=='img/'+original
             assert page.locator('#product-fact-value').inner_text()==value
             assert page.locator('[data-screen][aria-pressed="true"]').count()==1
             assert page.locator('#workspace .screen-content').evaluate('e=>e.scrollHeight<=e.clientHeight+4')
         assert image.bounding_box()['height'] >= (390 if w==390 else 220 if w==320 else 210)
         page.locator('[data-screen="scene"]').focus();page.keyboard.press('End')
-        assert page.locator('#product-screen-link').get_attribute('href')=='img/home.png'
+        assert page.locator('#product-screen-link').get_attribute('href')=='img/demo-home.png'
         page.keyboard.press('Home')
-        assert page.locator('#product-screen-link').get_attribute('href')=='img/products.png'
+        assert page.locator('#product-screen-link').get_attribute('href')=='img/demo-products.png'
         page.locator('#product-screen-link').click();page.locator('#preview-dialog').wait_for(state='visible')
-        assert page.locator('#preview-original').get_attribute('href').endswith('/img/products.png')
+        assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-products.png')
         page.keyboard.press('Escape')
         page.wait_for_timeout(400)
         assert page.locator('.studio-demo').evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.playState!=="running")')
@@ -49,8 +49,8 @@ with sync_playwright() as p:
         for i in [2,1,0,1,2,1]:
             page.locator(f'[data-start-step="{i}"]').click()
         assert page.locator('[data-start-step][aria-pressed="true"]').count()==1
-        assert page.locator('#start-screen').get_attribute('src')=='img/products.png'
-        assert page.locator('#start-screen-link').get_attribute('href')=='img/products.png'
+        assert page.locator('#start-screen').get_attribute('src')=='img/demo-products.png'
+        assert page.locator('#start-screen-link').get_attribute('href')=='img/demo-products.png'
         page.locator('#start-screen').evaluate('e=>e.decode()')
         image=page.locator('#start-screen').bounding_box();frame=page.locator('.step-screen-link').bounding_box()
         assert image['height']>30 and image['height']<=frame['height']+1,{'image':image,'frame':frame}
@@ -59,7 +59,7 @@ with sync_playwright() as p:
         page.keyboard.press('Home');assert page.locator('.step-player').get_attribute('data-step')=='0'
         page.locator('[data-start-step="1"]').click()
         page.locator('#start-screen-link').click();page.locator('#preview-dialog').wait_for(state='visible')
-        assert page.locator('#preview-original').get_attribute('href').endswith('/img/products.png')
+        assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-products.png')
         page.keyboard.press('Escape')
         page.locator('#data').evaluate('e=>scrollTo(0,e.offsetTop)')
         for i in [2,0,2,1]:page.locator(f'[data-hub-node="{i}"]').click()
@@ -82,7 +82,7 @@ with sync_playwright() as p:
         rect=image.bounding_box()
         displayed_height=min(rect['height'],rect['width']*1.5)
         assert displayed_height >= (420 if w==390 else 230 if w==320 else 210), {'size':[w,h],'image':rect}
-        for i,source,render,metric in [(1,'phone-search.png','mobile-campaign-search.webp','12 шт'),(2,'phone-cart.png','mobile-campaign-cart.webp','40 550 ₸'),(0,'phone.png','mobile-campaign-overview.webp','79 800 ₸')]:
+        for i,source,render,metric in [(1,'demo-phone-search.png','mobile-demo-search.webp','7 шт'),(2,'demo-phone-cart.png','mobile-demo-cart.webp','40 550 ₸'),(0,'demo-phone.png','mobile-demo-overview.webp','396 950 ₸')]:
             page.locator(f'[data-phone-screen="{i}"]').click()
             image.evaluate('e=>e.decode()')
             assert image.get_attribute('src')=='img/'+render
@@ -90,14 +90,15 @@ with sync_playwright() as p:
             assert page.locator('#phone-screen-link').get_attribute('href')=='img/'+source
             assert page.locator('[data-phone-screen][aria-pressed="true"]').count()==1
             assert page.locator('#scene-metric-value').inner_text()==metric
+            assert page.locator('#scene-metric-value').evaluate('e=>e.scrollWidth<=e.clientWidth'),metric
         if w>850:
             page.locator('#phone-query-hotspot').click()
-            assert page.locator('#phone-mockup').get_attribute('src')=='img/mobile-campaign-search.webp'
+            assert page.locator('#phone-mockup').get_attribute('src')=='img/mobile-demo-search.webp'
         page.locator('[data-phone-screen="0"]').focus();page.keyboard.press('End')
-        assert page.locator('#phone-screen-link').get_attribute('href')=='img/phone-cart.png'
+        assert page.locator('#phone-screen-link').get_attribute('href')=='img/demo-phone-cart.png'
         image.evaluate('e=>e.decode()')
         page.locator('#phone-screen-link').click();page.locator('#preview-dialog').wait_for(state='visible')
-        assert page.locator('#preview-original').get_attribute('href').endswith('/img/phone-cart.png')
+        assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-phone-cart.png')
         page.keyboard.press('Escape')
         page.wait_for_timeout(350)
         assert page.locator('.phone-showcase').evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.playState!=="running")')
@@ -117,19 +118,19 @@ with sync_playwright() as p:
     broken.goto(BASE,wait_until='networkidle')
     assert broken.locator('#store-submit').is_enabled()
     assert broken.locator('[data-start-step]').first.is_disabled()
-    assert broken.locator('#start-screen-link').get_attribute('href')=='img/home.png'
+    assert broken.locator('#start-screen-link').get_attribute('href')=='img/demo-home.png'
     plain=b.new_page(viewport={'width':390,'height':844},java_script_enabled=False)
     plain.goto(BASE,wait_until='networkidle')
-    assert plain.locator('#product-screen-link').get_attribute('href')=='img/products.png'
+    assert plain.locator('#product-screen-link').get_attribute('href')=='img/demo-products.png'
     assert plain.locator('.screen-tabs').is_hidden()
-    assert plain.locator('#phone-screen-link').get_attribute('href')=='img/phone.png'
+    assert plain.locator('#phone-screen-link').get_attribute('href')=='img/demo-phone.png'
     assert plain.locator('.hub-footnote').inner_text().find('каждые 2 часа')>=0
     fallback=b.new_page(viewport={'width':390,'height':844},reduced_motion='reduce')
     fallback.route('**/img/workspace-*.webp',lambda r:r.abort())
     # The initial lazy image can fail before the enhancement module is ready.
     fallback.route('**/scripts/interface.js*',lambda r:r.fulfill(content_type='text/javascript',body='await new Promise(r=>setTimeout(r,400));\n'+Path('scripts/interface.js').read_text()))
     fallback.goto(BASE.split('#')[0]+'#workspace',wait_until='networkidle')
-    for name,source in [('scene','products.png'),('sale','sale.png'),('home','home.png')]:
+    for name,source in [('scene','demo-products.png'),('sale','demo-sale.png'),('home','demo-home.png')]:
         fallback.locator(f'[data-screen="{name}"]').click()
         fallback.wait_for_function('(source)=>document.querySelector("#product-screen").getAttribute("src")==="img/"+source',arg=source)
         fallback.locator('#product-screen').evaluate('e=>e.decode()')

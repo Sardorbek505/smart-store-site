@@ -22,7 +22,7 @@ with sync_playwright() as p:
         assert summary['y'] >= header['y']+header['height'], {'summary':summary,'header':header}
         answer.evaluate('e=>e.open=false')
         page.wait_for_function('!document.querySelector("#faq .screen-content").classList.contains("is-scrollable")')
-        for name,source in [('scene','products.png'),('sale','sale.png'),('home','home.png')]:
+        for name,source in [('scene','demo-products.png'),('sale','demo-sale.png'),('home','demo-home.png')]:
             tab=page.locator(f'[data-screen="{name}"]')
             page.locator('.product-section').evaluate('e=>scrollTo(0,e.offsetTop)')
             box=tab.bounding_box()

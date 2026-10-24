@@ -9,8 +9,8 @@ BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173')
 BROWSER = os.environ.get('BROWSER', 'chromium')
 OUT = Path('/tmp/smart-store-full') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
-assets = [*Path('img').glob('hero-full-*.webp'), *Path('img').glob('workspace-*-full.webp'),
-          *Path('img').glob('mobile-campaign-*.webp'), *Path('img').glob('feature-*.webp')]
+assets = [*Path('img').glob('hero-demo-*.webp'), *Path('img').glob('hero-full-scanner-*.webp'), *Path('img').glob('workspace-demo-*.webp'),
+          *Path('img').glob('mobile-demo-*.webp'), *Path('img').glob('feature-*.webp')]
 bounds = {}
 for asset in assets:
     image = Image.open(asset).convert('RGBA')
@@ -18,7 +18,7 @@ for asset in assets:
     box = image.getchannel('A').point(lambda alpha: 255 if alpha >= 240 else 0).getbbox()
     assert box and box[0] >= 2 and box[1] >= 2 and box[2] <= image.width-2 and box[3] <= image.height-2, (asset.name, box, image.size)
     bounds[asset.name] = {'box': list(box), 'width': image.width, 'height': image.height}
-for name in ['home.png', 'products.png', 'sale.png']:
+for name in ['demo-home.png', 'demo-products.png', 'demo-sale.png','demo-payment.png']:
     image = Image.open(Path('img')/name)
     bounds[name] = {'box': [0, 0, image.width, image.height], 'width': image.width, 'height': image.height}
 assert len(assets) == 19, 'Five responsive hero scenes, three workspace scenes, three phones, three features'

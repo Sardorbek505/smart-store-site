@@ -50,3 +50,5 @@ python tests/browser-check.py
 Три крупные предметные сцены для каталога, кассы и итогов: [docs/workspace-campaign.md](docs/workspace-campaign.md). Этот блок переключается в `scripts/interface.js`; его композиция также находится в `story.css`.
 
 Полные изображения во всех демонстрационных блоках: [docs/complete-scenes.md](docs/complete-scenes.md). Проверка фактических границ предметов: `BROWSER=webkit python tests/image-fit-check.py` или `BROWSER=chromium python tests/image-fit-check.py` (Playwright + Pillow).
+
+Единый демомагазин, заполненные экраны и обновлённые мокапы: [docs/demo-data.md](docs/demo-data.md). Воспроизводимый fixture и захват реальных компонентов приложения находятся в `tools/demo`; они не нужны для работы опубликованного сайта.
