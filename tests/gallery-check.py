@@ -8,7 +8,7 @@ import os
 import shutil
 
 BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173').rstrip('/')
-INSTRUMENT = '''(()=>{window.galleryDraws=0;for(const key of ['WebGLRenderingContext','WebGL2RenderingContext']){const p=window[key]?.prototype;if(p){const draw=p.drawArrays;p.drawArrays=function(...a){window.galleryDraws++;return draw.apply(this,a)}}}const p=CanvasRenderingContext2D.prototype,draw=p.drawImage;p.drawImage=function(...a){window.galleryDraws++;return draw.apply(this,a)}})();'''
+INSTRUMENT = '''(()=>{window.galleryDraws=0;window.galleryStaticImages=new Set();for(const key of ['WebGLRenderingContext','WebGL2RenderingContext']){const p=window[key]?.prototype;if(p){const draw=p.drawArrays;p.drawArrays=function(...a){window.galleryDraws++;return draw.apply(this,a)}}}const p=CanvasRenderingContext2D.prototype,draw=p.drawImage;p.drawImage=function(...a){window.galleryDraws++;window.galleryStaticImages.add(a[0].currentSrc||a[0].src);return draw.apply(this,a)}})();'''
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path=os.environ.get('CHROMIUM_BINARY') or shutil.which('chromium'), args=['--no-sandbox', '--enable-webgl', '--enable-unsafe-swiftshader'])
     page = b.new_page(viewport={'width': 1440, 'height': 900}, device_scale_factor=2)
@@ -82,6 +82,10 @@ with sync_playwright() as p:
     page.keyboard.press('Escape')
     page.locator('.ribbon-canvas').evaluate('(c)=>c.getContext("webgl").getExtension("WEBGL_lose_context").loseContext()')
     page.wait_for_function('document.querySelector(".gallery-stage").dataset.renderer==="static-2d"')
+    # The fallback may decode its selected source URLs asynchronously. Check
+    # steady-state suspension after those one-time image paints have finished.
+    page.wait_for_function('window.galleryStaticImages.size>=document.querySelectorAll("[data-gallery-card]:not([hidden])").length')
+    page.wait_for_load_state('networkidle')
     page.wait_for_timeout(100)
     before = draws()
     page.wait_for_timeout(180)
