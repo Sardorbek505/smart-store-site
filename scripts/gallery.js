@@ -43,11 +43,14 @@ export function init() {
     const render = () => {
       if (!context) return;
       context.clearRect(0, 0, width, height);
-      const radius = width * 0.28;
+      const radius = width * (width < 621 ? 0.5 : width < 851 ? 0.38 : 0.28);
       const camera = radius * 1.5;
       const step = 0.85;
       const gap = 0.018;
-      const photoHeight = Math.min(height * 0.5, width * 0.15);
+      const photoHeight = Math.min(
+        height * (width < 851 ? 0.65 : 0.5),
+        width * (width < 621 ? 0.33 : width < 851 ? 0.22 : 0.15),
+      );
       const slices = width < 621 ? 48 : 96;
       const project = (angle) => {
         const depth = radius * (1 - Math.cos(angle));
