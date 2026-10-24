@@ -83,10 +83,6 @@ html:has(#preview-dialog[open]) {
   min-height: 0;
   min-width: 0;
 }
-.cinema-hero .gallery-bottom {
-  flex: none;
-  margin-top: 8px;
-}
 
 /* All three cards share the same available height on a wide screen. */
 #features .screen-content {

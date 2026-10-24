@@ -154,19 +154,6 @@
 .release-note {
   margin-top: 24px;
 }
-.gallery-controls button {
-  border-color: #ededf533;
-  background: #ededf508;
-  transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease;
-}
-.gallery-controls button:hover {
-  background: #ededf5;
-  color: #111116;
-  border-color: #ededf5;
-}
 .screen-tabs {
   border-radius: 999px;
   background: #ffffff05;
@@ -234,24 +221,10 @@
   .button:is(.primary, .dark)::before,
   .button-icon .icon,
   .screen-tab,
-  .gallery-controls button,
   .cinema-explore .icon {
     transition: none;
   }
   .button.is-loading .button-icon::after {
     animation: none;
   }
-}
-/* The hidden toolbar does not leave an empty caption band in the opening hero. */
-.gallery-bottom {
-  position: relative;
-  height: 0;
-  min-height: 0;
-  padding: 0;
-}
-.gallery-controls {
-  position: absolute;
-  left: 50%;
-  top: -30px;
-  transform: translateX(-50%);
 }

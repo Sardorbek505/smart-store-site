@@ -1,4 +1,4 @@
-"""Native gallery: no Canvas work, sharp sources, controls and fallback."""
+"""Native gallery: no Canvas work, sharp sources, swipes, keyboard and fallback."""
 from playwright.sync_api import sync_playwright
 from PIL import Image
 from io import BytesIO
@@ -24,14 +24,14 @@ with sync_playwright() as p:
         page.mouse.wheel(0,45)
         page.wait_for_timeout(240)
     assert page.evaluate('window.draws')==before,'scroll pauses must not restart drawing'
-    assert page.locator('#gallery-pause').count()==1
-    page.locator('#gallery-next').click()
-    page.wait_for_function('document.getElementById("gallery-count").textContent==="02"')
+    assert page.locator('.gallery-controls, .gallery-motion, .gallery-bottom').count()==0
+    page.locator('.hero-gallery').focus();page.keyboard.press('ArrowRight')
+    page.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
     page.wait_for_timeout(700)
-    page.locator('#gallery-prev').click()
-    page.wait_for_function('document.getElementById("gallery-count").textContent==="01"')
-    page.locator('#gallery-next').focus();page.keyboard.press('ArrowRight')
-    page.wait_for_function('document.getElementById("gallery-count").textContent==="02"')
+    page.keyboard.press('ArrowLeft')
+    page.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("1 из 5:")')
+    page.keyboard.press('ArrowRight')
+    page.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
     card=page.locator('[data-gallery-card]').nth(1)
     original=card.get_attribute('href');card.click()
     assert page.locator('#preview-dialog').is_visible()
@@ -54,10 +54,12 @@ with sync_playwright() as p:
     stage.dispatch_event('pointermove',{'pointerId':1,'pointerType':'touch','isPrimary':True,'clientX':160,'clientY':620})
     stage.dispatch_event('pointerup',{'pointerId':1,'pointerType':'touch','isPrimary':True,'clientX':150,'clientY':620})
     stage.dispatch_event('click')
-    touch.wait_for_function('document.getElementById("gallery-count").textContent==="02"')
+    touch.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
     touch.wait_for_timeout(700)
     assert touch.locator('#preview-dialog').is_hidden()
-    touch.locator('[data-gallery-card]').nth(1).tap()
+    # A real tap targets the moving photograph without waiting for layout stability.
+    box=touch.locator('[data-gallery-card]').nth(1).bounding_box()
+    touch.touchscreen.tap(box['x']+box['width']/2,box['y']+box['height']/2)
     assert touch.locator('#preview-dialog').is_visible()
     fallback=b.new_page(viewport={'width':390,'height':844})
     fallback.add_init_script('HTMLCanvasElement.prototype.getContext=()=>null')
@@ -66,8 +68,8 @@ with sync_playwright() as p:
     assert fallback.locator('canvas').count()==0
     assert fallback.locator('#store-submit').is_enabled()
     fallback.evaluate('scrollTo({top:100,behavior:"instant"})')
-    fallback.locator('#gallery-next').click()
-    fallback.wait_for_function('document.getElementById("gallery-count").textContent==="02"')
+    fallback.locator('.hero-gallery').focus();fallback.keyboard.press('ArrowRight')
+    fallback.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
     assert not errors,errors
-    print('PASS',BROWSER,'native gallery, no Canvas/WebGL drawing, burst scrolling, controls/keyboard, originals, Retina, swipe/tap, unavailable graphics APIs.')
+    print('PASS',BROWSER,'native gallery, no Canvas/WebGL drawing, burst scrolling, keyboard, originals, Retina, swipe/tap, unavailable graphics APIs.')
     b.close()

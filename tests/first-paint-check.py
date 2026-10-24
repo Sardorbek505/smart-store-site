@@ -9,7 +9,7 @@ BROWSER=os.environ.get('BROWSER','chromium')
 OUT=Path(os.environ.get('FIRST_PAINT_OUTPUT','/tmp/smart-store-first-paint'))/BROWSER
 OUT.mkdir(parents=True,exist_ok=True)
 BOOT='window.__bootWaiting=true;await new Promise(r=>window.addEventListener("release-app",r,{once:true}));\n'
-SNAP='''()=>({hero:document.querySelector('.cinema-hero').getBoundingClientRect().toJSON(),copy:document.querySelector('.cinema-copy').getBoundingClientRect().toJSON(),bottom:document.querySelector('.gallery-bottom').getBoundingClientRect().toJSON(),label:document.getElementById('download-label').textContent,features:document.getElementById('features').offsetTop,cards:Array.from(document.querySelectorAll('[data-gallery-card]'),e=>({hidden:e.hidden,clip:getComputedStyle(e).clipPath,transform:getComputedStyle(e).transform,rect:e.getBoundingClientRect().toJSON()}))})'''
+SNAP='''()=>({hero:document.querySelector('.cinema-hero').getBoundingClientRect().toJSON(),copy:document.querySelector('.cinema-copy').getBoundingClientRect().toJSON(),ribbon:document.querySelector('.ribbon-window').getBoundingClientRect().toJSON(),label:document.getElementById('download-label').textContent,features:document.getElementById('features').offsetTop,cards:Array.from(document.querySelectorAll('[data-gallery-card]'),e=>({hidden:e.hidden,clip:getComputedStyle(e).clipPath,transform:getComputedStyle(e).transform,rect:e.getBoundingClientRect().toJSON()}))})'''
 with sync_playwright() as p:
  args={'headless':True}
  if BROWSER=='chromium':args.update(executable_path=os.environ.get('CHROMIUM_BINARY') or shutil.which('chromium'),args=['--no-sandbox'])

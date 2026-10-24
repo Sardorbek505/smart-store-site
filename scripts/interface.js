@@ -36,7 +36,6 @@ export function init() {
     });
     matchMedia("(min-width: 851px)").addEventListener("change", close);
     if (document.body.classList.contains("landing-page")) {
-      const carouselControls = document.querySelector(".gallery-controls");
       let navigationVisible;
       const updateScrollNavigation = (visible = window.scrollY > 24) => {
         if (visible === navigationVisible) return;
@@ -44,10 +43,6 @@ export function init() {
         document.body.classList.toggle("has-scrolled", visible);
         header.inert = !visible;
         header.setAttribute("aria-hidden", String(!visible));
-        if (carouselControls) {
-          carouselControls.inert = !visible;
-          carouselControls.setAttribute("aria-hidden", String(!visible));
-        }
         if (!visible) close();
       };
       if (typeof IntersectionObserver === "function") {
