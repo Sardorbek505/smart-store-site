@@ -13,3 +13,12 @@ These components are native HTML/CSS adaptations. No React, Motion, GSAP or remo
 Inspected 24 October 2026. Bencho's full-source access requires its subscription. Morphin's public registry README states that it has no license file. Neither site's source code was copied. Their common interaction patterns informed the native implementations. The upload dropzone was reviewed; the landing page has no file-upload workflow, so it was not added.
 
 The complete upstream MIT notices for the adapted code are retained alongside this file.
+
+## Product story components (v22)
+
+- **Asymmetric feature Bento:** original native CSS composition following the [Magic UI Bento Grid](https://magicui.design/docs/components/bento-grid) pattern. The previously suggested 21st `ln-dev7/bento-01` preview currently returns 404; no inaccessible source was used. Existing generated transparent artwork remains in its matching blue/paper/ink cards.
+- **Selectable start steps:** public [Bencho Step Player](https://bencho.dev/blocks/step-player) reference. Original buttons, connecting progress line and screenshot selection; no copied paid source, auto-play or scroll takeover.
+- **Local storage hub:** public [Bencho Hub Diagram](https://bencho.dev/blocks/hub-diagram) reference. Original SVG paths, local computer core and three accessible detail selectors. No remote/cloud backup claim is introduced.
+- **Expandable phone screenshots:** public [Morphin Animated Expandable Card Stack](https://morphin.dev/components/animated-expandable-card-stack) and its [live preview](https://cdn.morphin.dev/camellia/screens/3ea5640c-a65d-480d-8fd4-c301096d7f04/index.html). Original native implementation: a three-screen fan, selection, collapse/expand, keyboard shortcuts and a separate original-image link. No paid or unlicensed source was copied.
+
+These additions use no runtime framework or animation dependency. The original screenshots were captured from the Smart Store source with isolated demonstration data; see [product-stories.md](../docs/product-stories.md).

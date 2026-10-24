@@ -29,6 +29,7 @@ python tests/browser-check.py
 - `index.html`, `privacy.html` — содержание и рабочие статические ссылки.
 - `styles.css`, `cinema.css` — оформление и лента фотосцен.
 - `components.css` — адаптированные кнопка, переключатель экранов, FAQ, поле копирования и рамка формы. Источники и лицензии: [third-party/README.md](third-party/README.md).
+- `story.css`, `scripts/story.js` — асимметричный Bento, шаги со скриншотами, схема локальных данных и раскрывающаяся стопка телефонных экранов.
 - `app.js` — независимый запуск функций.
 - `scripts/core.js` — настройки сервисов, проверка адреса магазина и установщика, сетевой таймаут.
 - `scripts/downloads.js` — скачивание на Windows и продолжение установки с другого устройства.
@@ -43,3 +44,5 @@ python tests/browser-check.py
 Подробная логика переходов: [docs/site-architecture.md](docs/site-architecture.md).
 
 Проверка адаптированных компонентов: `python tests/components-check.py`; для движка WebKit — `BROWSER=webkit python tests/components-check.py`. Проверяются положение выбранной подложки, клавиатура FAQ, успех/отказ копирования, завершение эффекта рамки и reduced motion.
+
+Проверка демонстрационных блоков: `python tests/story-check.py`, а также `BROWSER=webkit python tests/story-check.py`. Происхождение скриншотов и сценарии: [docs/product-stories.md](docs/product-stories.md).

@@ -30,12 +30,13 @@
         root.dataset.viewportWidth = String(innerWidth);
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=21" />
-    <link rel="stylesheet" href="cinema.css?v=21" />
-    <link rel="stylesheet" href="buttons.css?v=21" />
-    <link rel="stylesheet" href="screens.css?v=21" />
-    <link rel="stylesheet" href="components.css?v=21" />
-    <script src="app.js?v=21" type="module"></script>
+    <link rel="stylesheet" href="styles.css?v=22" />
+    <link rel="stylesheet" href="cinema.css?v=22" />
+    <link rel="stylesheet" href="buttons.css?v=22" />
+    <link rel="stylesheet" href="screens.css?v=22" />
+    <link rel="stylesheet" href="components.css?v=22" />
+    <link rel="stylesheet" href="story.css?v=22" />
+    <script src="app.js?v=22" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -734,7 +735,7 @@
             role="region"
             aria-label="Возможности Smart Store"
           >
-            <article class="bento bento-sale">
+            <article class="bento bento-sale story-feature">
               <div class="bento-copy">
                 <div class="bento-top">
                   <span class="pill">01 / ПРОДАЖИ</span
@@ -756,7 +757,7 @@
                 />
               </figure>
             </article>
-            <article class="bento bento-stock">
+            <article class="bento bento-stock story-feature">
               <div class="bento-copy">
                 <div class="bento-top">
                   <span class="pill">02 / СКЛАД</span
@@ -778,7 +779,7 @@
                 />
               </figure>
             </article>
-            <article class="bento bento-reports">
+            <article class="bento bento-reports story-feature">
               <div class="bento-copy">
                 <div class="bento-top">
                   <span class="pill">03 / КОНТРОЛЬ</span
@@ -974,25 +975,99 @@
                   <use href="#i-arrow" /></svg
               ></a>
             </div>
-            <figure class="phone-preview">
-              <a
-                href="img/phone.png"
-                data-preview
-                data-title="Smart Store на телефоне"
-                data-preview-alt="Показатели магазина: выручка, прибыль и рабочие инструменты"
-                aria-label="Рассмотреть оригинальный экран телефона"
-                ><img
-                  decoding="async"
-                  src="img/editorial-phone.webp"
-                  alt="Мокап Smart Store: телефон по диагонали на синем цилиндре"
-                  width="1440"
-                  height="960"
-                  loading="lazy" /><span class="photo-view-label"
-                  >Рассмотреть интерфейс
+            <div class="phone-showcase">
+              <div
+                class="phone-stack"
+                id="phone-stack"
+                data-expanded="false"
+                data-selected="0"
+                role="group"
+                aria-label="Экраны Smart Store на телефоне"
+              >
+                <button
+                  class="phone-card"
+                  type="button"
+                  data-phone-card="0"
+                  aria-pressed="true"
+                  aria-label="Показать экран: Контроль"
+                  disabled
+                  style="--slot: 0; --rank: 3"
+                >
+                  <img
+                    src="img/phone.png"
+                    width="390"
+                    height="844"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Главная телефона: выручка, прибыль и рабочие инструменты"
+                  /><span class="phone-card-label"
+                    ><span>01</span>Контроль</span
+                  ></button
+                ><button
+                  class="phone-card"
+                  type="button"
+                  data-phone-card="1"
+                  aria-pressed="false"
+                  aria-label="Показать экран: Поиск товара"
+                  disabled
+                  style="--slot: -1; --rank: 2"
+                >
+                  <img
+                    src="img/phone-search.png"
+                    width="390"
+                    height="844"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Поиск товара в телефонном интерфейсе Smart Store"
+                  /><span class="phone-card-label"
+                    ><span>02</span>Поиск товара</span
+                  ></button
+                ><button
+                  class="phone-card"
+                  type="button"
+                  data-phone-card="2"
+                  aria-pressed="false"
+                  aria-label="Показать экран: Корзина"
+                  disabled
+                  style="--slot: 1; --rank: 1"
+                >
+                  <img
+                    src="img/phone-cart.png"
+                    width="390"
+                    height="844"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Корзина продажи в телефонном интерфейсе Smart Store"
+                  /><span class="phone-card-label"><span>03</span>Корзина</span>
+                </button>
+              </div>
+              <div class="phone-stack-actions">
+                <button
+                  class="stack-toggle"
+                  id="stack-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="phone-stack"
+                  disabled
+                >
                   <svg class="icon" aria-hidden="true">
-                    <use href="#i-zoom" /></svg></span
-              ></a>
-            </figure>
+                    <use href="#i-box" /></svg
+                  ><span>Развернуть экраны</span>
+                </button>
+                <a
+                  id="phone-screen-link"
+                  class="stack-preview"
+                  href="img/phone.png"
+                  data-preview
+                  data-title="Smart Store на телефоне / Контроль"
+                  data-preview-alt="Главная телефона: выручка и прибыль"
+                  aria-label="Рассмотреть выбранный экран телефона"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#i-zoom" /></svg
+                  ><span>Рассмотреть</span></a
+                >
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1001,32 +1076,89 @@
         class="data-section screen-section"
         aria-labelledby="data-title"
       >
-        <div class="screen-content wrap">
+        <div class="screen-content wrap data-story">
           <div class="data-heading">
             <svg class="icon" aria-hidden="true"><use href="#i-shield" /></svg>
-            <h2 id="data-title">Хранение данных.</h2>
+            <h2 id="data-title">
+              Ваш магазин.<br />
+              Ваши данные.
+            </h2>
           </div>
-          <div class="data-item">
-            <div class="data-symbol" aria-hidden="true">
-              <svg class="icon"><use href="#i-computer" /></svg>
+          <div
+            class="data-hub"
+            data-active="0"
+            role="group"
+            aria-label="Как хранятся данные Smart Store"
+          >
+            <svg
+              class="hub-connections"
+              viewBox="0 0 800 420"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path data-hub-line="0" d="M400 210V63" />
+              <path data-hub-line="1" d="M400 210C310 210 310 319 140 319" />
+              <path data-hub-line="2" d="M400 210C490 210 490 319 660 319" />
+            </svg>
+            <div class="hub-core">
+              <span class="hub-core-layers" aria-hidden="true"></span
+              ><img src="img/icon.png" width="64" height="64" alt="" /><strong
+                >Smart Store</strong
+              ><span>Ваш компьютер</span>
             </div>
-            <strong>На вашем компьютере</strong>
-            <p>База магазина хранится локально.</p>
+            <button
+              class="hub-node hub-node--database"
+              type="button"
+              data-hub-node="0"
+              aria-pressed="true"
+              aria-controls="hub-detail"
+              disabled
+            >
+              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <ellipse cx="12" cy="5" rx="8" ry="3" />
+                <path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0" /></svg
+              ><strong>Локальная база</strong>
+            </button>
+            <button
+              class="hub-node hub-node--offline"
+              type="button"
+              data-hub-node="1"
+              aria-pressed="false"
+              aria-controls="hub-detail"
+              disabled
+            >
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-computer" /></svg
+              ><strong>Без интернета</strong>
+            </button>
+            <button
+              class="hub-node hub-node--backup"
+              type="button"
+              data-hub-node="2"
+              aria-pressed="false"
+              aria-controls="hub-detail"
+              disabled
+            >
+              <span class="hub-time" aria-hidden="true">2<span>ч</span></span
+              ><strong>Резервные копии</strong>
+            </button>
           </div>
-          <div class="data-item">
-            <div class="data-symbol" aria-hidden="true">
-              <svg class="icon"><use href="#i-receipt" /></svg>
+          <div
+            class="hub-detail"
+            id="hub-detail"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <span class="hub-detail-index" aria-hidden="true">01</span>
+            <div>
+              <strong id="hub-detail-title">База на вашем компьютере</strong>
+              <p id="hub-detail-copy">Данные магазина хранятся локально.</p>
             </div>
-            <strong>Работает офлайн</strong>
-            <p>Касса, склад и основные отчёты — без интернета.</p>
           </div>
-          <div class="data-item">
-            <div class="data-symbol data-symbol--time" aria-hidden="true">
-              2<span>ч</span>
-            </div>
-            <strong>Автокопии каждые 2 часа</strong>
-            <p>Внешнюю копию храните отдельно.</p>
-          </div>
+          <p class="hub-footnote">
+            Копии создаются каждые 2 часа. Внешнюю копию храните отдельно.
+          </p>
         </div>
       </section>
       <section
@@ -1034,47 +1166,123 @@
         class="section screen-section"
         aria-labelledby="start-title"
       >
-        <div class="screen-content wrap">
+        <div class="screen-content wrap start-story">
           <div class="section-heading">
-            <div>
-              <h2 id="start-title">Три шага до первой продажи.</h2>
+            <h2 id="start-title">
+              Три шага.<br />
+              И вы в работе.
+            </h2>
+          </div>
+          <div class="step-player" data-step="0">
+            <ol class="start-steps" aria-label="Шаги начала работы">
+              <li>
+                <button
+                  type="button"
+                  data-start-step="0"
+                  aria-pressed="true"
+                  aria-controls="start-panel"
+                  disabled
+                >
+                  <span class="step-number">01</span
+                  ><span class="step-copy"
+                    ><strong>Установите</strong
+                    ><span>На компьютер с Windows 10 или 11.</span></span
+                  ><svg class="icon step-check" aria-hidden="true">
+                    <use href="#i-arrow" />
+                  </svg>
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  data-start-step="1"
+                  aria-pressed="false"
+                  aria-controls="start-panel"
+                  disabled
+                >
+                  <span class="step-number">02</span
+                  ><span class="step-copy"
+                    ><strong>Добавьте товары</strong
+                    ><span>Первый приход или импорт из Excel.</span></span
+                  ><svg class="icon step-check" aria-hidden="true">
+                    <use href="#i-arrow" />
+                  </svg>
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  data-start-step="2"
+                  aria-pressed="false"
+                  aria-controls="start-panel"
+                  disabled
+                >
+                  <span class="step-number">03</span
+                  ><span class="step-copy"
+                    ><strong>Проведите продажу</strong
+                    ><span>Соберите чек и выберите способ оплаты.</span></span
+                  ><svg class="icon step-check" aria-hidden="true">
+                    <use href="#i-arrow" />
+                  </svg>
+                </button>
+              </li>
+            </ol>
+            <div
+              class="start-panel"
+              id="start-panel"
+              role="region"
+              aria-label="Экран выбранного шага"
+            >
+              <div class="step-window-bar">
+                <span class="step-window-dots" aria-hidden="true"
+                  ><i></i><i></i><i></i></span
+                ><span id="start-screen-label">Smart Store / Главная</span
+                ><span class="step-demo">Демо</span>
+              </div>
+              <a
+                class="step-screen-link"
+                id="start-screen-link"
+                href="img/home.png"
+                data-preview
+                data-title="Smart Store / Главная"
+                data-preview-alt="Главная Smart Store с демонстрационными данными"
+                aria-label="Увеличить экран выбранного шага"
+                ><img
+                  id="start-screen"
+                  src="img/home.png"
+                  width="1440"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Главная Smart Store с демонстрационными данными" /><span
+                  class="step-zoom"
+                  aria-hidden="true"
+                  ><svg class="icon"><use href="#i-zoom" /></svg></span
+              ></a>
+              <p
+                class="step-caption"
+                id="start-caption"
+                role="status"
+                aria-live="polite"
+              >
+                Программа установлена. Можно настроить магазин.
+              </p>
             </div>
           </div>
-          <ol class="start-steps">
-            <li>
-              <span class="step-number">01</span
-              ><svg class="icon" aria-hidden="true">
-                <use href="#i-download" />
-              </svg>
-              <h3>Установите</h3>
-              <p>На компьютер с Windows 10 или 11.</p>
-              <a
-                href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
-                data-download
-                class="text-link"
-                ><span id="start-download-label">Скачать</span>
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-arrow" /></svg
-              ></a>
-            </li>
-            <li>
-              <span class="step-number">02</span
-              ><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>
-              <h3>Добавьте товары</h3>
-              <p>Первый приход или импорт из Excel.</p>
-            </li>
-            <li>
-              <span class="step-number">03</span
-              ><svg class="icon" aria-hidden="true">
-                <use href="#i-receipt" />
-              </svg>
-              <h3>Проведите продажу</h3>
-              <p>Соберите чек и выберите способ оплаты.</p>
-            </li>
-          </ol>
-          <p class="note release-note" id="download-note" role="status">
-            Установщик для Windows · 64 бит · Без кода активации
-          </p>
+          <div class="start-actions">
+            <a
+              href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
+              data-download
+              class="button dark"
+              ><span id="start-download-label" class="button-label"
+                >Скачать для Windows</span
+              ><span class="button-icon" aria-hidden="true"
+                ><svg class="icon"><use href="#i-arrow" /></svg></span
+            ></a>
+            <p class="note release-note" id="download-note" role="status">
+              Установщик для Windows · 64 бит · Без кода активации
+            </p>
+          </div>
         </div>
       </section>
       <section
