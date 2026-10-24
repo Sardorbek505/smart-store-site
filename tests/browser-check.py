@@ -29,20 +29,20 @@ with sync_playwright() as p:
     assert page.locator('#hero-ribbon-clip path').get_attribute('d').count('C') == 4
 
     assert page.locator('[data-screen="scene"]').is_visible()
-    for name, source in [('home', 'home.png'), ('sale', 'sale.png'), ('scene', 'products.png')]:
+    for name, source in [('home', 'demo-home.png'), ('sale', 'demo-sale.png'), ('scene', 'demo-products.png')]:
         page.locator(f'[data-screen="{name}"]').click()
         page.locator('#product-screen-link').click()
         assert page.locator('#preview-original').get_attribute('href').endswith('/img/' + source)
         page.locator('#preview-image').wait_for(state='visible')
         page.keyboard.press('Escape')
-    page.route('**/img/home.png*', lambda r: r.abort())
-    page.locator('[data-gallery-card]').nth(1).evaluate("e=>e.href='img/home.png?failure=1'")
+    page.route('**/img/demo-home.png*', lambda r: r.abort())
+    page.locator('[data-gallery-card]').nth(1).evaluate("e=>e.href='img/demo-home.png?failure=1'")
     page.locator('[data-gallery-card]').nth(1).click()
     page.wait_for_function('document.getElementById("preview-status").textContent.includes("не загрузилось")')
-    assert page.locator('#preview-original').get_attribute('href').endswith('/img/home.png?failure=1')
+    assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-home.png?failure=1')
     page.keyboard.press('Escape')
-    page.unroute('**/img/home.png*')
-    page.locator('[data-gallery-card]').nth(1).evaluate("e=>e.href='img/home.png'")
+    page.unroute('**/img/demo-home.png*')
+    page.locator('[data-gallery-card]').nth(1).evaluate("e=>e.href='img/demo-home.png'")
     page.locator('#store-code').fill('https://evil.example/')
     page.locator('#store-submit').click()
     assert page.locator('#store-form').get_attribute('data-state') == 'invalid'

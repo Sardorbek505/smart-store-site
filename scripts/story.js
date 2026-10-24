@@ -34,22 +34,22 @@ export function init() {
     if (!player) return;
     const steps = [
       {
-        src: "home.png",
+        src: "demo-home.png",
         label: "Главная",
         alt: "Главная Smart Store с демонстрационными данными",
         caption: "Программа установлена. Можно настроить магазин.",
       },
       {
-        src: "products.png",
+        src: "demo-products.png",
         label: "Товары",
         alt: "Каталог товаров Smart Store с демонстрационными данными",
         caption: "Добавьте товары вручную или импортируйте из Excel.",
       },
       {
-        src: "sale.png",
-        label: "Продажа",
-        alt: "Касса Smart Store: товары, чек и способы оплаты",
-        caption: "Отсканируйте товар и выберите способ оплаты.",
+        src: "demo-payment.png",
+        label: "Оплата",
+        alt: "Оплата Smart Store: 40 000 ₸ наличными и 42 300 ₸ через Kaspi",
+        caption: "Выберите наличные, Kaspi или смешанную оплату.",
       },
     ];
     const buttons = [...player.querySelectorAll("[data-start-step]")];
@@ -117,26 +117,26 @@ export function init() {
     const link = document.getElementById("phone-screen-link");
     const screens = [
       {
-        image: "mobile-campaign-overview.webp",
-        original: "phone.png",
+        image: "mobile-demo-overview.webp",
+        original: "demo-phone.png",
         label: "Контроль",
         metricLabel: "Выручка сегодня",
-        metricValue: "79 800 ₸",
+        metricValue: "396 950 ₸",
         alt: "iPhone 18 Pro Max с итогами Smart Store, в диагональном ракурсе на объёмной подставке",
         originalAlt: "Главная телефона: выручка, прибыль и рабочие инструменты",
       },
       {
-        image: "mobile-campaign-search.webp",
-        original: "phone-search.png",
+        image: "mobile-demo-search.webp",
+        original: "demo-phone-search.png",
         label: "Поиск товара",
         metricLabel: "На складе",
-        metricValue: "12 шт",
+        metricValue: "7 шт",
         alt: "iPhone 18 Pro Max с поиском товара Smart Store на скульптурной подставке",
         originalAlt: "Поиск товара в телефонном интерфейсе Smart Store",
       },
       {
-        image: "mobile-campaign-cart.webp",
-        original: "phone-cart.png",
+        image: "mobile-demo-cart.webp",
+        original: "demo-phone-cart.png",
         label: "Корзина",
         metricLabel: "К оплате",
         metricValue: "40 550 ₸",
