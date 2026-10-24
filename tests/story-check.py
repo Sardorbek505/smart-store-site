@@ -19,11 +19,32 @@ with sync_playwright() as p:
             sale=page.locator('.bento-sale').bounding_box();stock=page.locator('.bento-stock').bounding_box();report=page.locator('.bento-reports').bounding_box()
             assert sale['height']>stock['height']*1.8 and stock['x']>sale['x']
             assert abs(stock['width']-report['width'])<1
-        for section in ['#features','#start','#data','.phone-section']:
+        for section in ['#features','#workspace','#start','#data','.phone-section']:
             page.locator(section).evaluate('e=>scrollTo(0,e.offsetTop)')
             page.wait_for_timeout(60)
             assert page.locator(section).evaluate('e=>Math.abs(e.getBoundingClientRect().height-innerHeight)<1')
             assert page.locator(section+' .screen-content').evaluate('e=>e.scrollWidth<=e.clientWidth+1&&e.scrollHeight<=e.clientHeight+4'),section
+        page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
+        for name,render,original,value in [('sale','sale','sale.png','82 300 ₸'),('home','overview','home.png','11 230 ₸'),('scene','catalog','products.png','12 шт')]:
+            page.locator(f'[data-screen="{name}"]').click()
+            image=page.locator('#product-screen')
+            image.evaluate('e=>e.decode()')
+            assert image.get_attribute('src')==f'img/workspace-{render}.webp'
+            assert image.evaluate('e=>e.naturalWidth>=1100&&e.naturalHeight>=1400')
+            assert page.locator('#product-screen-link').get_attribute('href')=='img/'+original
+            assert page.locator('#product-fact-value').inner_text()==value
+            assert page.locator('[data-screen][aria-pressed="true"]').count()==1
+            assert page.locator('#workspace .screen-content').evaluate('e=>e.scrollHeight<=e.clientHeight+4')
+        assert image.bounding_box()['height'] >= (390 if w==390 else 220 if w==320 else 210)
+        page.locator('[data-screen="scene"]').focus();page.keyboard.press('End')
+        assert page.locator('#product-screen-link').get_attribute('href')=='img/home.png'
+        page.keyboard.press('Home')
+        assert page.locator('#product-screen-link').get_attribute('href')=='img/products.png'
+        page.locator('#product-screen-link').click();page.locator('#preview-dialog').wait_for(state='visible')
+        assert page.locator('#preview-original').get_attribute('href').endswith('/img/products.png')
+        page.keyboard.press('Escape')
+        page.wait_for_timeout(400)
+        assert page.locator('.studio-demo').evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.playState!=="running")')
         page.locator('#start').evaluate('e=>scrollTo(0,e.offsetTop)')
         for i in [2,1,0,1,2,1]:
             page.locator(f'[data-start-step="{i}"]').click()
@@ -82,14 +103,14 @@ with sync_playwright() as p:
         assert page.locator('.phone-showcase').evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.playState!=="running")')
         assert page.locator('canvas').count()==0
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
-        for selector,name in [('#features','bento'),('#start','steps'),('#data','hub'),('.phone-section','phone')]:
+        for selector,name in [('#features','bento'),('#workspace','workspace'),('#start','steps'),('#data','hub'),('.phone-section','phone')]:
             page.locator(selector).evaluate('e=>scrollTo(0,e.offsetTop)')
             page.wait_for_timeout(500)
             page.screenshot(path=str(OUT/f'{name}-{w}.png'))
         page.emulate_media(reduced_motion='reduce')
         assert page.locator('[data-phone-screen]').first.evaluate('e=>getComputedStyle(e).transitionDuration')=='0s'
         assert not errors,errors
-        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'stepsAndOriginals':'pass','hubNodes':'pass','generatedPhoneScenes':'pass','sectionFit':'pass','finiteMotion':'pass'}),flush=True)
+        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'workspaceScenes':'pass','stepsAndOriginals':'pass','hubNodes':'pass','generatedPhoneScenes':'pass','sectionFit':'pass','finiteMotion':'pass'}),flush=True)
         page.close()
     broken=b.new_page(viewport={'width':390,'height':844})
     broken.route('**/scripts/story.js*',lambda r:r.abort())
@@ -99,6 +120,19 @@ with sync_playwright() as p:
     assert broken.locator('#start-screen-link').get_attribute('href')=='img/home.png'
     plain=b.new_page(viewport={'width':390,'height':844},java_script_enabled=False)
     plain.goto(BASE,wait_until='networkidle')
+    assert plain.locator('#product-screen-link').get_attribute('href')=='img/products.png'
+    assert plain.locator('.screen-tabs').is_hidden()
     assert plain.locator('#phone-screen-link').get_attribute('href')=='img/phone.png'
     assert plain.locator('.hub-footnote').inner_text().find('каждые 2 часа')>=0
+    fallback=b.new_page(viewport={'width':390,'height':844},reduced_motion='reduce')
+    fallback.route('**/img/workspace-*.webp',lambda r:r.abort())
+    # The initial lazy image can fail before the enhancement module is ready.
+    fallback.route('**/scripts/interface.js*',lambda r:r.fulfill(content_type='text/javascript',body='await new Promise(r=>setTimeout(r,400));\n'+Path('scripts/interface.js').read_text()))
+    fallback.goto(BASE.split('#')[0]+'#workspace',wait_until='networkidle')
+    for name,source in [('scene','products.png'),('sale','sale.png'),('home','home.png')]:
+        fallback.locator(f'[data-screen="{name}"]').click()
+        fallback.wait_for_function('(source)=>document.querySelector("#product-screen").getAttribute("src")==="img/"+source',arg=source)
+        fallback.locator('#product-screen').evaluate('e=>e.decode()')
+        assert fallback.locator('#product-screen-link').get_attribute('href')=='img/'+source
+        assert fallback.locator('#product-screen').evaluate('e=>e.getAnimations().length')==0
     b.close()

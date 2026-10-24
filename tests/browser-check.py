@@ -29,7 +29,7 @@ with sync_playwright() as p:
     assert page.locator('#hero-ribbon-clip path').get_attribute('d').count('C') == 4
 
     assert page.locator('[data-screen="scene"]').is_visible()
-    for name, source in [('home', 'home.png'), ('sale', 'sale.png'), ('scene', 'sale.png')]:
+    for name, source in [('home', 'home.png'), ('sale', 'sale.png'), ('scene', 'products.png')]:
         page.locator(f'[data-screen="{name}"]').click()
         page.locator('#product-screen-link').click()
         assert page.locator('#preview-original').get_attribute('href').endswith('/img/' + source)
