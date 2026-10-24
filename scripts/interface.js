@@ -31,8 +31,11 @@ export function init() {
     matchMedia("(min-width: 851px)").addEventListener("change", close);
     if (document.body.classList.contains("landing-page")) {
       const carouselControls = document.querySelector(".gallery-controls");
+      let navigationVisible;
       const updateScrollNavigation = () => {
         const visible = window.scrollY > 24;
+        if (visible === navigationVisible) return;
+        navigationVisible = visible;
         document.body.classList.toggle("has-scrolled", visible);
         header.inert = !visible;
         header.setAttribute("aria-hidden", String(!visible));

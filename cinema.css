@@ -1,9 +1,9 @@
 /* Cinematic gallery: generated studio art with genuine UI screens. */
 .landing-page .top {
-  background: rgba(17, 17, 22, 0.94);
+  background: #111116;
   border-color: #ffffff14;
   color: #ededf5;
-  backdrop-filter: blur(20px);
+  backdrop-filter: none;
 }
 .landing-page .top a:hover {
   color: #9bb8ff;
