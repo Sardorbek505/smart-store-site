@@ -16,7 +16,6 @@ export function init({ config, installerFromRelease, fetchJson }) {
     if (location.hash === "#installation") revealGuide();
   });
   if (!windows) {
-    $("mobile-note").hidden = false;
     for (const link of links) {
       link.href = "#installation";
       link.addEventListener("click", revealGuide);

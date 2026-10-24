@@ -18,8 +18,13 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
     );
     button.disabled = ["checking", "redirecting"].includes(next);
     button.innerHTML = label;
-    if (next === "checking") button.textContent = "Проверяем магазин…";
-    if (next === "redirecting") button.textContent = "Открываем магазин…";
+    const buttonText = button.querySelector(".button-label") || button;
+    if (next === "checking") buttonText.textContent = "Проверяем магазин…";
+    if (next === "redirecting") buttonText.textContent = "Открываем магазин…";
+    button.classList.toggle(
+      "is-loading",
+      ["checking", "redirecting"].includes(next),
+    );
     if (next === "checking") form.setAttribute("aria-busy", "true");
     else form.removeAttribute("aria-busy");
   };
