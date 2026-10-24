@@ -22,3 +22,7 @@ The complete upstream MIT notices for the adapted code are retained alongside th
 - **Expandable phone screenshots:** public [Morphin Animated Expandable Card Stack](https://morphin.dev/components/animated-expandable-card-stack) and its [live preview](https://cdn.morphin.dev/camellia/screens/3ea5640c-a65d-480d-8fd4-c301096d7f04/index.html). Original native implementation: a three-screen fan, selection, collapse/expand, keyboard shortcuts and a separate original-image link. No paid or unlicensed source was copied.
 
 These additions use no runtime framework or animation dependency. The original screenshots were captured from the Smart Store source with isolated demonstration data; see [product-stories.md](../docs/product-stories.md).
+
+### Phone revision (v23)
+
+The small expandable fan is superseded by three generated iPhone 18 Pro Max scenes, one visible at a time. The image-generation tool used the real `phone.png`, `phone-search.png`, and `phone-cart.png` as image references. No CSS phone shell or synthetic screenshot card is used. Original screen PNGs remain the preview targets. Hardware cues were checked against [Apple's iPhone 18 Pro specifications](https://www.apple.com/iphone-18-pro/specs/). Scene prompts, assets and display decisions are documented in [iphone-mockups.md](../docs/iphone-mockups.md).
