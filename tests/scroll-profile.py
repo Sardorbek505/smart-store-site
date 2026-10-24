@@ -1,7 +1,7 @@
 """Manual scroll benchmark. Requires a local server, Playwright and Chromium.
 
 PROFILE_NAME labels a run; PROFILE_OUTPUT selects the artifact directory.
-Uses 4x CPU throttling and headless software WebGL; no timing thresholds are
+Uses 4x CPU throttling in headless Chromium; no timing thresholds are
 asserted because these measurements depend on the machine and driver.
 """
 from playwright.sync_api import sync_playwright

@@ -32,8 +32,7 @@ export function init() {
     if (document.body.classList.contains("landing-page")) {
       const carouselControls = document.querySelector(".gallery-controls");
       let navigationVisible;
-      const updateScrollNavigation = () => {
-        const visible = window.scrollY > 24;
+      const updateScrollNavigation = (visible = window.scrollY > 24) => {
         if (visible === navigationVisible) return;
         navigationVisible = visible;
         document.body.classList.toggle("has-scrolled", visible);
@@ -45,20 +44,22 @@ export function init() {
         }
         if (!visible) close();
       };
-      let pending = false;
-      window.addEventListener(
-        "scroll",
-        () => {
-          if (pending) return;
-          pending = true;
-          requestAnimationFrame(() => {
-            pending = false;
-            updateScrollNavigation();
-          });
-        },
-        { passive: true },
-      );
-      window.addEventListener("pageshow", updateScrollNavigation);
+      if (typeof IntersectionObserver === "function") {
+        const sentinel = document.createElement("span");
+        sentinel.className = "navigation-sentinel";
+        sentinel.setAttribute("aria-hidden", "true");
+        document.querySelector(".cinema-hero").prepend(sentinel);
+        new IntersectionObserver(([entry]) => {
+          updateScrollNavigation(
+            !entry.isIntersecting && entry.boundingClientRect.top < 0,
+          );
+        }).observe(sentinel);
+      } else {
+        window.addEventListener("scroll", () => updateScrollNavigation(), {
+          passive: true,
+        });
+      }
+      window.addEventListener("pageshow", () => updateScrollNavigation());
       updateScrollNavigation();
     }
   }
