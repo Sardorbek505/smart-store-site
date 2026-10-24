@@ -33,7 +33,7 @@ with sync_playwright() as p:
             assert tab.get_attribute('aria-pressed')=='true'
             assert page.locator('#product-screen-link').get_attribute('href').endswith(source)
         page.locator('#data').evaluate('e=>scrollTo(0,e.offsetTop)')
-        assert page.locator('#data .data-item').count()==3
+        assert page.locator('#data [data-hub-node]').count()==3
         assert page.locator('#data .screen-content').evaluate('e=>e.scrollWidth<=e.clientWidth && e.scrollHeight<=e.clientHeight+4')
         unexpected=page.locator('.screen-content.is-scrollable').evaluate_all('xs=>xs.map(e=>({section:e.closest("section").getAttribute("aria-labelledby")||e.closest("section").id,scroll:e.scrollHeight,height:e.clientHeight}))')
         assert not unexpected,unexpected
