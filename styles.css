@@ -2493,3 +2493,74 @@ html:not(.js) .screen-tabs {
 .license-section :focus-visible {
   outline-color: var(--paper);
 }
+/* Continue installation on a supported computer instead of downloading an EXE to a phone. */
+.installation-guide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  padding-block: 40px;
+  border-bottom: 1px solid var(--line);
+}
+.installation-guide h2 {
+  font-size: 28px;
+  letter-spacing: -1px;
+}
+.installation-guide p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-block: 15px;
+  max-width: 440px;
+}
+.installation-guide .text-link {
+  font-size: 12px;
+}
+.installation-actions label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.installation-actions input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #b2b2cb;
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+.installation-actions .actions {
+  gap: 12px;
+}
+.installation-actions .button {
+  font-size: 12px;
+  min-height: 46px;
+  padding: 12px 16px;
+}
+.preview-status {
+  padding: 20px;
+  font-size: 13px;
+  text-align: center;
+}
+.preview-status:empty {
+  display: none;
+}
+.preview-original {
+  display: block;
+  padding: 16px 20px;
+  font-size: 12px;
+  text-align: center;
+  border-top: 1px solid var(--line);
+  text-decoration: underline;
+}
+@media (max-width: 620px) {
+  .installation-guide {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-block: 28px;
+  }
+  .installation-guide h2 {
+    font-size: 25px;
+  }
+}

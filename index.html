@@ -23,9 +23,9 @@
     <meta property="og:image" content="https://metov.store/img/sale.png" />
     <meta property="og:locale" content="ru_RU" />
     <link rel="icon" href="img/icon.png" />
-    <link rel="stylesheet" href="styles.css?v=6" />
+    <link rel="stylesheet" href="styles.css?v=7" />
     <link rel="stylesheet" href="cinema.css?v=6" />
-    <script src="app.js?v=6" defer></script>
+    <script src="app.js?v=7" type="module"></script>
   </head>
 
   <body class="landing-page">
@@ -77,7 +77,7 @@
         >
         <nav class="top-links" id="site-nav" aria-label="Навигация по сайту">
           <a href="#features">Возможности</a><a href="#start">Как начать</a
-          ><a href="#license">Стоимость</a><a href="#faq">Вопросы</a>
+          ><a href="#license">Лицензия</a><a href="#faq">Вопросы</a>
         </nav>
         <a href="#store" class="enter-link"
           ><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg
@@ -118,7 +118,7 @@
               data-download
               class="button primary"
               href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
-              >Попробовать бесплатно
+              ><span id="download-label">Попробовать бесплатно</span>
               <svg class="icon" aria-hidden="true">
                 <use href="#i-arrow" /></svg></a
             ><a class="cinema-explore" href="#features"
@@ -305,9 +305,45 @@
             Установщик для Windows · 64 бит · Без кода активации
           </p>
           <p id="mobile-note" class="device-note" hidden>
-            Программа для компьютера Windows. Уже с нами?
+            Для установки нужен компьютер с Windows. Уже с нами?
             <a href="#store">Войти с телефона →</a>
           </p>
+        </div>
+      </section>
+      <section
+        id="installation"
+        tabindex="-1"
+        class="installation-guide wrap"
+        hidden
+        aria-labelledby="installation-title"
+      >
+        <div>
+          <p class="eyebrow">Продолжите на компьютере</p>
+          <h2 id="installation-title">Smart Store работает на Windows.</h2>
+          <p>
+            Отправьте себе ссылку. Откройте её на компьютере магазина и скачайте
+            установщик.
+          </p>
+          <a class="text-link" href="#store"
+            >Уже установили? Войти в магазин →</a
+          >
+        </div>
+        <div class="installation-actions">
+          <label for="installation-url">Ссылка для компьютера</label
+          ><input
+            id="installation-url"
+            readonly
+            value="https://metov.store/"
+            spellcheck="false"
+          />
+          <div class="actions">
+            <button id="copy-site" type="button" class="button primary">
+              Скопировать ссылку</button
+            ><button id="share-site" type="button" class="button" hidden>
+              Поделиться
+            </button>
+          </div>
+          <p id="copy-status" class="note" role="status"></p>
         </div>
       </section>
       <div class="benefit-strip">
@@ -445,6 +481,7 @@
             </div>
             <div
               class="screen-tabs"
+              hidden
               role="group"
               aria-label="Выбрать экран программы"
             >
@@ -618,7 +655,7 @@
               href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
               data-download
               class="text-link"
-              >Скачать
+              ><span id="start-download-label">Скачать</span>
               <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
             ></a>
           </li>
@@ -637,10 +674,6 @@
             <p>Соберите чек и выберите способ оплаты.</p>
           </li>
         </ol>
-        <button type="button" id="copy-site" class="copy-link" hidden>
-          Скопировать ссылку для компьютера
-        </button>
-        <p id="copy-status" class="note" role="status"></p>
       </section>
       <section
         id="license"
@@ -666,7 +699,7 @@
               href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
               data-download
               class="button dark"
-              >Скачать для Windows
+              ><span id="license-download-label">Скачать для Windows</span>
               <svg class="icon" aria-hidden="true">
                 <use href="#i-download" /></svg></a
             ><a
@@ -847,7 +880,14 @@
           ✕
         </button>
       </div>
-      <img id="preview-image" alt="" />
+      <p id="preview-status" class="preview-status" role="status"></p>
+      <img id="preview-image" alt="" /><a
+        id="preview-original"
+        class="preview-original"
+        target="_blank"
+        rel="noopener"
+        >Открыть оригинал экрана ↗</a
+      >
     </dialog>
   </body>
 </html>
