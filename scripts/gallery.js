@@ -8,7 +8,7 @@ export function init() {
     const controls = gallery.querySelector(".gallery-controls");
     const pause = $("gallery-pause");
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-    let position = 0;
+    let position = 0.35;
     let target = null;
     let paused = reduced.matches;
     let hovered = false;
@@ -18,33 +18,162 @@ export function init() {
     let lastTime = 0;
     let pointer = null;
     let dragged = false;
-    let cardWidth = 0;
-    let perspective = 1050;
     let announced = -1;
     const count = cards.length;
     const wrap = (value) => ((value % count) + count) % count;
+    // Project each photograph onto the inside of a cylinder. Vertical texture
+    // strips bend with the surface, unlike individually rotated flat cards.
+    const canvas = document.createElement("canvas");
+    canvas.className = "ribbon-canvas";
+    canvas.setAttribute("aria-hidden", "true");
+    const context = canvas.getContext("2d", { alpha: true });
+    let width = stage.clientWidth;
+    let height = stage.clientHeight;
+    const photos = cards.map((card) => card.querySelector("img"));
+    if (context) stage.prepend(canvas);
+    const resize = () => {
+      width = stage.clientWidth;
+      height = stage.clientHeight;
+      if (!context) return;
+      const density = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * density);
+      canvas.height = Math.round(height * density);
+      context.setTransform(density, 0, 0, density, 0, 0);
+    };
     const render = () => {
+      if (!context) return;
+      context.clearRect(0, 0, width, height);
+      const radius = width * 0.28;
+      const camera = radius * 1.5;
+      const step = 0.85;
+      const gap = 0.018;
+      const photoHeight = Math.min(height * 0.5, width * 0.15);
+      const slices = width < 621 ? 48 : 96;
+      const project = (angle) => {
+        const depth = radius * (1 - Math.cos(angle));
+        const scale = camera / (camera - depth);
+        return {
+          x: width / 2 + radius * Math.sin(angle) * scale,
+          top: height / 2 - (photoHeight * scale) / 2,
+          bottom: height / 2 + (photoHeight * scale) / 2,
+        };
+      };
       for (const [index, card] of cards.entries()) {
         const distance = wrap(index - position + count / 2) - count / 2;
-        const edge = Math.abs(distance);
-        const z = Math.pow(edge, 1.6) * 92;
-        const x =
-          distance *
-          cardWidth *
-          (1.04 + Math.max(0, edge - 1) * 0.13) *
-          (1 - z / perspective);
-        const y = 18 - edge * 16;
-        card.style.transform = `translate3d(calc(-50% + ${x}px), ${y}px, ${z}px) rotateY(${-distance * 26}deg) rotateZ(${-distance * 0.2}deg)`;
-        card.style.opacity = String(
-          Math.min(1, Math.max(0, (2.45 - edge) / 0.5)),
+        const leftAngle = distance * step - (step - gap) / 2;
+        const rightAngle = leftAngle + step - gap;
+        // Clip to the visible arc before projection; wrapped photos never cross
+        // the camera plane or flash through the middle of the ribbon.
+        if (rightAngle < -1.55 || leftAngle > 1.55) {
+          card.hidden = true;
+          continue;
+        }
+        const visibleLeft = Math.max(leftAngle, -1.55);
+        const visibleRight = Math.min(rightAngle, 1.55);
+        const points = Array.from({ length: slices + 1 }, (_, slice) =>
+          project(
+            visibleLeft + ((visibleRight - visibleLeft) * slice) / slices,
+          ),
         );
-        const offscreen = edge > 1.65;
-        card.tabIndex = offscreen ? -1 : 0;
+        const left = points[0].x;
+        const right = points[slices].x;
+        const top = Math.min(...points.map((point) => point.top));
+        const bottom = Math.max(...points.map((point) => point.bottom));
+        const inView = right > 0 && left < width && right > left;
+        card.hidden = !inView;
+        if (!inView) continue;
+        const polygon = [
+          ...points.map((point) => `${point.x - left}px ${point.top - top}px`),
+          ...points
+            .toReversed()
+            .map((point) => `${point.x - left}px ${point.bottom - top}px`),
+        ];
+        card.style.cssText = `left:${left}px;top:${top}px;width:${right - left}px;height:${bottom - top}px;clip-path:polygon(${polygon.join(",")});`;
+        card.tabIndex = Math.abs(distance) < 1.4 ? 0 : -1;
+        const path = new Path2D();
+        const rounding = 6;
+        path.moveTo(left, points[0].top + rounding);
+        path.quadraticCurveTo(left, points[0].top, points[1].x, points[1].top);
+        for (let slice = 2; slice < slices; slice++)
+          path.lineTo(points[slice].x, points[slice].top);
+        path.quadraticCurveTo(
+          right,
+          points[slices].top,
+          right,
+          points[slices].top + rounding,
+        );
+        path.lineTo(right, points[slices].bottom - rounding);
+        path.quadraticCurveTo(
+          right,
+          points[slices].bottom,
+          points[slices - 1].x,
+          points[slices - 1].bottom,
+        );
+        for (let slice = slices - 2; slice > 0; slice--)
+          path.lineTo(points[slice].x, points[slice].bottom);
+        path.quadraticCurveTo(
+          left,
+          points[0].bottom,
+          left,
+          points[0].bottom - rounding,
+        );
+        path.closePath();
+        const image = photos[index];
+        if (image.complete && image.naturalWidth) {
+          const aspect = (radius * (step - gap)) / photoHeight;
+          const sourceWidth = Math.min(
+            image.naturalWidth,
+            image.naturalHeight * aspect,
+          );
+          const sourceHeight = sourceWidth / aspect;
+          const visibleStart = (visibleLeft - leftAngle) / (step - gap);
+          const visibleFraction = (visibleRight - visibleLeft) / (step - gap);
+          const sourceX =
+            (image.naturalWidth - sourceWidth) / 2 + sourceWidth * visibleStart;
+          const visibleSourceWidth = sourceWidth * visibleFraction;
+          const sourceY = (image.naturalHeight - sourceHeight) / 2;
+          context.save();
+          context.clip(path);
+          for (let slice = 0; slice < slices; slice++) {
+            const a = points[slice];
+            const b = points[slice + 1];
+            context.drawImage(
+              image,
+              sourceX + (visibleSourceWidth * slice) / slices,
+              sourceY,
+              visibleSourceWidth / slices + 0.5,
+              sourceHeight,
+              a.x,
+              Math.min(a.top, b.top),
+              b.x - a.x + 0.6,
+              Math.max(a.bottom, b.bottom) - Math.min(a.top, b.top),
+            );
+          }
+          context.restore();
+        }
+        const keyboardFocus =
+          card === document.activeElement && card.matches(":focus-visible");
+        context.strokeStyle = keyboardFocus
+          ? "#EDEDF5"
+          : "rgba(237,237,245,0.16)";
+        context.lineWidth = keyboardFocus ? 3 : 1;
+        context.stroke(path);
       }
       $("gallery-count").textContent = String(
         wrap(Math.round(position)) + 1,
       ).padStart(2, "0");
     };
+    if (context) {
+      stage.classList.add("ribbon-ready");
+      for (const image of photos) {
+        image.loading = "eager";
+        image.addEventListener("load", render);
+      }
+      resize();
+    } else {
+      // Static native image links remain usable when Canvas is unavailable.
+      return;
+    }
     const preview = $("preview-dialog");
     const wantsMotion = () =>
       visible &&
@@ -52,6 +181,7 @@ export function init() {
       !preview.open &&
       (target !== null ||
         (!paused && !reduced.matches && !hovered && !focused && !pointer));
+    let lastPaint = 0;
     const tick = (time) => {
       frame = 0;
       const delta = lastTime ? Math.min(time - lastTime, 48) : 16;
@@ -71,7 +201,10 @@ export function init() {
       ) {
         position += delta / 8500;
       }
-      render();
+      if (time - lastPaint >= 1000 / 30 || !wantsMotion()) {
+        render();
+        lastPaint = time - ((time - lastPaint) % (1000 / 30));
+      }
       if (wantsMotion()) frame = requestAnimationFrame(tick);
     };
     const resume = () => {
@@ -127,11 +260,13 @@ export function init() {
     });
     gallery.addEventListener("focusin", () => {
       focused = true;
+      render();
       resume();
     });
     gallery.addEventListener("focusout", (event) => {
       if (!gallery.contains(event.relatedTarget)) {
         focused = false;
+        render();
         resume();
       }
     });
@@ -191,9 +326,7 @@ export function init() {
       updatePause();
     });
     new ResizeObserver(() => {
-      cardWidth = cards[0].offsetWidth;
-      perspective =
-        Number.parseFloat(getComputedStyle(stage).perspective) || 1050;
+      resize();
       render();
     }).observe(stage);
     new IntersectionObserver(
@@ -203,7 +336,6 @@ export function init() {
       },
       { threshold: 0.1 },
     ).observe(gallery);
-    cardWidth = cards[0].offsetWidth;
     render();
     updatePause();
   }
