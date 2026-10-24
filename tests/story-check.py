@@ -54,34 +54,38 @@ with sync_playwright() as p:
             overlap=min(core['x']+core['width'],rect['x']+rect['width'])-max(core['x'],rect['x'])>1 and min(core['y']+core['height'],rect['y']+rect['height'])-max(core['y'],rect['y'])>1
             assert not overlap,{'size':[w,h],'core':core,'node':rect}
         page.locator('.phone-section').evaluate('e=>scrollTo(0,e.offsetTop)')
-        page.locator('#stack-toggle').click()
-        assert page.locator('#stack-toggle').get_attribute('aria-expanded')=='true'
-        page.wait_for_timeout(500)
-        for i,source in [(1,'phone-search.png'),(2,'phone-cart.png'),(0,'phone.png')]:
-            page.locator(f'[data-phone-card="{i}"]').click()
-            page.wait_for_timeout(500)
+        assert page.locator('.phone-card, #stack-toggle, .phone-stack').count()==0
+        assert page.locator('[data-phone-screen]').count()==3
+        image=page.locator('#phone-mockup')
+        image.evaluate('e=>e.decode()')
+        rect=image.bounding_box()
+        displayed_height=min(rect['height'],rect['width']*1.5)
+        assert displayed_height >= (420 if w==390 else 230 if w==320 else 210), {'size':[w,h],'image':rect}
+        for i,source,render in [(1,'phone-search.png','iphone18-search.webp'),(2,'phone-cart.png','iphone18-cart.webp'),(0,'phone.png','iphone18-overview.webp')]:
+            page.locator(f'[data-phone-screen="{i}"]').click()
+            image.evaluate('e=>e.decode()')
+            assert image.get_attribute('src')=='img/'+render
+            assert image.evaluate('e=>e.naturalWidth>=1024&&e.naturalHeight>=1536')
             assert page.locator('#phone-screen-link').get_attribute('href')=='img/'+source
-            assert page.locator('[data-phone-card][aria-pressed="true"]').count()==1
-        page.locator('[data-phone-card="0"]').focus();page.keyboard.press('End')
+            assert page.locator('[data-phone-screen][aria-pressed="true"]').count()==1
+        page.locator('[data-phone-screen="0"]').focus();page.keyboard.press('End')
         assert page.locator('#phone-screen-link').get_attribute('href')=='img/phone-cart.png'
+        image.evaluate('e=>e.decode()')
         page.locator('#phone-screen-link').click();page.locator('#preview-dialog').wait_for(state='visible')
         assert page.locator('#preview-original').get_attribute('href').endswith('/img/phone-cart.png')
         page.keyboard.press('Escape')
-        page.locator('#stack-toggle').click()
-        assert page.locator('#stack-toggle').get_attribute('aria-expanded')=='false'
-        page.wait_for_timeout(700)
+        page.wait_for_timeout(350)
         assert page.locator('.phone-showcase').evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.playState!=="running")')
         assert page.locator('canvas').count()==0
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
-        for selector,name in [('#features','bento'),('#start','steps'),('#data','hub'),('.phone-section','stack')]:
+        for selector,name in [('#features','bento'),('#start','steps'),('#data','hub'),('.phone-section','phone')]:
             page.locator(selector).evaluate('e=>scrollTo(0,e.offsetTop)')
-            if name=='stack':page.locator('#stack-toggle').click()
             page.wait_for_timeout(500)
             page.screenshot(path=str(OUT/f'{name}-{w}.png'))
         page.emulate_media(reduced_motion='reduce')
-        assert page.locator('.phone-card').first.evaluate('e=>getComputedStyle(e).transitionDuration')=='0s'
+        assert page.locator('[data-phone-screen]').first.evaluate('e=>getComputedStyle(e).transitionDuration')=='0s'
         assert not errors,errors
-        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'stepsAndOriginals':'pass','hubNodes':'pass','expandableScreens':'pass','sectionFit':'pass','finiteMotion':'pass'}),flush=True)
+        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'stepsAndOriginals':'pass','hubNodes':'pass','generatedPhoneScenes':'pass','sectionFit':'pass','finiteMotion':'pass'}),flush=True)
         page.close()
     broken=b.new_page(viewport={'width':390,'height':844})
     broken.route('**/scripts/story.js*',lambda r:r.abort())

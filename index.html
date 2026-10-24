@@ -30,13 +30,13 @@
         root.dataset.viewportWidth = String(innerWidth);
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=22" />
-    <link rel="stylesheet" href="cinema.css?v=22" />
-    <link rel="stylesheet" href="buttons.css?v=22" />
-    <link rel="stylesheet" href="screens.css?v=22" />
-    <link rel="stylesheet" href="components.css?v=22" />
-    <link rel="stylesheet" href="story.css?v=22" />
-    <script src="app.js?v=22" type="module"></script>
+    <link rel="stylesheet" href="styles.css?v=23" />
+    <link rel="stylesheet" href="cinema.css?v=23" />
+    <link rel="stylesheet" href="buttons.css?v=23" />
+    <link rel="stylesheet" href="screens.css?v=23" />
+    <link rel="stylesheet" href="components.css?v=23" />
+    <link rel="stylesheet" href="story.css?v=23" />
+    <script src="app.js?v=23" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -943,130 +943,77 @@
         <div class="screen-content wrap">
           <div class="phone-layout">
             <div class="phone-copy">
-              <h2 id="phone-title">Магазин в вашем телефоне.</h2>
-
-              <div class="role-list">
-                <div>
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-chart" />
-                  </svg>
-                  <p>
-                    <strong>Владельцу — контроль</strong
-                    ><span>Выручка, прибыль, история и долги.</span>
-                  </p>
-                </div>
-                <div>
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-box" />
-                  </svg>
-                  <p>
-                    <strong>Продавцу — инструменты</strong
-                    ><span>Поиск, пересчёт и корзина кассы.</span>
-                  </p>
-                </div>
-              </div>
-              <p class="connection-note">
-                Без установки. Компьютер со Smart Store должен быть включён. Для
-                доступа извне нужен интернет.
+              <h2 id="phone-title">Магазин в телефоне.</h2>
+              <p class="phone-lead">
+                Выручка, товары и корзина — в вашем браузере.
               </p>
-              <a href="#store" class="text-link"
-                >Войти в свой магазин
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-arrow" /></svg
-              ></a>
             </div>
             <div class="phone-showcase">
               <div
-                class="phone-stack"
-                id="phone-stack"
-                data-expanded="false"
-                data-selected="0"
+                class="phone-selector"
                 role="group"
-                aria-label="Экраны Smart Store на телефоне"
+                aria-label="Выбрать экран на iPhone"
               >
                 <button
-                  class="phone-card"
                   type="button"
-                  data-phone-card="0"
+                  data-phone-screen="0"
                   aria-pressed="true"
-                  aria-label="Показать экран: Контроль"
+                  aria-controls="phone-mockup"
                   disabled
-                  style="--slot: 0; --rank: 3"
                 >
-                  <img
-                    src="img/phone.png"
-                    width="390"
-                    height="844"
-                    loading="lazy"
-                    decoding="async"
-                    alt="Главная телефона: выручка, прибыль и рабочие инструменты"
-                  /><span class="phone-card-label"
-                    ><span>01</span>Контроль</span
-                  ></button
-                ><button
-                  class="phone-card"
-                  type="button"
-                  data-phone-card="1"
-                  aria-pressed="false"
-                  aria-label="Показать экран: Поиск товара"
-                  disabled
-                  style="--slot: -1; --rank: 2"
-                >
-                  <img
-                    src="img/phone-search.png"
-                    width="390"
-                    height="844"
-                    loading="lazy"
-                    decoding="async"
-                    alt="Поиск товара в телефонном интерфейсе Smart Store"
-                  /><span class="phone-card-label"
-                    ><span>02</span>Поиск товара</span
-                  ></button
-                ><button
-                  class="phone-card"
-                  type="button"
-                  data-phone-card="2"
-                  aria-pressed="false"
-                  aria-label="Показать экран: Корзина"
-                  disabled
-                  style="--slot: 1; --rank: 1"
-                >
-                  <img
-                    src="img/phone-cart.png"
-                    width="390"
-                    height="844"
-                    loading="lazy"
-                    decoding="async"
-                    alt="Корзина продажи в телефонном интерфейсе Smart Store"
-                  /><span class="phone-card-label"><span>03</span>Корзина</span>
+                  Контроль
                 </button>
-              </div>
-              <div class="phone-stack-actions">
                 <button
-                  class="stack-toggle"
-                  id="stack-toggle"
                   type="button"
-                  aria-expanded="false"
-                  aria-controls="phone-stack"
+                  data-phone-screen="1"
+                  aria-pressed="false"
+                  aria-controls="phone-mockup"
                   disabled
                 >
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#i-box" /></svg
-                  ><span>Развернуть экраны</span>
+                  Поиск
                 </button>
-                <a
-                  id="phone-screen-link"
-                  class="stack-preview"
-                  href="img/phone.png"
-                  data-preview
-                  data-title="Smart Store на телефоне / Контроль"
-                  data-preview-alt="Главная телефона: выручка и прибыль"
-                  aria-label="Рассмотреть выбранный экран телефона"
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#i-zoom" /></svg
-                  ><span>Рассмотреть</span></a
+                <button
+                  type="button"
+                  data-phone-screen="2"
+                  aria-pressed="false"
+                  aria-controls="phone-mockup"
+                  disabled
                 >
+                  Корзина
+                </button>
               </div>
+              <a
+                class="phone-mockup-link"
+                id="phone-screen-link"
+                href="img/phone.png"
+                data-preview
+                data-title="Smart Store на телефоне / Контроль"
+                data-preview-alt="Главная телефона: выручка и прибыль"
+                aria-label="Увеличить оригинальный экран Smart Store"
+              >
+                <img
+                  id="phone-mockup"
+                  src="img/iphone18-overview.webp"
+                  width="1024"
+                  height="1536"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Мокап iPhone 18 Pro Max: выручка и прибыль Smart Store, серебристый корпус на синем подиуме"
+                />
+                <span class="phone-zoom" aria-hidden="true"
+                  ><svg class="icon"><use href="#i-zoom" /></svg
+                ></span>
+              </a>
+            </div>
+            <div class="phone-foot">
+              <a href="#store" class="text-link"
+                >Войти в свой магазин<svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+              ></a>
+              <p class="connection-note">
+                Компьютер со Smart Store должен быть включён. Для доступа извне
+                нужен интернет.
+              </p>
             </div>
           </div>
         </div>

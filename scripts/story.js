@@ -110,50 +110,56 @@ export function init() {
     });
     arrows(buttons, select);
   }
-  function setupStack() {
-    const stack = document.getElementById("phone-stack");
-    if (!stack) return;
-    const buttons = [...stack.querySelectorAll("[data-phone-card]")];
-    const toggle = document.getElementById("stack-toggle");
+  function setupPhone() {
+    const image = document.getElementById("phone-mockup");
+    if (!image) return;
+    const buttons = [...document.querySelectorAll("[data-phone-screen]")];
     const link = document.getElementById("phone-screen-link");
-    const labels = ["Контроль", "Поиск товара", "Корзина"];
-    const expand = (value) => {
-      stack.dataset.expanded = String(value);
-      toggle.setAttribute("aria-expanded", String(value));
-      toggle.querySelector("span").textContent = value
-        ? "Свернуть экраны"
-        : "Развернуть экраны";
-    };
+    const screens = [
+      {
+        image: "iphone18-overview.webp",
+        original: "phone.png",
+        label: "Контроль",
+        alt: "Мокап iPhone 18 Pro Max: выручка и прибыль Smart Store, серебристый корпус на синем подиуме",
+        originalAlt: "Главная телефона: выручка, прибыль и рабочие инструменты",
+      },
+      {
+        image: "iphone18-search.webp",
+        original: "phone-search.png",
+        label: "Поиск товара",
+        alt: "Мокап iPhone 18 Pro Max: поиск товара Smart Store, светлый корпус под небольшим углом",
+        originalAlt: "Поиск товара в телефонном интерфейсе Smart Store",
+      },
+      {
+        image: "iphone18-cart.webp",
+        original: "phone-cart.png",
+        label: "Корзина",
+        alt: "Мокап iPhone 18 Pro Max: корзина Smart Store на 40 550 ₸, чёрный корпус на ступени",
+        originalAlt: "Корзина продажи Smart Store: два товара на 40 550 ₸",
+      },
+    ];
+    let selected = 0;
     const select = (index) => {
-      const button = buttons[index];
-      if (!button) return;
-      stack.dataset.selected = String(index);
-      buttons.forEach((card, i) => {
-        const distance = (i - index + buttons.length) % buttons.length;
-        card.setAttribute("aria-pressed", String(i === index));
-        card.style.setProperty(
-          "--slot",
-          distance === 2 ? "-1" : String(distance),
-        );
-        card.style.setProperty("--rank", i === index ? "3" : "1");
-      });
-      const image = button.querySelector("img");
-      link.href = image.getAttribute("src");
-      link.dataset.title = `Smart Store на телефоне / ${labels[index]}`;
-      link.dataset.previewAlt = image.alt;
-      expand(true);
+      const screen = screens[index];
+      if (!screen || selected === index) return;
+      selected = index;
+      buttons.forEach((button, i) =>
+        button.setAttribute("aria-pressed", String(i === index)),
+      );
+      image.src = `img/${screen.image}`;
+      image.alt = screen.alt;
+      link.href = `img/${screen.original}`;
+      link.dataset.title = `Smart Store на телефоне / ${screen.label}`;
+      link.dataset.previewAlt = screen.originalAlt;
+      reveal(image);
     };
     buttons.forEach((button, index) => {
       button.addEventListener("click", () => select(index));
       button.disabled = false;
     });
-    toggle.addEventListener("click", () =>
-      expand(stack.dataset.expanded !== "true"),
-    );
-    toggle.disabled = false;
     arrows(buttons, select);
   }
-  for (const setup of [setupSteps, setupHub, setupStack]) {
+  for (const setup of [setupSteps, setupHub, setupPhone]) {
     try {
       setup();
     } catch {
