@@ -774,3 +774,42 @@
 .ribbon-ready {
   overflow: hidden;
 }
+
+/* Keep the opening hero clear; reveal navigation only after the user scrolls. */
+.landing-page .top {
+  position: fixed;
+  inset: 0 0 auto;
+  transform: translateY(-105%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    transform 240ms ease,
+    opacity 180ms ease,
+    visibility 240ms;
+}
+.landing-page.has-scrolled .top {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.landing-page .gallery-controls {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    visibility 180ms;
+}
+.landing-page.has-scrolled .gallery-controls {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-page .top,
+  .landing-page .gallery-controls {
+    transition: none;
+  }
+}
