@@ -31,10 +31,21 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
   const cancel = () => {
     revision += 1;
     controller?.abort();
+    controller = undefined;
     field.removeAttribute("aria-invalid");
     direct.hidden = true;
     direct.removeAttribute("href");
   };
+  const restore = () => {
+    cancel();
+    show("idle");
+  };
+  // A cached document must not return with a disabled redirect button or a
+  // lookup that can navigate after the visitor comes back. Keep their code.
+  window.addEventListener("pagehide", restore);
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) restore();
+  });
   show("idle");
   field.addEventListener("input", () => {
     cancel();
@@ -49,7 +60,7 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
       field.setAttribute("aria-invalid", "true");
       show(
         "invalid",
-        "Введите код латинскими буквами и цифрами или адрес вашего магазина на metov.store. Код находится в Smart Store на компьютере.",
+        "Код — латинские буквы и цифры. Можно вставить адрес магазина на metov.store.",
       );
       field.focus();
       return;
@@ -69,7 +80,7 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
         field.setAttribute("aria-invalid", "true");
         show(
           "not-found",
-          "Магазин с таким кодом не найден. Скопируйте код или адрес из настроек телефона в программе на компьютере.",
+          "Такой магазин не найден. Проверьте код в Smart Store: «Система» → настройки телефона.",
         );
         field.focus();
         return;
@@ -81,7 +92,7 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
       if (current !== revision) return;
       show(
         "unavailable",
-        "Сервис проверки сейчас недоступен. Проверьте код; если он верный, можно открыть магазин напрямую.",
+        "Проверка временно недоступна. Проверьте код или откройте магазин напрямую.",
       );
       direct.href = target;
       direct.hidden = false;

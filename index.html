@@ -12,7 +12,7 @@
     <link rel="canonical" href="https://metov.store/" />
     <meta
       property="og:title"
-      content="Smart Store — касса, склад и прибыль в одной программе"
+      content="Smart Store — касса, склад и контроль магазина"
     />
     <meta
       property="og:description"
@@ -20,8 +20,36 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://metov.store/" />
-    <meta property="og:image" content="https://metov.store/img/demo-sale.png" />
+    <meta property="og:site_name" content="Smart Store" />
+    <meta
+      property="og:image"
+      content="https://metov.store/img/smart-store-share-v39.jpg"
+    />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1730" />
+    <meta property="og:image:height" content="909" />
+    <meta
+      property="og:image:alt"
+      content="Smart Store: касса, склад и контроль. Ноутбук с экраном продажи, сканер и чек. 14 дней бесплатно."
+    />
     <meta property="og:locale" content="ru_RU" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Smart Store — касса, склад и контроль магазина"
+    />
+    <meta
+      name="twitter:description"
+      content="Для магазинов инструмента и запчастей. Работает на Windows, основные операции доступны без интернета. Пробные 14 дней."
+    />
+    <meta
+      name="twitter:image"
+      content="https://metov.store/img/smart-store-share-v39.jpg"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Smart Store: касса, склад и контроль. Ноутбук с экраном продажи, сканер и чек. 14 дней бесплатно."
+    />
     <link rel="icon" href="img/icon.png" />
     <script>
       (() => {
@@ -51,7 +79,7 @@
     <!-- styles:start -->
     <link rel="stylesheet" href="assets/site.891294be4ae0.css" />
     <!-- styles:end -->
-    <script src="app.js?v=38" type="module"></script>
+    <script src="app.js?v=39" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -1500,17 +1528,13 @@
           <div class="store-layout">
             <div>
               <h2 id="store-title">Войти в свой магазин.</h2>
-              <p>
-                Введите код из Smart Store на компьютере. Затем войдите по PIN
-                или логину и паролю.
-              </p>
+              <p>Введите код магазина. Затем — PIN или логин и пароль.</p>
               <details class="store-help">
                 <summary>Где взять код магазина?</summary>
                 <p>
-                  На компьютере откройте Smart Store → «Система» → настройки
-                  телефона. Там находятся код, адрес и QR-код магазина. Если
-                  адрес ещё не выдан, проверьте подключение компьютера к
-                  интернету.
+                  Код, адрес и QR-код — в Smart Store на компьютере: «Система» →
+                  настройки телефона. Компьютер должен быть включён и подключён
+                  к интернету.
                 </p>
               </details>
             </div>
@@ -1526,6 +1550,9 @@
                   type="text"
                   autocomplete="off"
                   autocapitalize="none"
+                  autocorrect="off"
+                  inputmode="url"
+                  enterkeyhint="go"
                   spellcheck="false"
                   placeholder="Код из программы Smart Store"
                   aria-describedby="store-hint store-note"
