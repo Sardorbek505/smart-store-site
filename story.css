@@ -1325,3 +1325,47 @@
     min-height: 76px;
   }
 }
+
+/* The backup scene uses the actual app screen and a recognizable USB stick. */
+.data-scene {
+  container-type: size;
+}
+.data-scene-preview {
+  width: min(100cqw, 150cqh);
+  height: min(100cqh, 66.666cqw);
+  flex: none;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.data-scene-preview:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
+  border-radius: 16px;
+}
+.data-scene-zoom {
+  position: absolute;
+  top: 3%;
+  right: 1%;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--paper);
+  background: var(--ink);
+}
+.data-scene-zoom .icon {
+  width: 18px;
+  height: 18px;
+}
+@media (min-width: 1000px) and (min-height: 601px) {
+  #data h2 br {
+    display: initial;
+  }
+  #data h2 span {
+    margin-left: 0;
+  }
+}

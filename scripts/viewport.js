@@ -5,14 +5,19 @@ export function init() {
   const touch = matchMedia("(pointer: coarse)");
   const frames = [...document.querySelectorAll(".screen-content")];
   let width = window.innerWidth;
-  const initialWidth = Number(document.documentElement.dataset.viewportWidth);
-  const initialHeight = parseFloat(
-    document.documentElement.style.getPropertyValue("--initial-screen-height"),
-  );
-  let height =
-    Math.abs(initialWidth - width) < 2 && initialHeight > 0
-      ? initialHeight
-      : window.innerHeight;
+  // Safari's visible viewport may settle after the first HTML script runs.
+  const viewportHeight = () => {
+    const viewport = window.visualViewport;
+    const matches =
+      viewport &&
+      Math.abs(viewport.scale - 1) < 0.01 &&
+      Math.abs(viewport.width - innerWidth) < 2;
+    return Math.round(
+      matches ? Math.max(innerHeight, viewport.height) : innerHeight,
+    );
+  };
+  let height = viewportHeight();
+  let gesture = false;
   let resizeTimer = 0;
   let measureFrame = 0;
   let lastScrollAt = -1000;
@@ -37,14 +42,30 @@ export function init() {
   const queueMeasure = () => {
     if (!measureFrame) measureFrame = requestAnimationFrame(measureOverflow);
   };
+  const queueHeight = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(setHeight, 180);
+  };
   const setHeight = () => {
     const nextWidth = window.innerWidth;
-    const nextHeight = window.innerHeight;
-    // On touch devices, height-only changes are browser bars or the keyboard.
-    if (touch.matches && Math.abs(nextWidth - width) < 2) return;
-    if (!touch.matches && performance.now() - lastScrollAt < 200) {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(setHeight, 200);
+    const nextHeight = viewportHeight();
+    const rotated = Math.abs(nextWidth - width) >= 2;
+    if (touch.matches && !rotated) {
+      // Only settle browser-bar changes while the hero is at rest at the top.
+      // Never resize the document during a gesture, a form edit or pinch zoom.
+      if (
+        window.scrollY > 1 ||
+        gesture ||
+        document.querySelector("dialog[open]") ||
+        document.activeElement?.matches(
+          'input, textarea, select, [contenteditable="true"]',
+        ) ||
+        Math.abs((window.visualViewport?.scale ?? 1) - 1) > 0.01
+      )
+        return;
+    }
+    if (!rotated && performance.now() - lastScrollAt < 180) {
+      queueHeight();
       return;
     }
     width = nextWidth;
@@ -61,23 +82,36 @@ export function init() {
     for (const frame of frames) observer.observe(frame);
   }
   document.addEventListener("toggle", queueMeasure, true);
+  window.addEventListener("resize", queueHeight, { passive: true });
+  window.visualViewport?.addEventListener("resize", queueHeight, {
+    passive: true,
+  });
   window.addEventListener(
-    "resize",
+    "scroll",
     () => {
-      if (touch.matches && Math.abs(window.innerWidth - width) < 2) return;
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(setHeight, 120);
+      lastScrollAt = performance.now();
+      if (touch.matches && window.scrollY <= 1) queueHeight();
     },
     { passive: true },
   );
-  if (!touch.matches)
+  if (touch.matches) {
     window.addEventListener(
-      "scroll",
+      "pointerdown",
       () => {
-        lastScrollAt = performance.now();
+        gesture = true;
       },
       { passive: true },
     );
-  window.addEventListener("pageshow", queueMeasure);
+    const release = () => {
+      gesture = false;
+      queueHeight();
+    };
+    window.addEventListener("pointerup", release, { passive: true });
+    window.addEventListener("pointercancel", release, { passive: true });
+  }
+  window.addEventListener("pageshow", () => {
+    queueHeight();
+    queueMeasure();
+  });
   queueMeasure();
 }

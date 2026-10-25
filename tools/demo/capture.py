@@ -10,7 +10,7 @@ fixture=json.loads((HARNESS/'fixture.json').read_text())
 def money(value):return f'{value/100:,.0f}'.replace(',',' ')+' ₸'
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
-    for screen,name in [('sales','sale'),('dashboard','home'),('products','products')]:
+    for screen,name in [('sales','sale'),('dashboard','home'),('products','products'),('backups','backups')]:
         page=browser.new_page(viewport={'width':1440,'height':900},device_scale_factor=1,reduced_motion='reduce',timezone_id='Asia/Almaty')
         page.clock.set_fixed_time('2026-10-24T12:30:00Z')
         errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
@@ -26,6 +26,9 @@ with sync_playwright() as p:
             assert len(fixture['daily'])==14 and all(d['revenue']>0 for d in fixture['daily'])
             assert '396 950' in re.sub(r'\s+',' ',page.locator('main').inner_text())
             assert page.locator('.recharts-bar-rectangle').count()>=28
+        if screen=='backups':
+            assert page.get_by_role('heading',name='Резервные копии').is_visible()
+            assert 'Копия на флешку' in page.locator('main').inner_text()
         assert not errors,errors
         page.screenshot(path=str(OUT/f'demo-{name}.png'))
         if screen=='sales':
@@ -73,4 +76,4 @@ with sync_playwright() as p:
     phone.screenshot(path=str(OUT/'demo-phone-cart.png'))
     assert not errors,errors
     browser.close()
-print('Captured 7 real application screens: 4 product photos, 10 catalogue rows, 14 populated days, 17 receipts today, cash/Kaspi/debt and payment selection.')
+print('Captured 8 real application screens: 4 product photos, 10 catalogue rows, 14 populated days, 17 receipts today, cash/Kaspi/debt and payment selection.')

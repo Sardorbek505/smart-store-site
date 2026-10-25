@@ -68,6 +68,9 @@ with sync_playwright() as p:
         for fact in page.locator('.data-facts > div').all():assert fact.is_visible()
         assert '2 часа' in page.locator('.data-facts').inner_text()
         assert 'отдельно' in page.locator('.data-facts').inner_text()
+        page.locator('.data-scene-preview').click();page.locator('#preview-dialog').wait_for(state='visible')
+        assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-backups.png')
+        page.keyboard.press('Escape')
         for i, raw in enumerate(['demo-home.png','demo-products.png','demo-payment.png']):
             page.locator('#start').evaluate('e=>scrollTo(0,e.offsetTop)')
             item=page.locator('.start-journey > li').nth(i)

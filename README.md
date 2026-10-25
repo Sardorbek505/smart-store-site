@@ -30,7 +30,7 @@ python tests/browser-check.py
 - `styles.css`, `cinema.css` — оформление и лента фотосцен.
 - `components.css` — адаптированные кнопка, FAQ, поле копирования и рамка формы. Источники и лицензии: [third-party/README.md](third-party/README.md).
 - `trial.css` — сгенерированная объёмная «14» и адаптивный блок бесплатного периода. Источник и проверка: [docs/trial-sculpture.md](docs/trial-sculpture.md).
-- `story.css`, `scripts/story.js` — асимметричный Bento, касса с точками деталей, пошаговая демонстрация телефона, изометрическая сцена данных и три одновременно видимых шага установки.
+- `story.css`, `scripts/story.js` — асимметричный Bento, касса с точками деталей, пошаговая демонстрация телефона, сцена резервных копий с настоящим экраном и USB-флешкой и три одновременно видимых шага установки.
 - `app.js` — независимый запуск функций.
 - `scripts/core.js` — настройки сервисов, проверка адреса магазина и установщика, сетевой таймаут.
 - `scripts/downloads.js` — скачивание на Windows и продолжение установки с другого устройства.
@@ -53,3 +53,5 @@ python tests/browser-check.py
 Полные изображения во всех демонстрационных блоках: [docs/complete-scenes.md](docs/complete-scenes.md). Проверка фактических границ предметов: `BROWSER=webkit python tests/image-fit-check.py` или `BROWSER=chromium python tests/image-fit-check.py` (Playwright + Pillow).
 
 Единый демомагазин, заполненные экраны и обновлённые мокапы: [docs/demo-data.md](docs/demo-data.md). Воспроизводимый fixture и захват реальных компонентов приложения находятся в `tools/demo`; они не нужны для работы опубликованного сайта.
+
+Исправление высоты херо после изменения панелей Safari и новая подача локальных данных: [docs/viewport-and-backups-v31.md](docs/viewport-and-backups-v31.md).

@@ -4,6 +4,7 @@ import { Sidebar } from "@app/components/Sidebar";
 import { SalesPage } from "@app/routes/sales/SalesPage";
 import { ProductsPage } from "@app/routes/products/ProductsPage";
 import { DashboardPage } from "@app/routes/dashboard/DashboardPage";
+import { BackupsPanel } from "@app/routes/system/BackupsPanel";
 import {
   catalog,
   NOW,
@@ -200,10 +201,16 @@ function Demo() {
   const noop = () => {};
   return (
     <div className="app-bg flex min-h-full">
-      <Sidebar tab={tab as any} onGo={setTab as any} onShortcuts={noop} />
+      <Sidebar
+        tab={(tab === "backups" ? "system" : tab) as any}
+        onGo={setTab as any}
+        onShortcuts={noop}
+      />
       <main className="min-w-0 flex-1 pt-6 pr-7 pb-8 pl-3">
         {tab === "sales" ? (
           <SalesPage />
+        ) : tab === "backups" ? (
+          <BackupsPanel />
         ) : tab === "products" ? (
           <ProductsPage />
         ) : (
