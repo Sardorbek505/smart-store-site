@@ -44,7 +44,9 @@ with sync_playwright() as p:
         page.evaluate('testFlow.currentTime=0')
         a = page.locator('.ribbon-window').screenshot()
         original = page.locator('[data-gallery-card]').first.bounding_box()
-        page.evaluate('testFlow.currentTime=49999')
+        duration = page.evaluate('testFlow.effect.getTiming().duration')
+        assert duration == 44000
+        page.evaluate('(duration)=>testFlow.currentTime=duration-1',duration)
         z = page.locator('.ribbon-window').screenshot()
         copy = page.locator('[data-ribbon-set="after"] .gallery-card').first.bounding_box()
         assert abs(copy['x']-original['x']) < .2
@@ -67,7 +69,7 @@ with sync_playwright() as p:
         assert abs(page.evaluate('testFlow.currentTime')-paused) < 1
         page.evaluate('scrollTo(0,0)')
         page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"')
-        page.evaluate('testFlow.currentTime=150000')
+        page.evaluate('(duration)=>testFlow.currentTime=duration*3',duration)
         page.locator('.hero-gallery').focus()
         page.keyboard.press('ArrowRight')
         # Wait for the finite transition's completion callback; a fixed delay
@@ -81,6 +83,16 @@ with sync_playwright() as p:
         assert page.locator('.gallery-controls, .gallery-motion').count() == 0
         page.keyboard.press('ArrowRight')
         page.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
+        selected=page.locator('[data-gallery-card]').nth(1).bounding_box()
+        assert abs(selected['x']+selected['width']/2-box['width']/2)<1, 'Reduced-motion selection must show the announced photo'
+        page.emulate_media(reduced_motion='no-preference')
+        page.mouse.move(1,1)
+        page.locator('.hero-gallery').evaluate('e=>document.activeElement.blur()')
+        page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"')
+        page.wait_for_function('document.querySelector(".ribbon-track").getAnimations().some(a=>a.playState==="running")')
+        current=page.locator('.ribbon-track').evaluate('e=>getComputedStyle(e).transform')
+        page.wait_for_timeout(250)
+        assert page.locator('.ribbon-track').evaluate('e=>getComputedStyle(e).transform')!=current, 'Motion must resume on the live CSS timeline when the system preference changes back'
         assert not errors, errors
         print(json.dumps({'browser': BROWSER, 'width': w, 'fullWidth': box['width'], 'ribbonHeight': box['height'], 'cardWidth': card_width, 'loop': 'seamless', 'scriptFramesDuringMotion': 0, 'DOMMutationsDuringMotion': 0, 'scrollPause': 'pass', 'reducedMotion': 'pass'}), flush=True)
         page.close()
