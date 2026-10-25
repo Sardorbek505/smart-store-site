@@ -27,6 +27,9 @@ export function init({ config, installerFromRelease, fetchJson }) {
     $("handoff-tools").hidden = false;
     $("license-download-label").textContent = "Как установить";
     $("start-download-label").textContent = "Продолжить на компьютере";
+  } else {
+    // A stable fallback is ready even if the release API fails or times out.
+    for (const link of links) link.href = config.releasesPage;
   }
   const field = $("installation-url");
   field.value = installUrl.replace(/^https:\/\//, "");
@@ -78,7 +81,12 @@ export function init({ config, installerFromRelease, fetchJson }) {
       }
     });
   }
-  // Platform guidance is usable before the release API has responded.
+  // A phone only needs the handoff. Resolve the installer on Windows itself.
+  if (!windows) {
+    $("download-note").textContent =
+      "Windows 10 / 11 · 64 бит. Продолжите установку на компьютере.";
+    return;
+  }
   return (async () => {
     try {
       const release = await fetchJson(config.releasesApi, {
@@ -86,15 +94,14 @@ export function init({ config, installerFromRelease, fetchJson }) {
       });
       const installer = installerFromRelease(release);
       if (!installer) throw new Error("Invalid installer");
-      if (windows) for (const link of links) link.href = installer.url;
+      for (const link of links) link.href = installer.url;
       const note = `Windows 10 / 11 · 64 бит · Версия ${installer.version} · ${Math.round(installer.size / 1024 / 1024)} МБ`;
       $("download-note").textContent = note;
       for (const label of document.querySelectorAll("[data-release-note]"))
         label.textContent = note;
     } catch {
-      $("download-note").textContent = windows
-        ? "Windows 10 / 11 · 64 бит. Кнопка откроет страницу последнего выпуска."
-        : "Установка на Windows 10 / 11 · 64 бит. Отправьте ссылку на компьютер.";
+      $("download-note").textContent =
+        "Windows 10 / 11 · 64 бит. Кнопка откроет страницу последнего выпуска.";
       for (const label of document.querySelectorAll("[data-release-note]"))
         label.textContent =
           "Кнопка откроет официальный выпуск. Выберите файл SmartStore-Setup…exe.";

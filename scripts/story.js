@@ -12,20 +12,9 @@ export function init() {
       { duration: 220, easing: "ease-out" },
     );
   };
-  const fallback = (image, original) => {
-    const recover = () => {
-      if (image.getAttribute("src") !== original) {
-        image.removeAttribute("srcset");
-        image.src = original;
-      }
-    };
-    image.addEventListener("error", recover);
-    if (image.complete && !image.naturalWidth) recover();
-  };
   function setupCheckout() {
     const image = document.getElementById("product-screen");
     if (!image) return;
-    fallback(image, "img/demo-sale.png");
     const buttons = [...document.querySelectorAll("[data-checkout-point]")];
     const icon = (name) =>
       `<span class="proof-icon"><svg class="icon" aria-hidden="true"><use href="#i-${name}" /></svg></span>`;
@@ -135,16 +124,6 @@ export function init() {
     const story = document.querySelector(".mobile-story");
     let selected = 0;
     let loading = false;
-    // A failed generated image still leaves the original, readable application screen.
-    image.addEventListener("error", () => {
-      const original = `img/${scenes[selected].original}`;
-      if (image.getAttribute("src") !== original) {
-        image.removeAttribute("srcset");
-        image.src = original;
-      }
-    });
-    if (image.complete && !image.naturalWidth)
-      image.src = `img/${scenes[0].original}`;
     const load = async (src) => {
       const next = new Image();
       next.src = `img/${src}`;
@@ -202,11 +181,7 @@ export function init() {
       }
     }
   });
-  const setupData = () => {
-    const image = document.querySelector(".data-scene img");
-    if (image) fallback(image, "img/demo-backups.png");
-  };
-  for (const setup of [setupCheckout, setupPhone, setupData]) {
+  for (const setup of [setupCheckout, setupPhone]) {
     try {
       setup();
     } catch {

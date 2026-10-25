@@ -13,7 +13,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: npm ci
       - run: npm test
+      - name: Check published CSS matches its sources
+        run: npm run check:styles
       - name: Check initial gallery frame
         run: node tools/sync-hero-layout.mjs --check
       - name: Check browser modules
