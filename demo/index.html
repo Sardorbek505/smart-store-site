@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ededf5" />
+    <title>Попробовать Smart Store — демомагазин</title>
+    <meta
+      name="description"
+      content="Попробуйте кассу, склад и отчёты Smart Store на учебных данных. Добавьте товар, проведите продажу и посмотрите результат. Без регистрации."
+    />
+    <link rel="canonical" href="https://metov.store/demo/" />
+    <link rel="icon" href="../img/icon.png" />
+    <!-- styles:start -->
+    <link rel="stylesheet" href="../assets/demo.53f5578478f8.css" />
+    <!-- styles:end -->
+  </head>
+  <body>
+    <a class="skip-link" href="#demo-main">К демомагазину</a>
+    <svg
+      class="icon-library"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <symbol id="i-sale" viewBox="0 0 24 24">
+        <path d="M5 3h14v18l-3-2-4 2-4-2-3 2V3Zm4 5h6m-6 4h6" />
+      </symbol>
+      <symbol id="i-stock" viewBox="0 0 24 24">
+        <path
+          d="m3 7 9-5 9 5v10l-9 5-9-5V7Zm0 0 9 5 9-5M12 12v10M7.5 4.5l9 5"
+        />
+      </symbol>
+      <symbol id="i-reports" viewBox="0 0 24 24">
+        <path d="M4 3v17h17M8 15v-4m5 4V6m5 9v-7" />
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M5 12h14m-6-6 6 6-6 6" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="10" cy="10" r="6" />
+        <path d="m15 15 6 6" />
+      </symbol>
+      <symbol id="i-reset" viewBox="0 0 24 24">
+        <path d="M3 10a9 9 0 1 1 2 8M3 4v6h6" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" />
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <path d="m6 6 12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12 4 4L19 6" />
+      </symbol>
+      <symbol id="i-tool" viewBox="0 0 24 24">
+        <path d="m14 6 4 4-9 9a3 3 0 0 1-4-4l9-9Zm0 0V3h5l3 3v5h-4M7 16l1 1" />
+      </symbol>
+      <symbol id="i-cash" viewBox="0 0 24 24">
+        <rect x="2" y="5" width="20" height="14" rx="2" />
+        <circle cx="12" cy="12" r="3" />
+        <path d="M6 9v6m12-6v6" />
+      </symbol>
+    </svg>
+    <header class="app-header">
+      <a class="brand" href="../" aria-label="Smart Store — на сайт"
+        ><img src="../img/icon.png" width="32" height="32" alt="" /><span
+          >Smart Store</span
+        ></a
+      >
+      <span class="demo-badge">Демо</span>
+      <div class="header-store">МАСТЕР <span>Магазин инструмента</span></div>
+      <div class="header-actions">
+        <button
+          class="icon-button"
+          id="reset-demo"
+          disabled
+          type="button"
+          aria-label="Сбросить демо"
+          title="Сбросить демо"
+        >
+          <svg class="icon" aria-hidden="true"><use href="#i-reset" /></svg>
+        </button>
+        <a class="install-link" href="../#installation"
+          >Установить
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+        ></a>
+      </div>
+    </header>
+    <div class="app-layout">
+      <aside class="sidebar">
+        <p class="sidebar-label">ВАШ ДЕМОМАГАЗИН</p>
+        <nav class="app-nav" aria-label="Разделы демомагазина" inert>
+          <a href="#sale" data-route="sale" aria-current="page"
+            ><svg class="icon" aria-hidden="true"><use href="#i-sale" /></svg
+            ><span>Касса</span></a
+          >
+          <a href="#stock" data-route="stock"
+            ><svg class="icon" aria-hidden="true"><use href="#i-stock" /></svg
+            ><span>Склад</span></a
+          >
+          <a href="#reports" data-route="reports"
+            ><svg class="icon" aria-hidden="true"><use href="#i-reports" /></svg
+            ><span>Итоги</span></a
+          >
+        </nav>
+        <div class="sidebar-note">
+          <span class="mini-mark">М</span><strong>МАСТЕР</strong>
+          <p>Учебный магазин.<br />Можно пробовать всё, что есть в демо.</p>
+          <a href="../">← Вернуться на сайт</a>
+        </div>
+      </aside>
+      <main id="demo-main" tabindex="-1">
+        <div id="demo-boot" class="boot-card">
+          <span class="boot-mark" aria-hidden="true">М</span>
+          <h1>Ваш демомагазин.</h1>
+          <p id="boot-label" role="status">Загружаем товары, кассу и итоги…</p>
+          <noscript
+            ><style>
+              #boot-label {
+                display: none;
+              }
+            </style>
+            <p>
+              Чтобы попробовать продажу, включите JavaScript. Скриншоты и
+              установка доступны на сайте.
+            </p></noscript
+          >
+          <a href="../">Вернуться на сайт →</a>
+        </div>
+        <div id="demo-app" hidden>
+          <div class="page-heading">
+            <div>
+              <p class="overline">МАСТЕР / УЧЕБНЫЙ МАГАЗИН</p>
+              <h1 id="page-title" tabindex="-1">Попробуйте продажу.</h1>
+              <p id="page-description">
+                Найдите товар, добавьте в чек и выберите оплату.
+              </p>
+            </div>
+            <span class="session-note">Без настоящих списаний</span>
+          </div>
+          <ol class="demo-guide" aria-label="Ваш путь в демо">
+            <li data-guide="1"><span>01</span>Добавьте товар</li>
+            <li data-guide="2"><span>02</span>Проведите продажу</li>
+            <li data-guide="3"><span>03</span>Посмотрите итоги</li>
+          </ol>
+          <p id="storage-note" class="notice" hidden></p>
+          <p
+            id="demo-notice"
+            class="notice live-notice"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></p>
+          <section id="view-sale" aria-labelledby="catalog-title">
+            <div class="sale-layout">
+              <div class="catalog-panel">
+                <div class="panel-heading">
+                  <h2 id="catalog-title">Товары</h2>
+                  <span id="product-count" class="muted" role="status"></span>
+                </div>
+                <form
+                  id="product-filters"
+                  class="filters"
+                  role="search"
+                  aria-label="Поиск для продажи"
+                >
+                  <div class="field">
+                    <label for="product-search">Название или артикул</label>
+                    <div class="search-field">
+                      <svg class="icon" aria-hidden="true">
+                        <use href="#i-search" /></svg
+                      ><input
+                        id="product-search"
+                        type="search"
+                        placeholder="Например, шуруповёрт"
+                        autocomplete="off"
+                      /><button
+                        type="button"
+                        id="clear-search"
+                        class="icon-button"
+                        aria-label="Очистить поиск"
+                        hidden
+                      >
+                        <svg class="icon" aria-hidden="true">
+                          <use href="#i-close" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="field category-field">
+                    <label for="category-filter">Категория</label
+                    ><select id="category-filter">
+                      <option value="">Все категории</option>
+                      <option>Электроинструмент</option>
+                      <option>Оснастка</option>
+                      <option>Ручной инструмент</option>
+                    </select>
+                  </div>
+                </form>
+                <div id="product-grid" class="product-grid"></div>
+              </div>
+              <aside
+                id="receipt-panel"
+                class="receipt-panel"
+                aria-label="Текущий чек"
+              >
+                <div id="cart-desktop"></div>
+              </aside>
+            </div>
+            <button
+              class="cart-toggle"
+              id="cart-toggle"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="cart-dialog"
+            >
+              <span class="cart-toggle-icon"
+                ><svg class="icon" aria-hidden="true">
+                  <use href="#i-sale" /></svg
+                ><span id="cart-badge">0</span></span
+              ><span
+                ><strong>Открыть чек</strong
+                ><small id="cart-toggle-count"
+                  >Добавьте первый товар</small
+                ></span
+              ><strong id="cart-toggle-total">0 ₸</strong
+              ><svg class="icon" aria-hidden="true">
+                <use href="#i-arrow" />
+              </svg>
+            </button>
+          </section>
+          <section id="view-stock" aria-labelledby="stock-title" hidden>
+            <h2 class="sr-only" id="stock-title">Склад магазина</h2>
+            <div id="stock-stats" class="stock-stats"></div>
+            <div class="surface inventory-panel">
+              <div class="panel-heading">
+                <h2>Остатки товаров</h2>
+                <span class="muted">Обновляются после продажи</span>
+              </div>
+              <div class="filters">
+                <div class="field">
+                  <label for="stock-search">Найти на складе</label>
+                  <div class="search-field">
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#i-search" /></svg
+                    ><input
+                      id="stock-search"
+                      type="search"
+                      placeholder="Название или артикул"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+                <div class="field category-field">
+                  <label for="stock-sort">Порядок</label
+                  ><select id="stock-sort">
+                    <option value="name">По названию</option>
+                    <option value="low">Сначала заканчивающиеся</option>
+                  </select>
+                </div>
+              </div>
+              <div id="inventory" class="inventory"></div>
+            </div>
+          </section>
+          <section id="view-reports" aria-labelledby="reports-title" hidden>
+            <h2 class="sr-only" id="reports-title">Итоги учебного дня</h2>
+            <div id="report-metrics" class="report-metrics"></div>
+            <div class="report-layout">
+              <div class="surface chart-panel">
+                <div class="panel-heading">
+                  <h2>Выручка за неделю</h2>
+                  <span class="muted">18–24 октября</span>
+                </div>
+                <div id="revenue-chart"></div>
+              </div>
+              <div class="surface payments-panel">
+                <h2>Оплата за день</h2>
+                <p class="muted">24 октября · учебные данные</p>
+                <div id="payment-totals"></div>
+              </div>
+            </div>
+            <div class="surface history-panel">
+              <div class="panel-heading">
+                <h2>Последние продажи</h2>
+                <a class="text-link" href="#sale"
+                  >Новая продажа
+                  <svg class="icon" aria-hidden="true">
+                    <use href="#i-plus" /></svg
+                ></a>
+              </div>
+              <div id="sale-history"></div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <dialog
+      id="cart-dialog"
+      aria-labelledby="mobile-cart-title"
+      class="cart-dialog"
+    >
+      <div class="dialog-heading">
+        <h2 id="mobile-cart-title">Ваш чек</h2>
+        <button
+          type="button"
+          class="icon-button"
+          data-close="cart-dialog"
+          aria-label="Закрыть чек"
+        >
+          <svg class="icon" aria-hidden="true"><use href="#i-close" /></svg>
+        </button>
+      </div>
+      <div id="cart-mobile"></div>
+    </dialog>
+    <dialog id="payment-dialog" aria-labelledby="payment-title">
+      <form id="payment-form" novalidate>
+        <div class="dialog-heading">
+          <div>
+            <p class="overline">SMART STORE / ДЕМО</p>
+            <h2 id="payment-title">Учебная оплата</h2>
+          </div>
+          <button
+            type="button"
+            class="icon-button"
+            data-close="payment-dialog"
+            aria-label="Вернуться к чеку"
+          >
+            <svg class="icon" aria-hidden="true"><use href="#i-close" /></svg>
+          </button>
+        </div>
+        <div class="payment-summary">
+          <span>Итого к оплате</span><strong id="payment-total"></strong>
+        </div>
+        <fieldset class="payment-methods">
+          <legend>Способ оплаты</legend>
+          <label
+            ><input type="radio" name="method" value="cash" checked /><span
+              >Наличные</span
+            ></label
+          ><label
+            ><input type="radio" name="method" value="kaspi" /><span
+              >Kaspi</span
+            ></label
+          ><label
+            ><input type="radio" name="method" value="debt" /><span
+              >В долг</span
+            ></label
+          >
+        </fieldset>
+        <div id="cash-fields" class="payment-fields">
+          <label for="cash-given">Получено от покупателя, ₸</label
+          ><input
+            id="cash-given"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            aria-describedby="cash-change payment-error"
+          />
+          <div class="cash-shortcuts">
+            <button type="button" class="small-button" id="exact-cash">
+              Без сдачи</button
+            ><button type="button" class="small-button" id="round-cash">
+              50 000 ₸
+            </button>
+          </div>
+          <p id="cash-change" class="cash-change" aria-live="polite"></p>
+        </div>
+        <div id="kaspi-fields" class="payment-fields" hidden>
+          <div class="payment-symbol" aria-hidden="true">₸</div>
+          <p>
+            Покажем, как продажа с оплатой Kaspi попадает в учёт. QR-код и
+            настоящий перевод здесь не нужны.
+          </p>
+        </div>
+        <div id="debt-fields" class="payment-fields" hidden>
+          <label for="debt-customer">Учебный покупатель</label
+          ><select id="debt-customer">
+            <option>Бригада «Мастер»</option>
+            <option>Мастерская «Орбита»</option>
+          </select>
+          <p>
+            Сумма попадёт в выручку и долг покупателя. Денег в кассе больше не
+            станет.
+          </p>
+        </div>
+        <p id="payment-error" class="error-note" role="alert"></p>
+        <div class="dialog-actions">
+          <button type="submit" id="confirm-payment" class="primary-button">
+            Провести продажу
+            <svg class="icon" aria-hidden="true">
+              <use href="#i-arrow" />
+            </svg></button
+          ><button
+            type="button"
+            class="quiet-button"
+            data-close="payment-dialog"
+          >
+            Вернуться к чеку
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <dialog
+      id="result-dialog"
+      aria-labelledby="result-title"
+      class="result-dialog"
+    >
+      <div class="dialog-heading result-heading">
+        <span class="result-check" aria-hidden="true"
+          ><svg class="icon"><use href="#i-check" /></svg></span
+        ><button
+          type="button"
+          class="icon-button"
+          data-close="result-dialog"
+          aria-label="Закрыть результат"
+        >
+          <svg class="icon" aria-hidden="true"><use href="#i-close" /></svg>
+        </button>
+      </div>
+      <p class="overline">УЧЕБНЫЙ ЧЕК</p>
+      <h2 id="result-title">Продажа проведена.</h2>
+      <div id="result-content"></div>
+      <div class="result-actions">
+        <button
+          type="button"
+          class="primary-button"
+          data-result-route="reports"
+        >
+          Посмотреть итоги
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-reports" />
+          </svg></button
+        ><button
+          type="button"
+          class="secondary-button"
+          data-result-route="stock"
+        >
+          Что изменилось на складе</button
+        ><button type="button" class="quiet-button" data-result-route="sale">
+          Новая продажа
+        </button>
+      </div>
+      <a class="result-install" href="../#installation"
+        >Попробовать в своём магазине
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+      ></a>
+    </dialog>
+    <dialog
+      id="reset-dialog"
+      aria-labelledby="reset-title"
+      class="reset-dialog"
+    >
+      <div class="dialog-heading">
+        <h2 id="reset-title">Начать заново?</h2>
+        <button
+          type="button"
+          class="icon-button"
+          data-close="reset-dialog"
+          aria-label="Отменить сброс"
+        >
+          <svg class="icon" aria-hidden="true"><use href="#i-close" /></svg>
+        </button>
+      </div>
+      <p>
+        Учебные продажи и текущий чек удалятся. Начальные товары, остатки и
+        итоги вернутся.
+      </p>
+      <div class="dialog-actions">
+        <button type="button" class="danger-button" id="confirm-reset">
+          Сбросить демо</button
+        ><button type="button" class="quiet-button" data-close="reset-dialog">
+          Оставить как есть
+        </button>
+      </div>
+    </dialog>
+    <!-- demo-script:start -->
+    <script
+      type="module"
+      src="../assets/demo.e87626a02784.js"
+      onerror="
+        document.getElementById('boot-label').textContent =
+          'Демо не загрузилось. Обновите страницу или вернитесь на сайт.'
+      "
+    ></script>
+    <!-- demo-script:end -->
+  </body>
+</html>

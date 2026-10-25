@@ -37,6 +37,7 @@ python tests/browser-check.py
 ## Структура
 
 - `index.html`, `privacy.html` — содержание и рабочие статические ссылки.
+- `demo/index.html`, `demo/app.js`, `demo/styles.css` — отдельный адаптивный демомагазин: касса, склад и итоги. `demo/model.js` — изолированная логика учебных операций на тех же данных, что и мокапы.
 - `styles.css` — общая основа, навигация, формы и страница условий; `cinema.css` — херо и лента фотосцен.
 - `buttons.css` — общие кнопки и состояния; `screens.css` — высота экранов и адаптивные ограничения.
 - `assets/`, `tools/build-styles.mjs` — готовые CSS и их воспроизводимая сборка. Порядок исходников задан в сборщике.
@@ -74,3 +75,20 @@ python tests/browser-check.py
 Предложение, лицензия, путь с телефона на Windows и увеличение экранов: [docs/offer-install-preview-v33.md](docs/offer-install-preview-v33.md). Проверка: `BROWSER=webkit python tests/journey-check.py` или `BROWSER=chromium python tests/journey-check.py`. Оформление этих сценариев — `journey.css`.
 
 Загрузка, очистка стилей и устойчивость сценариев v34: [docs/runtime-loading-v34.md](docs/runtime-loading-v34.md). Проверка запросов, Retina и отказов: `BROWSER=webkit python tests/loading-check.py` либо `BROWSER=chromium python tests/loading-check.py`.
+
+## Интерактивный демомагазин
+
+Открыть `/demo/` или «Открыть демо» в херо. Без регистрации: поиск/категории, чек с количеством, наличные и сдача, Kaspi, долг учебного покупателя, склад, отчёт и просмотр проведённых чеков. Прогресс сохраняется только в текущей вкладке; сброс восстанавливает исходный демомагазин.
+
+После изменения демо:
+
+```sh
+npm run build
+npm test
+npm run check:styles
+npm run check:demo
+```
+
+`tools/build-demo.mjs` готовит один JS с хешем содержимого, включая модель и общий fixture. Лендинг не загружает его, CSS демо или товарные фотографии этого экрана до перехода. Предыдущий JS сохраняется для кэшированного HTML. CI проверяет сборку и расчёты; исходный Windows-проект не нужен для подготовки браузерного демо.
+
+Браузерная проверка: `BROWSER=webkit python tests/demo-check.py` либо `BROWSER=chromium python tests/demo-check.py`. В облачном стенде для WebKit также требуется `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1`. Проверки — без реальных платежей, магазинов и отправки сообщений. Подробности: [docs/live-demo-v35.md](docs/live-demo-v35.md).

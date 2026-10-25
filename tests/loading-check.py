@@ -22,6 +22,7 @@ with sync_playwright() as p:
   page.on('request',lambda r:requests.append(r.url));page.on('pageerror',lambda e:errors.append(str(e)))
   page.route('**/releases/latest',lambda r:r.fulfill(json=RELEASE))
   page.goto(BASE,wait_until='networkidle')
+  assert not any('/assets/demo.' in u for u in requests),'Demo resources must load only on its separate page'
   page.locator('.hero-gallery img').evaluate_all('xs=>Promise.all(xs.map(i=>i.decode()))')
   assert len(page.locator('link[rel="stylesheet"]').all())==1
   assert len([u for u in requests if urlparse(u).path.endswith('.css')])==1

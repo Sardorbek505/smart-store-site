@@ -13,9 +13,11 @@ with sync_playwright() as p:
         page.add_init_script('Object.defineProperty(navigator,"clipboard",{value:{writeText:async(t)=>{if(window.copyFails)throw Error("denied");window.copiedValue=t}}})')
         page.goto(BASE,wait_until='networkidle')
         page.wait_for_function('document.documentElement.classList.contains("js")')
-        explore=page.get_by_role('link',name='Что внутри',exact=True)
+        explore=page.get_by_role('link',name='Открыть демо',exact=True)
         assert explore.count()==1
-        explore.click();page.wait_for_url('**/#features')
+        explore.click();page.wait_for_url('**/demo/')
+        page.locator('#demo-app').wait_for(state='visible')
+        page.go_back(wait_until='networkidle')
         page.locator('#faq').evaluate('e=>scrollTo(0,e.offsetTop)')
         summary=page.locator('.faq-list summary').first
         summary.focus();page.keyboard.press('Enter')
