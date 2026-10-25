@@ -82,6 +82,12 @@ python tests/browser-check.py
 масштабирования, клавиатуры и отказов: `BROWSER=webkit python tests/glass-ui-check.py`
 либо `BROWSER=chromium python tests/glass-ui-check.py`.
 
+Возврат из магазина без зависшей кнопки, короткие подсказки и новая обложка
+ссылки для мессенджеров: [docs/return-and-sharing-v39.md](docs/return-and-sharing-v39.md).
+Проверка истории браузера и отмены позднего ответа:
+`BROWSER=chromium python tests/return-navigation-check.py` либо
+`BROWSER=webkit python tests/return-navigation-check.py`.
+
 Предложение, лицензия, путь с телефона на Windows и увеличение экранов: [docs/offer-install-preview-v33.md](docs/offer-install-preview-v33.md). Проверка: `BROWSER=webkit python tests/journey-check.py` или `BROWSER=chromium python tests/journey-check.py`. Оформление этих сценариев — `journey.css`.
 
 Загрузка, очистка стилей и устойчивость сценариев v34: [docs/runtime-loading-v34.md](docs/runtime-loading-v34.md). Проверка запросов, Retina и отказов: `BROWSER=webkit python tests/loading-check.py` либо `BROWSER=chromium python tests/loading-check.py`.

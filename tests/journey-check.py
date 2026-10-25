@@ -77,6 +77,7 @@ with sync_playwright() as p:
  fallback=b.new_page(viewport={'width':390,'height':844},user_agent=PHONE,is_mobile=True,has_touch=True)
  fallback.add_init_script('Object.defineProperty(navigator,"share",{value:undefined});Object.defineProperty(navigator,"clipboard",{value:{writeText:async(t)=>window.copied=t}})')
  fallback.goto(BASE+'/#installation',wait_until='networkidle')
+ fallback.locator('#share-site').wait_for(state='visible')
  assert 'Скопировать ссылку' in fallback.locator('#share-site').inner_text()
  fallback.locator('#share-site').click();fallback.wait_for_function('window.copied!==undefined');assert fallback.evaluate('window.copied')==URL
  # Release API failure still leaves the official release page on Windows.
