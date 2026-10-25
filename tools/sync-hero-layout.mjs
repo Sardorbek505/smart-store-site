@@ -32,6 +32,10 @@ const gallery = `<div class="gallery-stage">
       <div class="ribbon-set" data-ribbon-set="main">${cards.join("\n")}</div>
       <div class="ribbon-set" data-ribbon-set="after" aria-hidden="true">${copies.join("\n")}</div>
     </div>
+    <svg class="ribbon-rim" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="ribbon-rim-light"><stop stop-color="#ededf5" stop-opacity=".65"/><stop offset=".4" stop-color="#8aa9ff" stop-opacity=".12"/><stop offset=".65" stop-color="#ededf5" stop-opacity=".25"/><stop offset="1" stop-color="#8aa9ff" stop-opacity=".65"/></linearGradient></defs>
+      <path d="M0 35 C160 70 320 100 500 100 C680 100 840 70 1000 35 L1000 965 C840 930 680 900 500 900 C320 900 160 930 0 965 Z" fill="none" stroke="url(#ribbon-rim-light)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+    </svg>
   </div>
 </div>\n`;
 const normalize = (s) => s.replace(/\s+/g, "").replace(/\/>/g, ">");

@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173').rstrip('/')
 BROWSER = os.environ.get('BROWSER', 'chromium')
-OUT = Path('/tmp/smart-store-glass-v37') / BROWSER
+OUT = Path('/tmp/smart-store-glass-v38') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as p:
@@ -29,9 +29,9 @@ with sync_playwright() as p:
             const left=getComputedStyle(e,'::before'),right=getComputedStyle(e,'::after');
             return {left:parseFloat(left.width),right:parseFloat(right.width),pointer:left.pointerEvents,filter:left.getPropertyValue('backdrop-filter')||left.getPropertyValue('-webkit-backdrop-filter'),trackFilter:getComputedStyle(e.querySelector('.ribbon-track')).filter}
         }''')
-        assert lens['left']==lens['right'] and lens['left']<=min(w*.14,176)+1
+        assert lens['left']==lens['right'] and lens['left']<=min(w*.17,216)+1
         assert lens['pointer']=='none' and lens['trackFilter']=='none'
-        assert ('0.75px' if w<=620 else '1.2px') in lens['filter'],lens
+        assert ('1.6px' if w<=620 else '2.2px') in lens['filter'],lens
         with_lens = page.locator('.ribbon-window').screenshot()
         # Keep the same compositing structure when disabling the optics. Removing
         # a backdrop layer entirely can change Chromium's image antialiasing.
@@ -41,7 +41,7 @@ with sync_playwright() as p:
         a=Image.open(BytesIO(with_lens)).convert('RGB')
         b=Image.open(BytesIO(without_lens)).convert('RGB')
         difference=ImageChops.difference(a,b)
-        inset=round(a.width*.15)
+        inset=round(a.width*.18)
         middle=difference.crop((inset,0,a.width-inset,a.height))
         edge=Image.new('RGB',(inset*2,a.height))
         edge.paste(difference.crop((0,0,inset,a.height)),(0,0))
@@ -49,7 +49,7 @@ with sync_playwright() as p:
         middle_mean=max(ImageStat.Stat(middle).mean)
         edge_mean=max(ImageStat.Stat(edge).mean)
         assert middle_mean<.05, {'centreDifference':middle_mean}
-        assert .01<edge_mean<8, {'edgeDifference':edge_mean}
+        assert 1<edge_mean<20, {'edgeDifference':edge_mean}
         (OUT/f'lens-{w}.png').write_bytes(with_lens)
         (OUT/f'no-lens-{w}.png').write_bytes(without_lens)
         # A lens covers this coordinate visually, but never intercepts a photo tap.

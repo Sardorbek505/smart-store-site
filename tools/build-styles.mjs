@@ -27,6 +27,7 @@ const bundles = [
       "story.css",
       "trial.css",
       "journey.css",
+      "glass.css",
     ],
   },
   {

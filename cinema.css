@@ -389,12 +389,12 @@
   content: "";
   position: absolute;
   inset-block: 0;
-  width: clamp(32px, 14%, 176px);
+  width: clamp(40px, 17%, 216px);
   z-index: 1;
   pointer-events: none;
-  -webkit-backdrop-filter: blur(1.2px) saturate(1.025);
-  backdrop-filter: blur(1.2px) saturate(1.025);
-  background: linear-gradient(90deg, #9bb8ff0c, #ededf505 36%, transparent 90%);
+  -webkit-backdrop-filter: blur(2.2px) saturate(1.12);
+  backdrop-filter: blur(2.2px) saturate(1.12);
+  background: linear-gradient(90deg, #9bb8ff30, #ededf514 28%, transparent 92%);
   -webkit-mask-image: linear-gradient(90deg, #000 0%, #000b 24%, transparent);
   mask-image: linear-gradient(90deg, #000 0%, #000b 24%, transparent);
 }
@@ -405,17 +405,28 @@
   right: 0;
   transform: scaleX(-1);
 }
+.ribbon-rim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
 @media (max-width: 620px) {
   .ribbon-window::before,
   .ribbon-window::after {
-    -webkit-backdrop-filter: blur(0.75px) saturate(1.025);
-    backdrop-filter: blur(0.75px) saturate(1.025);
+    -webkit-backdrop-filter: blur(1.6px) saturate(1.12);
+    backdrop-filter: blur(1.6px) saturate(1.12);
   }
 }
 @media (prefers-reduced-transparency: reduce), (forced-colors: active) {
   .ribbon-window::before,
   .ribbon-window::after {
     content: none;
+  }
+  .ribbon-rim {
+    display: none;
   }
 }
 .ribbon-set {
