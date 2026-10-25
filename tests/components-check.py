@@ -1,4 +1,4 @@
-"""Native component ports: selected tile, clipboard outcomes and finite motion."""
+"""Native component ports: clipboard outcomes and finite motion."""
 from playwright.sync_api import sync_playwright
 import os,shutil,json
 BASE=os.environ.get('SITE_TEST_URL','http://127.0.0.1:4173').rstrip('/')
@@ -16,13 +16,6 @@ with sync_playwright() as p:
         explore=page.get_by_role('link',name='Что внутри',exact=True)
         assert explore.count()==1
         explore.click();page.wait_for_url('**/#features')
-        page.locator('.product-section').evaluate('e=>scrollTo(0,e.offsetTop)')
-        for name in ['home','scene','sale','home']:
-            page.locator(f'[data-screen="{name}"]').click()
-        page.wait_for_timeout(420)
-        geometry=page.locator('.screen-tabs').evaluate('''e=>{const s=getComputedStyle(e,'::before'),m=new DOMMatrix(s.transform),r=e.getBoundingClientRect(),b=e.querySelector('[aria-pressed="true"]').getBoundingClientRect();return{tile:r.x+parseFloat(getComputedStyle(e).borderLeftWidth)+parseFloat(s.left)+m.m41+parseFloat(s.width)/2,selected:b.x+b.width/2}}''')
-        assert abs(geometry['tile']-geometry['selected'])<1,geometry
-        assert page.locator('[data-screen][aria-pressed="true"]').count()==1
         page.locator('#faq').evaluate('e=>scrollTo(0,e.offsetTop)')
         summary=page.locator('.faq-list summary').first
         summary.focus();page.keyboard.press('Enter')
@@ -46,6 +39,6 @@ with sync_playwright() as p:
         page.locator('#store-code').focus()
         assert page.locator('.ui-beam-ray').evaluate('e=>getComputedStyle(e).animationName')=='none'
         assert not errors,errors
-        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'selectionTile':'aligned','copySuccessAndFailure':'pass','FAQKeyboard':'pass','finiteMotion':'pass'}),flush=True)
+        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'copySuccessAndFailure':'pass','FAQKeyboard':'pass','finiteMotion':'pass'}),flush=True)
         page.close()
     b.close()

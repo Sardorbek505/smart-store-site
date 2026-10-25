@@ -1,4 +1,4 @@
-"""Cross-browser checks for the narrow screen selector and FAQ/menu navigation."""
+"""Cross-browser checks for the contextual scene points and FAQ/menu navigation."""
 from playwright.sync_api import sync_playwright
 import os, shutil, json
 
@@ -22,18 +22,15 @@ with sync_playwright() as p:
         assert summary['y'] >= header['y']+header['height'], {'summary':summary,'header':header}
         answer.evaluate('e=>e.open=false')
         page.wait_for_function('!document.querySelector("#faq .screen-content").classList.contains("is-scrollable")')
-        for name,source in [('scene','demo-products.png'),('sale','demo-sale.png'),('home','demo-home.png')]:
-            tab=page.locator(f'[data-screen="{name}"]')
-            page.locator('.product-section').evaluate('e=>scrollTo(0,e.offsetTop)')
-            box=tab.bounding_box()
-            assert box['x']>=0 and box['x']+box['width']<=w, {'name':name,'width':w,'box':box}
-            assert box['height']>=44
-            assert tab.evaluate('e=>e.scrollWidth<=e.clientWidth'), name
-            tab.click()
-            assert tab.get_attribute('aria-pressed')=='true'
-            assert page.locator('#product-screen-link').get_attribute('href').endswith(source)
+        page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
+        for point in page.locator('[data-checkout-point]').all():
+            box=point.bounding_box()
+            assert box['x']>=0 and box['x']+box['width']<=w
+            assert box['height']>=44 and box['width']>=44
+            point.click()
+            assert point.get_attribute('aria-pressed')=='true'
         page.locator('#data').evaluate('e=>scrollTo(0,e.offsetTop)')
-        assert page.locator('#data [data-hub-node]').count()==3
+        assert page.locator('#data .data-facts > div').count()==3
         assert page.locator('#data .screen-content').evaluate('e=>e.scrollWidth<=e.clientWidth && e.scrollHeight<=e.clientHeight+4')
         unexpected=page.locator('.screen-content.is-scrollable').evaluate_all('xs=>xs.map(e=>({section:e.closest("section").getAttribute("aria-labelledby")||e.closest("section").id,scroll:e.scrollHeight,height:e.clientHeight}))')
         assert not unexpected,unexpected
@@ -52,6 +49,6 @@ with sync_playwright() as p:
             page.locator('#store-code').focus()
             assert toggle.get_attribute('aria-expanded')=='false'
         assert not errors,errors
-        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'screenSelector':'fits','FAQLink':'visible','storage':'fits','keyboardMenu':'pass'}),flush=True)
+        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'scenePoints':'fits','FAQLink':'visible','storage':'fits','keyboardMenu':'pass'}),flush=True)
         page.close()
     b.close()

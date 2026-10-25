@@ -32,3 +32,6 @@ The small expandable fan is superseded by three generated iPhone 18 Pro Max scen
 ### Campaign revision (v24)
 
 The mobile section now uses three newly generated transparent iPhone cutouts on a native dark/cobalt campaign stage, with oversized typography and two contextual callouts. The primary callout uses demonstration values from the actual referenced screens; the secondary search callout is a working selector shortcut. No third-party component code or runtime dependency was added. See [mobile-campaign.md](../docs/mobile-campaign.md).
+
+
+В v29 повторяющиеся переключатели удалены. Новые композиции самостоятельно реализованы по визуальным референсам Pinterest, 21st, Bencho и Morphin. Перечень просмотренных источников и использованных приёмов: [product-stories-v29.md](../docs/product-stories-v29.md). Новый код и изображения сторонних библиотек не включались.

@@ -1,178 +1,202 @@
-// Deliberate, finite interactions: no scroll listeners, timers or animation loop.
+// Each story has its own interaction. Motion is finite and only follows a tap.
 export function init() {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const reveal = (element) => {
-    if (reduced.matches || !element.animate) return;
+  const animate = (element) => {
     for (const animation of element.getAnimations()) animation.cancel();
+    if (reduced.matches || !element.animate) return;
     element.animate(
       [
-        { opacity: 0.4, transform: "translateY(6px)" },
+        { opacity: 0.45, transform: "translateY(5px)" },
         { opacity: 1, transform: "none" },
       ],
       { duration: 220, easing: "ease-out" },
     );
   };
-  const arrows = (buttons, select) => {
-    buttons.forEach((button, index) =>
-      button.addEventListener("keydown", (event) => {
-        let next;
-        if (event.key === "ArrowRight" || event.key === "ArrowDown")
-          next = (index + 1) % buttons.length;
-        else if (event.key === "ArrowLeft" || event.key === "ArrowUp")
-          next = (index + buttons.length - 1) % buttons.length;
-        else if (event.key === "Home") next = 0;
-        else if (event.key === "End") next = buttons.length - 1;
-        else return;
-        event.preventDefault();
-        buttons[next].focus({ preventScroll: true });
-        select(next);
-      }),
-    );
+  const fallback = (image, original) => {
+    const recover = () => {
+      if (image.getAttribute("src") !== original) image.src = original;
+    };
+    image.addEventListener("error", recover);
+    if (image.complete && !image.naturalWidth) recover();
   };
-  function setupSteps() {
-    const player = document.querySelector(".step-player");
-    if (!player) return;
-    const steps = [
-      {
-        src: "demo-home.png",
-        label: "Главная",
-        alt: "Главная Smart Store с демонстрационными данными",
-        caption: "Программа установлена. Можно настроить магазин.",
-      },
-      {
-        src: "demo-products.png",
-        label: "Товары",
-        alt: "Каталог товаров Smart Store с демонстрационными данными",
-        caption: "Добавьте товары вручную или импортируйте из Excel.",
-      },
-      {
-        src: "demo-payment.png",
-        label: "Оплата",
-        alt: "Оплата Smart Store: 40 000 ₸ наличными и 42 300 ₸ через Kaspi",
-        caption: "Выберите наличные, Kaspi или смешанную оплату.",
-      },
-    ];
-    const buttons = [...player.querySelectorAll("[data-start-step]")];
-    const image = document.getElementById("start-screen");
-    const link = document.getElementById("start-screen-link");
-    const select = (index) => {
-      const step = steps[index];
-      if (!step || player.dataset.step === String(index)) return;
-      player.dataset.step = String(index);
-      buttons.forEach((button, i) =>
-        button.setAttribute("aria-pressed", String(i === index)),
-      );
-      image.src = `img/${step.src}`;
-      image.alt = step.alt;
-      link.href = `img/${step.src}`;
-      link.dataset.title = `Smart Store / ${step.label}`;
-      link.dataset.previewAlt = step.alt;
-      document.getElementById("start-screen-label").textContent =
-        `Smart Store / ${step.label}`;
-      document.getElementById("start-caption").textContent = step.caption;
-      reveal(image);
-    };
-    buttons.forEach((button, index) => {
-      button.addEventListener("click", () => select(index));
-      button.disabled = false;
-    });
-    arrows(buttons, select);
-  }
-  function setupHub() {
-    const hub = document.querySelector(".data-hub");
-    if (!hub) return;
-    const facts = [
-      ["База на вашем компьютере", "Данные магазина хранятся локально."],
-      [
-        "Основное работает офлайн",
-        "Касса, склад и основные отчёты — без интернета.",
-      ],
-      [
-        "Автокопии каждые 2 часа",
-        "Внешнюю копию храните отдельно от компьютера.",
-      ],
-    ];
-    const buttons = [...hub.querySelectorAll("[data-hub-node]")];
-    const select = (index) => {
-      if (!facts[index] || hub.dataset.active === String(index)) return;
-      hub.dataset.active = String(index);
-      buttons.forEach((button, i) =>
-        button.setAttribute("aria-pressed", String(i === index)),
-      );
-      document.getElementById("hub-detail-title").textContent = facts[index][0];
-      document.getElementById("hub-detail-copy").textContent = facts[index][1];
-      document.querySelector(".hub-detail-index").textContent = `0${index + 1}`;
-      reveal(document.getElementById("hub-detail"));
-    };
-    buttons.forEach((button, index) => {
-      button.addEventListener("click", () => select(index));
-      button.disabled = false;
-    });
-    arrows(buttons, select);
-  }
-  function setupPhone() {
-    const image = document.getElementById("phone-mockup");
+  function setupCheckout() {
+    const image = document.getElementById("product-screen");
     if (!image) return;
-    const buttons = [...document.querySelectorAll("[data-phone-screen]")];
-    const link = document.getElementById("phone-screen-link");
-    const screens = [
+    fallback(image, "img/demo-sale.png");
+    const buttons = [...document.querySelectorAll("[data-checkout-point]")];
+    const icon = (name) =>
+      `<span class="proof-icon"><svg class="icon" aria-hidden="true"><use href="#i-${name}" /></svg></span>`;
+    const details = [
       {
-        image: "mobile-demo-overview.webp",
-        original: "demo-phone.png",
-        label: "Контроль",
-        metricLabel: "Выручка сегодня",
-        metricValue: "396 950 ₸",
-        alt: "iPhone 18 Pro Max с итогами Smart Store, в диагональном ракурсе на объёмной подставке",
-        originalAlt: "Главная телефона: выручка, прибыль и рабочие инструменты",
+        index: "01 / ТОВАР",
+        title: "Нашли. Добавили.",
+        description: "По названию или штрихкоду. Цена и остаток уже рядом.",
+        proof:
+          '<img src="img/demo/products/drill.webp" width="64" height="64" alt=""><span>Шуруповёрт 18 В<small>12 шт на складе</small></span><strong>39 900 ₸</strong>',
+        original: "demo-sale.png",
+        label: "Касса",
       },
       {
-        image: "mobile-demo-search.webp",
-        original: "demo-phone-search.png",
-        label: "Поиск товара",
-        metricLabel: "На складе",
-        metricValue: "7 шт",
-        alt: "iPhone 18 Pro Max с поиском товара Smart Store на скульптурной подставке",
-        originalAlt: "Поиск товара в телефонном интерфейсе Smart Store",
+        index: "02 / ЧЕК",
+        title: "Всё сложилось.",
+        description:
+          "2 шуруповёрта, диск и бур. Количество можно менять прямо в чеке.",
+        proof: `${icon("receipt")}<span>3 позиции<small>4 единицы товара</small></span><strong>82 300 ₸</strong>`,
+        original: "demo-sale.png",
+        label: "Чек",
       },
       {
-        image: "mobile-demo-cart.webp",
-        original: "demo-phone-cart.png",
-        label: "Корзина",
-        metricLabel: "К оплате",
-        metricValue: "40 550 ₸",
-        alt: "iPhone 18 Pro Max с корзиной Smart Store на 40 550 ₸, диагональная композиция",
-        originalAlt: "Корзина продажи Smart Store: два товара на 40 550 ₸",
+        index: "03 / ОПЛАТА",
+        title: "Как удобно покупателю.",
+        description: "Наличные, Kaspi или оба способа в одной продаже.",
+        proof: `${icon("shield")}<span>Наличные · 40 000 ₸<small>Kaspi · 42 300 ₸</small></span><strong>82 300 ₸</strong>`,
+        original: "demo-payment.png",
+        label: "Смешанная оплата",
       },
     ];
     let selected = 0;
     const select = (index) => {
-      const screen = screens[index];
-      if (!screen || selected === index) return;
+      if (index === selected) return;
       selected = index;
+      const detail = details[index];
       buttons.forEach((button, i) =>
         button.setAttribute("aria-pressed", String(i === index)),
       );
-      document.getElementById("scene-metric-label").textContent =
-        screen.metricLabel;
-      document.getElementById("scene-metric-value").textContent =
-        screen.metricValue;
-      image.src = `img/${screen.image}`;
-      image.alt = screen.alt;
-      link.href = `img/${screen.original}`;
-      link.dataset.title = `Smart Store на телефоне / ${screen.label}`;
-      link.dataset.previewAlt = screen.originalAlt;
-      reveal(image);
+      document.getElementById("checkout-index").textContent = detail.index;
+      document.getElementById("checkout-title").textContent = detail.title;
+      document.getElementById("checkout-description").textContent =
+        detail.description;
+      document.getElementById("checkout-proof").innerHTML = detail.proof;
+      const link = document.getElementById("checkout-original");
+      link.href = `img/${detail.original}`;
+      link.dataset.title = `Smart Store / ${detail.label}`;
+      animate(document.querySelector(".checkout-reading"));
     };
     buttons.forEach((button, index) => {
-      button.addEventListener("click", () => select(index));
       button.disabled = false;
+      button.addEventListener("click", () => select(index));
+      button.addEventListener("keydown", (event) => {
+        const targets = {
+          ArrowRight: (index + 1) % 3,
+          ArrowDown: (index + 1) % 3,
+          ArrowLeft: (index + 2) % 3,
+          ArrowUp: (index + 2) % 3,
+          Home: 0,
+          End: 2,
+        };
+        if (!(event.key in targets)) return;
+        event.preventDefault();
+        buttons[targets[event.key]].focus({ preventScroll: true });
+        select(targets[event.key]);
+      });
     });
-    const hotspot = document.getElementById("phone-query-hotspot");
-    hotspot.addEventListener("click", () => select(1));
-    hotspot.disabled = false;
-    arrows(buttons, select);
   }
-  for (const setup of [setupSteps, setupHub, setupPhone]) {
+  function setupPhone() {
+    const image = document.getElementById("phone-mockup");
+    if (!image) return;
+    const scenes = [
+      {
+        image: "mobile-demo-overview.webp",
+        original: "demo-phone.png",
+        label: "Сегодня в магазине",
+        value: "396 950 ₸",
+        description: "17 чеков. Теперь найдём шуруповёрт.",
+        action: "Найти шуруповёрт",
+        title: "Главная",
+        alt: "iPhone 18 Pro Max целиком с итогами дня Smart Store",
+      },
+      {
+        image: "mobile-demo-drill.webp",
+        original: "demo-phone-drill.png",
+        label: "Шуруповёрт 18 В · 12 шт",
+        value: "39 900 ₸",
+        description: "В корзине уже есть диск за 650 ₸.",
+        action: "Добавить в корзину",
+        title: "Найденный товар",
+        alt: "iPhone 18 Pro Max целиком: шуруповёрт 18 В за 39 900 ₸, в наличии 12 шт",
+      },
+      {
+        image: "mobile-demo-cart.webp",
+        original: "demo-phone-cart.png",
+        label: "Шуруповёрт + отрезной диск",
+        value: "40 550 ₸",
+        description: "2 товара в корзине. Оплата — на компьютере.",
+        action: "Повторить демо",
+        title: "Корзина",
+        alt: "iPhone 18 Pro Max целиком с корзиной Smart Store: два товара на 40 550 ₸",
+      },
+    ];
+    const button = document.getElementById("phone-demo-action");
+    const label = button.querySelector(".button-label");
+    const link = document.getElementById("phone-screen-link");
+    const story = document.querySelector(".mobile-story");
+    let selected = 0;
+    let loading = false;
+    // A failed generated image still leaves the original, readable application screen.
+    image.addEventListener("error", () => {
+      const original = `img/${scenes[selected].original}`;
+      if (image.getAttribute("src") !== original) image.src = original;
+    });
+    if (image.complete && !image.naturalWidth)
+      image.src = `img/${scenes[0].original}`;
+    const load = async (src) => {
+      const next = new Image();
+      next.src = `img/${src}`;
+      await next.decode();
+      return next.src;
+    };
+    button.addEventListener("click", async () => {
+      if (loading) return;
+      loading = true;
+      button.disabled = true;
+      button.setAttribute("aria-busy", "true");
+      label.textContent = "Загружаем…";
+      const index = (selected + 1) % scenes.length;
+      const scene = scenes[index];
+      try {
+        let source;
+        try {
+          source = await load(scene.image);
+        } catch {
+          source = await load(scene.original);
+        }
+        selected = index;
+        image.src = source;
+        image.alt = scene.alt;
+        link.href = `img/${scene.original}`;
+        link.dataset.title = `Smart Store на телефоне / ${scene.title}`;
+        link.dataset.previewAlt = `${scene.label}: ${scene.value}. ${scene.description}`;
+        document.getElementById("phone-demo-label").textContent = scene.label;
+        document.getElementById("phone-demo-value").textContent = scene.value;
+        document.getElementById("phone-demo-description").textContent =
+          scene.description;
+        story.dataset.phoneStep = String(index);
+        document
+          .querySelectorAll(".demo-progress > span")
+          .forEach((dot, i) => dot.classList.toggle("current", i <= index));
+        animate(image);
+      } catch {
+        document.getElementById("phone-demo-description").textContent =
+          "Не удалось загрузить экран. Нажмите ещё раз.";
+      } finally {
+        loading = false;
+        button.disabled = false;
+        button.removeAttribute("aria-busy");
+        label.textContent = scenes[selected].action;
+      }
+    });
+    button.disabled = false;
+  }
+  reduced.addEventListener("change", () => {
+    if (reduced.matches) {
+      for (const element of document.querySelectorAll(
+        "#phone-mockup, .checkout-reading",
+      )) {
+        for (const animation of element.getAnimations()) animation.cancel();
+      }
+    }
+  });
+  for (const setup of [setupCheckout, setupPhone]) {
     try {
       setup();
     } catch {
