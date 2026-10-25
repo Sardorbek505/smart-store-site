@@ -28,13 +28,12 @@ with sync_playwright() as p:
     assert 'hero-ribbon-clip' in page.locator('.ribbon-window').evaluate('e=>getComputedStyle(e).clipPath')
     assert page.locator('#hero-ribbon-clip path').get_attribute('d').count('C') == 4
 
-    assert page.locator('[data-screen="scene"]').is_visible()
-    for name, source in [('home', 'demo-home.png'), ('sale', 'demo-sale.png'), ('scene', 'demo-products.png')]:
-        page.locator(f'[data-screen="{name}"]').click()
-        page.locator('#product-screen-link').click()
-        assert page.locator('#preview-original').get_attribute('href').endswith('/img/' + source)
-        page.locator('#preview-image').wait_for(state='visible')
-        page.keyboard.press('Escape')
+    page.locator('#workspace').evaluate('e=>e.scrollIntoView()')
+    page.locator('[data-checkout-point="2"]').click()
+    page.locator('#checkout-original').click()
+    assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-payment.png')
+    page.locator('#preview-image').wait_for(state='visible')
+    page.keyboard.press('Escape')
     page.route('**/img/demo-home.png*', lambda r: r.abort())
     page.locator('[data-gallery-card]').nth(1).evaluate("e=>e.href='img/demo-home.png?failure=1'")
     page.locator('[data-gallery-card]').nth(1).click()
@@ -128,7 +127,7 @@ with sync_playwright() as p:
     plain.goto(BASE)
     assert plain.locator('#site-nav').is_visible()
     assert plain.locator('#store-submit').is_disabled()
-    assert plain.locator('.screen-tabs').is_hidden()
+    assert plain.locator('#phone-demo-action').is_disabled()
     assert plain.locator('#download').get_attribute('href').endswith('/releases/latest')
     assert not errors, errors
     print('PASS: Windows install, mobile handoff/copy, URL validation, lookup outcomes, stale responses, constructed redirect, isolated module/runtime failure, original-screen fallback, FAQ deep link/expanded answers, viewport section heights, feature buttons/keyboard, responsive menu, no-JS fallback. No unexpected JS errors.')

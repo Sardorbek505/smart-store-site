@@ -10,7 +10,7 @@ BROWSER = os.environ.get('BROWSER', 'chromium')
 OUT = Path('/tmp/smart-store-full') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 assets = [*Path('img').glob('hero-demo-*.webp'), *Path('img').glob('hero-full-scanner-*.webp'), *Path('img').glob('workspace-demo-*.webp'),
-          *Path('img').glob('mobile-demo-*.webp'), *Path('img').glob('feature-*.webp')]
+          *Path('img').glob('mobile-demo-*.webp'), *Path('img').glob('feature-*.webp'), Path('img/data-local-scene.webp')]
 bounds = {}
 for asset in assets:
     image = Image.open(asset).convert('RGBA')
@@ -21,7 +21,7 @@ for asset in assets:
 for name in ['demo-home.png', 'demo-products.png', 'demo-sale.png','demo-payment.png']:
     image = Image.open(Path('img')/name)
     bounds[name] = {'box': [0, 0, image.width, image.height], 'width': image.width, 'height': image.height}
-assert len(assets) == 19, 'Five responsive hero scenes, three workspace scenes, three phones, three features'
+assert len(assets) == 21, 'Responsive hero scenes, workspace scenes, four phone scenes, features and local-data scene'
 
 PAINT = '''(image, asset) => {
   const box=asset.box;
@@ -75,17 +75,16 @@ with sync_playwright() as p:
             if w>850:art.hover()
             check(art)
         page.locator('#workspace').evaluate('e=>e.scrollIntoView()')
-        for scene in ['scene','sale','home']:
-            page.locator(f'[data-screen="{scene}"]').click()
-            check(page.locator('#product-screen'))
+        check(page.locator('#product-screen'))
         page.locator('#mobile').evaluate('e=>e.scrollIntoView()')
         for i in range(3):
-            page.locator(f'[data-phone-screen="{i}"]').click()
             check(page.locator('#phone-mockup'))
+            page.locator('#phone-demo-action').click()
+            page.wait_for_function('(n)=>document.querySelector(".mobile-story").dataset.phoneStep===String(n)',arg=(i+1)%3)
         page.locator('#start').evaluate('e=>e.scrollIntoView()')
-        for i in range(3):
-            page.locator(f'[data-start-step="{i}"]').click()
-            check(page.locator('#start-screen'))
+        for art in page.locator('.journey-art img').all(): check(art)
+        page.locator('#data').evaluate('e=>e.scrollIntoView()')
+        check(page.locator('.data-scene img'))
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
         for selector,name in [('.cinema-hero','hero'),('#workspace','workspace'),('#mobile','phone')]:
             page.locator(selector).evaluate('e=>e.scrollIntoView()')
