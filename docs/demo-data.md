@@ -66,3 +66,5 @@ DEMO_RENDER_DIR=/tmp/smart-store-demo-render python tools/demo/capture.py
 
 
 Дополнение v29: [разные сценарии блоков](product-stories-v29.md), нативный экран поиска шуруповёрта `demo-phone-drill.png`, его генерированный мокап и изометрическая сцена локальных данных.
+
+Дополнение v31: нативная панель «Резервные копии», `img/demo-backups.png`, и новый мокап ноутбука с USB-флешкой. Сценарий `?screen=backups` и происхождение: [viewport-and-backups-v31.md](viewport-and-backups-v31.md).

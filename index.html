@@ -26,18 +26,29 @@
     <script>
       (() => {
         const root = document.documentElement;
-        root.style.setProperty("--initial-screen-height", `${innerHeight}px`);
+        const viewport = window.visualViewport;
+        const viewportMatches =
+          viewport &&
+          Math.abs(viewport.scale - 1) < 0.01 &&
+          Math.abs(viewport.width - innerWidth) < 2;
+        const height = viewportMatches
+          ? Math.max(innerHeight, viewport.height)
+          : innerHeight;
+        root.style.setProperty(
+          "--initial-screen-height",
+          `${Math.round(height)}px`,
+        );
         root.dataset.viewportWidth = String(innerWidth);
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=29" />
-    <link rel="stylesheet" href="cinema.css?v=29" />
-    <link rel="stylesheet" href="buttons.css?v=29" />
-    <link rel="stylesheet" href="screens.css?v=29" />
-    <link rel="stylesheet" href="components.css?v=29" />
-    <link rel="stylesheet" href="story.css?v=29" />
-    <link rel="stylesheet" href="trial.css?v=30" />
-    <script src="app.js?v=29" type="module"></script>
+    <link rel="stylesheet" href="styles.css?v=31" />
+    <link rel="stylesheet" href="cinema.css?v=31" />
+    <link rel="stylesheet" href="buttons.css?v=31" />
+    <link rel="stylesheet" href="screens.css?v=31" />
+    <link rel="stylesheet" href="components.css?v=31" />
+    <link rel="stylesheet" href="story.css?v=31" />
+    <link rel="stylesheet" href="trial.css?v=31" />
+    <script src="app.js?v=31" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -1062,33 +1073,51 @@
       >
         <div class="screen-content wrap data-story">
           <div class="data-heading">
-            <p class="story-eyebrow">ДАННЫЕ ПОД ВАШИМ КОНТРОЛЕМ</p>
-            <h2 id="data-title">Ваш магазин.<br /><span>Ваши данные.</span></h2>
+            <h2 id="data-title">Данные —<br /><span>на компьютере.</span></h2>
           </div>
           <figure class="data-scene">
-            <img
-              src="img/data-local-scene.webp"
-              width="1536"
-              height="1024"
-              loading="lazy"
-              decoding="async"
-              alt="Изометрическая сцена: компьютер соединён с локальной базой и отдельным накопителем для резервной копии"
-            />
+            <a
+              class="data-scene-preview"
+              href="img/demo-backups.png"
+              data-preview
+              data-title="Smart Store / Резервные копии"
+              data-preview-alt="Резервные копии Smart Store: автокопии каждые 2 часа и сохранение на флешку"
+              aria-label="Рассмотреть экран резервных копий Smart Store"
+            >
+              <img
+                src="img/data-backup-laptop-1536.webp"
+                srcset="
+                  img/data-backup-laptop-768.webp   768w,
+                  img/data-backup-laptop-1536.webp 1536w
+                "
+                sizes="(max-width: 620px) calc(100vw - 44px), 85vw"
+                width="1536"
+                height="1024"
+                loading="lazy"
+                decoding="async"
+                alt="Ноутбук с настоящим экраном резервных копий Smart Store и отдельная USB-флешка для внешней копии"
+              />
+              <span class="data-scene-zoom" aria-hidden="true"
+                ><svg class="icon"><use href="#i-zoom" /></svg
+              ></span>
+            </a>
           </figure>
           <dl class="data-facts">
             <div>
-              <dt><span class="data-fact-number">01</span>На компьютере</dt>
-              <dd>База магазина хранится локально.</dd>
-            </div>
-            <div>
-              <dt><span class="data-fact-number">02</span>Работает офлайн</dt>
-              <dd>Касса, склад и основные отчёты.</dd>
+              <dt>
+                <span class="data-fact-number">01</span>Продажи без интернета
+              </dt>
+              <dd>Касса, склад и основные отчёты работают офлайн.</dd>
             </div>
             <div>
               <dt>
-                <span class="data-fact-number">03</span>Копия каждые 2 часа
+                <span class="data-fact-number">02</span>Автокопии каждые 2 часа
               </dt>
-              <dd>Внешнюю копию храните отдельно.</dd>
+              <dd>Smart Store сохраняет их на компьютере.</dd>
+            </div>
+            <div>
+              <dt><span class="data-fact-number">03</span>Копия на флешке</dt>
+              <dd>Нажмите «Копия на флешку». Храните её отдельно.</dd>
             </div>
           </dl>
         </div>

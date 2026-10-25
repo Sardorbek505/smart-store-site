@@ -1,12 +1,39 @@
 """Guard document scroll stability during mobile browser-bar/keyboard resizing."""
 from playwright.sync_api import sync_playwright
 import os,shutil,json
+from pathlib import Path
 BASE=os.environ.get('SITE_TEST_URL','http://127.0.0.1:4173').rstrip('/')
 BROWSER=os.environ.get('BROWSER','chromium')
 with sync_playwright() as p:
     args={'headless':True}
     if BROWSER=='chromium':args.update(executable_path=os.environ.get('CHROMIUM_BINARY') or shutil.which('chromium'),args=['--no-sandbox'])
     b=getattr(p,BROWSER).launch(**args)
+    # Safari may enlarge its viewport after first HTML paint / toolbar settlement.
+    start=b.new_page(viewport={'width':390,'height':740},is_mobile=True,has_touch=True)
+    start.goto(BASE,wait_until='networkidle')
+    start.set_viewport_size({'width':390,'height':844})
+    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===844')
+    assert start.evaluate('scrollY')==0
+    # Repeated top-level toolbar growth/shrink must settle to the actual height.
+    start.set_viewport_size({'width':390,'height':800})
+    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===800')
+    start.set_viewport_size({'width':390,'height':844})
+    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===844')
+    # A touch in progress must not change document geometry.
+    start.evaluate('dispatchEvent(new PointerEvent("pointerdown"))')
+    start.set_viewport_size({'width':390,'height':780});start.wait_for_timeout(250)
+    assert start.locator('.cinema-hero').evaluate('e=>e.offsetHeight')==844
+    start.evaluate('dispatchEvent(new PointerEvent("pointerup"))')
+    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===780')
+    start.close()
+    # A slow module must not reapply the stale size captured in the head.
+    delayed=b.new_page(viewport={'width':390,'height':740},is_mobile=True,has_touch=True)
+    delayed.route('**/app.js*',lambda r:r.fulfill(content_type='text/javascript',body='window.__held=true;await new Promise(r=>window.addEventListener("resume-app",r,{once:true}));\n'+Path('app.js').read_text()))
+    delayed.goto(BASE,wait_until='commit');delayed.wait_for_function('window.__held===true')
+    delayed.set_viewport_size({'width':390,'height':844})
+    delayed.evaluate('dispatchEvent(new Event("resume-app"))')
+    delayed.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===844')
+    delayed.close()
     page=b.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
     errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(BASE,wait_until='networkidle')
@@ -39,5 +66,5 @@ with sync_playwright() as p:
     page.wait_for_function('!document.querySelector("#faq .screen-content").classList.contains("is-scrollable")')
     assert page.locator('.screen-content.is-scrollable').count()==0
     assert not errors,errors
-    print(json.dumps({'browser':BROWSER,'maxUnrequestedScroll':max(changes),'closedVerticalScrollRegions':0,'rotation':'pass','expandedFAQ':'pass'}))
+    print(json.dumps({'browser':BROWSER,'maxUnrequestedScroll':max(changes),'closedVerticalScrollRegions':0,'topViewportSettlement':'pass','gestureGuard':'pass','delayedModule':'pass','rotation':'pass','expandedFAQ':'pass'}))
     b.close()

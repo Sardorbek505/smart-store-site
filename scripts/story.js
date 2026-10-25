@@ -14,7 +14,10 @@ export function init() {
   };
   const fallback = (image, original) => {
     const recover = () => {
-      if (image.getAttribute("src") !== original) image.src = original;
+      if (image.getAttribute("src") !== original) {
+        image.removeAttribute("srcset");
+        image.src = original;
+      }
     };
     image.addEventListener("error", recover);
     if (image.complete && !image.naturalWidth) recover();
@@ -135,7 +138,10 @@ export function init() {
     // A failed generated image still leaves the original, readable application screen.
     image.addEventListener("error", () => {
       const original = `img/${scenes[selected].original}`;
-      if (image.getAttribute("src") !== original) image.src = original;
+      if (image.getAttribute("src") !== original) {
+        image.removeAttribute("srcset");
+        image.src = original;
+      }
     });
     if (image.complete && !image.naturalWidth)
       image.src = `img/${scenes[0].original}`;
@@ -196,7 +202,11 @@ export function init() {
       }
     }
   });
-  for (const setup of [setupCheckout, setupPhone]) {
+  const setupData = () => {
+    const image = document.querySelector(".data-scene img");
+    if (image) fallback(image, "img/demo-backups.png");
+  };
+  for (const setup of [setupCheckout, setupPhone, setupData]) {
     try {
       setup();
     } catch {
