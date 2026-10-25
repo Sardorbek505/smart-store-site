@@ -12,19 +12,19 @@ with sync_playwright() as p:
     start=b.new_page(viewport={'width':390,'height':740},is_mobile=True,has_touch=True)
     start.goto(BASE,wait_until='networkidle')
     start.set_viewport_size({'width':390,'height':844})
-    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===844')
+    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===844&&document.body.style.getPropertyValue("--screen-height")==="844px"')
     assert start.evaluate('scrollY')==0
     # Repeated top-level toolbar growth/shrink must settle to the actual height.
     start.set_viewport_size({'width':390,'height':800})
-    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===800')
+    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===800&&document.body.style.getPropertyValue("--screen-height")==="800px"')
     start.set_viewport_size({'width':390,'height':844})
-    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===844')
+    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===844&&document.body.style.getPropertyValue("--screen-height")==="844px"')
     # A touch in progress must not change document geometry.
     start.evaluate('dispatchEvent(new PointerEvent("pointerdown"))')
     start.set_viewport_size({'width':390,'height':780});start.wait_for_timeout(250)
     assert start.locator('.cinema-hero').evaluate('e=>e.offsetHeight')==844
     start.evaluate('dispatchEvent(new PointerEvent("pointerup"))')
-    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===780')
+    start.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===780&&document.body.style.getPropertyValue("--screen-height")==="780px"')
     start.close()
     # A slow module must not reapply the stale size captured in the head.
     delayed=b.new_page(viewport={'width':390,'height':740},is_mobile=True,has_touch=True)
@@ -32,7 +32,7 @@ with sync_playwright() as p:
     delayed.goto(BASE,wait_until='commit');delayed.wait_for_function('window.__held===true')
     delayed.set_viewport_size({'width':390,'height':844})
     delayed.evaluate('dispatchEvent(new Event("resume-app"))')
-    delayed.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===844')
+    delayed.wait_for_function('document.querySelector(".cinema-hero").offsetHeight===844&&document.body.style.getPropertyValue("--screen-height")==="844px"')
     delayed.close()
     page=b.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
     errors=[];page.on('pageerror',lambda e:errors.append(str(e)))

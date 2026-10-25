@@ -70,6 +70,14 @@ html:has(#preview-dialog[open]) {
   align-items: stretch;
   padding-block: clamp(24px, calc(var(--screen-height) * 0.06), 64px) 20px;
 }
+/* Mobile browser controls can obscure part of the painted page. The hero
+   covers the stable large viewport, including the area under a floating bar. */
+@media (pointer: coarse) {
+  .landing-page .cinema-hero {
+    min-height: 100vh;
+    min-height: 100lvh;
+  }
+}
 .cinema-hero .hero-gallery {
   display: flex;
   flex-direction: column;

@@ -2,6 +2,8 @@
 
 Review: https://metov.store/?v=31 and https://metov.store/?v=31#data
 
+В v32 отдельно исправлено покрытие страницы под плавающими панелями: [hero-large-viewport-v32.md](hero-large-viewport-v32.md). Измерения `innerHeight` сами по себе не гарантируют полного покрытия этой области.
+
 ## Hero size
 
 The touch-device viewport code froze the first `innerHeight`, including a size captured before the mobile browser finished arranging its controls. Every subsequent height-only resize was ignored. Reproduction in WebKit: open at 390×740, expand to 390×844 while still at scroll position zero; the hero remained 740 px, exposing the next section 104 px early.
