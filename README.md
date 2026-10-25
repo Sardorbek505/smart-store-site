@@ -55,3 +55,5 @@ python tests/browser-check.py
 Единый демомагазин, заполненные экраны и обновлённые мокапы: [docs/demo-data.md](docs/demo-data.md). Воспроизводимый fixture и захват реальных компонентов приложения находятся в `tools/demo`; они не нужны для работы опубликованного сайта.
 
 Исправление высоты херо после изменения панелей Safari и новая подача локальных данных: [docs/viewport-and-backups-v31.md](docs/viewport-and-backups-v31.md).
+
+Полное покрытие херо под плавающей панелью Safari, включая проверку разных размеров области отрисовки и reported viewport: [docs/hero-large-viewport-v32.md](docs/hero-large-viewport-v32.md).
