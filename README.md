@@ -4,7 +4,7 @@
 
 ## Локальная работа
 
-Сборка и установка зависимостей для сайта не нужны:
+Опубликованные CSS уже лежат в `assets/`. Для просмотра сайта сборка не нужна:
 
 ```sh
 python -m http.server 4173
@@ -15,6 +15,16 @@ python -m http.server 4173
 ```sh
 npm test
 ```
+
+После изменения CSS пересобрать статические файлы и ссылки в HTML:
+
+```sh
+npm ci
+npm run build:styles
+npm run check:styles
+```
+
+`esbuild` используется только при подготовке CSS; браузер и GitHub Pages не запускают сборщик. Получаются отдельные файлы для лендинга и условий с хешем содержимого в имени. Предыдущая версия сохраняется для закэшированного HTML. CI отклоняет устаревшую сборку.
 
 Браузерная регрессия требует Python Playwright и Chromium:
 
@@ -27,7 +37,9 @@ python tests/browser-check.py
 ## Структура
 
 - `index.html`, `privacy.html` — содержание и рабочие статические ссылки.
-- `styles.css`, `cinema.css` — оформление и лента фотосцен.
+- `styles.css` — общая основа, навигация, формы и страница условий; `cinema.css` — херо и лента фотосцен.
+- `buttons.css` — общие кнопки и состояния; `screens.css` — высота экранов и адаптивные ограничения.
+- `assets/`, `tools/build-styles.mjs` — готовые CSS и их воспроизводимая сборка. Порядок исходников задан в сборщике.
 - `components.css` — адаптированные кнопка, FAQ, поле копирования и рамка формы. Источники и лицензии: [third-party/README.md](third-party/README.md).
 - `trial.css` — сгенерированная объёмная «14» и адаптивный блок бесплатного периода. Источник и проверка: [docs/trial-sculpture.md](docs/trial-sculpture.md).
 - `story.css`, `scripts/story.js` — асимметричный Bento, касса с точками деталей, пошаговая демонстрация телефона, сцена резервных копий с настоящим экраном и USB-флешкой и три одновременно видимых шага установки.
@@ -38,9 +50,10 @@ python tests/browser-check.py
 - `scripts/preview.js` — просмотр, увеличение до исходного размера, перемещение и ошибки загрузки оригинальных экранов.
 - `scripts/interface.js` — меню, мобильные карточки возможностей и ссылки на ответы FAQ.
 - `scripts/gallery.js` — анимация, ручное управление, остановка и reduced-motion.
+- `scripts/media.js` — резервные исходные скриншоты при отказе сгенерированных сцен.
 - `tests/` — правила доверенных адресов, ответы сервисов и браузерные сценарии.
 
-При изменении браузерного JavaScript повышать `?v=` у `app.js` в HTML: загрузчик передаёт тот же параметр всем модулям. При изменении CSS повышать версию соответствующей ссылки. Проверка PR запускает `npm test` и проверяет синтаксис модулей; опубликованную версию нужно проверить после завершения GitHub Pages.
+При изменении браузерного JavaScript повышать `?v=` у `app.js` в HTML: загрузчик передаёт тот же параметр всем модулям. При изменении CSS запускать `npm run build:styles`: имена и ссылки обновляются автоматически. Проверка PR запускает `npm test`, проверяет готовый CSS и синтаксис модулей; опубликованную версию нужно проверить после завершения GitHub Pages.
 
 Подробная логика переходов: [docs/site-architecture.md](docs/site-architecture.md).
 
@@ -59,3 +72,5 @@ python tests/browser-check.py
 Полное покрытие херо под плавающей панелью Safari, включая проверку разных размеров области отрисовки и reported viewport: [docs/hero-large-viewport-v32.md](docs/hero-large-viewport-v32.md).
 
 Предложение, лицензия, путь с телефона на Windows и увеличение экранов: [docs/offer-install-preview-v33.md](docs/offer-install-preview-v33.md). Проверка: `BROWSER=webkit python tests/journey-check.py` или `BROWSER=chromium python tests/journey-check.py`. Оформление этих сценариев — `journey.css`.
+
+Загрузка, очистка стилей и устойчивость сценариев v34: [docs/runtime-loading-v34.md](docs/runtime-loading-v34.md). Проверка запросов, Retina и отказов: `BROWSER=webkit python tests/loading-check.py` либо `BROWSER=chromium python tests/loading-check.py`.

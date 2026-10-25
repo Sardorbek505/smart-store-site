@@ -70,73 +70,11 @@
 }
 
 /* Bencho Tab bar / Morphin selector: one sliding selection surface. */
-.product-section .screen-tabs {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: min(100%, 390px);
-  padding: 4px;
-  gap: 4px;
-  border-radius: 18px;
-  border-color: #ededf533;
-  background: #ededf50a;
-}
-.screen-tabs::before {
-  content: "";
-  position: absolute;
-  inset: 4px auto 4px 4px;
-  width: calc((100% - 16px) / 3);
-  border-radius: 13px;
-  background: #ededf5;
-  box-shadow: 0 1px 3px #0002;
-  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-}
-.screen-tabs[data-selected="1"]::before {
-  transform: translateX(calc(100% + 4px));
-}
-.screen-tabs[data-selected="2"]::before {
-  transform: translateX(calc(200% + 8px));
-}
-.product-section .screen-tab {
-  position: relative;
-  z-index: 1;
-  min-width: 0;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px 8px;
-  border-radius: 13px;
-  background: transparent;
-  font-size: 14px;
-  white-space: nowrap;
-}
-.product-section .screen-tab.active {
-  background: transparent;
-  color: #111116;
-}
-.screen-tab.active .icon {
-  color: #1d4ed8;
-}
 @media (max-width: 1100px) {
   .product-section .section-heading {
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
-  }
-  .product-section .screen-tabs {
-    width: 100%;
-  }
-}
-@media (max-width: 620px) {
-  .product-section .screen-tab {
-    padding-inline: 6px;
-    gap: 5px;
-    font-size: 12px;
-  }
-}
-@media (max-width: 380px) {
-  .product-section .screen-tab .icon {
-    display: none;
   }
 }
 @media (min-width: 621px) and (max-height: 600px) {
@@ -148,19 +86,8 @@
     flex: 1;
     min-width: 0;
   }
-  .product-section .screen-tabs {
-    width: min(52%, 390px);
-    flex: none;
-  }
   .product-section #product-screen {
     max-height: calc(var(--screen-height) - var(--navigation-height) - 120px);
-  }
-  .product-section .zoom-label {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 12px;
-    font-size: 0;
-    gap: 0;
   }
 }
 
@@ -384,7 +311,6 @@ details[open] .faq-symbol .icon {
   .interactive-dot,
   .interactive-main > span:last-child,
   .interactive-hover,
-  .screen-tabs::before,
   .faq-list details,
   .faq-symbol,
   .faq-symbol .icon,

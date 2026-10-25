@@ -1,20 +1,25 @@
 // No visual enhancement is allowed to block installation or store login.
 const version = new URL(import.meta.url).search;
 const load = (name) => import(`./scripts/${name}.js${version}`);
-const core = await load("core");
+const core = load("core");
+const services = new Set(["downloads", "store"]);
 await Promise.allSettled(
   [
     "viewport",
     "interface",
     "preview",
+    "media",
     "gallery",
     "downloads",
     "store",
     "story",
   ].map(async (name) => {
     try {
-      const feature = await load(name);
-      await feature.init(core);
+      const [feature, dependencies] = await Promise.all([
+        load(name),
+        services.has(name) ? core : undefined,
+      ]);
+      await feature.init(dependencies);
     } catch {
       console.warn(`Smart Store: ${name} unavailable`);
       if (name === "store")

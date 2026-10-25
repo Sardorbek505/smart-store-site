@@ -82,6 +82,10 @@
 .button:is(.primary, .dark) .button-icon {
   background: transparent;
 }
+.button .icon {
+  width: 19px;
+  height: 19px;
+}
 .button-icon .icon {
   width: 18px;
   height: 18px;
@@ -154,26 +158,6 @@
 .release-note {
   margin-top: 24px;
 }
-.screen-tabs {
-  border-radius: 999px;
-  background: #ffffff05;
-  gap: 3px;
-}
-.screen-tab {
-  border-radius: 999px;
-  min-height: 44px;
-  transition:
-    background 180ms ease,
-    color 180ms ease;
-}
-.screen-tab:not(.active):hover {
-  background: #ffffff12;
-  color: #ededf5;
-}
-.screen-tab.active {
-  background: #ededf5;
-  color: #111116;
-}
 .enter-link,
 .js .menu-toggle {
   border-radius: 999px;
@@ -207,20 +191,11 @@
   .license-copy .actions .button {
     width: 100%;
   }
-  .screen-tabs {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    border-radius: 22px;
-  }
-  .screen-tab {
-    flex: 1 1 auto;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .button.button,
   .button:is(.primary, .dark)::before,
   .button-icon .icon,
-  .screen-tab,
   .cinema-explore .icon {
     transition: none;
   }

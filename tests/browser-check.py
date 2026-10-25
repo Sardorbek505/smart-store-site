@@ -128,7 +128,10 @@ with sync_playwright() as p:
     assert plain.locator('#site-nav').is_visible()
     assert plain.locator('#store-submit').is_disabled()
     assert plain.locator('#phone-demo-action').is_disabled()
-    assert plain.locator('#download').get_attribute('href').endswith('/releases/latest')
+    assert plain.locator('#download').get_attribute('href') == '#installation'
+    plain.locator('#download').click()
+    assert plain.locator('#installation').is_visible()
+    assert plain.locator('#installation-download').get_attribute('href').endswith('/releases/latest')
     assert not errors, errors
     print('PASS: Windows install, mobile handoff/copy, URL validation, lookup outcomes, stale responses, constructed redirect, isolated module/runtime failure, original-screen fallback, FAQ deep link/expanded answers, viewport section heights, feature buttons/keyboard, responsive menu, no-JS fallback. No unexpected JS errors.')
     b.close()
