@@ -10,7 +10,7 @@ BROWSER = os.environ.get('BROWSER', 'chromium')
 OUT = Path('/tmp/smart-store-full') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 assets = [*Path('img').glob('hero-demo-*.webp'), *Path('img').glob('hero-full-scanner-*.webp'), *Path('img').glob('workspace-demo-*.webp'),
-          *Path('img').glob('mobile-demo-*.webp'), *Path('img').glob('feature-*.webp'), Path('img/data-local-scene.webp')]
+          *Path('img').glob('mobile-demo-*.webp'), *Path('img').glob('feature-*.webp'), Path('img/data-local-scene.webp'), *Path('img').glob('trial-14-*.webp')]
 bounds = {}
 for asset in assets:
     image = Image.open(asset).convert('RGBA')
@@ -21,7 +21,7 @@ for asset in assets:
 for name in ['demo-home.png', 'demo-products.png', 'demo-sale.png','demo-payment.png']:
     image = Image.open(Path('img')/name)
     bounds[name] = {'box': [0, 0, image.width, image.height], 'width': image.width, 'height': image.height}
-assert len(assets) == 21, 'Responsive hero scenes, workspace scenes, four phone scenes, features and local-data scene'
+assert len(assets) == 23, 'Responsive hero scenes, workspace scenes, four phone scenes, features, local-data scene and responsive trial sculpture'
 
 PAINT = '''(image, asset) => {
   const box=asset.box;
@@ -85,6 +85,8 @@ with sync_playwright() as p:
         for art in page.locator('.journey-art img').all(): check(art)
         page.locator('#data').evaluate('e=>e.scrollIntoView()')
         check(page.locator('.data-scene img'))
+        page.locator('#license').evaluate('e=>e.scrollIntoView()')
+        check(page.locator('.trial-scene img'))
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
         for selector,name in [('.cinema-hero','hero'),('#workspace','workspace'),('#mobile','phone')]:
             page.locator(selector).evaluate('e=>e.scrollIntoView()')

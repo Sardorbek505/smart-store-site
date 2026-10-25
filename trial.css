@@ -1,0 +1,148 @@
+/* Generated campaign artwork; no live 3D, filters or scroll animation. */
+.license-section .trial-campaign {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+}
+.trial-scene {
+  align-self: stretch;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+.trial-scene img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+.trial-scene figcaption {
+  color: var(--paper);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  padding-bottom: 4px;
+}
+.trial-campaign .license-copy {
+  min-width: 0;
+}
+.trial-campaign .license-copy h2 {
+  font-size: clamp(34px, 3.7vw, 54px);
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+.trial-campaign .license-copy > p:not(.license-note) {
+  margin-block: 22px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.trial-campaign .license-copy .actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  max-width: 420px;
+}
+.trial-campaign .actions .button {
+  width: 100%;
+}
+.trial-campaign .license-copy .license-note {
+  max-width: 45ch;
+  margin-top: 22px;
+  line-height: 1.6;
+}
+@media (max-width: 620px) {
+  .license-section .trial-campaign {
+    width: calc(100% - 32px);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: stretch;
+  }
+  .trial-scene {
+    gap: 4px;
+  }
+  .trial-scene figcaption {
+    font-size: 10px;
+  }
+  .trial-campaign .license-copy h2 {
+    font-size: clamp(28px, 8vw, 38px);
+  }
+  .trial-campaign .license-copy > p:not(.license-note) {
+    margin-block: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .trial-campaign .license-copy .license-note {
+    margin-top: 16px;
+  }
+}
+@media (max-width: 620px) and (max-height: 700px) {
+  .license-section .trial-campaign {
+    gap: 12px;
+  }
+  .trial-scene {
+    gap: 2px;
+  }
+  .trial-scene figcaption {
+    font-size: 9px;
+  }
+  .trial-campaign .license-copy h2 {
+    font-size: 26px;
+  }
+  .trial-campaign .license-copy > p:not(.license-note) {
+    margin-block: 10px;
+    font-size: 12px;
+  }
+  .trial-campaign .license-copy .actions {
+    gap: 8px;
+  }
+  .trial-campaign .actions .button {
+    --action-size: 44px;
+    --action-chip: 30px;
+    font-size: 12px;
+  }
+  .trial-campaign .license-copy .license-note {
+    font-size: 10px !important;
+    margin-top: 12px;
+    line-height: 1.4;
+  }
+}
+@media (min-width: 621px) and (max-height: 600px) {
+  .license-section .trial-campaign {
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 24px;
+  }
+  .trial-scene figcaption {
+    font-size: 9px;
+  }
+  .trial-campaign .license-copy h2 {
+    font-size: 28px;
+  }
+  .trial-campaign .license-copy > p:not(.license-note) {
+    margin-block: 10px;
+    font-size: 12px;
+  }
+  .trial-campaign .license-copy .actions {
+    gap: 8px;
+  }
+  .trial-campaign .actions .button {
+    --action-size: 44px;
+    --action-chip: 30px;
+    font-size: 12px;
+  }
+  .trial-campaign .license-copy .license-note {
+    font-size: 10px !important;
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+}
