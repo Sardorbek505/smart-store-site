@@ -169,7 +169,7 @@ h3 {
   border: 1px solid #c6d3f8;
   border-radius: 6px;
   padding: 2px 7px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 650;
 }
 .header-store {
@@ -241,7 +241,7 @@ h3 {
 }
 .sidebar-label {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 1px;
   padding: 0 14px 18px;
   font-weight: 600;
@@ -288,7 +288,7 @@ h3 {
   font-weight: 700;
 }
 .sidebar-note strong {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 1px;
 }
 .sidebar-note p {
@@ -311,7 +311,7 @@ main {
 }
 .overline {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 1.3px;
   font-weight: 650;
   margin-bottom: 10px;
@@ -332,7 +332,7 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 11px;
+  font-size: 12px;
   white-space: nowrap;
 }
 .session-note::before {
@@ -363,7 +363,7 @@ main {
   height: 27px;
   border: 1px solid #adb3ca;
   border-radius: 50%;
-  font-size: 10px;
+  font-size: 12px;
   flex: none;
 }
 .demo-guide .current {
@@ -532,7 +532,7 @@ select,
   border-radius: 999px;
   background: var(--blue);
   color: white;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   padding: 4px 8px;
   display: flex;
@@ -551,7 +551,7 @@ select,
 }
 .product-category {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   margin-bottom: 7px;
 }
 .product-info h3 {
@@ -561,7 +561,7 @@ select,
   overflow-wrap: anywhere;
 }
 .product-sku {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 5px;
   overflow-wrap: anywhere;
@@ -574,7 +574,7 @@ select,
   font-variant-numeric: tabular-nums;
 }
 .product-stock {
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 8px;
   margin-bottom: 14px;
   color: var(--success);
@@ -628,7 +628,7 @@ select,
   font-size: 12px;
 }
 .receipt-heading .icon-button {
-  width: 36px;
+  width: 44px;
   height: 44px;
   padding: 8px;
 }
@@ -684,7 +684,7 @@ select,
   flex: 1;
 }
 .cart-line-top .icon-button {
-  width: 36px;
+  width: 44px;
   padding: 9px;
 }
 .cart-line-top .icon {
@@ -692,7 +692,7 @@ select,
   height: 17px;
 }
 .cart-line > .muted {
-  font-size: 11px;
+  font-size: 12px;
 }
 .cart-line-bottom {
   display: flex;
@@ -714,7 +714,7 @@ select,
   border-radius: 10px;
 }
 .quantity button {
-  width: 40px;
+  width: 44px;
   height: 44px;
   padding: 10px;
   background: none;
@@ -805,7 +805,7 @@ select,
 }
 .receipt-note {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   text-align: center;
   margin-top: 12px;
 }
@@ -874,7 +874,7 @@ th {
   font-size: 13px;
 }
 thead th {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   background: #f6f6fa;
 }
@@ -911,7 +911,7 @@ thead th {
 }
 .inventory-product small {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 3px;
   overflow-wrap: anywhere;
@@ -936,7 +936,7 @@ thead th {
 }
 .stock-value small {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   margin-top: 4px;
 }
 .changed-stock strong {
@@ -973,7 +973,7 @@ thead th {
 }
 .metric > small {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
 }
 .metric-accent > small {
   color: #e2eaff;
@@ -1026,7 +1026,7 @@ thead th {
   text-align: center;
   padding-top: 12px;
   background: white;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
 }
 .chart-data {
@@ -1044,7 +1044,7 @@ thead th {
 }
 .chart-data th,
 .chart-data td {
-  font-size: 11px;
+  font-size: 12px;
   padding: 10px 4px;
 }
 .payments-panel > .muted {
@@ -1096,7 +1096,7 @@ thead th {
 }
 .received-total > small {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
 }
 .text-link {
   display: inline-flex;
@@ -1131,7 +1131,7 @@ button.history-row:hover {
   color: var(--muted);
   display: block;
   margin-top: 4px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .history-row strong {
   font-size: 13px;
@@ -1183,7 +1183,7 @@ dialog::backdrop {
   font-size: 25px;
 }
 .dialog-heading .overline {
-  font-size: 9px;
+  font-size: 12px;
   margin-bottom: 7px;
 }
 .dialog-heading .icon-button {
@@ -1362,7 +1362,7 @@ input[aria-invalid="true"] {
   justify-content: space-between;
   gap: 8px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   padding-bottom: 18px;
   border-bottom: 1px dashed #afb5ca;
 }
@@ -1379,7 +1379,7 @@ input[aria-invalid="true"] {
 .result-lines small {
   display: block;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 4px;
 }
 .result-total {
@@ -1396,7 +1396,7 @@ input[aria-invalid="true"] {
   letter-spacing: -0.04em;
 }
 .result-change {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 8px;
 }
@@ -1421,7 +1421,7 @@ input[aria-invalid="true"] {
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 9px;
 }
 .stock-proof li > span {
@@ -1438,7 +1438,7 @@ input[aria-invalid="true"] {
   margin-top: 20px;
 }
 .result-day > span {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
 }
 .result-day strong {
@@ -1463,7 +1463,7 @@ input[aria-invalid="true"] {
   justify-content: center;
   gap: 8px;
   min-height: 44px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--blue);
   margin-top: 16px;
 }
@@ -1557,7 +1557,7 @@ input[aria-invalid="true"] {
   }
   .sidebar-label {
     padding-inline: 8px;
-    font-size: 9px;
+    font-size: 12px;
   }
   .app-nav a {
     padding-inline: 10px;
@@ -1585,7 +1585,7 @@ input[aria-invalid="true"] {
     gap: 18px;
   }
   .demo-guide li {
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 @media (max-width: 900px) {
@@ -1623,7 +1623,7 @@ input[aria-invalid="true"] {
     justify-content: center;
     padding: 5px 12px;
     gap: 4px;
-    font-size: 11px;
+    font-size: 12px;
     border-radius: 12px;
     min-height: 52px;
   }
@@ -1684,7 +1684,7 @@ input[aria-invalid="true"] {
   }
   .cart-toggle small {
     display: block;
-    font-size: 10px;
+    font-size: 12px;
     margin-top: 3px;
     color: #e2eaff;
   }
@@ -1699,15 +1699,16 @@ input[aria-invalid="true"] {
     position: absolute;
     right: -4px;
     top: -3px;
-    min-width: 15px;
-    height: 15px;
+    min-width: 20px;
+    height: 20px;
+    padding-inline: 4px;
     border-radius: 50%;
     background: white;
     color: var(--blue);
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 700;
     text-align: center;
-    line-height: 15px;
+    line-height: 20px;
   }
   .stock-stat {
     padding: 20px;
@@ -1738,7 +1739,7 @@ input[aria-invalid="true"] {
     border-radius: 8px;
   }
   .demo-badge {
-    font-size: 9px;
+    font-size: 12px;
     padding: 1px 5px;
   }
   .header-store {
@@ -1748,11 +1749,11 @@ input[aria-invalid="true"] {
     gap: 3px;
   }
   .header-actions .icon-button {
-    width: 40px;
+    width: 44px;
   }
   .install-link {
     padding: 10px 12px;
-    font-size: 11px;
+    font-size: 12px;
     gap: 8px;
   }
   .install-link .icon {
@@ -1764,7 +1765,7 @@ input[aria-invalid="true"] {
     padding-top: 22px;
   }
   .overline {
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 1px;
   }
   h1 {
@@ -1788,7 +1789,7 @@ input[aria-invalid="true"] {
     flex-direction: row;
     align-items: center;
     gap: 6px;
-    font-size: 9px;
+    font-size: 12px;
     flex: 1;
     line-height: 1.4;
   }
@@ -1807,7 +1808,7 @@ input[aria-invalid="true"] {
     margin-bottom: 18px;
   }
   .panel-heading .muted {
-    font-size: 10px;
+    font-size: 12px;
   }
   .filters {
     gap: 12px;
@@ -1819,7 +1820,7 @@ input[aria-invalid="true"] {
     flex: auto;
   }
   .field label {
-    font-size: 11px;
+    font-size: 12px;
     margin-bottom: 7px;
   }
   input,
@@ -1846,7 +1847,7 @@ input[aria-invalid="true"] {
     padding: 13px;
   }
   .product-category {
-    font-size: 9px;
+    font-size: 12px;
     line-height: 1.4;
     min-height: 13px;
   }
@@ -1858,23 +1859,23 @@ input[aria-invalid="true"] {
     font-size: 23px;
   }
   .product-stock {
-    font-size: 10px;
+    font-size: 12px;
   }
   .product-sku {
-    font-size: 9px;
+    font-size: 12px;
   }
   .selected-mark {
-    font-size: 9px;
+    font-size: 12px;
     top: 7px;
     right: 7px;
     padding: 4px 6px;
   }
   .add-button {
-    font-size: 11px;
+    font-size: 12px;
     padding-inline: 10px;
   }
   .add-button:disabled {
-    font-size: 10px;
+    font-size: 12px;
   }
   .cart-toggle {
     left: 16px;
@@ -1904,9 +1905,9 @@ input[aria-invalid="true"] {
     border-radius: 14px;
   }
   .stock-stat > span {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.5;
-    min-height: 30px;
+    min-height: 36px;
   }
   .stock-stat > strong {
     font-size: 27px;
@@ -1922,7 +1923,7 @@ input[aria-invalid="true"] {
   .inventory-panel .panel-heading > .muted {
     max-width: 13ch;
     text-align: right;
-    font-size: 9px;
+    font-size: 12px;
   }
   .inventory-panel h2 {
     font-size: 17px;
@@ -1938,17 +1939,17 @@ input[aria-invalid="true"] {
   }
   .inventory td,
   .inventory th {
-    font-size: 11px;
+    font-size: 12px;
     padding-inline: 4px;
   }
   .inventory-product strong {
     font-size: 12px;
   }
   .inventory-product small {
-    font-size: 9px;
+    font-size: 12px;
   }
   .stock-value small {
-    font-size: 9px;
+    font-size: 12px;
   }
   .report-metrics {
     gap: 10px;
@@ -1959,14 +1960,14 @@ input[aria-invalid="true"] {
     border-radius: 16px;
   }
   .metric > span {
-    font-size: 11px;
+    font-size: 12px;
   }
   .metric > strong {
     font-size: clamp(24px, 6.8vw, 36px);
     margin: 12px 0 10px;
   }
   .metric > small {
-    font-size: 9px;
+    font-size: 12px;
     line-height: 1.5;
     display: block;
   }
@@ -1986,14 +1987,14 @@ input[aria-invalid="true"] {
     gap: 12px;
   }
   .chart-panel .panel-heading > .muted {
-    font-size: 10px;
+    font-size: 12px;
   }
   .chart-panel h2 {
     font-size: 17px;
   }
   .chart-data td,
   .chart-data th {
-    font-size: 11px;
+    font-size: 12px;
   }
   .payments-panel h2,
   .history-panel h2 {
@@ -2003,7 +2004,7 @@ input[aria-invalid="true"] {
     gap: 8px;
   }
   .history-panel .text-link {
-    font-size: 10px;
+    font-size: 12px;
     gap: 4px;
   }
   .history-panel .text-link .icon {
@@ -2023,7 +2024,7 @@ input[aria-invalid="true"] {
     font-size: 12px;
   }
   .history-row small {
-    font-size: 9px;
+    font-size: 12px;
     line-height: 1.5;
   }
   .history-row > .icon {
@@ -2061,14 +2062,14 @@ input[aria-invalid="true"] {
     gap: 6px;
   }
   .demo-badge {
-    font-size: 8px;
+    font-size: 12px;
     padding-inline: 4px;
   }
   .header-actions {
     gap: 0;
   }
   .header-actions .icon-button {
-    width: 36px;
+    width: 44px;
     padding: 8px;
   }
   .install-link {
@@ -2120,7 +2121,7 @@ input[aria-invalid="true"] {
     padding-inline: 10px;
   }
   .stock-stat > span {
-    font-size: 9px;
+    font-size: 12px;
   }
   .stock-stat > strong {
     font-size: 25px;
@@ -2141,22 +2142,22 @@ input[aria-invalid="true"] {
     padding-inline: 12px;
   }
   .stock-value small {
-    font-size: 8px;
+    font-size: 12px;
   }
   .result-meta {
-    font-size: 10px;
+    font-size: 12px;
   }
   .result-lines > div {
     font-size: 12px;
   }
   .result-change {
-    font-size: 10px;
+    font-size: 12px;
   }
   .stock-proof {
     padding: 14px;
   }
   .stock-proof li {
-    font-size: 10px;
+    font-size: 12px;
     gap: 10px;
   }
 }

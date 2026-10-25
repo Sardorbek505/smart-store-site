@@ -73,6 +73,10 @@ const matches = (p, query) =>
     .replaceAll("ё", "е")
     .includes(query.trim().toLocaleLowerCase("ru").replaceAll("ё", "е"));
 const inCart = (id) => state.cart.find((l) => l.id === id)?.qty || 0;
+const saleFocusTarget = () =>
+  matchMedia("(pointer: coarse), (max-width: 900px)").matches
+    ? $("page-title")
+    : $("product-search");
 function renderProducts() {
   const query = $("product-search").value;
   const category = $("category-filter").value;
@@ -123,9 +127,9 @@ function renderStock() {
     0,
   );
   $("stock-stats").innerHTML = [
-    ["Наименований", PRODUCTS.length],
-    ["Единиц на складе", PRODUCTS.reduce((s, p) => s + stock(state, p.id), 0)],
-    ["Продано вами в демо", sold],
+    ["Товаров", PRODUCTS.length],
+    ["На складе, шт", PRODUCTS.reduce((s, p) => s + stock(state, p.id), 0)],
+    ["Вы продали, шт", sold],
   ]
     .map(
       ([label, value]) =>
@@ -195,7 +199,7 @@ function renderReports() {
     .join("");
 }
 function renderGuide() {
-  const step = state.sales.length ? 3 : state.cart.length ? 2 : 1;
+  const step = state.cart.length ? 2 : state.sales.length ? 3 : 1;
   for (const item of document.querySelectorAll("[data-guide]")) {
     const n = Number(item.dataset.guide);
     item.classList.toggle("complete", n < step);
@@ -237,6 +241,7 @@ function routeView(focus = true) {
     else link.removeAttribute("aria-current");
   }
   document.body.dataset.route = current;
+  document.querySelector(".demo-guide").hidden = current !== "sale";
   if (focus) {
     window.scrollTo(0, 0);
     $("page-title").focus({ preventScroll: true });
@@ -251,10 +256,20 @@ function mutate(fn, message = "") {
   try {
     persist(fn(state));
     renderAll();
-    if (focusKey)
-      document
-        .querySelector(`[data-focus="${CSS.escape(focusKey)}"]:not(:disabled)`)
-        ?.focus({ preventScroll: true });
+    if (focusKey) {
+      const control = document.querySelector(
+        `[data-focus="${CSS.escape(focusKey)}"]`,
+      );
+      if (control?.disabled) {
+        const fallback =
+          control.closest(".quantity")?.querySelector("output") ||
+          control.closest(".product-card")?.querySelector("h3");
+        if (fallback) {
+          fallback.tabIndex = -1;
+          fallback.focus({ preventScroll: true });
+        }
+      } else control?.focus({ preventScroll: true });
+    }
     if (message) announce(message);
   } catch (error) {
     announce(error.message);
@@ -291,7 +306,7 @@ function openPayment() {
   renderPaymentMethod();
   $("payment-dialog").showModal();
 }
-function showResult(saved, opener = $("product-search")) {
+function showResult(saved, opener = saleFocusTarget()) {
   resultOpener = opener;
   const sale = saleDetails(saved),
     t = totals(state);
@@ -347,7 +362,7 @@ function init() {
       case "add":
         mutate(
           (s) => addItem(s, id),
-          `${p.name} добавлен. В чеке: ${inCart(id) + 1} шт.`,
+          `Добавили «${p.name}». ${stock(state, id) - inCart(id) === 1 ? "Весь остаток в чеке" : "В чеке"}: ${inCart(id) + 1} шт.`,
         );
         break;
       case "minus":
@@ -357,16 +372,16 @@ function init() {
         );
         break;
       case "remove":
-        mutate((s) => removeItem(s, id), `${p.name} убран из чека.`);
+        mutate((s) => removeItem(s, id), `Убрали «${p.name}» из чека.`);
         $("cart-dialog").open
           ? $("mobile-cart-title").focus({ preventScroll: true })
-          : $("product-search").focus({ preventScroll: true });
+          : saleFocusTarget().focus({ preventScroll: true });
         break;
       case "clear-cart":
         mutate(clearCart, "Текущий чек очищен. Проведённые продажи сохранены.");
         ($("cart-dialog").open
           ? $("mobile-cart-title")
-          : $("product-search")
+          : saleFocusTarget()
         ).focus({ preventScroll: true });
         break;
       case "pay":
@@ -485,7 +500,7 @@ function init() {
     if (resultOpener?.isConnected && !resultOpener.closest("[hidden]"))
       resultOpener.focus({ preventScroll: true });
     else if (route() === "sale")
-      $("product-search").focus({ preventScroll: true });
+      saleFocusTarget().focus({ preventScroll: true });
     else $("page-title").focus({ preventScroll: true });
   });
   $("cart-dialog").addEventListener("close", () => {
@@ -494,7 +509,7 @@ function init() {
       !$("payment-dialog").open &&
       !$("result-dialog").open
     )
-      ($("cart-toggle").hidden ? $("product-search") : $("cart-toggle")).focus({
+      ($("cart-toggle").hidden ? saleFocusTarget() : $("cart-toggle")).focus({
         preventScroll: true,
       });
   });
