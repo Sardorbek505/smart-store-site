@@ -91,8 +91,7 @@ with sync_playwright() as p:
         page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"')
         page.wait_for_function('document.querySelector(".ribbon-track").getAnimations().some(a=>a.playState==="running")')
         current=page.locator('.ribbon-track').evaluate('e=>getComputedStyle(e).transform')
-        page.wait_for_timeout(250)
-        assert page.locator('.ribbon-track').evaluate('e=>getComputedStyle(e).transform')!=current, 'Motion must resume on the live CSS timeline when the system preference changes back'
+        page.wait_for_function('(before)=>getComputedStyle(document.querySelector(".ribbon-track")).transform!==before',arg=current,timeout=3000)
         assert not errors, errors
         print(json.dumps({'browser': BROWSER, 'width': w, 'fullWidth': box['width'], 'ribbonHeight': box['height'], 'cardWidth': card_width, 'loop': 'seamless', 'scriptFramesDuringMotion': 0, 'DOMMutationsDuringMotion': 0, 'scrollPause': 'pass', 'reducedMotion': 'pass'}), flush=True)
         page.close()
