@@ -72,6 +72,10 @@ python tests/browser-check.py
 
 Полное покрытие херо под плавающей панелью Safari, включая проверку разных размеров области отрисовки и reported viewport: [docs/hero-large-viewport-v32.md](docs/hero-large-viewport-v32.md).
 
+Стеклянные края, ускорение ленты и пауза после свайпа:
+[docs/hero-glass-v37.md](docs/hero-glass-v37.md). Проверки:
+`BROWSER=webkit python tests/hero-glass-check.py` и `tests/hero-motion-check.py`.
+
 Предложение, лицензия, путь с телефона на Windows и увеличение экранов: [docs/offer-install-preview-v33.md](docs/offer-install-preview-v33.md). Проверка: `BROWSER=webkit python tests/journey-check.py` или `BROWSER=chromium python tests/journey-check.py`. Оформление этих сценариев — `journey.css`.
 
 Загрузка, очистка стилей и устойчивость сценариев v34: [docs/runtime-loading-v34.md](docs/runtime-loading-v34.md). Проверка запросов, Retina и отказов: `BROWSER=webkit python tests/loading-check.py` либо `BROWSER=chromium python tests/loading-check.py`.

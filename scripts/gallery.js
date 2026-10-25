@@ -6,14 +6,14 @@ export function init() {
   const cards = [...track.querySelectorAll("[data-gallery-card]")];
   const dialog = document.getElementById("preview-dialog");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const duration = 50000,
-    stepTime = duration / cards.length;
   const wrap = (n) => ((n % cards.length) + cards.length) % cards.length;
   const transformAt = (n) =>
     `translate3d(calc(-1 * var(--ribbon-cycle) + var(--ribbon-offset) - ${n} * var(--ribbon-step)), 0, 0)`;
   let focused = false,
     hovering = false,
-    inView = true;
+    inView = true,
+    resting = false;
+  let restTimer;
   let pointer = null,
     dragged = false,
     manual = null,
@@ -23,6 +23,10 @@ export function init() {
   const flow = track
     .getAnimations?.()
     .find((a) => a.animationName === "ribbon-flow");
+  // Use the actual CSS cycle for swipes, keyboard selection and loop wrapping.
+  const stepTime = flow
+    ? Number(flow.effect.getTiming().duration) / cards.length
+    : 1;
   flow?.pause();
   const phase = () =>
     flow ? wrap(Number(flow.currentTime || 0) / stepTime) : staticPhase;
@@ -37,6 +41,7 @@ export function init() {
       !focused &&
       !reduced.matches &&
       !hovering &&
+      !resting &&
       !pointer &&
       !manual &&
       inView &&
@@ -56,6 +61,15 @@ export function init() {
     }
     const motion = running ? "running" : "paused";
     if (stage.dataset.motion !== motion) stage.dataset.motion = motion;
+  };
+  const restAfterSwipe = () => {
+    resting = true;
+    clearTimeout(restTimer);
+    // The finite transition takes 650 ms; leave about two seconds to inspect it.
+    restTimer = setTimeout(() => {
+      resting = false;
+      sync();
+    }, 2650);
   };
   const go = (next) => {
     sync();
@@ -133,7 +147,10 @@ export function init() {
     if (!pointer || pointer.id !== event.pointerId) return;
     const dx = event.clientX - pointer.x;
     pointer = null;
-    if (dragged && Math.abs(dx) > 35) move(dx < 0 ? 1 : -1);
+    if (dragged && Math.abs(dx) > 35) {
+      restAfterSwipe();
+      move(dx < 0 ? 1 : -1);
+    }
     sync();
   });
   window.addEventListener("pointercancel", () => {
