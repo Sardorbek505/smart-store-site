@@ -52,7 +52,7 @@ export function init() {
       };
       image.onerror = () => {
         status.textContent =
-          "Изображение не загрузилось. Попробуйте открыть оригинал по ссылке ниже.";
+          "Изображение не загрузилось. Откройте оригинал кнопкой со стрелкой.";
       };
       image.alt =
         link.dataset.previewAlt ||

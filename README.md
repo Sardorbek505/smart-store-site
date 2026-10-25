@@ -40,6 +40,7 @@ python tests/browser-check.py
 - `demo/index.html`, `demo/app.js`, `demo/styles.css` — отдельный адаптивный демомагазин: касса, склад и итоги. `demo/model.js` — изолированная логика учебных операций на тех же данных, что и мокапы.
 - `styles.css` — общая основа, навигация, формы и страница условий; `cinema.css` — херо и лента фотосцен.
 - `buttons.css` — общие кнопки и состояния; `screens.css` — высота экранов и адаптивные ограничения.
+- `glass.css` — плавающая навигация и компактная стеклянная панель просмотра экранов.
 - `assets/`, `tools/build-styles.mjs` — готовые CSS и их воспроизводимая сборка. Порядок исходников задан в сборщике.
 - `components.css` — адаптированные кнопка, FAQ, поле копирования и рамка формы. Источники и лицензии: [third-party/README.md](third-party/README.md).
 - `trial.css` — сгенерированная объёмная «14» и адаптивный блок бесплатного периода. Источник и проверка: [docs/trial-sculpture.md](docs/trial-sculpture.md).
@@ -75,6 +76,11 @@ python tests/browser-check.py
 Стеклянные края, ускорение ленты и пауза после свайпа:
 [docs/hero-glass-v37.md](docs/hero-glass-v37.md). Проверки:
 `BROWSER=webkit python tests/hero-glass-check.py` и `tests/hero-motion-check.py`.
+
+Усиленные края херо, плавающее меню и стеклянная панель просмотра:
+[docs/liquid-glass-v38.md](docs/liquid-glass-v38.md). Проверка компоновки,
+масштабирования, клавиатуры и отказов: `BROWSER=webkit python tests/glass-ui-check.py`
+либо `BROWSER=chromium python tests/glass-ui-check.py`.
 
 Предложение, лицензия, путь с телефона на Windows и увеличение экранов: [docs/offer-install-preview-v33.md](docs/offer-install-preview-v33.md). Проверка: `BROWSER=webkit python tests/journey-check.py` или `BROWSER=chromium python tests/journey-check.py`. Оформление этих сценариев — `journey.css`.
 

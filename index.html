@@ -49,9 +49,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.e78aa6d42996.css" />
+    <link rel="stylesheet" href="assets/site.891294be4ae0.css" />
     <!-- styles:end -->
-    <script src="app.js?v=37" type="module"></script>
+    <script src="app.js?v=38" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -110,7 +110,7 @@
     </svg>
 
     <header class="top">
-      <div class="top-inner wrap">
+      <div class="top-inner wrap glass-surface">
         <a class="brand" href="#main" aria-label="Smart Store — на главную"
           ><img
             decoding="async"
@@ -669,6 +669,33 @@
                   ></a>
                 </div>
               </div>
+              <svg
+                class="ribbon-rim"
+                viewBox="0 0 1000 1000"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <defs>
+                  <linearGradient id="ribbon-rim-light">
+                    <stop stop-color="#ededf5" stop-opacity=".65" />
+                    <stop offset=".4" stop-color="#8aa9ff" stop-opacity=".12" />
+                    <stop
+                      offset=".65"
+                      stop-color="#ededf5"
+                      stop-opacity=".25"
+                    />
+                    <stop offset="1" stop-color="#8aa9ff" stop-opacity=".65" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0 35 C160 70 320 100 500 100 C680 100 840 70 1000 35 L1000 965 C840 930 680 900 500 900 C320 900 160 930 0 965 Z"
+                  fill="none"
+                  stroke="url(#ribbon-rim-light)"
+                  stroke-width="1.5"
+                  vector-effect="non-scaling-stroke"
+                />
+              </svg>
             </div>
           </div>
           <!-- hero-ribbon:end -->
@@ -1567,26 +1594,7 @@
       class="preview-dialog"
       aria-labelledby="preview-title"
     >
-      <div class="dialog-bar">
-        <h2 id="preview-title">Экран Smart Store</h2>
-        <button type="button" id="preview-close" aria-label="Закрыть просмотр">
-          ✕
-        </button>
-      </div>
       <p id="preview-status" class="preview-status" role="status"></p>
-      <div class="preview-tools">
-        <button
-          id="preview-zoom"
-          type="button"
-          aria-pressed="false"
-          aria-controls="preview-stage"
-          disabled
-        >
-          <svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg
-          ><span>Увеличить</span>
-        </button>
-        <p id="preview-hint">Увеличьте, чтобы прочитать детали.</p>
-      </div>
       <div
         class="preview-stage"
         id="preview-stage"
@@ -1597,13 +1605,49 @@
       >
         <img decoding="async" id="preview-image" alt="" />
       </div>
-      <a
-        id="preview-original"
-        class="preview-original"
-        target="_blank"
-        rel="noopener"
-        >Открыть оригинал экрана ↗</a
+      <div
+        class="dialog-bar preview-toolbar glass-surface"
+        role="group"
+        aria-label="Управление просмотром экрана"
       >
+        <div class="preview-caption">
+          <h2 id="preview-title">Экран Smart Store</h2>
+          <p id="preview-hint">Увеличьте, чтобы прочитать детали.</p>
+        </div>
+        <div class="preview-tools">
+          <button
+            id="preview-zoom"
+            type="button"
+            aria-pressed="false"
+            aria-controls="preview-stage"
+            disabled
+          >
+            <svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg
+            ><span>Увеличить</span>
+          </button>
+        </div>
+        <a
+          id="preview-original"
+          class="preview-original"
+          target="_blank"
+          rel="noopener"
+          aria-label="Открыть оригинал экрана"
+        >
+          <svg class="icon diagonal-arrow" aria-hidden="true">
+            <use href="#i-arrow" /></svg
+          ><span>Оригинал</span>
+        </a>
+        <button
+          type="button"
+          id="preview-close"
+          aria-label="Закрыть просмотр"
+          autofocus
+        >
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6 6 12 12M6 18 18 6" />
+          </svg>
+        </button>
+      </div>
     </dialog>
   </body>
 </html>
