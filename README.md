@@ -33,9 +33,9 @@ python tests/browser-check.py
 - `story.css`, `scripts/story.js` — асимметричный Bento, касса с точками деталей, пошаговая демонстрация телефона, сцена резервных копий с настоящим экраном и USB-флешкой и три одновременно видимых шага установки.
 - `app.js` — независимый запуск функций.
 - `scripts/core.js` — настройки сервисов, проверка адреса магазина и установщика, сетевой таймаут.
-- `scripts/downloads.js` — скачивание на Windows и продолжение установки с другого устройства.
+- `scripts/downloads.js` — скачивание на Windows, прямая ссылка на установку, копирование/системная отправка с другого устройства.
 - `scripts/store.js` — проверка кода магазина, отмена запросов и переход.
-- `scripts/preview.js` — просмотр оригинальных экранов и сообщение при ошибке загрузки.
+- `scripts/preview.js` — просмотр, увеличение до исходного размера, перемещение и ошибки загрузки оригинальных экранов.
 - `scripts/interface.js` — меню, мобильные карточки возможностей и ссылки на ответы FAQ.
 - `scripts/gallery.js` — анимация, ручное управление, остановка и reduced-motion.
 - `tests/` — правила доверенных адресов, ответы сервисов и браузерные сценарии.
@@ -57,3 +57,5 @@ python tests/browser-check.py
 Исправление высоты херо после изменения панелей Safari и новая подача локальных данных: [docs/viewport-and-backups-v31.md](docs/viewport-and-backups-v31.md).
 
 Полное покрытие херо под плавающей панелью Safari, включая проверку разных размеров области отрисовки и reported viewport: [docs/hero-large-viewport-v32.md](docs/hero-large-viewport-v32.md).
+
+Предложение, лицензия, путь с телефона на Windows и увеличение экранов: [docs/offer-install-preview-v33.md](docs/offer-install-preview-v33.md). Проверка: `BROWSER=webkit python tests/journey-check.py` или `BROWSER=chromium python tests/journey-check.py`. Оформление этих сценариев — `journey.css`.

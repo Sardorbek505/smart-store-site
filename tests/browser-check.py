@@ -96,7 +96,7 @@ with sync_playwright() as p:
     assert m.locator('[data-download]').evaluate_all('(xs)=>xs.every(e=>e.getAttribute("href")==="#installation")')
     m.locator('#download').click()
     m.locator('#copy-site').click()
-    assert m.evaluate('window.copied') == 'https://metov.store/'
+    assert m.evaluate('window.copied') == 'https://metov.store/#installation'
     assert 'скопирована' in m.locator('#copy-status').inner_text()
     for w in [320, 390, 620, 768, 1440]:
         m.set_viewport_size({'width': w, 'height': 844})

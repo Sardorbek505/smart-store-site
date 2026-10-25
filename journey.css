@@ -1,0 +1,496 @@
+/* Choose the correct installation controls before the first CSS paint. */
+#handoff-tools,
+.platform-handoff {
+  display: none;
+}
+html[data-installation-platform="handoff"] #windows-install,
+html[data-installation-platform="handoff"] .platform-windows {
+  display: none;
+}
+html[data-installation-platform="handoff"] #handoff-tools {
+  display: block;
+}
+html[data-installation-platform="handoff"] .platform-handoff {
+  display: inline;
+}
+/* Clear installation handoff and readable source-screen previews. */
+.installation-guide .installation-layout {
+  height: 100%;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: center;
+}
+.installation-summary {
+  min-width: 0;
+}
+.installation-guide .setup-eyebrow,
+.audience-note {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+.installation-guide h2 {
+  font-size: clamp(34px, 3.6vw, 52px);
+  letter-spacing: -0.055em;
+  line-height: 1.05;
+  max-width: 15ch;
+}
+.installation-guide #installation-description {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-block: 20px;
+  max-width: 42ch;
+}
+.installation-checklist {
+  list-style: none;
+  margin: 24px 0 10px;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.installation-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 40px;
+}
+.installation-checklist li > span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border: 1px solid #b7bdd4;
+  border-radius: 50%;
+  font-size: 11px;
+  color: var(--blue);
+}
+.installation-checklist strong {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.installation-existing {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 8px;
+}
+.installation-card {
+  min-width: 0;
+  padding: clamp(24px, 3.4vw, 46px);
+  border: 1px solid #c8c8d5;
+  border-radius: 28px;
+  background: #fff;
+}
+.installation-card h3 {
+  font-size: 24px;
+  letter-spacing: -0.035em;
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+.setup-device {
+  width: 64px;
+  height: 64px;
+  padding: 16px;
+  background: #1d4ed80d;
+  color: var(--blue);
+  border-radius: 20px;
+  margin-bottom: 22px;
+}
+.installation-guide .setup-card-note {
+  margin: 0 0 24px;
+  font-size: 14px;
+}
+.installation-card .button {
+  width: 100%;
+  min-height: 48px;
+}
+.installation-guide .setup-release-note {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 16px 0 0;
+  min-height: 3em;
+}
+.installation-actions .copy-field {
+  margin-top: 10px;
+}
+.installation-actions .copy-field input {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+.installation-actions .actions {
+  min-height: 48px;
+  margin-top: 16px;
+}
+.installation-guide #copy-status {
+  margin: 16px 0 0;
+  min-height: 3em;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.installation-card :focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+}
+.audience-note {
+  margin-bottom: 9px;
+  font-size: 12px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.trial-campaign .license-copy > p.offer-terms {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: -8px 0 18px;
+  color: #e0e6fb;
+}
+/* All screen previews can be read without leaving the landing. */
+.preview-dialog {
+  max-height: calc(100svh - 32px);
+  border-radius: 20px;
+}
+.preview-tools {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.preview-tools button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid #b7bdd4;
+  border-radius: 99px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.preview-tools button[aria-pressed="true"] {
+  color: var(--paper);
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.preview-tools button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.preview-tools .icon {
+  width: 17px;
+  height: 17px;
+}
+#preview-hint {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+  color: var(--muted);
+}
+.preview-stage {
+  max-height: calc(100svh - 240px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.preview-stage img {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: calc(100svh - 240px);
+  object-fit: contain;
+  margin: auto;
+}
+.preview-dialog[data-zoomed="true"] .preview-stage {
+  height: min(65svh, 900px);
+}
+.preview-dialog[data-zoomed="true"] .preview-stage img {
+  max-width: none;
+  max-height: none;
+  width: var(--preview-native-width);
+  margin: 0;
+}
+.preview-stage:focus-visible,
+.preview-tools button:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
+}
+@media (min-width: 1000px) and (min-height: 601px) {
+  #start h2 {
+    font-size: clamp(44px, 4.3vw, 62px);
+  }
+  .start-actions .release-note {
+    max-width: 44ch;
+  }
+}
+@media (max-width: 620px) {
+  .installation-guide .installation-layout {
+    width: calc(100% - 32px);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-content: center;
+    gap: 20px;
+  }
+  .installation-guide h2 {
+    font-size: 34px;
+    max-width: none;
+  }
+  .installation-guide .setup-eyebrow {
+    font-size: 9px;
+    margin-bottom: 10px;
+  }
+  .installation-guide #installation-description {
+    font-size: 13px;
+    margin-block: 12px;
+  }
+  .installation-checklist {
+    margin: 14px 0 0;
+    gap: 6px;
+  }
+  .installation-checklist li {
+    gap: 10px;
+    min-height: 32px;
+  }
+  .installation-checklist li > span {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
+  .installation-checklist strong {
+    font-size: 12px;
+  }
+  .installation-existing {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .installation-card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+  .installation-card h3 {
+    font-size: 21px;
+    margin-bottom: 14px;
+  }
+  .installation-actions label {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  .installation-actions .copy-field input {
+    font-size: 14px;
+  }
+  .installation-guide #copy-status {
+    font-size: 11px;
+    margin-top: 12px;
+  }
+  .installation-actions .actions {
+    margin-top: 12px;
+  }
+  .setup-device {
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    margin-bottom: 14px;
+  }
+  .installation-guide .setup-card-note {
+    margin-bottom: 14px;
+    font-size: 12px;
+  }
+  .installation-guide .setup-release-note {
+    font-size: 11px;
+    margin-top: 12px;
+  }
+  .audience-note {
+    font-size: 11px;
+  }
+  .start-journey > li {
+    grid-template-columns: 24px minmax(0, 1fr) 120px;
+  }
+  .preview-dialog {
+    width: calc(100% - 24px);
+    max-width: none;
+    max-height: calc(100svh - 24px);
+  }
+  .dialog-bar {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .dialog-bar h2 {
+    font-size: 13px;
+    min-width: 0;
+  }
+  .dialog-bar button {
+    flex: none;
+  }
+  .preview-tools {
+    padding: 8px 12px;
+    gap: 12px;
+  }
+  #preview-hint {
+    font-size: 10px;
+  }
+  .preview-original {
+    min-height: 44px;
+    padding: 14px;
+  }
+}
+@media (max-width: 620px) and (max-height: 700px) {
+  .installation-guide .installation-layout {
+    gap: 12px;
+  }
+  .installation-guide .setup-eyebrow {
+    display: none;
+  }
+  .installation-guide h2 {
+    font-size: 26px;
+  }
+  .installation-guide #installation-description {
+    font-size: 11px;
+    margin-block: 8px;
+  }
+  .installation-checklist {
+    margin-top: 10px;
+    gap: 4px;
+  }
+  .installation-checklist li {
+    min-height: 25px;
+  }
+  .installation-checklist li > span {
+    width: 23px;
+    height: 23px;
+    font-size: 9px;
+  }
+  .installation-checklist strong {
+    font-size: 11px;
+  }
+  .installation-existing {
+    display: none;
+  }
+  .installation-card {
+    padding: 14px;
+    border-radius: 18px;
+  }
+  .installation-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .installation-card .button {
+    --action-chip: 30px;
+    --action-size: 44px;
+    min-height: 44px;
+    font-size: 11px;
+  }
+  .installation-actions .copy-field input {
+    font-size: 12px;
+    padding-left: 10px;
+  }
+  .installation-guide #copy-status {
+    margin-top: 10px;
+    font-size: 10px;
+  }
+  .setup-device {
+    display: none;
+  }
+  .installation-guide .setup-release-note {
+    font-size: 10px;
+  }
+  .trial-campaign .license-copy > p.offer-terms {
+    font-size: 10px;
+    margin: -4px 0 12px;
+  }
+  .audience-note {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+  .start-journey > li {
+    grid-template-columns: 20px minmax(0, 1fr) 84px;
+  }
+}
+@media (min-width: 621px) and (max-height: 600px) {
+  .installation-guide .installation-layout {
+    gap: 24px;
+  }
+  .installation-guide .setup-eyebrow {
+    display: none;
+  }
+  .installation-guide h2 {
+    font-size: 28px;
+    max-width: none;
+  }
+  .installation-guide #installation-description {
+    font-size: 11px;
+    margin-block: 10px;
+  }
+  .installation-checklist {
+    margin: 10px 0 0;
+    gap: 4px;
+  }
+  .installation-checklist li {
+    min-height: 24px;
+    gap: 8px;
+  }
+  .installation-checklist li > span {
+    width: 23px;
+    height: 23px;
+    font-size: 9px;
+  }
+  .installation-checklist strong {
+    font-size: 11px;
+  }
+  .installation-existing {
+    margin-top: 2px;
+    font-size: 11px;
+  }
+  .installation-card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+  .installation-card h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .setup-device {
+    display: none;
+  }
+  .installation-actions label,
+  .installation-actions .copy-field input {
+    font-size: 12px;
+  }
+  .installation-actions .actions {
+    margin-top: 10px;
+  }
+  .installation-card .button {
+    --action-chip: 30px;
+    --action-size: 44px;
+    min-height: 44px;
+    font-size: 11px;
+  }
+  .installation-guide #copy-status,
+  .installation-guide .setup-release-note {
+    font-size: 10px;
+    margin-top: 10px;
+  }
+  .trial-campaign .license-copy > p.offer-terms {
+    font-size: 10px;
+    margin: -4px 0 10px;
+  }
+  .audience-note {
+    display: none;
+  }
+  .preview-stage,
+  .preview-stage img {
+    max-height: calc(100svh - 205px);
+  }
+}
+.faq-list p a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

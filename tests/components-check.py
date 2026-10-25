@@ -30,7 +30,7 @@ with sync_playwright() as p:
         page.wait_for_function('document.documentElement.classList.contains("js")')
         copy=page.locator('#copy-site');copy.click()
         page.wait_for_function('document.getElementById("copy-site").dataset.copied==="true"')
-        assert page.evaluate('window.copiedValue')=='https://metov.store/'
+        assert page.evaluate('window.copiedValue')=='https://metov.store/#installation'
         page.evaluate('window.copyFails=true');copy.click()
         page.wait_for_function('document.getElementById("copy-status").textContent.includes("вручную")')
         assert copy.get_attribute('data-copied')=='false'
