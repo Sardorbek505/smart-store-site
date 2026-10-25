@@ -112,3 +112,9 @@ npm run check:demo
 `tools/build-demo.mjs` готовит один JS с хешем содержимого, включая модель и общий fixture. Лендинг не загружает его, CSS демо или товарные фотографии этого экрана до перехода. Предыдущий JS сохраняется для кэшированного HTML. CI проверяет сборку и расчёты; исходный Windows-проект не нужен для подготовки браузерного демо.
 
 Браузерная проверка: `BROWSER=webkit python tests/demo-check.py` либо `BROWSER=chromium python tests/demo-check.py`. В облачном стенде для WebKit также требуется `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1`. Проверки — без реальных платежей, магазинов и отправки сообщений. Подробности: [docs/live-demo-v35.md](docs/live-demo-v35.md).
+
+Читаемые подписи, области нажатия и возврат фокуса на телефоне:
+[docs/mobile-demo-v40.md](docs/mobile-demo-v40.md).
+Проверка клавиатуры, границ количества и закрытия окон:
+`BROWSER=webkit python tests/demo-focus-check.py` или
+`BROWSER=chromium python tests/demo-focus-check.py`.
