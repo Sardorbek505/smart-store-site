@@ -59,7 +59,7 @@ with sync_playwright() as p:
     launch={'headless':True}
     if BROWSER=='chromium':launch.update(executable_path=shutil.which('chromium'),args=['--no-sandbox'])
     browser=getattr(p,BROWSER).launch(**launch)
-    for w,h in [(320,568),(390,844),(844,390),(1440,900)]:
+    for w,h in [(320,568),(390,844),(844,390),(932,430),(851,768),(1024,600),(1024,768),(1440,500),(1440,900)]:
         page=browser.new_page(viewport={'width':w,'height':h},is_mobile=w<851,has_touch=w<851,reduced_motion='reduce')
         page.goto(BASE,wait_until='networkidle')
         page.locator('.hero-gallery').focus()
@@ -72,7 +72,8 @@ with sync_playwright() as p:
         page.locator('#features').evaluate('e=>e.scrollIntoView()')
         for art in page.locator('#features .feature-art img').all():
             art.evaluate('e=>e.closest("article").scrollIntoView({block:"nearest",inline:"center",behavior:"instant"})')
-            if w>850:art.hover()
+            if w>850:art.locator('xpath=ancestor::article').hover()
+            assert art.evaluate('e=>getComputedStyle(e.closest(".feature-art")).opacity==="1"'), 'Feature scenes must remain fully visible on tablets'
             check(art)
         page.locator('#workspace').evaluate('e=>e.scrollIntoView()')
         check(page.locator('#product-screen'))

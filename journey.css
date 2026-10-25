@@ -121,7 +121,7 @@ html[data-installation-platform="handoff"] .platform-handoff {
 }
 .installation-actions .copy-field input {
   margin-bottom: 0;
-  font-size: 15px;
+  font-size: 16px;
 }
 .installation-actions .actions {
   min-height: 48px;
@@ -283,9 +283,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
     font-size: 12px;
     margin-bottom: 8px;
   }
-  .installation-actions .copy-field input {
-    font-size: 14px;
-  }
   .installation-guide #copy-status {
     font-size: 11px;
     margin-top: 12px;
@@ -388,7 +385,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
     font-size: 11px;
   }
   .installation-actions .copy-field input {
-    font-size: 12px;
     padding-left: 10px;
   }
   .installation-guide #copy-status {
@@ -459,8 +455,7 @@ html[data-installation-platform="handoff"] .platform-handoff {
   .setup-device {
     display: none;
   }
-  .installation-actions label,
-  .installation-actions .copy-field input {
+  .installation-actions label {
     font-size: 12px;
   }
   .installation-actions .actions {
