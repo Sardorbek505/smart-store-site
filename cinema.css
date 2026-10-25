@@ -363,6 +363,7 @@
   }
 }
 .ribbon-track {
+  --ribbon-duration: 44s;
   display: flex;
   width: max-content;
   height: 100%;
@@ -373,7 +374,14 @@
   );
 }
 .ribbon-track.motion-ready {
-  animation: ribbon-flow 44s linear infinite paused;
+  animation: ribbon-flow var(--ribbon-duration) linear infinite paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Keep one paused timeline when the OS setting changes. The gallery's
+     reduced-motion guard never plays it; manual selection can still seek it. */
+  .ribbon-track.motion-ready {
+    animation: ribbon-flow var(--ribbon-duration) linear infinite paused !important;
+  }
 }
 /* Two narrow, stationary glass edges. The middle stays optically clear. */
 .ribbon-window::before,
