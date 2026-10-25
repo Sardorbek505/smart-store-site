@@ -8,6 +8,8 @@ export const config = Object.freeze({
     "https://api.github.com/repos/Sardorbek505/smart-store-releases/releases/latest",
   releasesPage:
     "https://github.com/Sardorbek505/smart-store-releases/releases/latest",
+  // Counts a download click (city from the network, no cookie); the link itself stays on GitHub.
+  downloadPing: "https://connect.metov.store/download",
 });
 
 export function storeCode(value) {

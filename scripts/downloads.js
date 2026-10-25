@@ -29,7 +29,11 @@ export function init({ config, installerFromRelease, fetchJson }) {
     $("start-download-label").textContent = "Продолжить на компьютере";
   } else {
     // A stable fallback is ready even if the release API fails or times out.
-    for (const link of links) link.href = config.releasesPage;
+    for (const link of links) {
+      link.href = config.releasesPage;
+      // Fire-and-forget: the download never waits for the counter.
+      link.addEventListener("click", () => navigator.sendBeacon?.(config.downloadPing));
+    }
   }
   const field = $("installation-url");
   field.value = installUrl.replace(/^https:\/\//, "");
