@@ -1,6 +1,7 @@
 // Sources stay readable; GitHub Pages serves one complete, content-addressed sheet.
 import { readFile, writeFile, mkdir, readdir, unlink } from "node:fs/promises";
 import { createHash } from "node:crypto";
+import { posix } from "node:path";
 import { transform } from "esbuild";
 
 const root = new URL("../", import.meta.url);
@@ -33,6 +34,7 @@ const bundles = [
     name: "privacy",
     sources: ["styles.css", "buttons.css"],
   },
+  { page: "demo/index.html", name: "demo", sources: ["demo/styles.css"] },
 ];
 const expected = new Set();
 await mkdir(new URL("assets/", root), { recursive: true });
@@ -61,7 +63,7 @@ for (const { page, name, sources } of bundles) {
   if (!marker.test(html)) throw new Error(`Missing style markers in ${page}`);
   const updated = html.replace(
     marker,
-    `<!-- styles:start -->\n    <link rel="stylesheet" href="assets/${file}" />\n    <!-- styles:end -->`,
+    `<!-- styles:start -->\n    <link rel="stylesheet" href="${posix.relative(posix.dirname(page), `assets/${file}`)}" />\n    <!-- styles:end -->`,
   );
   if (check) {
     if (html !== updated || (await readFile(url, "utf8")) !== code)
@@ -81,7 +83,10 @@ if (check) {
   for (const file of expected) await readFile(new URL(`assets/${file}`, root));
 } else await writeFile(manifestUrl, manifest);
 for (const file of await readdir(new URL("assets/", root))) {
-  if (!/^(site|privacy)\.[a-f0-9]{12}\.css$/.test(file) || expected.has(file))
+  if (
+    !/^(site|privacy|demo)\.[a-f0-9]{12}\.css$/.test(file) ||
+    expected.has(file)
+  )
     continue;
   if (check) throw new Error(`Unused generated sheet: ${file}`);
   await unlink(new URL(`assets/${file}`, root));
