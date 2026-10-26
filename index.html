@@ -77,9 +77,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.ac63d0bbd2f1.css" />
+    <link rel="stylesheet" href="assets/site.4a169fc8b38d.css" />
     <!-- styles:end -->
-    <script src="app.js?v=45" type="module"></script>
+    <script src="app.js?v=46" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -1181,7 +1181,6 @@
           <div class="checkout-heading">
             <p class="story-eyebrow">SMART STORE / КАССА</p>
             <h2 id="product-title">От товара.<br /><span>До чека.</span></h2>
-            <p class="story-intro">Выберите шаг — рассмотрите детали.</p>
           </div>
           <div class="checkout-stage">
             <div class="checkout-view">
@@ -1202,7 +1201,7 @@
                 >
                   <img
                     id="product-screen"
-                    src="img/checkout-overview-v44.webp"
+                    src="img/checkout-overview-v46.webp"
                     width="1600"
                     height="1200"
                     loading="lazy"
@@ -1212,58 +1211,80 @@
                   />
                   <canvas id="checkout-canvas" aria-hidden="true"></canvas>
                 </a>
+                <div class="checkout-controls">
+                  <svg
+                    class="checkout-leaders"
+                    viewBox="0 0 1000 750"
+                    aria-hidden="true"
+                  >
+                    <path
+                      data-checkout-leader="0"
+                      d="M90 304 300 304 430 330"
+                    />
+                    <path
+                      data-checkout-leader="1"
+                      d="M900 130 755 130 605 325"
+                    />
+                    <path
+                      data-checkout-leader="2"
+                      d="M900 618 760 618 615 470"
+                    />
+                    <circle data-checkout-dot="0" cx="430" cy="330" r="4" />
+                    <circle data-checkout-dot="1" cx="605" cy="325" r="4" />
+                    <circle data-checkout-dot="2" cx="615" cy="470" r="4" />
+                  </svg>
+                  <div
+                    class="checkout-points"
+                    role="group"
+                    aria-label="Детали кассы"
+                  >
+                    <button
+                      class="scene-point"
+                      data-checkout-point="0"
+                      type="button"
+                      aria-pressed="false"
+                      aria-controls="checkout-detail checkout-object"
+                      disabled
+                    >
+                      <b aria-hidden="true">1</b><span>Товар</span>
+                    </button>
+                    <button
+                      class="scene-point"
+                      data-checkout-point="1"
+                      type="button"
+                      aria-pressed="false"
+                      aria-controls="checkout-detail checkout-object"
+                      disabled
+                    >
+                      <b aria-hidden="true">2</b><span>Чек</span>
+                    </button>
+                    <button
+                      class="scene-point"
+                      data-checkout-point="2"
+                      type="button"
+                      aria-pressed="false"
+                      aria-controls="checkout-detail checkout-object"
+                      disabled
+                    >
+                      <b aria-hidden="true">3</b><span>Оплата</span>
+                    </button>
+                  </div>
+                  <button
+                    id="checkout-return"
+                    class="checkout-return"
+                    type="button"
+                    aria-label="Вернуть общий вид кассы"
+                    title="Общий вид"
+                    aria-controls="checkout-object"
+                    disabled
+                  >
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#i-arrow" />
+                    </svg>
+                    Вся касса
+                  </button>
+                </div>
               </div>
-            </div>
-            <div class="checkout-controls">
-              <div
-                class="checkout-points"
-                role="group"
-                aria-label="Детали кассы"
-              >
-                <button
-                  class="scene-point"
-                  data-checkout-point="0"
-                  type="button"
-                  aria-pressed="false"
-                  aria-controls="checkout-detail checkout-object"
-                  disabled
-                >
-                  <b aria-hidden="true">01</b><span>Товар</span>
-                </button>
-                <button
-                  class="scene-point"
-                  data-checkout-point="1"
-                  type="button"
-                  aria-pressed="false"
-                  aria-controls="checkout-detail checkout-object"
-                  disabled
-                >
-                  <b aria-hidden="true">02</b><span>Чек</span>
-                </button>
-                <button
-                  class="scene-point"
-                  data-checkout-point="2"
-                  type="button"
-                  aria-pressed="false"
-                  aria-controls="checkout-detail checkout-object"
-                  disabled
-                >
-                  <b aria-hidden="true">03</b><span>Оплата</span>
-                </button>
-              </div>
-              <button
-                id="checkout-return"
-                class="checkout-return"
-                type="button"
-                aria-label="Вернуть общий вид кассы"
-                title="Общий вид"
-                aria-controls="checkout-object"
-                disabled
-              >
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6" />
-                </svg>
-              </button>
             </div>
           </div>
           <div class="checkout-detail" id="checkout-detail">

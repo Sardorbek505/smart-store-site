@@ -1,6 +1,6 @@
 // A visible, idle story may load 3D. Everything else stays a static poster.
 // checkout-bundle:start
-const loadScene = () => import("../assets/checkout3d.93d001d1e844.js");
+const loadScene = () => import("../assets/checkout3d.d22d639548ad.js");
 // checkout-bundle:end
 export function init() {
   const object = document.querySelector(".checkout-object");
@@ -33,6 +33,39 @@ export function init() {
     height = object.clientHeight;
   const duration = 800;
   const currentView = () => object.dataset.checkoutView || "overview";
+  const leaderSvg = object.querySelector(".checkout-leaders");
+  const points = [...stage.querySelectorAll("[data-checkout-point]")];
+  const leaders = [...object.querySelectorAll("[data-checkout-leader]")];
+  const dots = [...object.querySelectorAll("[data-checkout-dot]")];
+  function syncLeaders(projected) {
+    if (!leaderSvg || currentView() !== "overview") return;
+    const box = object.getBoundingClientRect();
+    const scale = Math.min(width / 1000, height / 750);
+    const fallback = [
+      [353.498, 275.249],
+      [534.777, 242.891],
+      [526.038, 413.951],
+    ];
+    leaderSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    leaderSvg.dataset.ready = "true";
+    points.forEach((button, index) => {
+      const b = button.getBoundingClientRect();
+      const x = b.x + b.width / 2 - box.x;
+      const y = b.y + b.height / 2 - box.y;
+      const [dx, dy] = projected
+        ? [projected[index][0] * width, projected[index][1] * height]
+        : [
+            (width - 1000 * scale) / 2 + fallback[index][0] * scale,
+            (height - 750 * scale) / 2 + fallback[index][1] * scale,
+          ];
+      leaders[index].setAttribute(
+        "d",
+        `M${x} ${y}H${x + (dx - x) * 0.65}L${dx} ${dy}`,
+      );
+      dots[index].setAttribute("cx", dx);
+      dots[index].setAttribute("cy", dy);
+    });
+  }
   const active = () =>
     visible &&
     !scrolling &&
@@ -47,8 +80,11 @@ export function init() {
   };
   const stats = () => {
     if (!api) return;
-    canvas.dataset.draws = String(api.stats().draws);
-    canvas.dataset.cameraDistance = api.stats().distance.toFixed(3);
+    const state = api.stats();
+    canvas.dataset.draws = String(state.draws);
+    canvas.dataset.cameraDistance = state.distance.toFixed(3);
+    canvas.dataset.region = JSON.stringify(state.region);
+    syncLeaders(state.landmarks);
   };
   const motion = (value) => {
     object.dataset.checkoutMotion = value;
@@ -125,8 +161,9 @@ export function init() {
   }
   function syncPoster() {
     const view = currentView();
-    const src = `img/checkout-${view === "overview" ? "overview" : view}-v44.webp`;
+    const src = `img/checkout-${view === "overview" ? "overview" : view}-v46.webp`;
     if (poster.getAttribute("src") !== src) poster.src = src;
+    syncLeaders();
   }
   function changeView() {
     const view = currentView();
@@ -165,7 +202,10 @@ export function init() {
         const current = imageAnimation;
         current.finished
           .then(() => {
-            if (imageAnimation === current) imageAnimation = undefined;
+            if (imageAnimation === current) {
+              imageAnimation = undefined;
+              syncLeaders();
+            }
           })
           .catch(() => {});
       }
@@ -203,6 +243,7 @@ export function init() {
     width = nextWidth;
     height = nextHeight;
     pendingSize = true;
+    syncLeaders(api?.stats().landmarks);
     sync();
   }).observe(object);
   document.addEventListener(
