@@ -120,3 +120,6 @@ npm run check:demo
 Проверка клавиатуры, границ количества и закрытия окон:
 `BROWSER=webkit python tests/demo-focus-check.py` или
 `BROWSER=chromium python tests/demo-focus-check.py`.
+
+Проход по всем экранам, читаемость меню Safari, короткие пояснения и удобная
+ссылка на условия: [docs/mobile-review-v48.md](docs/mobile-review-v48.md).

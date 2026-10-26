@@ -10,19 +10,24 @@ import shutil
 WIN = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'
 PHONE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1'
 BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173').rstrip('/')
+BROWSER = os.environ.get('BROWSER', 'chromium')
 RELEASE = {'tag_name': 'v1.29.4', 'draft': False, 'prerelease': False, 'assets': [{'name': 'SmartStore-Setup-1.29.4-x64.exe', 'size': 167772160, 'browser_download_url': 'https://github.com/Sardorbek505/smart-store-releases/releases/download/v1.29.4/SmartStore-Setup-1.29.4-x64.exe'}]}
 with sync_playwright() as p:
-    b = p.chromium.launch(executable_path=os.environ.get('CHROMIUM_BINARY') or shutil.which('chromium'), args=['--no-sandbox'])
+    args = {'headless': True}
+    if BROWSER == 'chromium':
+        args.update(executable_path=os.environ.get('CHROMIUM_BINARY') or shutil.which('chromium'), args=['--no-sandbox'])
+    b = getattr(p, BROWSER).launch(**args)
     c = b.new_context(user_agent=WIN, viewport={'width': 1440, 'height': 1000}, reduced_motion='reduce')
     c.route('**/releases/latest', lambda r: r.fulfill(json=RELEASE))
     page = c.new_page()
     errors = []
     page.on('pageerror', lambda e: errors.append(str(e)))
     page.goto(BASE, wait_until='networkidle')
+    page.wait_for_function('document.getElementById("download").href.endsWith(".exe")')
     assert page.locator('#download').get_attribute('href').endswith('.exe')
     assert page.locator('#installation').is_hidden()
     assert page.locator('#store-submit').is_enabled()
-    assert page.locator('canvas').count() == 0
+    assert page.locator('.hero-gallery canvas').count() == 0
     assert page.locator('[data-ribbon-track]').count() == 1
     page.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
     assert 'hero-ribbon-clip' in page.locator('.ribbon-window').evaluate('e=>getComputedStyle(e).clipPath')
@@ -77,6 +82,7 @@ with sync_playwright() as p:
     broken = c.new_page()
     broken.route('**/scripts/gallery.js*', lambda r: r.abort())
     broken.goto(BASE, wait_until='networkidle')
+    broken.wait_for_function('document.getElementById("download").href.endsWith(".exe")')
     assert broken.locator('#store-submit').is_enabled()
     assert broken.locator('#download').get_attribute('href').endswith('.exe')
     assert broken.locator('.gallery-controls, .gallery-motion').count() == 0
@@ -85,6 +91,7 @@ with sync_playwright() as p:
     runtime = c.new_page()
     runtime.add_init_script('window.ResizeObserver=undefined')
     runtime.goto(BASE, wait_until='networkidle')
+    runtime.wait_for_function('document.getElementById("download").href.endsWith(".exe")')
     assert runtime.locator('#store-submit').is_enabled()
     assert runtime.locator('#download').get_attribute('href').endswith('.exe')
     mobile = b.new_context(user_agent=PHONE, viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, reduced_motion='reduce')

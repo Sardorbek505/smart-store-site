@@ -136,7 +136,7 @@
     background: #ffffff09;
   }
   .landing-page .menu-open .top-links {
-    --glass-base: #111116e6;
+    --glass-base: transparent;
     position: absolute;
     top: calc(100% + 10px);
     left: 0;
@@ -144,10 +144,15 @@
     padding: 10px 20px;
     border: 1px solid #ffffff38;
     border-radius: 22px;
-    background: transparent;
+    /* An opaque base keeps page text out of this nested glass surface in Safari. */
+    background: linear-gradient(115deg, #1b1b23, #19213b);
     max-height: calc(100svh - 90px);
     overflow-y: auto;
     gap: 0;
+  }
+  .landing-page .menu-open .top-links::before {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
   .landing-page .menu-open .top-links a {
     min-height: 44px;

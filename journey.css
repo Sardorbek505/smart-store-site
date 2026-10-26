@@ -349,7 +349,7 @@ html[data-installation-platform="handoff"] .platform-handoff {
     font-size: 26px;
   }
   .installation-guide #installation-description {
-    font-size: 11px;
+    font-size: 12px;
     margin-block: 8px;
   }
   .installation-checklist {
@@ -365,7 +365,7 @@ html[data-installation-platform="handoff"] .platform-handoff {
     font-size: 9px;
   }
   .installation-checklist strong {
-    font-size: 11px;
+    font-size: 12px;
   }
   .installation-existing {
     display: none;
@@ -382,14 +382,14 @@ html[data-installation-platform="handoff"] .platform-handoff {
     --action-chip: 30px;
     --action-size: 44px;
     min-height: 44px;
-    font-size: 11px;
+    font-size: 12px;
   }
   .installation-actions .copy-field input {
     padding-left: 10px;
   }
   .installation-guide #copy-status {
     margin-top: 10px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .setup-device {
     display: none;

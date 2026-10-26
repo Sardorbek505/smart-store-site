@@ -562,7 +562,7 @@
   }
   .checkout-reading p {
     margin: 6px 0 8px;
-    font-size: 12px;
+    font-size: 13px;
     min-height: 2.9em;
     max-width: none;
   }
@@ -578,10 +578,10 @@
     font-size: 26px;
   }
   .checkout-proof > span {
-    font-size: 11px;
+    font-size: 12px;
   }
   .checkout-proof small {
-    font-size: 10px;
+    font-size: 11px;
   }
   .checkout-proof .proof-icon {
     width: 40px;
@@ -617,14 +617,14 @@
     min-height: 78px;
   }
   #phone-demo-label {
-    font-size: 11px;
+    font-size: 12px;
     margin-bottom: 4px;
   }
   #phone-demo-value {
     font-size: 30px;
   }
   #phone-demo-description {
-    font-size: 11px;
+    font-size: 13px;
     margin: 6px 0 10px;
     max-width: none;
   }
@@ -644,7 +644,7 @@
     font-size: 12px;
   }
   #mobile .connection-note {
-    font-size: 10px;
+    font-size: 12px;
     margin: 0;
     max-width: 45ch;
   }
@@ -668,7 +668,7 @@
   }
   .data-facts dd {
     margin: 3px 0 0 40px;
-    font-size: 12px;
+    font-size: 13px;
   }
   .data-fact-number {
     width: 30px;
@@ -707,7 +707,7 @@
     margin-bottom: 6px;
   }
   .journey-copy p {
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1.45;
   }
   .journey-art > .icon {
@@ -726,7 +726,7 @@
     min-height: 44px;
   }
   .start-actions .release-note {
-    font-size: 10px;
+    font-size: 12px;
     max-width: none;
   }
 }
@@ -755,7 +755,7 @@
     font-size: 18px;
   }
   .checkout-reading p {
-    font-size: 11px;
+    font-size: 12px;
     margin: 4px 0;
   }
   .checkout-proof {
@@ -780,7 +780,7 @@
   }
   #phone-demo-description {
     margin: 4px 0 6px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .demo-progress {
     margin-bottom: 6px;
@@ -789,7 +789,7 @@
     margin-top: 0;
   }
   #mobile .connection-note {
-    font-size: 9px;
+    font-size: 12px;
     line-height: 1.35;
   }
   .data-section .data-story {
@@ -805,7 +805,7 @@
     font-size: 14px;
   }
   .data-facts dd {
-    font-size: 11px;
+    font-size: 12px;
     margin: 1px 0 0 34px;
   }
   .data-fact-number {
@@ -828,7 +828,7 @@
     margin-bottom: 4px;
   }
   .journey-copy p {
-    font-size: 10px;
+    font-size: 12px;
   }
   .start-actions {
     gap: 6px;
@@ -862,7 +862,7 @@
   }
   .checkout-reading p {
     margin: 4px 0;
-    font-size: 11px;
+    font-size: 12px;
     min-height: 2.9em;
   }
   .checkout-proof {
@@ -877,7 +877,7 @@
     font-size: 23px;
   }
   .checkout-proof > span {
-    font-size: 11px;
+    font-size: 12px;
   }
   .mobile-story {
     grid-template-rows: auto 1fr;
@@ -890,14 +890,14 @@
     margin-bottom: 6px;
   }
   #phone-demo-label {
-    font-size: 11px;
+    font-size: 12px;
     margin-bottom: 4px;
   }
   #phone-demo-value {
     font-size: 28px;
   }
   #phone-demo-description {
-    font-size: 10px;
+    font-size: 12px;
     margin: 4px 0 8px;
   }
   .button.mobile-action {
@@ -910,7 +910,7 @@
     margin-top: 0;
   }
   #mobile .connection-note {
-    font-size: 9px;
+    font-size: 12px;
     max-width: 44ch;
   }
   #mobile .story-text-link {
@@ -941,7 +941,7 @@
     gap: 8px;
   }
   .data-facts dd {
-    font-size: 10px;
+    font-size: 12px;
     margin: 2px 0 0 32px;
   }
   .data-fact-number {
@@ -979,7 +979,7 @@
     margin-bottom: 3px;
   }
   .journey-copy p {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.3;
   }
   .start-actions {
@@ -991,7 +991,7 @@
     font-size: 12px;
   }
   .start-actions .release-note {
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

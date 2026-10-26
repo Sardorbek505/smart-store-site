@@ -60,6 +60,18 @@
   margin-top: 22px;
   line-height: 1.6;
 }
+.trial-campaign .license-note a {
+  display: block;
+  min-height: 44px;
+  white-space: normal;
+  font-size: inherit;
+  text-decoration: none;
+}
+.trial-campaign .license-note a span {
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 @media (max-width: 620px) {
   .license-section .trial-campaign {
     width: calc(100% - 32px);
@@ -112,7 +124,7 @@
     font-size: 12px;
   }
   .trial-campaign .license-copy .license-note {
-    font-size: 10px !important;
+    font-size: 12px !important;
     margin-top: 12px;
     line-height: 1.4;
   }
@@ -141,7 +153,7 @@
     font-size: 12px;
   }
   .trial-campaign .license-copy .license-note {
-    font-size: 10px !important;
+    font-size: 12px !important;
     margin-top: 10px;
     line-height: 1.4;
   }
