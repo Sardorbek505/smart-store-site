@@ -36,6 +36,7 @@ with sync_playwright() as p:
    assert 'https://'+page.locator('#installation-url').input_value()==URL
    page.locator('#share-site').click();page.wait_for_function('window.shared!==undefined')
    assert page.evaluate('window.shared.url')==URL
+   assert 'Windows' in page.evaluate('window.shared.text') and 'Smart Store' in page.evaluate('window.shared.text')
    page.evaluate('window.shareMode="abort"');page.locator('#share-site').click()
    page.wait_for_function('!document.querySelector("#share-site").disabled')
    assert page.locator('#copy-status').inner_text()==''
@@ -87,6 +88,7 @@ with sync_playwright() as p:
  failed.goto(BASE+'/#installation',wait_until='networkidle')
  assert failed.locator('#installation-download').get_attribute('href').endswith('/releases/latest')
  assert 'официальный выпуск' in failed.locator('[data-release-note]').inner_text()
+ assert 'страницу скачивания' in failed.locator('#installation-download').inner_text()
  failed.route('**/img/demo-sale.png',lambda r:r.abort());failed.locator('#product-screen-link').click()
  failed.wait_for_function('document.querySelector("#preview-status").textContent.includes("не загрузилось")')
  assert failed.locator('#preview-zoom').is_disabled()
@@ -98,5 +100,7 @@ with sync_playwright() as p:
   held.goto(BASE+'/#installation',wait_until='commit');held.wait_for_function('window.held===true')
   assert held.locator('#windows-install').is_visible()==(platform=='windows')
   assert held.locator('#handoff-tools').is_visible()==(platform=='handoff')
+  offerLabel=held.locator('#license-download-label').inner_text()
+  assert offerLabel==('Скачать для Windows' if platform=='windows' else 'Как установить'),offerLabel
   held.close()
  b.close()

@@ -73,11 +73,17 @@ html[data-installation-platform="handoff"] .platform-handoff {
   font-size: 14px;
   line-height: 1.4;
 }
-.installation-existing {
+.installation-existing,
+.installation-help {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
   margin-top: 8px;
+}
+.installation-help {
+  display: flex;
+  width: fit-content;
+  color: var(--blue);
 }
 .installation-card {
   min-width: 0;
@@ -254,7 +260,8 @@ html[data-installation-platform="handoff"] .platform-handoff {
   .installation-checklist strong {
     font-size: 12px;
   }
-  .installation-existing {
+  .installation-existing,
+  .installation-help {
     font-size: 12px;
     margin-top: 4px;
   }
@@ -351,6 +358,9 @@ html[data-installation-platform="handoff"] .platform-handoff {
   .installation-existing {
     display: none;
   }
+  .installation-help {
+    margin-top: 0;
+  }
   .installation-card {
     padding: 14px;
     border-radius: 18px;
@@ -415,7 +425,8 @@ html[data-installation-platform="handoff"] .platform-handoff {
   .installation-checklist strong {
     font-size: 11px;
   }
-  .installation-existing {
+  .installation-existing,
+  .installation-help {
     margin-top: 2px;
     font-size: 11px;
   }

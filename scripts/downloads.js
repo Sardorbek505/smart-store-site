@@ -27,7 +27,10 @@ export function init({ config, installerFromRelease, fetchJson }) {
     }
     $("windows-install").hidden = true;
     $("handoff-tools").hidden = false;
-    $("license-download-label").textContent = "Как установить";
+    // Older cached HTML has a plain Windows label instead of CSS platform spans.
+    const offerLabel = $("license-download-label");
+    if (!offerLabel.querySelector(".platform-handoff"))
+      offerLabel.textContent = "Как установить";
   } else {
     // A stable fallback is ready even if the release API fails or times out.
     for (const link of links) {
@@ -76,6 +79,7 @@ export function init({ config, installerFromRelease, fetchJson }) {
       try {
         await navigator.share({
           title: "Установка Smart Store для Windows",
+          text: "Касса и склад для магазина инструмента. Откройте ссылку на компьютере Windows, чтобы установить Smart Store.",
           url: installUrl,
         });
       } catch (error) {
@@ -102,6 +106,8 @@ export function init({ config, installerFromRelease, fetchJson }) {
       for (const label of document.querySelectorAll("[data-release-note]"))
         label.textContent = note;
     } catch {
+      $("installation-download").querySelector(".button-label").textContent =
+        "Открыть страницу скачивания";
       for (const label of document.querySelectorAll("[data-release-note]"))
         label.textContent =
           "Кнопка откроет официальный выпуск. Выберите файл SmartStore-Setup…exe.";

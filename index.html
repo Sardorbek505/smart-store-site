@@ -77,9 +77,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.c14aaac2bc25.css" />
+    <link rel="stylesheet" href="assets/site.ccccf0c4b017.css" />
     <!-- styles:end -->
-    <script src="app.js?v=50" type="module"></script>
+    <script src="app.js?v=51" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -193,7 +193,7 @@
             Весь магазин.<br /><span>В вашем фокусе.</span>
           </h1>
           <p class="cinema-lead">
-            Касса, склад и прибыль. Работает без интернета.
+            Касса и склад для магазина инструмента. Даже без интернета.
           </p>
           <div class="cinema-actions">
             <a
@@ -756,38 +756,27 @@
       >
         <div class="screen-content wrap installation-layout">
           <div class="installation-summary">
-            <h2 id="installation-title">Установка на Windows.</h2>
+            <h2 id="installation-title">
+              <span class="platform-windows">Установка на Windows.</span>
+              <span class="platform-handoff">Начните на компьютере.</span>
+            </h2>
             <p id="installation-description">
-              Первые 14 дней — без кода активации.
+              Windows 10 / 11 · 14 дней бесплатно, без кода активации.
             </p>
-            <ol class="installation-checklist">
+            <ol class="installation-checklist platform-windows">
               <li>
                 <span aria-hidden="true">01</span
-                ><strong id="install-step-1"
-                  ><span class="platform-windows">Скачайте установщик</span
-                  ><span class="platform-handoff"
-                    >Отправьте ссылку себе</span
-                  ></strong
-                >
+                ><strong id="install-step-1">Скачайте установщик</strong>
               </li>
               <li>
                 <span aria-hidden="true">02</span
                 ><strong id="install-step-2"
-                  ><span class="platform-windows"
-                    >Откройте файл и установите программу</span
-                  ><span class="platform-handoff"
-                    >Откройте её на Windows</span
-                  ></strong
+                  >Установите и откройте Smart Store</strong
                 >
               </li>
               <li>
                 <span aria-hidden="true">03</span
-                ><strong id="install-step-3"
-                  ><span class="platform-windows">Запустите Smart Store</span
-                  ><span class="platform-handoff"
-                    >Скачайте и запустите Smart Store</span
-                  ></strong
-                >
+                ><strong id="install-step-3">Добавьте первый товар</strong>
               </li>
             </ol>
             <a
@@ -795,7 +784,7 @@
               href="#store"
               aria-haspopup="dialog"
               aria-controls="store"
-              >Уже установили? Войти в магазин →</a
+              >Магазин уже подключён? Войти →</a
             >
           </div>
           <div class="installation-card">
@@ -819,7 +808,7 @@
               </p>
             </div>
             <div id="handoff-tools" class="installation-actions">
-              <h3>Откройте на компьютере</h3>
+              <h3>Передайте ссылку на компьютер</h3>
               <label for="installation-url">Ссылка на установку</label>
               <div class="copy-field">
                 <input
@@ -860,19 +849,24 @@
                 <button
                   id="share-site"
                   type="button"
-                  class="button dark"
+                  class="button primary"
                   hidden
                 >
-                  <span class="button-label">Отправить себе</span
+                  <span class="button-label">Отправить себе ссылку</span
                   ><span class="button-icon" aria-hidden="true"
                     ><svg class="icon"><use href="#i-arrow" /></svg
                   ></span>
                 </button>
               </div>
               <p id="copy-status" class="note" role="status" aria-live="polite">
-                Откройте ссылку на Windows — попадёте сразу к установке.
+                Отправьте её себе в мессенджер, затем откройте на Windows.
               </p>
             </div>
+            <a
+              class="text-link installation-help"
+              href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%BF%D1%80%D0%BE%D0%B1%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%20Smart%20Store.%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%20%D1%81%20%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%BE%D0%B9%20%D0%BD%D0%B0%20Windows."
+              >Помочь с установкой? WhatsApp ↗</a
+            >
           </div>
         </div>
       </section>
@@ -1414,7 +1408,8 @@
                   <use href="#i-arrow" /></svg
               ></a>
               <p class="connection-note">
-                Компьютер должен быть включён. Вне магазина нужен интернет.
+                В браузере, без установки. Компьютер должен быть включён. Вне
+                магазина нужен интернет.
               </p>
             </div>
           </div>
@@ -1448,7 +1443,8 @@
             <div class="actions">
               <a href="#installation" data-download class="button dark"
                 ><span id="license-download-label" class="button-label"
-                  >Скачать для Windows</span
+                  ><span class="platform-windows">Скачать для Windows</span
+                  ><span class="platform-handoff">Как установить</span></span
                 ><span class="button-icon" aria-hidden="true"
                   ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M5 12h14m-6-6 6 6-6 6" /></svg></span></a
@@ -1571,12 +1567,15 @@
                 ></span>
               </summary>
               <p>
-                Установщик пока без цифровой подписи, поэтому Windows может
-                показать предупреждение. Проверьте, что скачали файл по кнопке
-                этого сайта или из официального репозитория Smart Store. Если
-                есть сомнения, обратитесь в поддержку перед установкой.
-                Обновления скачиваются в фоне при наличии интернета. Примените
-                обновление из программы, предварительно закончив продажу.
+                <a href="#installation">Скачайте установщик</a> по кнопке этого
+                сайта. Установщик пока без цифровой подписи, поэтому Windows
+                может показать предупреждение. Проверьте источник файла: этот
+                сайт или официальный репозиторий Smart Store. Если есть
+                сомнения,
+                <a href="https://wa.me/77066352006">напишите в WhatsApp</a>
+                перед установкой. Обновления скачиваются в фоне при наличии
+                интернета. Примените обновление из программы, предварительно
+                закончив продажу.
               </p>
             </details>
           </div>
