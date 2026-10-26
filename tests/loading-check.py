@@ -70,7 +70,7 @@ with sync_playwright() as p:
  c=b.new_context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True,user_agent=PHONE,reduced_motion='reduce')
  page=c.new_page();page.route('**/releases/latest',lambda r:r.fulfill(json=RELEASE))
  page.route('**/img/hero-demo-laptop-*.webp',lambda r:r.abort())
- page.route('**/img/micro-stock-v41.webp',lambda r:r.abort())
+ page.route('**/img/micro-stock-v42.webp',lambda r:r.abort())
  page.goto(BASE,wait_until='networkidle')
  hero=page.locator('[data-gallery-card] img').first
  hero.evaluate('e=>e.decode()')
