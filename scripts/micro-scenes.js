@@ -25,7 +25,7 @@ export function init() {
   let touching = false;
   let idleTimer;
   const dialogs = [...document.querySelectorAll("dialog")];
-  const duration = 4600;
+  const duration = 5200;
   const ease = "cubic-bezier(.22, 1, .36, 1)";
   const add = (state, element, frames) => {
     const animation = element.animate(frames, { duration, easing: "linear" });
@@ -33,21 +33,45 @@ export function init() {
     animation.currentTime = 0;
     state.animations.push(animation);
   };
-  const reveal = (state, element, at) =>
+  const reveal = (state, element, at, from = "translateY(7px)") =>
     add(state, element, [
-      { opacity: 0, transform: "translateY(7px)", offset: 0 },
-      { opacity: 0, transform: "translateY(7px)", offset: at, easing: ease },
-      { opacity: 1, transform: "translateY(0)", offset: at + 0.14 },
-      { opacity: 1, transform: "translateY(0)", offset: 1 },
+      { opacity: 0, transform: from, offset: 0 },
+      { opacity: 0, transform: from, offset: at, easing: ease },
+      { opacity: 1, transform: "none", offset: at + 0.14 },
+      { opacity: 1, transform: "none", offset: 1 },
     ]);
-  const swap = (state, element, at) => {
-    add(state, element.querySelector(".micro-before"), [
+  const leave = (state, element, at) =>
+    add(state, element, [
       { opacity: 1, transform: "translateY(0)", offset: 0 },
       { opacity: 1, transform: "translateY(0)", offset: at, easing: ease },
       { opacity: 0, transform: "translateY(-5px)", offset: at + 0.08 },
       { opacity: 0, transform: "translateY(-5px)", offset: 1 },
     ]);
+  const swap = (state, element, at) => {
+    leave(state, element.querySelector(".micro-before"), at);
     reveal(state, element.querySelector(".micro-after"), at + 0.02);
+  };
+  const pulse = (state, element, at) => {
+    if (!element) return;
+    add(state, element, [
+      { transform: "none", offset: 0 },
+      { transform: "none", offset: at, easing: ease },
+      { transform: "scale(1.06)", offset: at + 0.045, easing: ease },
+      { transform: "none", offset: at + 0.12 },
+      { transform: "none", offset: 1 },
+    ]);
+  };
+  const highlight = (state, element, at, scan = false) => {
+    if (!element) return; // Cached HTML can predate the extra visual accents.
+    const from = scan ? "scaleX(0)" : "none";
+    add(state, element, [
+      { opacity: 0, transform: from, offset: 0 },
+      { opacity: 0, transform: from, offset: at, easing: ease },
+      { opacity: 1, transform: "none", offset: at + 0.06 },
+      { opacity: 1, transform: "none", offset: at + 0.12 },
+      { opacity: 0, transform: "none", offset: at + 0.22 },
+      { opacity: 0, transform: "none", offset: 1 },
+    ]);
   };
   const complete = (state) => {
     state.revision++;
@@ -65,26 +89,61 @@ export function init() {
     const element = state.element;
     reveal(state, element.querySelector(".micro-widget"), 0);
     if (element.dataset.micro === "sale") {
-      element
-        .querySelectorAll(".micro-item")
-        .forEach((row, i) => reveal(state, row, 0.12 + i * 0.14));
-      swap(state, element.querySelector(".micro-total .micro-swap"), 0.43);
+      element.querySelectorAll(".micro-item").forEach((row, i) => {
+        const at = 0.12 + i * 0.17;
+        reveal(state, row, at, "translateX(12px)");
+        highlight(state, row.querySelector(".micro-scan"), at + 0.01, true);
+        pulse(state, row.querySelector(".micro-product-icon"), at + 0.12);
+      });
+      const total = element.querySelector(".micro-total .micro-swap");
+      const middle = total.querySelector(".micro-middle");
+      if (middle) {
+        leave(state, total.querySelector(".micro-before"), 0.21);
+        add(state, middle, [
+          { opacity: 0, transform: "translateY(5px)", offset: 0 },
+          {
+            opacity: 0,
+            transform: "translateY(5px)",
+            offset: 0.23,
+            easing: ease,
+          },
+          { opacity: 1, transform: "none", offset: 0.31 },
+          { opacity: 1, transform: "none", offset: 0.44, easing: ease },
+          { opacity: 0, transform: "translateY(-5px)", offset: 0.52 },
+          { opacity: 0, transform: "translateY(-5px)", offset: 1 },
+        ]);
+        reveal(state, total.querySelector(".micro-after"), 0.46);
+      } else swap(state, total, 0.43);
+      pulse(state, element.querySelector(".micro-total > strong"), 0.59);
     } else if (element.dataset.micro === "stock") {
-      element
-        .querySelectorAll(".micro-row .micro-swap")
-        .forEach((value, i) => swap(state, value, 0.25 + i * 0.15));
-      reveal(state, element.querySelector(".micro-note"), 0.14);
+      element.querySelectorAll(".micro-row").forEach((row, i) => {
+        const at = 0.25 + i * 0.17;
+        swap(state, row.querySelector(".micro-swap"), at);
+        highlight(state, row.querySelector(".micro-update"), at);
+        pulse(state, row.querySelector("strong"), at + 0.12);
+        pulse(state, row.querySelector(".micro-product-icon"), at);
+      });
+      reveal(state, element.querySelector(".micro-note"), 0.5);
     } else {
       swap(state, element.querySelector(".micro-revenue .micro-swap"), 0.35);
       swap(state, element.querySelector(".micro-profit .micro-swap"), 0.43);
-      add(state, element.querySelector(".micro-last-bar"), [
-        { transform: "scaleY(.42)", offset: 0 },
-        { transform: "scaleY(.42)", offset: 0.3, easing: ease },
-        { transform: "scaleY(1)", offset: 0.65 },
-        { transform: "scaleY(1)", offset: 1 },
-      ]);
+      element.querySelectorAll(".micro-chart > span").forEach((bar, i) => {
+        const last = bar.classList.contains("micro-last-bar");
+        const from = last ? "scaleY(.42)" : "scaleY(.12)";
+        const at = last ? 0.36 : 0.12 + i * 0.035;
+        add(state, bar, [
+          { transform: from, offset: 0 },
+          { transform: from, offset: at, easing: ease },
+          { transform: "scaleY(1.04)", offset: at + 0.16, easing: ease },
+          { transform: "scaleY(1)", offset: at + 0.24 },
+          { transform: "scaleY(1)", offset: 1 },
+        ]);
+      });
+      pulse(state, element.querySelector(".micro-revenue .micro-swap"), 0.51);
+      pulse(state, element.querySelector(".micro-profit > strong"), 0.59);
     }
     swap(state, element.querySelector(".micro-status .micro-swap"), 0.64);
+    pulse(state, element.querySelector(".micro-status .icon"), 0.78);
     Promise.all(state.animations.map((animation) => animation.finished))
       .then(() => {
         if (state.revision === revision) complete(state);

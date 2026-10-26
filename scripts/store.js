@@ -164,6 +164,8 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
       dismiss();
   });
   dialog.addEventListener("close", () => {
+    // The native event can arrive after Forward has already reopened the dialog.
+    if (dialog.open) return;
     restore();
     fitKeyboard();
     if (location.hash === "#store") {
