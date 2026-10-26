@@ -18,6 +18,7 @@ export function init() {
     button: element.closest("article").querySelector(".micro-replay"),
     visible: false,
     played: false,
+    startTimer: 0,
     animations: [],
     revision: 0,
   }));
@@ -26,6 +27,7 @@ export function init() {
   let idleTimer;
   const dialogs = [...document.querySelectorAll("dialog")];
   const duration = 5200;
+  const entryDelay = 240;
   const ease = "cubic-bezier(.22, 1, .36, 1)";
   const add = (state, element, frames) => {
     const animation = element.animate(frames, { duration, easing: "linear" });
@@ -74,6 +76,8 @@ export function init() {
     ]);
   };
   const complete = (state) => {
+    clearTimeout(state.startTimer);
+    state.startTimer = 0;
     state.revision++;
     for (const animation of state.animations) animation.cancel();
     state.animations = [];
@@ -150,20 +154,34 @@ export function init() {
       })
       .catch(() => {}); // Cancellation restores the static final state.
   };
+  const blocked = () =>
+    scrolling ||
+    touching ||
+    document.hidden ||
+    dialogs.some((dialog) => dialog.open);
   const sync = () => {
-    const blocked =
-      scrolling ||
-      touching ||
-      document.hidden ||
-      dialogs.some((dialog) => dialog.open);
+    const suspended = blocked();
     for (const state of states) {
       state.button.hidden = reduced.matches;
+      const active = state.visible && !suspended && !reduced.matches;
+      if (!active) {
+        clearTimeout(state.startTimer);
+        state.startTimer = 0;
+      }
       if (reduced.matches) {
         if (state.animations.length) complete(state);
         continue;
       }
-      const active = state.visible && !blocked;
-      if (active && !state.played) start(state);
+      // Start only after the full card has arrived and scrolling has settled.
+      if (active && !state.played && !state.startTimer) {
+        state.startTimer = setTimeout(() => {
+          state.startTimer = 0;
+          if (!state.visible || blocked() || reduced.matches || state.played)
+            return;
+          start(state);
+          sync();
+        }, entryDelay);
+      }
       if (!state.animations.length) continue;
       const next = active ? "running" : "paused";
       if (state.element.dataset.state === next) continue;
@@ -175,12 +193,20 @@ export function init() {
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        const state = states.find(({ element }) => element === entry.target);
-        state.visible = entry.isIntersecting && entry.intersectionRatio >= 0.55;
+        const state = states.find(
+          ({ element }) => element.closest("article") === entry.target,
+        );
+        state.visible = entry.isIntersecting && entry.intersectionRatio >= 0.9;
+        // A new visit gets a fresh beginning; tiny scrolls never rearm it.
+        if (!entry.isIntersecting || entry.intersectionRatio === 0) {
+          complete(state);
+          state.played = false;
+          state.element.dataset.state = "idle";
+        }
       }
       sync();
     },
-    { threshold: [0, 0.55] },
+    { threshold: [0, 0.9], rootMargin: "-80px 0px -24px 0px" },
   );
   for (const state of states) {
     state.element.dataset.state = "idle";
@@ -189,7 +215,7 @@ export function init() {
       start(state);
       sync();
     });
-    observer.observe(state.element);
+    observer.observe(state.element.closest("article"));
   }
   // Capture includes horizontal carousel and nested viewport scroll containers.
   document.addEventListener(

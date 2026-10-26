@@ -157,14 +157,15 @@ with sync_playwright() as p:
     assert all(abs(a['time']-b['time'])<1 for a,b in zip(times,scene.evaluate(ANIMATIONS))), (times,scene.evaluate(ANIMATIONS))
     page.evaluate('delete document.hidden;document.dispatchEvent(new Event("visibilitychange"))')
     scroll(page,'#workspace')
-    page.wait_for_function('document.querySelector("[data-micro=sale]").dataset.state==="paused"')
-    scene.evaluate('e=>Promise.all(e.getAnimations({subtree:true}).map(a=>a.ready))')
-    times=scene.evaluate(ANIMATIONS);page.wait_for_timeout(250)
-    assert all(abs(a['time']-b['time'])<1 for a,b in zip(times,scene.evaluate(ANIMATIONS))), (times,scene.evaluate(ANIMATIONS))
+    page.wait_for_function('document.querySelector("[data-micro=sale]").dataset.state==="idle"')
+    assert scene.evaluate('e=>e.getAnimations({subtree:true}).length')==0
+    runs=int(scene.get_attribute('data-runs'))
     scroll(page)
+    page.wait_for_function('(runs)=>Number(document.querySelector("[data-micro=sale]").dataset.runs)===runs+1',arg=runs)
+    scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=a.effect.getTiming().duration*.96)')
     page.wait_for_function('document.querySelector("[data-micro=sale]").dataset.state==="complete"',timeout=8000)
-    runs=scene.get_attribute('data-runs');scroll(page,'#workspace');scroll(page);page.wait_for_timeout(300)
-    assert scene.get_attribute('data-runs')==runs and scene.get_attribute('data-state')=='complete', 'Scrolling back must not autoplay again'
+    runs=scene.get_attribute('data-runs');page.evaluate('scrollBy(0,8)');page.wait_for_timeout(500)
+    assert scene.get_attribute('data-runs')==runs and scene.get_attribute('data-state')=='complete', 'Small scrolls must not replay a finished scene'
     assert not errors,errors
     page.close()
     # The complete native UI and links survive a failed enhancement module.
@@ -180,5 +181,5 @@ with sync_playwright() as p:
     assert not page.locator('.micro-replay:visible').count()
     page.locator('.feature-screen-link').first.click();page.wait_for_url('**/img/demo-sale.png')
     context.close()
-    print(json.dumps({'browser':BROWSER,'touchScrollOffscreenModalVisibilityPause':'pass','autoplayOnlyOnce':'pass','noJSAndModuleFailure':'pass'}),flush=True)
+    print(json.dumps({'browser':BROWSER,'touchScrollOffscreenModalVisibilityPause':'pass','oncePerVisitAndFreshReturn':'pass','noJSAndModuleFailure':'pass'}),flush=True)
     browser.close()
