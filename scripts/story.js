@@ -58,7 +58,7 @@ export function init() {
       selected = index;
       const detail = details[index];
       buttons.forEach((button, i) =>
-        button.setAttribute("aria-pressed", String(i === index)),
+        button.setAttribute("aria-pressed", String(i === index && !overview)),
       );
       document.getElementById("checkout-index").textContent = detail.index;
       document.getElementById("checkout-title").textContent = detail.title;

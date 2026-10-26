@@ -33,6 +33,11 @@ with sync_playwright() as p:
   enter(page);ready(page)
   count=draws(page);page.wait_for_timeout(220);assert draws(page)==count,'Idle overview must issue zero GL draw calls'
   overview=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'))
+  controls=page.locator('.checkout-controls').bounding_box()
+  model=page.locator('.checkout-object').bounding_box()
+  assert controls['y']>=model['y']+model['height'],'Controls must not cover the model'
+  assert page.locator('#checkout-return').is_disabled()
+  assert page.locator('[data-checkout-point][aria-pressed="true"]').count()==0,'Overview must not claim a close-up is selected'
   page.screenshot(path=str(OUT/f'overview-{w}.png'))
   for view in ['0','1','2']:
    button=page.locator(f'[data-checkout-point="{view}"]');button.click()
@@ -41,6 +46,11 @@ with sync_playwright() as p:
    distance=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'));assert distance<overview*.5,(w,view,distance,overview)
    assert button.get_attribute('aria-pressed')=='true'
    assert page.locator('#checkout-return').is_visible()
+   assert page.locator('#checkout-return').is_enabled()
+   after=page.locator('.checkout-controls').bounding_box()
+   assert all(abs(after[k]-controls[k])<1 for k in controls),'Controls must stay in place when the camera moves'
+   after_model=page.locator('.checkout-object').bounding_box()
+   assert all(abs(after_model[k]-model[k])<1 for k in model),'Selecting a view must not resize the model viewport'
    assert page.locator('#checkout-original').get_attribute('href').endswith('demo-payment.png' if view=='2' else 'demo-sale.png')
    count=draws(page);page.wait_for_timeout(180);assert draws(page)==count
    page.screenshot(path=str(OUT/f'focus-{view}-{w}.png'))
@@ -48,9 +58,14 @@ with sync_playwright() as p:
   page.locator('#checkout-return').click();settled(page,'overview')
   assert abs(float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'))-overview)<.02
   assert page.locator('[data-checkout-point="0"]').evaluate('e=>e===document.activeElement')
-  assert page.locator('#checkout-return').is_hidden()
-  for button in page.locator('[data-checkout-point]').all():
-   box=button.bounding_box();assert box['width']>=44 and box['height']>=44 and box['x']>=0 and box['x']+box['width']<=w
+  assert page.locator('#checkout-return').is_disabled()
+  assert page.locator('[data-checkout-point][aria-pressed="true"]').count()==0
+  for button in page.locator('[data-checkout-point], #checkout-return').all():
+   box=button.bounding_box();assert box['width']>=44 and box['height']>=52 and box['x']>=0 and box['x']+box['width']<=w
+   label=button.locator('span')
+   if label.count():
+    assert label.is_visible(),'Keep the word labels on small and landscape screens'
+    text=label.bounding_box();assert text['x']>=box['x'] and text['x']+text['width']<=box['x']+box['width'],'Button label must fit its tap target'
   assert page.locator('#workspace .screen-content').evaluate('e=>e.scrollHeight<=e.clientHeight+4'),(w,h,'section overflow')
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   assert not errors,errors
@@ -77,6 +92,10 @@ with sync_playwright() as p:
  count=int(page.locator('#checkout-canvas').get_attribute('data-draws'));page.locator('[data-checkout-point="1"]').click();settled(page,'1')
  assert int(page.locator('#checkout-canvas').get_attribute('data-draws'))==count+1,'Reduced motion needs one frame, not an animation'
  page.locator('[data-checkout-point="1"]').focus();page.keyboard.press('Escape');settled(page,'overview')
+ page.keyboard.press('End');settled(page,'2')
+ assert page.locator('[data-checkout-point="2"]').evaluate('e=>e===document.activeElement')
+ page.keyboard.press('ArrowLeft');settled(page,'1')
+ page.keyboard.press('Home');settled(page,'0')
  # Native source preview still uses the selected real screenshot.
  page.locator('[data-checkout-point="2"]').click();page.locator('#checkout-original').click();assert page.locator('#preview-dialog').evaluate('e=>e.open')
  assert page.locator('#preview-original').get_attribute('href').endswith('demo-payment.png');page.locator('#preview-close').click()

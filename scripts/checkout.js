@@ -9,6 +9,8 @@ export function init() {
   const canvas = document.getElementById("checkout-canvas");
   const poster = document.getElementById("product-screen");
   const back = document.getElementById("checkout-return");
+  // Older cached HTML hid this control instead of disabling it in overview.
+  back.hidden = false;
   const dialog = document.getElementById("preview-dialog");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   let visible = false,
@@ -128,7 +130,7 @@ export function init() {
   }
   function changeView() {
     const view = currentView();
-    back.hidden = view === "overview";
+    back.disabled = view === "overview";
     if (!api || lost) syncPoster();
     imageAnimation?.cancel();
     imageAnimation = undefined;
@@ -173,7 +175,7 @@ export function init() {
   object.addEventListener("checkout:focus", changeView);
   back.addEventListener("click", () => {
     object.dispatchEvent(new CustomEvent("checkout:overview"));
-    object
+    stage
       .querySelector('[data-checkout-point="0"]')
       .focus({ preventScroll: true });
   });
@@ -285,7 +287,7 @@ export function init() {
   });
   motion("idle");
   if (currentView() === "overview") {
-    back.hidden = true;
+    back.disabled = true;
     syncPoster();
     sync();
   } else changeView();
