@@ -63,6 +63,9 @@ with sync_playwright() as p:
             scene=page.locator('[data-micro="'+key+'"]')
             scene.evaluate('e=>e.closest("article").scrollIntoView({block:"nearest",inline:"center",behavior:"instant"})')
             page.wait_for_function('(key)=>["running","complete"].includes(document.querySelector(`[data-micro="${key}"]`).dataset.state)',arg=key)
+            if scene.get_attribute('data-state')=='complete':
+                scene.locator('xpath=ancestor::article').locator('.micro-replay').click()
+                page.wait_for_function('(key)=>document.querySelector(`[data-micro="${key}"]`).dataset.state==="running"',arg=key)
             assert scene.locator('.micro-frame').evaluate(FITS), (width,height,key,'clipped widget')
             assert_photo_subject(scene,key)
             for item in scene.locator('.micro-heading,.micro-row,.micro-total,.micro-status,.micro-revenue,.micro-profit').all():
@@ -71,6 +74,32 @@ with sync_playwright() as p:
             assert button.evaluate('e=>{const r=e.getBoundingClientRect();return r.width>=44&&r.height>=44}')
             assert button.evaluate(FITS), (width,height,key,'clipped replay')
             assert button.get_attribute('aria-label')
+            # Seek the real WAAPI timeline: scanning, first-item subtotal, then
+            # final transaction/report. Resume near the end to test cleanup.
+            def seek(phase):
+                scene.evaluate('''(e,phase)=>{for(const a of e.getAnimations({subtree:true})){a.pause();a.currentTime=a.effect.getTiming().duration*phase}}''',phase)
+            seek(.08)
+            if key=='reports':
+                initial=scene.locator('.micro-chart > span').evaluate_all('xs=>xs.map(e=>e.getBoundingClientRect().height)')
+            if key=='sale':
+                seek(.20)
+                assert float(scene.locator('.micro-scan').first.evaluate('e=>getComputedStyle(e).opacity'))>.99
+                assert float(scene.locator('.micro-scan').last.evaluate('e=>getComputedStyle(e).opacity'))<.01
+                seek(.35)
+                assert '39 900' in scene.locator('.micro-middle').inner_text()
+                assert float(scene.locator('.micro-middle').evaluate('e=>getComputedStyle(e).opacity'))>.99
+                assert float(scene.locator('.micro-total .micro-after').evaluate('e=>getComputedStyle(e).opacity'))<.01
+            for phase in [.37,.555,.635]:
+                seek(phase)
+                assert scene.locator('.micro-widget').evaluate('e=>e.scrollWidth<=e.clientWidth+1'),(width,height,key,'animation overflows widget',phase)
+                for item in scene.locator('.micro-row,.micro-total,.micro-revenue,.micro-profit').all():
+                    assert item.evaluate('e=>e.scrollWidth<=e.clientWidth+1'),(width,height,key,'animation overflows row',phase)
+            seek(.94)
+            assert scene.locator('.micro-after').evaluate_all('xs=>xs.every(e=>getComputedStyle(e).opacity==="1")')
+            if key=='reports':
+                final=scene.locator('.micro-chart > span').evaluate_all('xs=>xs.map(e=>e.getBoundingClientRect().height)')
+                assert all(b>a*2 for a,b in zip(initial,final)),('Every bar must visibly grow',initial,final)
+            scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.play())')
             page.wait_for_function('(key)=>document.querySelector(`[data-micro="${key}"]`).dataset.state==="complete"',arg=key,timeout=9000)
             assert scene.evaluate('e=>e.getAnimations({subtree:true}).length')==0, 'Completed scenes must release animations'
             runs=scene.get_attribute('data-runs');url=page.url

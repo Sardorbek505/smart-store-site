@@ -41,6 +41,10 @@ with sync_playwright() as p:
   assert abs(page.evaluate('scrollY')-y)<2
   entry.click();page.go_back();page.wait_for_function('!document.getElementById("store").open')
   page.go_forward();page.wait_for_function('document.getElementById("store").open')
+  # Native close is queued. An old event must not undo a newer opening.
+  page.locator('#store').evaluate('e=>{e.close();e.showModal()}')
+  page.evaluate('()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))')
+  assert page.locator('#store').evaluate('e=>e.open') and page.url.endswith('#store')
   page.locator('#store-code').fill('https://evil.example/');page.locator('#store-submit').click()
   assert page.locator('#store-form').get_attribute('data-state')=='invalid'
   page.locator('#store-close').click();page.wait_for_function('!document.getElementById("store").open')
