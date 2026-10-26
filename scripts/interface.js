@@ -62,6 +62,40 @@ export function init() {
       }
       window.addEventListener("pageshow", () => updateScrollNavigation());
       updateScrollNavigation();
+
+      // A one-pixel sampling band follows which section is behind the capsule.
+      // No scroll handler, geometry polling or animated filter is needed.
+      if (typeof IntersectionObserver === "function") {
+        let surfaceObserver;
+        let resizeTimer;
+        const sections = [...document.querySelectorAll("main > section")];
+        const observeSurface = () => {
+          surfaceObserver?.disconnect();
+          const y = innerHeight <= 600 && innerWidth > 620 ? 32 : 40;
+          surfaceObserver = new IntersectionObserver(
+            (entries) => {
+              const entry = entries.find(
+                (candidate) => candidate.isIntersecting,
+              );
+              if (!entry) return;
+              header.dataset.surface = entry.target.matches(
+                ".cinema-hero, .license-section",
+              )
+                ? "dark"
+                : "light";
+            },
+            {
+              rootMargin: `-${y}px 0px -${Math.max(0, innerHeight - y - 1)}px 0px`,
+            },
+          );
+          sections.forEach((section) => surfaceObserver.observe(section));
+        };
+        observeSurface();
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(observeSurface, 180);
+        });
+      }
     }
   }
 

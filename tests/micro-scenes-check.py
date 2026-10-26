@@ -10,6 +10,28 @@ OUT.mkdir(parents=True, exist_ok=True)
 VIEWPORTS = [(320,568),(390,844),(430,932),(768,1024),(844,390),(932,430),(851,768),(1024,600),(1024,768),(1440,500),(1440,768),(1440,900)]
 FITS = '''e=>{const r=e.getBoundingClientRect(),s=e.closest('.feature-art')?.getBoundingClientRect()||e.closest('article').getBoundingClientRect();return r.top>=s.top-1&&r.bottom<=s.bottom+1&&r.left>=s.left-1&&r.right<=s.right+1&&e.scrollWidth<=e.clientWidth+1}'''
 ANIMATIONS = 'e=>e.getAnimations({subtree:true}).map(a=>({time:a.currentTime,state:a.playState,properties:Object.keys(a.effect.getKeyframes()[0]).filter(p=>!["offset","easing","composite","computedOffset"].includes(p))}))'
+# Complete foreground groups, measured on the original generated photographs.
+SUBJECTS = {
+    ('sale','square'):(330/1254,918/1254,918/1254,1082/1254),
+    ('stock','square'):(668/1254,885/1254,1150/1254,1105/1254),
+    ('reports','square'):(314/1254,890/1254,992/1254,1090/1254),
+    ('sale','wide'):(1119/1536,698/1024,1420/1536,799/1024),
+    ('stock','wide'):(1114/1536,600/1024,1442/1536,756/1024),
+    ('reports','wide'):(1101/1536,585/1024,1460/1536,745/1024),
+}
+
+def assert_photo_subject(scene,key):
+    geometry=scene.evaluate('''e=>({scene:e.getBoundingClientRect().toJSON(),frame:e.querySelector('.micro-frame').getBoundingClientRect().toJSON(),background:getComputedStyle(e.querySelector('.micro-backdrop-layer')).backgroundImage})''')
+    s,f=geometry['scene'],geometry['frame']
+    fmt='wide' if '-wide-' in geometry['background'] else 'square'
+    bw,bh=(1536,1024) if fmt=='wide' else (1024,1024)
+    scale=max(s['width']/bw,s['height']/bh)
+    px,py=(.7,.5) if fmt=='wide' else (.5,1)
+    x=s['left']+(s['width']-bw*scale)*px;y=s['top']+(s['height']-bh*scale)*py
+    a,b,c,d=SUBJECTS[key,fmt]
+    r={'left':x+a*bw*scale,'top':y+b*bh*scale,'right':x+c*bw*scale,'bottom':y+d*bh*scale}
+    assert r['left']>=s['left']-1 and r['right']<=s['right']+1 and r['top']>=s['top']-1 and r['bottom']<=s['bottom']+1,(key,'photograph crops its subject',r,s)
+    assert max(r['left']-f['right'],f['left']-r['right'],r['top']-f['bottom'],f['top']-r['bottom'])>=0,(key,'widget covers the photographed subject',r,f)
 
 def load(page):
     errors = []
@@ -42,6 +64,7 @@ with sync_playwright() as p:
             scene.evaluate('e=>e.closest("article").scrollIntoView({block:"nearest",inline:"center",behavior:"instant"})')
             page.wait_for_function('(key)=>["running","complete"].includes(document.querySelector(`[data-micro="${key}"]`).dataset.state)',arg=key)
             assert scene.locator('.micro-frame').evaluate(FITS), (width,height,key,'clipped widget')
+            assert_photo_subject(scene,key)
             for item in scene.locator('.micro-heading,.micro-row,.micro-total,.micro-status,.micro-revenue,.micro-profit').all():
                 assert item.evaluate('e=>e.scrollWidth<=e.clientWidth+1'), (width,height,key,'overflow inside widget')
             button=scene.locator('xpath=ancestor::article').locator('.micro-replay')

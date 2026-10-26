@@ -44,10 +44,22 @@
   mask-composite: exclude;
 }
 .landing-page .top {
+  --nav-ink: #f7f8ff;
+  --nav-base: #111116b3;
+  --nav-control: #ffffff10;
+  --nav-line: #ffffff38;
+  --nav-menu: #191d2d;
   inset: 12px 0 auto;
   border: 0;
   background: transparent;
   transform: translateY(calc(-100% - 32px));
+}
+.landing-page .top[data-surface="light"] {
+  --nav-ink: #111116;
+  --nav-base: #f7f8ff94;
+  --nav-control: #11111606;
+  --nav-line: #1111161a;
+  --nav-menu: #f3f4fa;
 }
 .landing-page.has-scrolled .top {
   transform: translateY(0);
@@ -56,8 +68,35 @@
   width: min(1248px, calc(100% - 32px));
   height: 64px;
   padding: 8px 16px;
-  border-radius: 24px;
+  border-radius: 32px;
   gap: 20px;
+  color: var(--nav-ink);
+  background: var(--nav-base);
+  border-color: #ffffff80;
+  box-shadow:
+    0 8px 24px -12px #10172d40,
+    inset 1px 1px 1px #ffffffa6,
+    inset -1px -1px 1px #8594c438;
+  -webkit-backdrop-filter: blur(14px) saturate(1.65);
+  backdrop-filter: blur(14px) saturate(1.65);
+}
+/* Filter the page once on the capsule itself. Reflections are static paint. */
+.landing-page .top-inner::before {
+  background: linear-gradient(115deg, #ffffff10, #ffffff00 42%, #aabfff0a);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow:
+    inset 0 2px 2px #ffffff70,
+    inset 0 -2px 2px #ffffff20;
+}
+.landing-page .top-inner::after {
+  background: linear-gradient(
+    130deg,
+    #fff,
+    #ffffff12 35%,
+    #ffffffa6 78%,
+    #94aaff60
+  );
 }
 .landing-page .top .brand {
   min-height: 44px;
@@ -69,17 +108,20 @@
 .landing-page .enter-link {
   min-height: 44px;
   padding: 10px 14px;
-  background: #ffffff09;
-  border-color: #ffffff30;
+  background: var(--nav-control);
+  border-color: var(--nav-line);
   box-shadow: inset 0 1px 0 #ffffff12;
 }
 .landing-page .top a:focus-visible,
 .landing-page .top button:focus-visible {
-  outline: 2px solid #ededf5;
+  outline: 2px solid var(--nav-ink);
   outline-offset: 3px;
 }
 .landing-page .top a:hover {
-  color: #fff;
+  color: var(--nav-ink);
+}
+.landing-page .menu-toggle span {
+  background: var(--nav-ink);
 }
 .landing-page .top-links a:is(:hover, :focus-visible) {
   text-decoration: underline;
@@ -106,7 +148,7 @@
   .landing-page .top-inner {
     width: calc(100% - 24px);
     height: 60px;
-    border-radius: 22px;
+    border-radius: 30px;
     padding: 7px 10px;
     gap: 8px;
   }
@@ -132,8 +174,8 @@
     height: 44px;
     min-width: 44px;
     border-radius: 50%;
-    border-color: #ffffff30;
-    background: #ffffff09;
+    border-color: var(--nav-line);
+    background: var(--nav-control);
   }
   .landing-page .menu-open .top-links {
     --glass-base: transparent;
@@ -145,7 +187,8 @@
     border: 1px solid #ffffff38;
     border-radius: 22px;
     /* An opaque base keeps page text out of this nested glass surface in Safari. */
-    background: linear-gradient(115deg, #1b1b23, #19213b);
+    color: var(--nav-ink);
+    background: var(--nav-menu);
     max-height: calc(100svh - 90px);
     overflow-y: auto;
     gap: 0;
@@ -382,6 +425,21 @@
     background: #111116;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+  .landing-page .top-inner {
+    background: var(--nav-menu);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .landing-page .top-inner::before {
+    background: transparent;
+  }
+}
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  .landing-page .top-inner {
+    background: var(--nav-menu);
   }
 }
 

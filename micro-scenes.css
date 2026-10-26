@@ -12,6 +12,9 @@
   flex-direction: column;
   align-items: stretch;
   border-radius: 24px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px #d9dce8;
 }
 #features .feature-screen-link {
   position: absolute;
@@ -21,7 +24,7 @@
   border-radius: inherit;
 }
 #features .feature-screen-link:focus-visible {
-  outline: 3px solid currentColor;
+  outline: 3px solid var(--blue);
   outline-offset: -6px;
 }
 #features .bento .bento-copy {
@@ -39,6 +42,7 @@
   font-size: 12px;
   letter-spacing: 0.06em;
   white-space: nowrap;
+  color: var(--blue);
 }
 #features .feature-screen-label {
   display: inline-flex;
@@ -46,6 +50,7 @@
   gap: 6px;
   font-size: 12px;
   white-space: nowrap;
+  color: var(--muted);
 }
 #features .feature-screen-label .icon {
   width: 16px;
@@ -60,6 +65,7 @@
   font-size: 14px;
   line-height: 1.45;
   max-width: calc(100% - 44px);
+  color: var(--muted);
 }
 #features .bento .feature-art {
   display: block;
@@ -68,11 +74,12 @@
   min-height: 0;
   height: auto;
   padding: 0;
-  margin: 0;
+  width: calc(100% - 16px);
+  margin: 8px 8px 0;
   overflow: hidden;
   color: #111116;
   background: #e8ebf5;
-  border-radius: 0;
+  border-radius: 18px;
   container-type: size;
 }
 .micro-visual {
@@ -107,11 +114,11 @@
   position: relative;
   flex: none;
   width: min(100%, 302px);
-  padding: 5px;
-  border: 1px solid #ffffffb3;
-  border-radius: 21px;
-  background: #ffffff38;
-  box-shadow: 0 16px 32px -20px #25365a47;
+  padding: 0;
+  border: 0;
+  border-radius: 15px;
+  background: transparent;
+  box-shadow: 0 14px 28px -16px #111b3640;
 }
 .micro-widget {
   padding: 14px 16px 10px;
@@ -284,10 +291,10 @@
   width: 44px;
   height: 44px;
   padding: 0;
-  border: 1px solid #ffffffb3;
+  border: 1px solid #1d4ed820;
   border-radius: 50%;
-  color: #111116;
-  background: #fffffff0;
+  color: var(--blue);
+  background: var(--paper);
   cursor: pointer;
 }
 .micro-replay[hidden] {
@@ -401,7 +408,7 @@
   .micro-frame {
     width: min(100%, 270px);
     border-radius: 16px;
-    padding: 3px;
+    padding: 0;
   }
   .micro-widget {
     padding: 10px 12px 8px;
@@ -457,14 +464,15 @@
     font-size: 28px;
   }
   #features .bento .feature-art {
-    height: 100%;
+    height: calc(100% - 16px);
+    margin: 8px;
   }
   .micro-visual {
     padding: 8px 14px;
   }
   .micro-frame {
     width: min(100%, 280px);
-    padding: 3px;
+    padding: 0;
   }
   .micro-widget {
     padding: 10px 12px 8px;
@@ -504,7 +512,7 @@
     padding: 6px 10px;
   }
   .micro-frame {
-    padding: 3px;
+    padding: 0;
     border-radius: 16px;
   }
   .micro-widget {
@@ -544,12 +552,12 @@
   }
 }
 /* Choose by the scene's real proportions, independently of viewport width. */
-@container (width > 0px) and (height > 0px) and (aspect-ratio <= 1.3) {
+@container (width > 0px) and (height > 0px) and (aspect-ratio <= 1.27) {
   .micro-backdrop-layer {
     background-image: var(--photo-square);
   }
 }
-@container (width > 0px) and (height > 0px) and (aspect-ratio > 1.3) {
+@container (width > 0px) and (height > 0px) and (aspect-ratio > 1.27) {
   .micro-visual {
     align-items: flex-start;
     justify-content: center;
@@ -568,7 +576,7 @@
     grid-template-columns: minmax(0, 1fr) auto;
   }
 }
-@container (width < 320px) and (aspect-ratio > 1.3) {
+@container (width < 320px) and (aspect-ratio > 1.27) {
   .micro-visual {
     padding-inline: 6px;
   }
