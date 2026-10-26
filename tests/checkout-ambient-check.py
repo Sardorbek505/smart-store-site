@@ -99,7 +99,7 @@ with sync_playwright() as p:
         playing()
         page.locator('#preview-dialog').evaluate('e=>e.showModal()');paused()
         page.locator('#preview-dialog').evaluate('e=>e.close()');playing()
-        page.locator('#data').evaluate('e=>scrollTo(0,e.offsetTop)');paused()
+        page.locator('#license').evaluate('e=>scrollTo(0,e.offsetTop)');paused()
         page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)');playing()
         page.evaluate('Object.defineProperty(document,"hidden",{configurable:true,value:true});document.dispatchEvent(new Event("visibilitychange"))');paused()
         page.evaluate('delete document.hidden;document.dispatchEvent(new Event("visibilitychange"))');playing()

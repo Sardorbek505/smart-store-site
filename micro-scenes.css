@@ -13,14 +13,14 @@
   align-items: stretch;
   border-radius: 24px;
 }
-#features .feature-demo-link {
+#features .feature-screen-link {
   position: absolute;
   inset: 0;
   z-index: 2;
   color: inherit;
   border-radius: inherit;
 }
-#features .feature-demo-link:focus-visible {
+#features .feature-screen-link:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: -6px;
 }
@@ -40,14 +40,14 @@
   letter-spacing: 0.06em;
   white-space: nowrap;
 }
-#features .feature-demo-label {
+#features .feature-screen-label {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-size: 12px;
   white-space: nowrap;
 }
-#features .feature-demo-label .icon {
+#features .feature-screen-label .icon {
   width: 16px;
   height: 16px;
 }

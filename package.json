@@ -6,9 +6,7 @@
     "test": "node --test tests/*.test.js",
     "build:styles": "node tools/build-styles.mjs",
     "check:styles": "node tools/build-styles.mjs --check",
-    "build:demo": "node tools/build-demo.mjs",
-    "check:demo": "node tools/build-demo.mjs --check",
-    "build": "npm run build:styles && npm run build:demo && npm run build:checkout",
+    "build": "npm run build:styles && npm run build:checkout",
     "build:checkout": "node tools/build-checkout.mjs",
     "check:checkout": "node tools/build-checkout.mjs --check"
   },

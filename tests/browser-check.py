@@ -47,6 +47,7 @@ with sync_playwright() as p:
     page.keyboard.press('Escape')
     page.unroute('**/img/demo-home.png*')
     page.locator('[data-gallery-card]').nth(1).evaluate("e=>e.href='img/demo-home.png'")
+    page.goto(BASE + '/#store', wait_until='networkidle')
     page.locator('#store-code').fill('https://evil.example/')
     page.locator('#store-submit').click()
     assert page.locator('#store-form').get_attribute('data-state') == 'invalid'

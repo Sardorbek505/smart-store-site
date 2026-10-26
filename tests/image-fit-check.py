@@ -9,8 +9,8 @@ BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173')
 BROWSER = os.environ.get('BROWSER', 'chromium')
 OUT = Path('/tmp/smart-store-full') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
-assets = [*Path('img').glob('hero-demo-*.webp'), *Path('img').glob('hero-full-scanner-*.webp'), *Path('img').glob('workspace-demo-*.webp'),
-          *Path('img').glob('mobile-demo-*.webp'), Path('img/checkout-overview-v46.webp'), *Path('img').glob('feature-*.webp'), *Path('img').glob('data-backup-laptop-*.webp'), *Path('img').glob('trial-14-*.webp')]
+assets = [*Path('img').glob('hero-demo-*.webp'), *Path('img').glob('hero-full-scanner-*.webp'),
+          *Path('img').glob('mobile-demo-*.webp'), Path('img/checkout-overview-v46.webp'), *Path('img').glob('feature-*.webp'), *Path('img').glob('trial-14-*.webp')]
 bounds = {}
 for asset in assets:
     image = Image.open(asset).convert('RGBA')
@@ -21,7 +21,7 @@ for asset in assets:
 for name in ['demo-home.png', 'demo-products.png', 'demo-sale.png','demo-payment.png','demo-backups.png']:
     image = Image.open(Path('img')/name)
     bounds[name] = {'box': [0, 0, image.width, image.height], 'width': image.width, 'height': image.height}
-assert len(assets) == 25, 'Responsive hero scenes, workspace scenes, complete 3D overview, four phone scenes, features, responsive backup scene and responsive trial sculpture'
+assert len(assets) == 20, 'Responsive hero scenes, 3D overview, phone scenes, features and trial sculpture'
 
 PAINT = '''(image, asset) => {
   const box=asset.box;
@@ -84,10 +84,6 @@ with sync_playwright() as p:
             check(page.locator('#phone-mockup'))
             page.locator('#phone-demo-action').click()
             page.wait_for_function('(n)=>document.querySelector(".mobile-story").dataset.phoneStep===String(n)',arg=(i+1)%3)
-        page.locator('#start').evaluate('e=>e.scrollIntoView()')
-        for art in page.locator('.journey-art img').all(): check(art)
-        page.locator('#data').evaluate('e=>e.scrollIntoView()')
-        check(page.locator('.data-scene img'))
         page.locator('#license').evaluate('e=>e.scrollIntoView()')
         check(page.locator('.trial-scene img'))
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')

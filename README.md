@@ -1,130 +1,92 @@
 # Smart Store — metov.store
 
-Статический лендинг и вход по коду магазина. GitHub Pages публикует корень `main`; домен задан в `CNAME`. Приложение Windows и сервер подключения находятся в других репозиториях.
+Статический лендинг и вход по коду магазина. GitHub Pages публикует корень `main`;
+домен задан в `CNAME`. Приложение Windows и сервер подключения находятся в других
+репозиториях.
 
 ## Локальная работа
 
-Опубликованные CSS уже лежат в `assets/`. Для просмотра сайта сборка не нужна:
-
 ```sh
+npm ci
+npm run build
+npm test
 python -m http.server 4173
 ```
 
-Открыть `http://localhost:4173`. Для проверки доменной логики нужен Node.js 22 или новее:
+Готовые CSS и 3D-бандл находятся в `assets/`; для обычного просмотра сборка не нужна.
+После изменения CSS выполнять `npm run build:styles`; после изменения самой
+3D-сцены — `npm run build:checkout`. Сборщики сохраняют предыдущие опубликованные
+файлы для кэшированного HTML. После изменения браузерного JS повышать `?v=`
+у `app.js`: загрузчик передаёт версию всем модулям.
 
-```sh
-npm test
-```
+## Страница
 
-После изменения CSS пересобрать статические файлы и ссылки в HTML:
+В v50 основной путь сокращён с девяти экранов до шести:
 
-```sh
-npm ci
-npm run build:styles
-npm run check:styles
-```
+1. Херо с фотолентой и переходом к 3D-кассе.
+2. Продажи, склад и контроль — три коротких наглядных примера.
+3. Настоящая 3D-касса с тремя приближениями.
+4. Телефон: итоги, поиск товара и корзина.
+5. Пробные 14 дней, установка и стоимость лицензии.
+6. FAQ, включая хранение данных, резервные копии и обновления.
 
-`esbuild` готовит статические CSS и отдельный JS демомагазина; браузер и GitHub Pages не запускают сборщик. Файлы получают имя с хешем содержимого. Предыдущая опубликованная версия сохраняется для закэшированного HTML. CI отклоняет устаревшую сборку.
+Установка открывается по запросу в `#installation`. Вход по кнопке открывает
+компактный нативный диалог `#store`; он поддерживает Escape, «Назад», возврат
+фокуса и отмену запроса при закрытии. Исходные экраны открываются в отдельном
+просмотрщике. Анимации приостанавливаются за любым открытым диалогом.
 
-Браузерная регрессия требует Python Playwright и Chromium:
-
-```sh
-python tests/browser-check.py
-```
-
-По умолчанию проверяется `http://127.0.0.1:4173`. Можно задать `SITE_TEST_URL` и `CHROMIUM_BINARY`. Все ответы релизов и проверки магазинов в этой проверке заменены тестовыми; реальные магазины и сообщения WhatsApp не открываются.
+Браузерный демомагазин удалён по запросу владельца. Карточки возможностей
+открывают исходные скриншоты. `/demo/` перенаправляет старые закладки в кассу,
+`#start` — к установке, `#data` — к ответу о резервных копиях.
+`tools/demo/` сохраняется для подготовки мокданных и скриншотов настоящего
+Windows-приложения; это инструмент разработки изображений, он не загружается
+на лендинге.
 
 ## Структура
 
-- `index.html`, `privacy.html` — содержание и рабочие статические ссылки.
-- `demo/index.html`, `demo/app.js`, `demo/styles.css` — отдельный адаптивный демомагазин: касса, склад и итоги. `demo/model.js` — изолированная логика учебных операций на тех же данных, что и мокапы.
-- `styles.css` — общая основа, навигация, формы и страница условий; `cinema.css` — херо и лента фотосцен.
-- `buttons.css` — общие кнопки и состояния; `screens.css` — высота экранов и адаптивные ограничения.
-- `micro-scenes.css`, `scripts/micro-scenes.js` — три коротких живых примера продажи, склада и итогов; поведение и проверка: [docs/live-feature-scenes-v41.md](docs/live-feature-scenes-v41.md). Фотографии и адаптивная композиция: [v43](docs/feature-photo-framing-v43.md).
-- `checkout-3d.css`, `scripts/checkout.js`, `scripts/checkout-scene.js` — настоящая 3D-касса с тремя ракурсами и мягким движением при просмотре. [Сборка](docs/checkout-3d-v44.md), [метки](docs/checkout-hotspots-v46.md), [движение и ограничение нагрузки](docs/checkout-motion-v47.md).
-- `glass.css` — плавающая навигация и компактная стеклянная панель просмотра экранов.
-- `assets/`, `tools/build-styles.mjs` — готовые CSS и их воспроизводимая сборка. Порядок исходников задан в сборщике.
-- `components.css` — адаптированные кнопка, FAQ, поле копирования и рамка формы. Источники и лицензии: [third-party/README.md](third-party/README.md).
-- `trial.css` — сгенерированная объёмная «14» и адаптивный блок бесплатного периода. Источник и проверка: [docs/trial-sculpture.md](docs/trial-sculpture.md).
-- `story.css`, `scripts/story.js` — асимметричный Bento, касса с точками деталей, пошаговая демонстрация телефона, сцена резервных копий с настоящим экраном и USB-флешкой и три одновременно видимых шага установки.
-- `app.js` — независимый запуск функций.
-- `scripts/core.js` — настройки сервисов, проверка адреса магазина и установщика, сетевой таймаут.
-- `scripts/downloads.js` — скачивание на Windows, прямая ссылка на установку, копирование/системная отправка с другого устройства.
-- `scripts/store.js` — проверка кода магазина, отмена запросов и переход.
-- `scripts/preview.js` — просмотр, увеличение до исходного размера, перемещение и ошибки загрузки оригинальных экранов.
-- `scripts/interface.js` — меню, мобильные карточки возможностей и ссылки на ответы FAQ.
-- `scripts/gallery.js` — анимация, ручное управление, остановка и reduced-motion.
-- `scripts/media.js` — резервные исходные скриншоты при отказе сгенерированных сцен.
-- `tests/` — правила доверенных адресов, ответы сервисов и браузерные сценарии.
+- `index.html`, `privacy.html` — содержание, условия и статические ссылки.
+- `styles.css`, `cinema.css`, `buttons.css`, `screens.css` — основа, херо,
+  кнопки и адаптивные экраны.
+- `story.css`, `scripts/story.js` — подписи кассы и последовательность телефона.
+- `checkout-3d.css`, `scripts/checkout.js`, `scripts/checkout-scene.js` —
+  3D-сцена, камера и движение. Параметры: [v44](docs/checkout-3d-v44.md),
+  [метки](docs/checkout-hotspots-v46.md), [движение](docs/checkout-motion-v47.md).
+- `micro-scenes.css`, `scripts/micro-scenes.js` — короткие анимации возможностей;
+  [композиция фотографий](docs/feature-photo-framing-v43.md).
+- `trial.css`, `journey.css`, `glass.css` — предложение, установка, навигация
+  и диалоги. Источник «14»: [docs/trial-sculpture.md](docs/trial-sculpture.md).
+- `scripts/core.js`, `scripts/downloads.js`, `scripts/store.js` — доверенные
+  адреса, установщик, передача ссылки на компьютер и вход в магазин.
+- `scripts/preview.js`, `scripts/media.js`, `scripts/gallery.js`,
+  `scripts/viewport.js`, `scripts/interface.js` — просмотр экранов, отказ
+  изображений, лента, стабильная высота и навигация.
+- `components.css`, `third-party/` — адаптированные компоненты и их лицензии.
+- `assets/`, `tools/build-styles.mjs`, `tools/build-checkout.mjs` — готовые
+  статические файлы и воспроизводимая сборка.
 
-При изменении браузерного JavaScript повышать `?v=` у `app.js` в HTML: загрузчик передаёт тот же параметр всем модулям. При изменении CSS запускать `npm run build:styles`: имена и ссылки обновляются автоматически. Проверка PR запускает `npm test`, проверяет готовый CSS и синтаксис модулей; опубликованную версию нужно проверить после завершения GitHub Pages.
-
-Подробная логика переходов: [docs/site-architecture.md](docs/site-architecture.md).
-
-Проверка адаптированных компонентов: `python tests/components-check.py`; для движка WebKit — `BROWSER=webkit python tests/components-check.py`. Проверяются клавиатура FAQ, успех/отказ копирования, завершение эффекта рамки и reduced motion.
-
-Проверка демонстрационных блоков: `python tests/story-check.py`, а также `BROWSER=webkit python tests/story-check.py`. Текущие сценарии и просмотренные референсы: [docs/product-stories-v29.md](docs/product-stories-v29.md).
-
-Три крупные предметные сцены для каталога, кассы и итогов: [docs/workspace-campaign.md](docs/workspace-campaign.md). История прежнего переключаемого блока; в v29 сцены используются в кассе и трёх шагах начала работы.
-
-Полные изображения во всех демонстрационных блоках: [docs/complete-scenes.md](docs/complete-scenes.md). Проверка фактических границ предметов: `BROWSER=webkit python tests/image-fit-check.py` или `BROWSER=chromium python tests/image-fit-check.py` (Playwright + Pillow).
-
-Единый демомагазин, заполненные экраны и обновлённые мокапы: [docs/demo-data.md](docs/demo-data.md). Воспроизводимый fixture и захват реальных компонентов приложения находятся в `tools/demo`; они не нужны для работы опубликованного сайта.
-
-Исправление высоты херо после изменения панелей Safari и новая подача локальных данных: [docs/viewport-and-backups-v31.md](docs/viewport-and-backups-v31.md).
-
-Полное покрытие херо под плавающей панелью Safari, включая проверку разных размеров области отрисовки и reported viewport: [docs/hero-large-viewport-v32.md](docs/hero-large-viewport-v32.md).
-
-Стеклянные края, ускорение ленты и пауза после свайпа:
-[docs/hero-glass-v37.md](docs/hero-glass-v37.md). Проверки:
-`BROWSER=webkit python tests/hero-glass-check.py` и `tests/hero-motion-check.py`.
-
-Усиленные края херо, плавающее меню и стеклянная панель просмотра:
-[docs/liquid-glass-v38.md](docs/liquid-glass-v38.md). Проверка компоновки,
-масштабирования, клавиатуры и отказов: `BROWSER=webkit python tests/glass-ui-check.py`
-либо `BROWSER=chromium python tests/glass-ui-check.py`.
-
-Возврат из магазина без зависшей кнопки, короткие подсказки и новая обложка
-ссылки для мессенджеров: [docs/return-and-sharing-v39.md](docs/return-and-sharing-v39.md).
-Проверка истории браузера и отмены позднего ответа:
-`BROWSER=chromium python tests/return-navigation-check.py` либо
-`BROWSER=webkit python tests/return-navigation-check.py`.
-
-Предложение, лицензия, путь с телефона на Windows и увеличение экранов: [docs/offer-install-preview-v33.md](docs/offer-install-preview-v33.md). Проверка: `BROWSER=webkit python tests/journey-check.py` или `BROWSER=chromium python tests/journey-check.py`. Оформление этих сценариев — `journey.css`.
-
-Загрузка, очистка стилей и устойчивость сценариев v34: [docs/runtime-loading-v34.md](docs/runtime-loading-v34.md). Проверка запросов, Retina и отказов: `BROWSER=webkit python tests/loading-check.py` либо `BROWSER=chromium python tests/loading-check.py`.
-
-## Интерактивный демомагазин
-
-Карточки «Продажи», «Склад», «Контроль» открывают соответствующие экраны демо;
-ещё одна ссылка есть в меню. Переходы, планшетные сцены и поле отправки ссылки:
-[docs/landing-demo-v36.md](docs/landing-demo-v36.md).
-
-Открыть `/demo/` или «Открыть демо» в херо. Без регистрации: поиск/категории, чек с количеством, наличные и сдача, Kaspi, долг учебного покупателя, склад, отчёт и просмотр проведённых чеков. Прогресс сохраняется только в текущей вкладке; сброс восстанавливает исходный демомагазин.
-
-После изменения демо:
+## Проверка
 
 ```sh
-npm run build
 npm test
 npm run check:styles
-npm run check:demo
+npm run check:checkout
+node tools/sync-hero-layout.mjs --check
+BROWSER=chromium python tests/short-landing-check.py
+PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1 BROWSER=webkit python tests/short-landing-check.py
 ```
 
-`tools/build-demo.mjs` готовит один JS с хешем содержимого, включая модель и общий fixture. Лендинг не загружает его, CSS демо или товарные фотографии этого экрана до перехода. Предыдущий JS сохраняется для кэшированного HTML. CI проверяет сборку и расчёты; исходный Windows-проект не нужен для подготовки браузерного демо.
+`tests/short-landing-check.py` проверяет шесть экранов, карточки со скриншотами,
+окно входа, историю, фокус, отмену позднего ответа, старые ссылки, отказ модуля,
+режим без JS и паузу анимаций за входом. Существующие сценарии
+`browser-check.py`, `journey-check.py`, `return-navigation-check.py`,
+`loading-check.py` проверяют вход и установку с тестовыми ответами сервисов.
+`image-fit-check.py`, `first-paint-check.py`, `native-scroll-check.py`,
+`checkout-3d-check.py`, `checkout-ambient-check.py`, `micro-scenes-check.py`
+проверяют изображения, первый кадр, прокрутку и движение. Все принимают
+`BROWSER=chromium` либо `BROWSER=webkit`; локальный адрес можно заменить
+через `SITE_TEST_URL`. Реальные магазины, платежи и сообщения не используются.
 
-Браузерная проверка: `BROWSER=webkit python tests/demo-check.py` либо `BROWSER=chromium python tests/demo-check.py`. В облачном стенде для WebKit также требуется `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1`. Проверки — без реальных платежей, магазинов и отправки сообщений. Подробности: [docs/live-demo-v35.md](docs/live-demo-v35.md).
-
-Читаемые подписи, области нажатия и возврат фокуса на телефоне:
-[docs/mobile-demo-v40.md](docs/mobile-demo-v40.md).
-Проверка клавиатуры, границ количества и закрытия окон:
-`BROWSER=webkit python tests/demo-focus-check.py` или
-`BROWSER=chromium python tests/demo-focus-check.py`.
-
-Проход по всем экранам, читаемость меню Safari, короткие пояснения и удобная
-ссылка на условия: [docs/mobile-review-v48.md](docs/mobile-review-v48.md).
-
-В v49 убраны повторные подписи над заголовками, декоративная нумерация
-карточек и дублирующая строка кассы. Три шага показывают начало работы без
-второй кнопки установки перед лицензией; версия установщика выводится в самом
-экране установки. Удалены связанные обращения JavaScript и неиспользуемые стили.
+CI проверяет доменную логику, сборки, начальную геометрию херо и синтаксис.
+После завершения GitHub Pages проверять опубликованную версию. Физический
+iPhone в облачном стенде недоступен. Исторические записи в `docs/` описывают
+предыдущие версии; текущая структура приведена выше.

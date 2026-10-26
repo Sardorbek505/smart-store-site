@@ -11,7 +11,7 @@ export function init() {
   const back = document.getElementById("checkout-return");
   // Older cached HTML hid this control instead of disabling it in overview.
   back.hidden = false;
-  const dialog = document.getElementById("preview-dialog");
+  const dialogs = [...document.querySelectorAll("dialog")];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   // Cache changes: reading MQL.matches inside RAF can swallow Chromium's change event.
   let reduceMotion = reduced.matches;
@@ -94,7 +94,7 @@ export function init() {
     !scrolling &&
     !touching &&
     !document.hidden &&
-    !dialog?.open &&
+    !dialogs.some((dialog) => dialog.open) &&
     !lost;
   const stop = () => {
     cancelAnimationFrame(renderFrame);
@@ -304,7 +304,7 @@ export function init() {
   stage.addEventListener("keydown", (event) => {
     if (
       event.key === "Escape" &&
-      !dialog?.open &&
+      !dialogs.some((dialog) => dialog.open) &&
       currentView() !== "overview"
     ) {
       event.preventDefault();
@@ -374,10 +374,12 @@ export function init() {
     scrolling = false;
     sync();
   });
-  new MutationObserver(sync).observe(dialog, {
-    attributes: true,
-    attributeFilter: ["open"],
-  });
+  const dialogObserver = new MutationObserver(sync);
+  for (const dialog of dialogs)
+    dialogObserver.observe(dialog, {
+      attributes: true,
+      attributeFilter: ["open"],
+    });
   reduced.addEventListener("change", (event) => {
     reduceMotion = event.matches;
     if (reduceMotion) {

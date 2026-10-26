@@ -79,7 +79,7 @@ with sync_playwright() as p:
  assert any('/img/micro-stock-' in u and '-v43.webp' in u for u in failed),failed
  assert page.locator('.bento-stock .micro-widget').is_visible()
  assert page.locator('.bento-stock .micro-after').first.inner_text()=='11'
- assert page.locator('.bento-stock .feature-demo-link').get_attribute('href')=='demo/#stock'
+ assert page.locator('.bento-stock .feature-screen-link').get_attribute('href')=='img/demo-products.png'
  page.locator('[data-gallery-card]').first.click()
  assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-sale.png')
  c.close()

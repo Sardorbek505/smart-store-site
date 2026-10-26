@@ -37,7 +37,6 @@ const bundles = [
     name: "privacy",
     sources: ["styles.css", "buttons.css"],
   },
-  { page: "demo/index.html", name: "demo", sources: ["demo/styles.css"] },
 ];
 const expected = new Set();
 await mkdir(new URL("assets/", root), { recursive: true });

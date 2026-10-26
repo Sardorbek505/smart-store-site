@@ -11,13 +11,15 @@ export function init({ config, installerFromRelease, fetchJson }) {
     guide.hidden = false;
     guide.classList.add("installation-visible");
   };
-  if (location.hash === "#installation") {
+  const syncGuide = (initial = false) => {
+    const legacy = location.hash === "#start";
+    if (legacy) history.replaceState(history.state, "", "#installation");
+    if (location.hash !== "#installation") return;
     revealGuide();
-    requestAnimationFrame(() => guide.scrollIntoView());
-  }
-  window.addEventListener("hashchange", () => {
-    if (location.hash === "#installation") revealGuide();
-  });
+    if (initial || legacy) requestAnimationFrame(() => guide.scrollIntoView());
+  };
+  syncGuide(true);
+  window.addEventListener("hashchange", () => syncGuide());
   if (!windows) {
     for (const link of links) {
       link.href = "#installation";
@@ -31,7 +33,9 @@ export function init({ config, installerFromRelease, fetchJson }) {
     for (const link of links) {
       link.href = config.releasesPage;
       // Fire-and-forget: the download never waits for the counter.
-      link.addEventListener("click", () => navigator.sendBeacon?.(config.downloadPing));
+      link.addEventListener("click", () =>
+        navigator.sendBeacon?.(config.downloadPing),
+      );
     }
   }
   const field = $("installation-url");

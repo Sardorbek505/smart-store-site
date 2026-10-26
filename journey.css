@@ -222,11 +222,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
   outline: 3px solid var(--blue);
   outline-offset: -3px;
 }
-@media (min-width: 1000px) and (min-height: 601px) {
-  #start h2 {
-    font-size: clamp(44px, 4.3vw, 62px);
-  }
-}
 @media (max-width: 620px) {
   .installation-guide .installation-layout {
     width: calc(100% - 32px);
@@ -298,9 +293,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
   }
   .audience-note {
     font-size: 11px;
-  }
-  .start-journey > li {
-    grid-template-columns: 24px minmax(0, 1fr) 120px;
   }
   .preview-dialog {
     width: calc(100% - 24px);
@@ -393,9 +385,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
   .audience-note {
     font-size: 10px;
     margin-bottom: 6px;
-  }
-  .start-journey > li {
-    grid-template-columns: 20px minmax(0, 1fr) 84px;
   }
 }
 @media (min-width: 621px) and (max-height: 600px) {
