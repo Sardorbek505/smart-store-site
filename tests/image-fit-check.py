@@ -10,7 +10,7 @@ BROWSER = os.environ.get('BROWSER', 'chromium')
 OUT = Path('/tmp/smart-store-full') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 assets = [*Path('img').glob('hero-demo-*.webp'), *Path('img').glob('hero-full-scanner-*.webp'), *Path('img').glob('workspace-demo-*.webp'),
-          *Path('img').glob('mobile-demo-*.webp'), Path('img/checkout-overview-v44.webp'), *Path('img').glob('feature-*.webp'), *Path('img').glob('data-backup-laptop-*.webp'), *Path('img').glob('trial-14-*.webp')]
+          *Path('img').glob('mobile-demo-*.webp'), Path('img/checkout-overview-v46.webp'), *Path('img').glob('feature-*.webp'), *Path('img').glob('data-backup-laptop-*.webp'), *Path('img').glob('trial-14-*.webp')]
 bounds = {}
 for asset in assets:
     image = Image.open(asset).convert('RGBA')

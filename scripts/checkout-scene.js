@@ -262,7 +262,18 @@ export async function createCheckoutScene({ canvas, context }) {
   });
 
   let view = "overview",
-    draws = 0;
+    draws = 0,
+    viewportHeight = 600;
+  const landmarks = [
+    new Vector3(-1.118, 1.841, 0.11),
+    new Vector3(0.25, 2.13, 0.11),
+    new Vector3(0.195, 1.011, 0.11),
+  ];
+  const regions = [
+    [253, 197, 473, 510],
+    [743, 95, 1385, 307],
+    [379, 76, 1051, 443],
+  ];
   const target = new Vector3(),
     fromPosition = new Vector3(),
     fromTarget = new Vector3();
@@ -298,10 +309,19 @@ export async function createCheckoutScene({ canvas, context }) {
     const aim = new Vector3(...spec.target),
       direction = new Vector3(...spec.direction).normalize();
     const tangent = Math.tan((camera.fov * Math.PI) / 360);
+    // The controls occupy the top 64px and the return link the bottom 52px.
+    // Fit the chosen screen region into the remaining area, rather than under them.
+    const top = name === "overview" ? 0 : 64;
+    const bottom = name === "overview" ? 0 : 52;
+    const available = Math.max(
+      0.2,
+      (viewportHeight - top - bottom) / viewportHeight,
+    );
     let distance = Math.max(
-      spec.height / (2 * tangent * 0.87),
+      spec.height / (2 * tangent * 0.87 * available),
       spec.width / (2 * tangent * camera.aspect * 0.87),
     );
+    aim.y += ((top - bottom) / viewportHeight) * tangent * distance;
     if (name === "overview") {
       const probe = camera.clone();
       for (let attempt = 0; attempt < 8; attempt++) {
@@ -350,6 +370,7 @@ export async function createCheckoutScene({ canvas, context }) {
     resize(width, height, pixelRatio = 1) {
       renderer.setPixelRatio(Math.min(2, pixelRatio));
       renderer.setSize(Math.max(1, width), Math.max(1, height), false);
+      viewportHeight = Math.max(1, height);
       camera.aspect = width / Math.max(1, height);
       camera.updateProjectionMatrix();
       destination = pose(view);
@@ -365,6 +386,29 @@ export async function createCheckoutScene({ canvas, context }) {
         view,
         triangles: renderer.info.render.triangles,
         calls: renderer.info.render.calls,
+        landmarks: landmarks.map((point) => {
+          const p = point.clone().project(camera);
+          return [(p.x + 1) / 2, (1 - p.y) / 2];
+        }),
+        region:
+          view === "overview"
+            ? null
+            : (() => {
+                const [left, top, right, bottom] = regions[Number(view)];
+                return [
+                  [left, top],
+                  [right, top],
+                  [right, bottom],
+                  [left, bottom],
+                ].map(([x, y]) => {
+                  const p = new Vector3(
+                    -0.45 + (x - 720) * 0.001875,
+                    1.66 + (450 - y) * 0.001875,
+                    0.11,
+                  ).project(camera);
+                  return [(p.x + 1) / 2, (1 - p.y) / 2];
+                });
+              })(),
       };
     },
     dispose() {

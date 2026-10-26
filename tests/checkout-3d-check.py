@@ -35,7 +35,11 @@ with sync_playwright() as p:
   overview=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'))
   controls=page.locator('.checkout-controls').bounding_box()
   model=page.locator('.checkout-object').bounding_box()
-  assert controls['y']>=model['y']+model['height'],'Controls must not cover the model'
+  for dot in page.locator('[data-checkout-dot]').all():
+   dx=model['x']+float(dot.get_attribute('cx'));dy=model['y']+float(dot.get_attribute('cy'))
+   for button in page.locator('[data-checkout-point]').all():
+    b=button.bounding_box()
+    assert not(b['x']<=dx<=b['x']+b['width'] and b['y']<=dy<=b['y']+b['height']),'An annotation must leave its feature visible'
   assert page.locator('#checkout-return').is_disabled()
   assert page.locator('[data-checkout-point][aria-pressed="true"]').count()==0,'Overview must not claim a close-up is selected'
   page.screenshot(path=str(OUT/f'overview-{w}.png'))
@@ -47,6 +51,13 @@ with sync_playwright() as p:
    assert button.get_attribute('aria-pressed')=='true'
    assert page.locator('#checkout-return').is_visible()
    assert page.locator('#checkout-return').is_enabled()
+   region=json.loads(page.locator('#checkout-canvas').get_attribute('data-region'))
+   left=model['x']+min(p[0] for p in region)*model['width'];right=model['x']+max(p[0] for p in region)*model['width']
+   top=model['y']+min(p[1] for p in region)*model['height'];bottom=model['y']+max(p[1] for p in region)*model['height']
+   assert left>=model['x'] and right<=model['x']+model['width'] and top>=model['y'] and bottom<=model['y']+model['height'],'Keep the chosen feature complete in the viewport'
+   for control in page.locator('[data-checkout-point], #checkout-return').all():
+    b=control.bounding_box()
+    assert right<=b['x'] or left>=b['x']+b['width'] or bottom<=b['y'] or top>=b['y']+b['height'],'Controls must not cover the chosen screenshot region'
    after=page.locator('.checkout-controls').bounding_box()
    assert all(abs(after[k]-controls[k])<1 for k in controls),'Controls must stay in place when the camera moves'
    after_model=page.locator('.checkout-object').bounding_box()
@@ -54,13 +65,14 @@ with sync_playwright() as p:
    assert page.locator('#checkout-original').get_attribute('href').endswith('demo-payment.png' if view=='2' else 'demo-sale.png')
    count=draws(page);page.wait_for_timeout(180);assert draws(page)==count
    page.screenshot(path=str(OUT/f'focus-{view}-{w}.png'))
-  assert not any('/img/checkout-'+v+'-v44.webp' in u for u in requests for v in ['0','1','2']),'A working renderer should not download fallback focus posters'
+  assert not any('/img/checkout-'+v+'-v46.webp' in u for u in requests for v in ['0','1','2']),'A working renderer should not download fallback focus posters'
   page.locator('#checkout-return').click();settled(page,'overview')
   assert abs(float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'))-overview)<.02
   assert page.locator('[data-checkout-point="0"]').evaluate('e=>e===document.activeElement')
   assert page.locator('#checkout-return').is_disabled()
   assert page.locator('[data-checkout-point][aria-pressed="true"]').count()==0
   for button in page.locator('[data-checkout-point], #checkout-return').all():
+   if not button.is_visible():continue
    box=button.bounding_box();assert box['width']>=44 and box['height']>=52 and box['x']>=0 and box['x']+box['width']<=w
    label=button.locator('span')
    if label.count():
@@ -102,7 +114,7 @@ with sync_playwright() as p:
  # Exercise the actual GPU context-loss path and restoration.
  page.locator('#checkout-canvas').evaluate('c=>{window.checkoutLost=c.getContext("webgl2").getExtension("WEBGL_lose_context");checkoutLost.loseContext()}')
  page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutRenderer==="poster"')
- assert page.locator('#product-screen').get_attribute('src').endswith('checkout-2-v44.webp')
+ assert page.locator('#product-screen').get_attribute('src').endswith('checkout-2-v46.webp')
  page.evaluate('checkoutLost.restoreContext()');ready(page);assert page.locator('.checkout-object').get_attribute('data-checkout-view')=='2'
  assert not errors,errors
  print(json.dumps({'browser':BROWSER,'rapidSelection':'pass','touchOffscreenHiddenModalPause':'pass','reducedMotion':'one frame','sourcePreview':'pass','GPUContextRecovery':'pass'}),flush=True);page.close()
@@ -113,14 +125,14 @@ with sync_playwright() as p:
   if mode=='no-gpu':assert not any('/assets/checkout3d.' in u for u in requests)
   for view in ['0','1','2']:
    page.locator(f'[data-checkout-point="{view}"]').click()
-   page.wait_for_function('(v)=>document.getElementById("product-screen").getAttribute("src").endsWith(`checkout-${v}-v44.webp`)',arg=view)
-   page.wait_for_function('(v)=>{const i=document.getElementById("product-screen");return i.complete&&i.naturalWidth>0&&i.currentSrc.endsWith(`checkout-${v}-v44.webp`)}',arg=view)
+   page.wait_for_function('(v)=>document.getElementById("product-screen").getAttribute("src").endsWith(`checkout-${v}-v46.webp`)',arg=view)
+   page.wait_for_function('(v)=>{const i=document.getElementById("product-screen");return i.complete&&i.naturalWidth>0&&i.currentSrc.endsWith(`checkout-${v}-v46.webp`)}',arg=view)
    page.locator('#product-screen').evaluate('e=>e.decode()')
    assert page.locator('.checkout-object').get_attribute('data-checkout-renderer')=='poster'
   page.locator('#checkout-return').click();assert page.locator('.checkout-object').get_attribute('data-checkout-view')=='overview'
   assert not errors,errors
   print(json.dumps({'browser':BROWSER,'fallback':mode,'threeRenderedPostersAndReturn':'pass'}),flush=True);page.close()
  context=browser.new_context(java_script_enabled=False,viewport={'width':390,'height':844});page=context.new_page();page.goto(BASE);page.locator('#product-screen').scroll_into_view_if_needed()
- assert page.locator('#product-screen').get_attribute('src')=='img/checkout-overview-v44.webp'
+ assert page.locator('#product-screen').get_attribute('src')=='img/checkout-overview-v46.webp'
  assert page.locator('[data-checkout-point]').first.is_disabled()
  page.locator('#product-screen-link').click();page.wait_for_url('**/img/demo-sale.png');context.close();browser.close()

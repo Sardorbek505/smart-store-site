@@ -1,8 +1,7 @@
-/* The model and its controls have separate, stable slots before JS loads. */
+/* Labels belong to the scene; every pill is a single generous tap target. */
 #workspace .checkout-stage {
   container-type: normal;
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: 12px;
+  grid-template-rows: minmax(0, 1fr);
   place-items: stretch;
 }
 .checkout-view {
@@ -13,9 +12,9 @@
   place-items: center;
 }
 #workspace .checkout-object {
-  height: min(100cqh, 75cqw);
-  aspect-ratio: 4 / 3;
-  width: auto;
+  height: 100%;
+  width: 100%;
+  aspect-ratio: auto;
   max-width: 100%;
   isolation: isolate;
 }
@@ -45,106 +44,210 @@
 #workspace [data-checkout-renderer="webgl"] #product-screen {
   opacity: 0;
 }
-.checkout-controls {
-  container: checkout-controls / inline-size;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  max-width: 500px;
-  margin-inline: auto;
-}
+.checkout-controls,
 .checkout-points {
-  flex: 1;
-  min-width: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid #d1d1df;
-  border-radius: 18px;
-  background: #ffffffb3;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.checkout-controls {
+  z-index: 2;
+}
+.checkout-leaders {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: #1d4ed8;
+  stroke-width: 1.2px;
+  opacity: 0;
+}
+.checkout-leaders[data-ready="true"] {
+  opacity: 1;
+}
+.checkout-leaders path {
+  opacity: 0.5;
+  vector-effect: non-scaling-stroke;
+}
+.checkout-leaders circle {
+  fill: #1d4ed8;
+  stroke: #fff;
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+}
+.checkout-object:not([data-checkout-view="overview"]) .checkout-leaders {
+  visibility: hidden;
+}
+.checkout-object[data-checkout-motion="running"] .checkout-leaders,
+.checkout-object[data-checkout-motion="paused"] .checkout-leaders {
+  visibility: hidden;
 }
 .scene-point,
 .checkout-return {
-  min-width: 0;
+  position: absolute;
   min-height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 0 6px;
-  border: 1px solid transparent;
-  border-radius: 13px;
-  color: var(--ink);
-  background: transparent;
+  gap: 8px;
+  padding: 5px 14px 5px 6px;
+  border: 1px solid #ffffffb3;
+  border-radius: 99px;
+  color: #fff;
+  background: var(--ink);
+  box-shadow: 0 4px 14px #11111618;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
   transition:
     background 160ms,
-    color 160ms,
-    box-shadow 160ms;
+    box-shadow 160ms,
+    left 240ms ease,
+    top 240ms ease,
+    transform 240ms ease;
+}
+.scene-point {
+  width: 64px;
+  min-height: 84px;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  font-size: 12px;
 }
 .scene-point b {
-  font-size: 10px;
-  font-weight: 500;
-  opacity: 0.7;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  color: #fff;
+  background: var(--ink);
+  box-shadow: 0 3px 9px #11111618;
+  font-size: 16px;
 }
 .scene-point span {
   white-space: nowrap;
+  padding: 3px 8px;
+  border: 1px solid #d1d1df;
+  border-radius: 99px;
+  background: #fffffff2;
+  color: var(--ink);
 }
-.scene-point[aria-pressed="true"] {
+.scene-point[data-checkout-point="0"] {
+  left: 0;
+  top: 34%;
+}
+.scene-point[data-checkout-point="1"] {
+  left: 100%;
+  top: 12%;
+  transform: translateX(-100%);
+}
+.scene-point[data-checkout-point="2"] {
+  left: 100%;
+  top: calc(100% - 84px);
+  transform: translateX(-100%);
+}
+.checkout-object:not([data-checkout-view="overview"]) .scene-point {
+  top: 0;
+  width: auto;
+  min-height: 52px;
+  flex-direction: row;
+  gap: 6px;
+  padding-inline: 6px 10px;
+  border-color: #ffffffb3;
+  background: var(--ink);
+  box-shadow: 0 4px 14px #11111618;
+  font-size: 12px;
+}
+.checkout-object:not([data-checkout-view="overview"]) .scene-point b {
+  width: 26px;
+  height: 26px;
+  color: var(--ink);
+  background: #fff;
+  box-shadow: none;
+  font-size: 12px;
+}
+.checkout-object:not([data-checkout-view="overview"]) .scene-point span {
+  padding: 0;
+  border: 0;
   color: #fff;
+  background: transparent;
+}
+.checkout-object:not([data-checkout-view="overview"])
+  .scene-point[data-checkout-point="1"] {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.checkout-object:not([data-checkout-view="overview"])
+  .scene-point[aria-pressed="true"] {
   background: var(--blue);
-  box-shadow: 0 3px 9px #1d4ed829;
+  box-shadow:
+    0 0 0 4px #1d4ed825,
+    0 4px 14px #11111618;
 }
 .scene-point[aria-pressed="true"] b {
-  opacity: 1;
+  color: var(--blue);
 }
 .checkout-return {
-  flex: none;
-  width: 52px;
-  min-height: 60px;
-  padding: 0;
-  border-color: #d1d1df;
-  border-radius: 18px;
-  background: #ffffffb3;
+  left: 0;
+  bottom: 0;
+  min-height: 44px;
+  padding: 0 12px;
+  color: var(--ink);
+  border-color: #c8c8d5;
+  background: #fffffff2;
+  font-size: 12px;
 }
 .checkout-return .icon {
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
+  transform: rotate(180deg);
 }
 .scene-point:focus-visible,
 .checkout-return:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 3px;
 }
-.scene-point:disabled,
-.checkout-return:disabled {
+.scene-point:disabled {
   cursor: default;
-  color: #727287;
+}
+.checkout-return:disabled {
+  visibility: hidden;
+  pointer-events: none;
 }
 @media (hover: hover) {
-  .scene-point:not(:disabled):not([aria-pressed="true"]):hover,
+  .scene-point:not(:disabled):hover {
+    background: #2b2b3a;
+  }
+  .scene-point[aria-pressed="true"]:hover {
+    background: #1744c1;
+  }
   .checkout-return:not(:disabled):hover {
     background: #e1e7fa;
   }
-}
-.scene-point:not(:disabled):active,
-.checkout-return:not(:disabled):active {
-  box-shadow: inset 0 0 0 2px #1d4ed833;
-}
-@container checkout-controls (max-width: 330px) {
-  .scene-point b {
-    display: none;
+  .checkout-object[data-checkout-view="overview"] .scene-point:hover {
+    background: transparent;
+  }
+  .checkout-object[data-checkout-view="overview"] .scene-point:hover b {
+    background: var(--blue);
   }
 }
-@media (max-height: 700px) {
-  #workspace .checkout-stage {
-    gap: 8px;
+.scene-point:not(:disabled):active {
+  box-shadow: 0 0 0 5px #1d4ed833;
+}
+@media (max-width: 620px) and (max-height: 700px) {
+  #workspace .checkout-detail-top {
+    display: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
