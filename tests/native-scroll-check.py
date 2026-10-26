@@ -39,14 +39,14 @@ with sync_playwright() as p:
     page.goto(BASE,wait_until='networkidle')
     page.wait_for_function('document.body.style.getPropertyValue("--screen-height")==="844px"')
     assert page.locator('.screen-content.is-scrollable').count()==0
-    page.locator('#store').scroll_into_view_if_needed()
+    page.locator('#license').scroll_into_view_if_needed()
     page.wait_for_timeout(100)
-    initial=page.evaluate('({y:scrollY,top:document.querySelector("#store").offsetTop,height:document.querySelector("#features").offsetHeight})')
+    initial=page.evaluate('({y:scrollY,top:document.querySelector("#license").offsetTop,height:document.querySelector("#features").offsetHeight})')
     changes=[]
     for h in [830,816,802,788,774,760,774,788,802,816,830,844]:
         page.set_viewport_size({'width':390,'height':h})
         page.wait_for_timeout(30)
-        current=page.evaluate('({y:scrollY,top:document.querySelector("#store").offsetTop,height:document.querySelector("#features").offsetHeight})')
+        current=page.evaluate('({y:scrollY,top:document.querySelector("#license").offsetTop,height:document.querySelector("#features").offsetHeight})')
         assert current['height']==initial['height'],current
         assert current['top']==initial['top'],current
         changes.append(abs(current['y']-initial['y']))

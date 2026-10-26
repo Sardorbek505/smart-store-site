@@ -24,7 +24,7 @@ export function init() {
   let scrolling = false;
   let touching = false;
   let idleTimer;
-  const dialog = document.getElementById("preview-dialog");
+  const dialogs = [...document.querySelectorAll("dialog")];
   const duration = 4600;
   const ease = "cubic-bezier(.22, 1, .36, 1)";
   const add = (state, element, frames) => {
@@ -92,7 +92,11 @@ export function init() {
       .catch(() => {}); // Cancellation restores the static final state.
   };
   const sync = () => {
-    const blocked = scrolling || touching || document.hidden || dialog?.open;
+    const blocked =
+      scrolling ||
+      touching ||
+      document.hidden ||
+      dialogs.some((dialog) => dialog.open);
     for (const state of states) {
       state.button.hidden = reduced.matches;
       if (reduced.matches) {
@@ -174,8 +178,9 @@ export function init() {
     sync();
   });
   reduced.addEventListener("change", sync);
-  if (dialog)
-    new MutationObserver(sync).observe(dialog, {
+  const dialogObserver = new MutationObserver(sync);
+  for (const dialog of dialogs)
+    dialogObserver.observe(dialog, {
       attributes: true,
       attributeFilter: ["open"],
     });

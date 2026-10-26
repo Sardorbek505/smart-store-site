@@ -351,29 +351,6 @@ a:hover {
   width: 17px;
   height: 17px;
 }
-.data-section {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr 1fr;
-  align-items: center;
-  gap: 30px;
-  border-block: 1px solid var(--line);
-  padding-block: 35px;
-}
-.data-heading {
-  display: flex;
-  gap: 13px;
-  align-items: center;
-}
-.data-heading > .icon {
-  width: 35px;
-  height: 35px;
-  color: var(--blue);
-}
-.data-heading h2 {
-  font-size: 25px;
-  letter-spacing: -1px;
-  line-height: 1.15;
-}
 .note {
   font-size: 12px;
   color: var(--muted);
@@ -458,30 +435,6 @@ summary::-webkit-details-marker {
   font-size: 16px;
   color: var(--muted);
   padding-bottom: 25px;
-}
-.store-section {
-  padding: 65px 0;
-  background: #e2e2ee;
-}
-.store-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 100px;
-  align-items: center;
-}
-.store-layout h2 {
-  font-size: 35px;
-  letter-spacing: -1.3px;
-}
-.store-layout .eyebrow {
-  font-size: 12px;
-  margin-bottom: 16px;
-}
-.store-layout > div > p {
-  font-size: 16px;
-  color: var(--muted);
-  margin-top: 20px;
-  max-width: 430px;
 }
 .store-help {
   margin-top: 16px;
@@ -672,10 +625,6 @@ summary::-webkit-details-marker {
   .bento p {
     font-size: 16px;
   }
-
-  .store-layout {
-    gap: 60px;
-  }
   .license-section {
     padding: 45px;
     gap: 35px;
@@ -689,9 +638,6 @@ summary::-webkit-details-marker {
   .license-copy .button {
     font-size: 14px;
     padding-inline: 17px;
-  }
-  .data-section {
-    gap: 20px;
   }
 }
 @media (max-width: 850px) {
@@ -819,17 +765,6 @@ summary::-webkit-details-marker {
   .connection-note {
     font-size: 16px;
   }
-  .data-section {
-    grid-template-columns: 1fr 1fr;
-    padding-block: 30px;
-    gap: 28px;
-  }
-  .data-heading h2 {
-    font-size: 27px;
-  }
-  .data-heading {
-    align-self: start;
-  }
   .license-section {
     padding: 35px;
     gap: 30px;
@@ -866,19 +801,10 @@ summary::-webkit-details-marker {
   .faq-list p {
     font-size: 16px;
   }
-  .store-layout {
-    gap: 40px;
-  }
-  .store-layout h2 {
-    font-size: 29px;
-  }
   .store-card {
     padding: 24px;
   }
   .store-card input {
-    font-size: 16px;
-  }
-  .store-layout > div > p {
     font-size: 16px;
   }
   .foot nav {
@@ -1024,23 +950,6 @@ summary::-webkit-details-marker {
     font-size: 16px;
     max-width: 350px;
   }
-  .data-section {
-    grid-template-columns: 1fr 1fr;
-    gap: 26px 18px;
-    padding-block: 30px;
-  }
-  .data-heading {
-    display: block;
-  }
-  .data-heading > .icon {
-    width: 28px;
-    height: 28px;
-    margin-bottom: 10px;
-  }
-  .data-heading h2 {
-    font-size: 24px;
-    letter-spacing: -1px;
-  }
   .license-section {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -1085,22 +994,6 @@ summary::-webkit-details-marker {
   }
   .faq-list p {
     font-size: 16px;
-  }
-  .store-section {
-    padding-block: 45px;
-  }
-  .store-layout {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-  .store-layout h2 {
-    font-size: 32px;
-  }
-  .store-layout > div > p {
-    font-size: 16px;
-  }
-  .store-layout .eyebrow {
-    font-size: 12px;
   }
   .store-card {
     padding: 24px 20px;
@@ -1328,16 +1221,6 @@ h3 {
   }
   .extra-features p span {
     font-size: 16px;
-  }
-  .data-section {
-    grid-template-columns: 1fr;
-  }
-  .data-heading {
-    display: flex;
-    align-items: center;
-  }
-  .data-heading > .icon {
-    margin: 0;
   }
 }
 .section-heading > p {

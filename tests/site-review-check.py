@@ -29,9 +29,10 @@ with sync_playwright() as p:
             assert box['height']>=44 and box['width']>=44
             point.click()
             assert point.get_attribute('aria-pressed')=='true'
-        page.locator('#data').evaluate('e=>scrollTo(0,e.offsetTop)')
-        assert page.locator('#data .data-facts > div').count()==3
-        assert page.locator('#data .screen-content').evaluate('e=>e.scrollWidth<=e.clientWidth && e.scrollHeight<=e.clientHeight+4')
+        page.locator('#data').evaluate('e=>e.open=true')
+        assert all(word in page.locator('#data').inner_text() for word in ['компьютере','2 часа','флешку'])
+        page.locator('#data').evaluate('e=>e.open=false')
+        page.wait_for_function('!document.querySelector("#faq .screen-content").classList.contains("is-scrollable")')
         unexpected=page.locator('.screen-content.is-scrollable').evaluate_all('xs=>xs.map(e=>({section:e.closest("section").getAttribute("aria-labelledby")||e.closest("section").id,scroll:e.scrollHeight,height:e.clientHeight}))')
         assert not unexpected,unexpected
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
@@ -46,7 +47,7 @@ with sync_playwright() as p:
             assert toggle.get_attribute('aria-expanded')=='false'
             assert toggle.evaluate('e=>document.activeElement===e')
             page.keyboard.press('Enter')
-            page.locator('#store-code').focus()
+            page.locator('.bento-grid').focus()
             assert toggle.get_attribute('aria-expanded')=='false'
         assert not errors,errors
         print(json.dumps({'browser':BROWSER,'viewport':[w,h],'scenePoints':'fits','FAQLink':'visible','storage':'fits','keyboardMenu':'pass'}),flush=True)

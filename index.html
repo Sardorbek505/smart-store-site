@@ -77,9 +77,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.f4c3f89a767b.css" />
+    <link rel="stylesheet" href="assets/site.c14aaac2bc25.css" />
     <!-- styles:end -->
-    <script src="app.js?v=49" type="module"></script>
+    <script src="app.js?v=50" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -88,6 +88,15 @@
           opacity: 1;
           visibility: visible;
           pointer-events: auto;
+        }
+        #store:target {
+          display: block;
+          position: relative;
+          inset: auto;
+          margin: 24px auto;
+        }
+        #store-close {
+          display: none;
         }
       </style></noscript
     >
@@ -149,11 +158,15 @@
           /><span>Smart Store</span></a
         >
         <nav class="top-links" id="site-nav" aria-label="Навигация по сайту">
-          <a href="#features">Возможности</a><a href="demo/">Демо</a
-          ><a href="#start">Как начать</a><a href="#license">Лицензия</a
+          <a href="#features">Возможности</a
+          ><a href="#installation">Установка</a><a href="#license">Лицензия</a
           ><a href="#faq">Вопросы</a>
         </nav>
-        <a href="#store" class="enter-link"
+        <a
+          href="#store"
+          aria-haspopup="dialog"
+          aria-controls="store"
+          class="enter-link"
           ><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg
           ><span class="enter-wide">Войти в магазин</span
           ><span class="enter-short">Вход</span
@@ -193,13 +206,13 @@
               ><span class="button-icon" aria-hidden="true"
                 ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" /></svg></span></a
-            ><a class="cinema-explore interactive-link" href="demo/">
+            ><a class="cinema-explore interactive-link" href="#workspace">
               <span class="interactive-main"
                 ><span class="interactive-dot" aria-hidden="true"></span
-                ><span>Открыть демо</span></span
+                ><span>Как работает</span></span
               >
               <span class="interactive-hover" aria-hidden="true"
-                >Открыть демо <svg class="icon"><use href="#i-arrow" /></svg
+                >Как работает <svg class="icon"><use href="#i-arrow" /></svg
               ></span>
             </a>
           </div>
@@ -777,7 +790,11 @@
                 >
               </li>
             </ol>
-            <a class="text-link installation-existing" href="#store"
+            <a
+              class="text-link installation-existing"
+              href="#store"
+              aria-haspopup="dialog"
+              aria-controls="store"
               >Уже установили? Войти в магазин →</a
             >
           </div>
@@ -885,7 +902,7 @@
                     <div class="micro-widget micro-receipt">
                       <div class="micro-heading">
                         <span>Новый чек</span
-                        ><span class="micro-demo">ДЕМО</span>
+                        ><span class="micro-demo">ПРИМЕР</span>
                       </div>
                       <div class="micro-row micro-item">
                         <span class="micro-product-icon"
@@ -930,8 +947,8 @@
               <div class="bento-copy">
                 <div class="bento-top">
                   <span class="pill">ПРОДАЖИ</span
-                  ><span class="feature-demo-label" aria-hidden="true"
-                    >В демо <svg class="icon"><use href="#i-arrow" /></svg
+                  ><span class="feature-screen-label" aria-hidden="true"
+                    >Экран <svg class="icon"><use href="#i-zoom" /></svg
                   ></span>
                 </div>
                 <h3>Пик. И товар<br />уже в чеке.</h3>
@@ -948,9 +965,11 @@
                 </button>
               </div>
               <a
-                class="feature-demo-link"
-                href="demo/#sale"
-                aria-label="Попробовать продажи в демомагазине"
+                class="feature-screen-link"
+                href="img/demo-sale.png"
+                data-preview
+                data-title="Smart Store / Касса"
+                aria-label="Рассмотреть экран: Касса"
               ></a>
             </article>
             <article class="bento bento-stock story-feature">
@@ -961,7 +980,7 @@
                     <div class="micro-widget micro-inventory">
                       <div class="micro-heading">
                         <span>Остатки на складе</span
-                        ><span class="micro-demo">ДЕМО</span>
+                        ><span class="micro-demo">ПРИМЕР</span>
                       </div>
                       <div class="micro-row">
                         <span class="micro-product-icon"
@@ -1010,8 +1029,8 @@
               <div class="bento-copy">
                 <div class="bento-top">
                   <span class="pill">СКЛАД</span
-                  ><span class="feature-demo-label" aria-hidden="true"
-                    >В демо <svg class="icon"><use href="#i-arrow" /></svg
+                  ><span class="feature-screen-label" aria-hidden="true"
+                    >Экран <svg class="icon"><use href="#i-zoom" /></svg
                   ></span>
                 </div>
                 <h3>Товар продан.<br />Склад в курсе.</h3>
@@ -1028,9 +1047,11 @@
                 </button>
               </div>
               <a
-                class="feature-demo-link"
-                href="demo/#stock"
-                aria-label="Посмотреть склад в демомагазине"
+                class="feature-screen-link"
+                href="img/demo-products.png"
+                data-preview
+                data-title="Smart Store / Товары и остатки"
+                aria-label="Рассмотреть экран: Товары и остатки"
               ></a>
             </article>
             <article class="bento bento-reports story-feature">
@@ -1041,7 +1062,7 @@
                     <div class="micro-widget micro-report">
                       <div class="micro-heading">
                         <span>Сегодня в магазине</span
-                        ><span class="micro-demo">ДЕМО</span>
+                        ><span class="micro-demo">ПРИМЕР</span>
                       </div>
                       <div class="micro-revenue">
                         <span>Выручка</span
@@ -1095,8 +1116,8 @@
               <div class="bento-copy">
                 <div class="bento-top">
                   <span class="pill">КОНТРОЛЬ</span
-                  ><span class="feature-demo-label" aria-hidden="true"
-                    >В демо <svg class="icon"><use href="#i-arrow" /></svg
+                  ><span class="feature-screen-label" aria-hidden="true"
+                    >Экран <svg class="icon"><use href="#i-zoom" /></svg
                   ></span>
                 </div>
                 <h3>Один чек.<br />Итоги яснее.</h3>
@@ -1113,9 +1134,11 @@
                 </button>
               </div>
               <a
-                class="feature-demo-link"
-                href="demo/#reports"
-                aria-label="Посмотреть отчёт в демомагазине"
+                class="feature-screen-link"
+                href="img/demo-home.png"
+                data-preview
+                data-title="Smart Store / Итоги дня"
+                aria-label="Рассмотреть экран: Итоги дня"
               ></a>
             </article>
           </div>
@@ -1353,7 +1376,7 @@
           <div class="mobile-demo">
             <div class="demo-progress" aria-hidden="true">
               <span class="current"></span><span></span><span></span
-              ><small>ДЕМО</small>
+              ><small>ПРИМЕР</small>
             </div>
             <div
               class="mobile-reading"
@@ -1381,7 +1404,11 @@
               ></span>
             </button>
             <div class="mobile-bottom">
-              <a href="#store" class="story-text-link"
+              <a
+                href="#store"
+                aria-haspopup="dialog"
+                aria-controls="store"
+                class="story-text-link"
                 >Войти в свой магазин
                 <svg class="icon" aria-hidden="true">
                   <use href="#i-arrow" /></svg
@@ -1391,150 +1418,6 @@
               </p>
             </div>
           </div>
-        </div>
-      </section>
-      <section
-        id="data"
-        class="data-section screen-section"
-        aria-labelledby="data-title"
-      >
-        <div class="screen-content wrap data-story">
-          <div class="data-heading">
-            <h2 id="data-title">Данные —<br /><span>на компьютере.</span></h2>
-          </div>
-          <figure class="data-scene">
-            <a
-              class="data-scene-preview"
-              href="img/demo-backups.png"
-              data-preview
-              data-title="Smart Store / Резервные копии"
-              data-preview-alt="Резервные копии Smart Store: автокопии каждые 2 часа и сохранение на флешку"
-              aria-label="Рассмотреть экран резервных копий Smart Store"
-            >
-              <img
-                src="img/data-backup-laptop-1536.webp"
-                srcset="
-                  img/data-backup-laptop-768.webp   768w,
-                  img/data-backup-laptop-1536.webp 1536w
-                "
-                sizes="(max-width: 620px) calc(100vw - 44px), 85vw"
-                width="1536"
-                height="1024"
-                loading="lazy"
-                decoding="async"
-                alt="Ноутбук с настоящим экраном резервных копий Smart Store и отдельная USB-флешка для внешней копии"
-              />
-              <span class="data-scene-zoom" aria-hidden="true"
-                ><svg class="icon"><use href="#i-zoom" /></svg
-              ></span>
-            </a>
-          </figure>
-          <dl class="data-facts">
-            <div>
-              <dt>
-                <span class="data-fact-number">01</span>Продажи без интернета
-              </dt>
-              <dd>Касса, склад и основные отчёты.</dd>
-            </div>
-            <div>
-              <dt>
-                <span class="data-fact-number">02</span>Автокопии каждые 2 часа
-              </dt>
-              <dd>Сохраняются на этом компьютере.</dd>
-            </div>
-            <div>
-              <dt><span class="data-fact-number">03</span>Копия на флешке</dt>
-              <dd>«Копия на флешку» — и храните отдельно.</dd>
-            </div>
-          </dl>
-        </div>
-      </section>
-      <section
-        id="start"
-        class="section screen-section"
-        aria-labelledby="start-title"
-      >
-        <div class="screen-content wrap start-story">
-          <div class="start-heading">
-            <h2 id="start-title">Три шага.<br /><span>И вы в работе.</span></h2>
-          </div>
-          <ol class="start-journey" aria-label="Шаги начала работы">
-            <li>
-              <span class="journey-number" aria-hidden="true">01</span
-              ><a
-                class="journey-art"
-                href="img/demo-home.png"
-                data-preview
-                data-title="Smart Store / Главная"
-                aria-label="Рассмотреть главную Smart Store"
-                ><img
-                  src="img/workspace-demo-overview.webp"
-                  width="1122"
-                  height="1402"
-                  loading="lazy"
-                  decoding="async"
-                  alt="Монитор с итогами дня в установленной программе Smart Store" /><svg
-                  class="icon"
-                  aria-hidden="true"
-                >
-                  <use href="#i-zoom" /></svg
-              ></a>
-              <div class="journey-copy">
-                <h3>Установите</h3>
-                <p>Windows 10 / 11.</p>
-              </div>
-            </li>
-            <li>
-              <span class="journey-number" aria-hidden="true">02</span
-              ><a
-                class="journey-art"
-                href="img/demo-products.png"
-                data-preview
-                data-title="Smart Store / Товары"
-                aria-label="Рассмотреть каталог товаров"
-                ><img
-                  src="img/workspace-demo-catalog.webp"
-                  width="1122"
-                  height="1402"
-                  loading="lazy"
-                  decoding="async"
-                  alt="Каталог с ценами и остатками товаров на ноутбуке" /><svg
-                  class="icon"
-                  aria-hidden="true"
-                >
-                  <use href="#i-zoom" /></svg
-              ></a>
-              <div class="journey-copy">
-                <h3>Добавьте товары</h3>
-                <p>Вручную или из Excel.</p>
-              </div>
-            </li>
-            <li>
-              <span class="journey-number" aria-hidden="true">03</span
-              ><a
-                class="journey-art"
-                href="img/demo-payment.png"
-                data-preview
-                data-title="Smart Store / Оплата"
-                aria-label="Рассмотреть оплату: 40 000 ₸ наличными и 42 300 ₸ Kaspi"
-                ><img
-                  src="img/workspace-demo-sale.webp"
-                  width="1071"
-                  height="1468"
-                  loading="lazy"
-                  decoding="async"
-                  alt="Касса с чеком на 82 300 ₸ и принтером" /><svg
-                  class="icon"
-                  aria-hidden="true"
-                >
-                  <use href="#i-zoom" /></svg
-              ></a>
-              <div class="journey-copy">
-                <h3>Проведите продажу</h3>
-                <p>Наличные, Kaspi или вместе.</p>
-              </div>
-            </li>
-          </ol>
         </div>
       </section>
       <section
@@ -1648,6 +1531,21 @@
                 >. Код вводится в Smart Store: «Система» → «Лицензия».
               </p>
             </details>
+            <details id="data">
+              <summary>
+                Где хранятся данные и резервные копии?<span
+                  class="faq-symbol"
+                  aria-hidden="true"
+                  ><svg class="icon" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" /></svg
+                ></span>
+              </summary>
+              <p>
+                База магазина хранится на компьютере. Smart Store создаёт
+                локальные автокопии каждые 2 часа. Для отдельной копии нажмите
+                «Копия на флешку» и храните флешку отдельно от компьютера.
+              </p>
+            </details>
             <details id="ai-info">
               <summary>
                 AI и распознавание накладных уже включены?<span
@@ -1666,7 +1564,7 @@
             </details>
             <details>
               <summary>
-                Windows предупреждает об установщике. Что делать?
+                Как установить и обновлять Smart Store?
                 <span class="faq-symbol" aria-hidden="true"
                   ><svg class="icon" viewBox="0 0 24 24">
                     <path d="M12 5v14M5 12h14" /></svg
@@ -1677,101 +1575,10 @@
                 показать предупреждение. Проверьте, что скачали файл по кнопке
                 этого сайта или из официального репозитория Smart Store. Если
                 есть сомнения, обратитесь в поддержку перед установкой.
+                Обновления скачиваются в фоне при наличии интернета. Примените
+                обновление из программы, предварительно закончив продажу.
               </p>
             </details>
-            <details>
-              <summary>
-                Как приходят обновления?<span
-                  class="faq-symbol"
-                  aria-hidden="true"
-                  ><svg class="icon" viewBox="0 0 24 24">
-                    <path d="M12 5v14M5 12h14" /></svg
-                ></span>
-              </summary>
-              <p>
-                Программа проверяет новые версии и скачивает их в фоне при
-                наличии интернета. Доступное обновление можно применить из
-                программы; незавершённую продажу сначала нужно закончить.
-                Повторно скачивать установщик с сайта для каждого обновления не
-                требуется.
-              </p>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="store"
-        class="store-section screen-section"
-        aria-labelledby="store-title"
-      >
-        <div class="screen-content wrap">
-          <div class="store-layout">
-            <div>
-              <h2 id="store-title">Войти в свой магазин.</h2>
-              <p>Введите код магазина. Затем — PIN или логин и пароль.</p>
-              <details class="store-help">
-                <summary>Где взять код магазина?</summary>
-                <p>
-                  Код, адрес и QR-код — в Smart Store на компьютере: «Система» →
-                  настройки телефона. Компьютер должен быть включён и подключён
-                  к интернету.
-                </p>
-              </details>
-            </div>
-            <div class="store-card">
-              <span class="ui-beam" aria-hidden="true"
-                ><span class="ui-beam-ray"></span
-              ></span>
-              <form id="store-form" novalidate>
-                <label for="store-code">Код или адрес магазина</label
-                ><input
-                  id="store-code"
-                  name="code"
-                  type="text"
-                  autocomplete="off"
-                  autocapitalize="none"
-                  autocorrect="off"
-                  inputmode="url"
-                  enterkeyhint="go"
-                  spellcheck="false"
-                  placeholder="Код из программы Smart Store"
-                  aria-describedby="store-hint store-note"
-                  required
-                  maxlength="200"
-                />
-                <p id="store-hint" class="field-hint">
-                  Можно вставить полный адрес вида код.metov.store.
-                </p>
-                <button
-                  class="button primary"
-                  type="submit"
-                  id="store-submit"
-                  disabled
-                >
-                  <span class="button-label">Открыть магазин</span
-                  ><span class="button-icon" aria-hidden="true"
-                    ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M5 12h14m-6-6 6 6-6 6" /></svg
-                  ></span>
-                </button>
-                <p
-                  id="store-note"
-                  class="form-note"
-                  role="status"
-                  aria-live="polite"
-                ></p>
-                <a id="store-direct" class="text-link" hidden
-                  >Открыть магазин напрямую <span aria-hidden="true">→</span></a
-                >
-              </form>
-              <noscript
-                ><p>
-                  Для входа по коду включите JavaScript или отсканируйте QR-код
-                  из Smart Store на компьютере.
-                </p></noscript
-              >
-            </div>
           </div>
         </div>
       </section>
@@ -1789,6 +1596,9 @@
         >
       </div>
       <nav aria-label="Контакты и документы">
+        <a href="#store" aria-haspopup="dialog" aria-controls="store"
+          >Войти в магазин</a
+        >
         <a href="https://wa.me/77066352006">WhatsApp: +7 706 635 20 06</a
         ><a href="privacy.html">Конфиденциальность и условия</a
         ><a href="https://github.com/Sardorbek505/smart-store-releases/releases"
@@ -1796,6 +1606,83 @@
         >
       </nav>
     </footer>
+
+    <dialog id="store" class="store-dialog" aria-labelledby="store-title">
+      <div class="store-dialog-heading">
+        <h2 id="store-title">Войти в магазин.</h2>
+        <button
+          id="store-close"
+          class="store-close"
+          type="button"
+          aria-label="Закрыть вход"
+        >
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18" />
+          </svg>
+        </button>
+      </div>
+      <p class="store-dialog-intro">
+        Введите код магазина. Затем — PIN или логин и пароль.
+      </p>
+      <details class="store-help">
+        <summary>Где взять код магазина?</summary>
+        <p>
+          Код, адрес и QR-код — в Smart Store на компьютере: «Система» →
+          настройки телефона. Компьютер должен быть включён и подключён к
+          интернету.
+        </p>
+      </details>
+      <div class="store-card">
+        <form id="store-form" novalidate>
+          <label for="store-code">Код или адрес магазина</label
+          ><input
+            id="store-code"
+            name="code"
+            type="text"
+            autocomplete="off"
+            autocapitalize="none"
+            autocorrect="off"
+            inputmode="url"
+            enterkeyhint="go"
+            spellcheck="false"
+            placeholder="Код из программы Smart Store"
+            aria-describedby="store-hint store-note"
+            required
+            maxlength="200"
+          />
+          <p id="store-hint" class="field-hint">
+            Можно вставить полный адрес вида код.metov.store.
+          </p>
+          <button
+            class="button primary"
+            type="submit"
+            id="store-submit"
+            disabled
+          >
+            <span class="button-label">Открыть магазин</span
+            ><span class="button-icon" aria-hidden="true"
+              ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14m-6-6 6 6-6 6" /></svg
+            ></span>
+          </button>
+          <p
+            id="store-note"
+            class="form-note"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <a id="store-direct" class="text-link" hidden
+            >Открыть магазин напрямую <span aria-hidden="true">→</span></a
+          >
+        </form>
+        <noscript
+          ><p>
+            Для входа по коду включите JavaScript или отсканируйте QR-код из
+            Smart Store на компьютере.
+          </p></noscript
+        >
+      </div>
+    </dialog>
 
     <dialog
       id="preview-dialog"

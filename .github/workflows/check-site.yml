@@ -17,8 +17,6 @@ jobs:
       - run: npm test
       - name: Check published CSS matches its sources
         run: npm run check:styles
-      - name: Check the standalone demo bundle
-        run: npm run check:demo
       - name: Check the deferred 3D bundle
         run: npm run check:checkout
       - name: Check initial gallery frame
@@ -26,4 +24,4 @@ jobs:
       - name: Check browser modules
         run: |
           node --check app.js
-          for script in scripts/*.js demo/*.js; do node --check "$script"; done
+          for script in scripts/*.js; do node --check "$script"; done

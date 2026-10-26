@@ -25,12 +25,14 @@ class Handler(SimpleHTTPRequestHandler):
             body=(ROOT/'scripts/core.js').read_text()
             assert body.count('https://connect.metov.store/lookup')==1
             assert body.count('`https://${normalized}.${config.storeDomain}/`')==1
-            body=body.replace('https://connect.metov.store/lookup',BASE+'/lookup').replace('`https://${normalized}.${config.storeDomain}/`',json.dumps(BASE+'/demo/'))
+            body=body.replace('https://connect.metov.store/lookup',BASE+'/lookup').replace('`https://${normalized}.${config.storeDomain}/`',json.dumps(BASE+'/synthetic-shop/'))
             self.send_response(200);self.send_header('Content-Type','text/javascript');self.end_headers();self.wfile.write(body.encode())
         elif url.path=='/lookup':
             missing=parse_qs(url.query).get('code')==['missing-shop']
             body=json.dumps({'found':not missing}).encode()
             self.send_response(200);self.send_header('Content-Type','application/json');self.end_headers();self.wfile.write(body)
+        elif url.path=='/synthetic-shop/':
+            self.send_response(200);self.send_header('Content-Type','text/html');self.end_headers();self.wfile.write(b'<!doctype html><title>Local synthetic shop</title><p>Test login destination</p>')
         else:super().do_GET()
 
 server=ThreadingHTTPServer(('127.0.0.1',0),Handler)
@@ -49,7 +51,7 @@ try:
             page.goto(BASE+'/#store',wait_until='networkidle')
             page.locator('#store-code').fill('synthetic-shop')
             page.locator('#store-submit').click()
-            page.wait_for_url(BASE+'/demo/')
+            page.wait_for_url(BASE+'/synthetic-shop/')
             page.go_back(wait_until='commit')
             page.wait_for_function('document.querySelector("#store-form")?.dataset.state==="idle"&&!document.querySelector("#store-submit").disabled')
             cached=page.evaluate('window.restored')

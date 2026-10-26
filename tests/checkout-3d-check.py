@@ -95,7 +95,7 @@ with sync_playwright() as p:
  page.locator('#preview-dialog').evaluate('e=>e.showModal()');pause_settled(page)
  page.locator('#preview-dialog').evaluate('e=>e.close()');settled(page,'2')
  page.locator('[data-checkout-point="1"]').click();page.wait_for_timeout(100)
- page.locator('#data').evaluate('e=>scrollTo(0,e.offsetTop)');pause_settled(page)
+ page.locator('#license').evaluate('e=>scrollTo(0,e.offsetTop)');pause_settled(page)
  enter(page);settled(page,'1')
  page.locator('[data-checkout-point="0"]').click();page.wait_for_timeout(100)
  page.evaluate('Object.defineProperty(document,"hidden",{configurable:true,value:true});document.dispatchEvent(new Event("visibilitychange"))');pause_settled(page)

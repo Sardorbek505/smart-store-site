@@ -4,7 +4,7 @@ export function init() {
   const stage = gallery.querySelector(".gallery-stage");
   const track = gallery.querySelector("[data-ribbon-track]");
   const cards = [...track.querySelectorAll("[data-gallery-card]")];
-  const dialog = document.getElementById("preview-dialog");
+  const dialogs = [...document.querySelectorAll("dialog")];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const wrap = (n) => ((n % cards.length) + cards.length) % cards.length;
   const transformAt = (n) =>
@@ -46,14 +46,15 @@ export function init() {
       !manual &&
       inView &&
       !document.hidden &&
-      !dialog.open &&
+      !dialogs.some((dialog) => dialog.open) &&
       scrollY <= 1;
     if (flow && (flow.playState === "running") !== running) {
       if (running) flow.play();
       else flow.pause();
     }
     if (manual) {
-      const advancing = inView && !document.hidden && !dialog.open;
+      const advancing =
+        inView && !document.hidden && !dialogs.some((dialog) => dialog.open);
       if ((manual.playState === "running") !== advancing) {
         if (advancing) manual.play();
         else manual.pause();
@@ -178,10 +179,12 @@ export function init() {
     if (reduced.matches && manual) manual.finish();
     sync();
   });
-  new MutationObserver(sync).observe(dialog, {
-    attributes: true,
-    attributeFilter: ["open"],
-  });
+  const dialogObserver = new MutationObserver(sync);
+  for (const dialog of dialogs)
+    dialogObserver.observe(dialog, {
+      attributes: true,
+      attributeFilter: ["open"],
+    });
   new IntersectionObserver(([entry]) => {
     inView = entry.isIntersecting;
     sync();

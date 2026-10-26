@@ -1,7 +1,5 @@
-/* Four different product stories. All geometry exists before the JS enhancement. */
-#workspace,
-#data,
-#start {
+/* Product stories keep their geometry before JavaScript enhancement. */
+#workspace {
   background: var(--paper);
   color: var(--ink);
 }
@@ -10,24 +8,18 @@
   color: var(--paper);
 }
 #workspace .screen-content,
-#mobile .screen-content,
-#data .screen-content,
-#start .screen-content {
+#mobile .screen-content {
   height: 100%;
 }
 #workspace h2,
-#mobile h2,
-#data h2,
-#start h2 {
+#mobile h2 {
   margin: 0;
   font-size: clamp(44px, 5.2vw, 76px);
   letter-spacing: -0.065em;
   line-height: 0.98;
   max-width: none;
 }
-#workspace h2 span,
-#data h2 span,
-#start h2 span {
+#workspace h2 span {
   color: var(--blue);
 }
 .story-text-link {
@@ -51,7 +43,6 @@
   color: var(--blue);
 }
 .story-text-link:focus-visible,
-.journey-art:focus-visible,
 .checkout-image:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 3px;
@@ -329,141 +320,6 @@
   max-width: 40ch;
   margin: 2px 0 0;
 }
-.data-section .data-story {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 22px;
-}
-.data-section .data-heading {
-  display: block;
-  grid-column: auto;
-  margin: 0;
-}
-.data-scene {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
-  align-self: stretch;
-  min-height: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.data-scene img {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  object-fit: contain;
-  padding: 2%;
-}
-.data-facts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 32px;
-  margin: 0;
-}
-.data-facts > div {
-  border-top: 1px solid #c8c8d5;
-  padding-top: 16px;
-}
-.data-facts dt {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  font-size: 18px;
-}
-.data-fact-number {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border: 1px solid #b7bdd4;
-  color: var(--blue);
-  border-radius: 50%;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0;
-  flex: none;
-}
-.data-facts dd {
-  margin: 8px 0 0 42px;
-  color: #626276;
-  font-size: 13px;
-  line-height: 1.45;
-}
-.start-story {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-.start-journey {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  flex: 1;
-  min-height: 0;
-}
-.start-journey > li {
-  position: relative;
-  min-height: 0;
-  min-width: 0;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 12px;
-  border-top: 1px solid #bdbdcc;
-  padding-top: 18px;
-}
-.journey-number {
-  font-size: 40px;
-  line-height: 1;
-  letter-spacing: -0.06em;
-  color: var(--blue);
-}
-.journey-art {
-  min-width: 0;
-  min-height: 0;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px;
-}
-.journey-art img {
-  width: 100%;
-  height: 100%;
-  padding: 2%;
-  object-fit: contain;
-}
-.journey-art > .icon {
-  width: 32px;
-  height: 32px;
-  padding: 7px;
-  border-radius: 50%;
-  background: var(--ink);
-  color: var(--paper);
-  position: absolute;
-  right: 4px;
-  bottom: 4px;
-}
-.journey-copy h3 {
-  font-size: clamp(17px, 1.9vw, 25px);
-  letter-spacing: -0.035em;
-  margin: 0 0 8px;
-}
-.journey-copy p {
-  color: #626276;
-  font-size: 13px;
-  line-height: 1.5;
-  margin: 0;
-  max-width: 28ch;
-}
 @media (max-width: 1100px) and (min-width: 621px) {
   .checkout-story {
     grid-template-columns: 0.95fr 1.05fr;
@@ -473,22 +329,10 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-  .data-facts {
-    gap: 18px;
-  }
-  .data-facts dt {
-    font-size: 16px;
-    gap: 8px;
-  }
-  .data-facts dd {
-    margin-left: 38px;
-  }
 }
 @media (max-width: 620px) {
   #workspace h2,
-  #mobile h2,
-  #data h2,
-  #start h2 {
+  #mobile h2 {
     font-size: clamp(34px, 10.4vw, 52px);
   }
   .checkout-story {
@@ -596,77 +440,10 @@
     right: 2%;
     bottom: 3%;
   }
-  .data-section .data-story {
-    gap: 16px;
-  }
-  .data-facts {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  .data-facts > div {
-    padding-top: 10px;
-  }
-  .data-facts dt {
-    font-size: 16px;
-    gap: 10px;
-  }
-  .data-facts dd {
-    margin: 3px 0 0 40px;
-    font-size: 13px;
-  }
-  .data-fact-number {
-    width: 30px;
-    height: 30px;
-  }
-  .start-story {
-    gap: 18px;
-  }
-  .start-journey {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-  }
-  .start-journey > li {
-    grid-template-columns: 24px minmax(0, 1fr) 105px;
-    grid-template-rows: minmax(0, 1fr);
-    align-items: center;
-    gap: 12px;
-    padding-top: 8px;
-  }
-  .journey-number {
-    font-size: 20px;
-    align-self: center;
-  }
-  .journey-art {
-    grid-column: 3;
-    grid-row: 1;
-    height: 100%;
-  }
-  .journey-copy {
-    grid-column: 2;
-    grid-row: 1;
-  }
-  .journey-copy h3 {
-    font-size: 17px;
-    margin-bottom: 6px;
-  }
-  .journey-copy p {
-    font-size: 13px;
-    line-height: 1.45;
-  }
-  .journey-art > .icon {
-    width: 26px;
-    height: 26px;
-    padding: 6px;
-    right: 0;
-    bottom: 0;
-  }
 }
 @media (max-width: 620px) and (max-height: 700px) {
   #workspace h2,
-  #mobile h2,
-  #data h2,
-  #start h2 {
+  #mobile h2 {
     font-size: 30px;
   }
   .checkout-detail {
@@ -714,50 +491,10 @@
     font-size: 12px;
     line-height: 1.35;
   }
-  .data-section .data-story {
-    gap: 10px;
-  }
-  .data-facts {
-    gap: 7px;
-  }
-  .data-facts > div {
-    padding-top: 6px;
-  }
-  .data-facts dt {
-    font-size: 14px;
-  }
-  .data-facts dd {
-    font-size: 12px;
-    margin: 1px 0 0 34px;
-  }
-  .data-fact-number {
-    width: 24px;
-    height: 24px;
-  }
-  .start-story {
-    gap: 12px;
-  }
-  .start-journey > li {
-    grid-template-columns: 20px minmax(0, 1fr) 78px;
-    gap: 8px;
-    padding-top: 5px;
-  }
-  .start-journey {
-    gap: 6px;
-  }
-  .journey-copy h3 {
-    font-size: 14px;
-    margin-bottom: 4px;
-  }
-  .journey-copy p {
-    font-size: 12px;
-  }
 }
 @media (min-width: 621px) and (max-height: 600px) {
   #workspace h2,
-  #mobile h2,
-  #data h2,
-  #start h2 {
+  #mobile h2 {
     font-size: 32px;
   }
   .checkout-story {
@@ -829,71 +566,6 @@
     min-height: 44px;
     font-size: 11px;
   }
-  .data-section .data-story {
-    grid-template-columns: 0.9fr 1.1fr;
-    grid-template-rows: auto 1fr;
-    gap: 16px 20px;
-  }
-  .data-section .data-heading {
-    grid-column: 1;
-  }
-  .data-scene {
-    grid-column: 2;
-    grid-row: 1 / 3;
-  }
-  .data-facts {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-  .data-facts > div {
-    padding-top: 6px;
-  }
-  .data-facts dt {
-    font-size: 13px;
-    gap: 8px;
-  }
-  .data-facts dd {
-    font-size: 12px;
-    margin: 2px 0 0 32px;
-  }
-  .data-fact-number {
-    width: 24px;
-    height: 24px;
-    font-size: 9px;
-  }
-  .start-story {
-    gap: 10px;
-  }
-  .start-heading h2 br {
-    display: none;
-  }
-  .start-journey {
-    gap: 18px;
-  }
-  .start-journey > li {
-    grid-template-columns: 24px 1fr;
-    grid-template-rows: minmax(0, 1fr) auto;
-    gap: 4px;
-    padding-top: 8px;
-  }
-  .journey-number {
-    font-size: 20px;
-  }
-  .journey-art {
-    grid-column: 2;
-    grid-row: 1;
-  }
-  .journey-copy {
-    grid-column: 1 / -1;
-  }
-  .journey-copy h3 {
-    font-size: 14px;
-    margin-bottom: 3px;
-  }
-  .journey-copy p {
-    font-size: 12px;
-    line-height: 1.3;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   #features .feature-art img {
@@ -903,74 +575,11 @@
 
 @media (max-width: 620px) {
   #workspace .wrap,
-  #mobile .wrap,
-  #data .wrap,
-  #start .wrap {
+  #mobile .wrap {
     width: calc(100% - 32px);
   }
 }
 
 .product-section .checkout-story {
   display: grid;
-}
-@media (min-width: 1000px) and (min-height: 601px) {
-  #data .data-heading {
-    text-align: center;
-  }
-  #data h2 {
-    font-size: clamp(38px, 4vw, 58px);
-  }
-  #data h2 br {
-    display: none;
-  }
-  #data h2 span {
-    margin-left: 0.15em;
-  }
-  .journey-copy {
-    min-height: 76px;
-  }
-}
-
-/* The backup scene uses the actual app screen and a recognizable USB stick. */
-.data-scene {
-  container-type: size;
-}
-.data-scene-preview {
-  width: min(100cqw, 150cqh);
-  height: min(100cqh, 66.666cqw);
-  flex: none;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-.data-scene-preview:focus-visible {
-  outline: 3px solid var(--blue);
-  outline-offset: -3px;
-  border-radius: 16px;
-}
-.data-scene-zoom {
-  position: absolute;
-  top: 3%;
-  right: 1%;
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  color: var(--paper);
-  background: var(--ink);
-}
-.data-scene-zoom .icon {
-  width: 18px;
-  height: 18px;
-}
-@media (min-width: 1000px) and (min-height: 601px) {
-  #data h2 br {
-    display: initial;
-  }
-  #data h2 span {
-    margin-left: 0;
-  }
 }

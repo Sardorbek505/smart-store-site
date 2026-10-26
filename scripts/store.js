@@ -100,4 +100,92 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
       if (current === revision && state === "checking") show("idle");
     }
   });
+  const dialog = document.getElementById("store");
+  if (typeof dialog?.showModal !== "function") return;
+  let trigger;
+  const fitKeyboard = () => {
+    const viewport = window.visualViewport;
+    const keyboard =
+      dialog.open &&
+      viewport &&
+      Math.abs(viewport.scale - 1) < 0.01 &&
+      innerHeight - viewport.height > 120;
+    dialog.classList.toggle("has-keyboard", Boolean(keyboard));
+    if (keyboard) {
+      dialog.style.setProperty("--login-height", `${viewport.height}px`);
+      dialog.style.setProperty("--login-top", `${viewport.offsetTop}px`);
+    }
+  };
+  window.visualViewport?.addEventListener("resize", fitKeyboard);
+  window.visualViewport?.addEventListener("scroll", fitKeyboard);
+  const open = () => {
+    if (dialog.open) return;
+    dialog.showModal();
+    field.focus({ preventScroll: true });
+    fitKeyboard();
+  };
+  const dismiss = () => {
+    // A closed login must never complete a late lookup and navigate away.
+    restore();
+    dialog.close();
+  };
+  for (const link of document.querySelectorAll('a[href="#store"]')) {
+    link.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
+      event.preventDefault();
+      trigger = link;
+      if (location.hash !== "#store")
+        history.pushState({ ...history.state, storeLogin: true }, "", "#store");
+      open();
+    });
+  }
+  document.getElementById("store-close").addEventListener("click", dismiss);
+  dialog.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    dismiss();
+  });
+  dialog.addEventListener("click", (event) => {
+    if (event.target !== dialog) return;
+    const box = dialog.getBoundingClientRect();
+    if (
+      event.clientX < box.left ||
+      event.clientX > box.right ||
+      event.clientY < box.top ||
+      event.clientY > box.bottom
+    )
+      dismiss();
+  });
+  dialog.addEventListener("close", () => {
+    restore();
+    fitKeyboard();
+    if (location.hash === "#store") {
+      if (history.state?.storeLogin) history.back();
+      else {
+        const url = new URL(location.href);
+        url.hash = "";
+        history.replaceState(history.state, "", url);
+      }
+    }
+    const target =
+      trigger && !trigger.closest("[inert]")
+        ? trigger
+        : document.getElementById("download");
+    if (target?.isConnected) target.focus({ preventScroll: true });
+  });
+  const syncLocation = () => {
+    if (location.hash === "#store") open();
+    else if (dialog.open) dismiss();
+  };
+  window.addEventListener("hashchange", syncLocation);
+  window.addEventListener("popstate", syncLocation);
+  window.addEventListener("pageshow", syncLocation);
+  syncLocation();
 }

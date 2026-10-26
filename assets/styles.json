@@ -1,13 +1,10 @@
 {
   "site": [
-    "site.f4c3f89a767b.css",
-    "site.7b97e046d5bc.css"
+    "site.c14aaac2bc25.css",
+    "site.f4c3f89a767b.css"
   ],
   "privacy": [
+    "privacy.c575a0f4baa4.css",
     "privacy.e8be2e2bd347.css"
-  ],
-  "demo": [
-    "demo.d8f2affde23c.css",
-    "demo.53f5578478f8.css"
   ]
 }

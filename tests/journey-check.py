@@ -44,7 +44,7 @@ with sync_playwright() as p:
    page.evaluate('window.copyFails=true');page.locator('#copy-site').click()
    page.wait_for_function('document.querySelector("#copy-status").textContent.includes("вручную")')
    assert page.locator('#installation-url').evaluate('e=>e.selectionStart===0&&e.selectionEnd===e.value.length')
-  for name in ['installation','features','start','license','faq']:
+  for name in ['installation','features','license','faq']:
    page.locator('#'+name).evaluate('e=>scrollTo(0,e.offsetTop)')
    assert page.locator('#'+name+' .screen-content').evaluate('e=>e.scrollWidth<=e.clientWidth+1&&e.scrollHeight<=e.clientHeight+4'),(w,name)
   text=page.locator('.license-copy').inner_text()
@@ -69,7 +69,7 @@ with sync_playwright() as p:
   assert page.locator('#product-screen-link').evaluate('e=>document.activeElement===e')
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   assert not errors,errors
-  for name in ['installation','start','license']:
+  for name in ['installation','license']:
    page.locator('#'+name).evaluate('e=>scrollTo(0,e.offsetTop)')
    page.screenshot(path=str(OUT/f'{name}-{w}.png'))
   print(json.dumps({'engine':BROWSER,'size':[w,h],'platform':'Windows' if desktop else 'phone','handoffAndInstaller':'pass','offerAndWhatsApp':'pass','previewZoomAndPan':'pass','viewportFit':'pass'}),flush=True)

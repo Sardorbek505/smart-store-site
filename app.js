@@ -24,9 +24,31 @@ await Promise.allSettled(
       await feature.init(dependencies);
     } catch {
       console.warn(`Smart Store: ${name} unavailable`);
-      if (name === "store")
+      if (name === "store") {
         document.getElementById("store-note").textContent =
           "Вход по коду сейчас недоступен. Откройте QR-код в Smart Store на компьютере: «Система» → настройки телефона.";
+        // Keep the explanation reachable even if the login module failed.
+        const dialog = document.getElementById("store");
+        if (typeof dialog?.showModal === "function") {
+          for (const link of document.querySelectorAll('a[href="#store"]'))
+            link.addEventListener("click", (event) => {
+              if (
+                event.button ||
+                event.ctrlKey ||
+                event.metaKey ||
+                event.shiftKey ||
+                event.altKey
+              )
+                return;
+              event.preventDefault();
+              if (!dialog.open) dialog.showModal();
+            });
+          document
+            .getElementById("store-close")
+            .addEventListener("click", () => dialog.close());
+          if (location.hash === "#store" && !dialog.open) dialog.showModal();
+        }
+      }
     }
   }),
 );

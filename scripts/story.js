@@ -124,7 +124,7 @@ export function init() {
         label: "Шуруповёрт + отрезной диск",
         value: "40 550 ₸",
         description: "2 товара в корзине. Оплата — на компьютере.",
-        action: "Повторить демо",
+        action: "Повторить пример",
         title: "Корзина",
         alt: "iPhone 18 Pro Max целиком с корзиной Smart Store: два товара на 40 550 ₸",
       },
