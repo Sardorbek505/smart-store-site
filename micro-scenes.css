@@ -1,4 +1,4 @@
-/* Real, readable UI over generated scenery. Final states exist without JS. */
+/* Readable UI with quiet lighting and complete, isolated product accents. */
 #features .bento-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -71,42 +71,60 @@
   margin: 0;
   overflow: hidden;
   color: #111116;
-  background: #dcddea;
+  background: #e8ebf5;
   border-radius: 0;
   container-type: size;
 }
 .micro-visual {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background:
+    radial-gradient(ellipse at 16% 100%, #1d4ed81c, transparent 65%),
+    linear-gradient(135deg, #ffffffa3, #ededf500 70%);
+}
+#features [data-micro="stock"] .micro-visual {
+  background:
+    radial-gradient(ellipse at 90% 0%, #1d4ed816, transparent 65%),
+    linear-gradient(145deg, #f8f8fd, #e6e9f3);
+}
+#features [data-micro="reports"] .micro-visual {
+  background:
+    radial-gradient(ellipse at 80% 90%, #1d4ed822, transparent 65%),
+    linear-gradient(120deg, #f8f8fd, #e7ebf8);
 }
 #features .feature-art .micro-backdrop {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  order: 2;
+  flex: none;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: clamp(40px, calc(100cqh - 270px), 112px);
+  object-fit: contain;
   aspect-ratio: auto;
   padding: 0;
   transition: none;
 }
 .micro-backdrop:not([src]),
 .micro-backdrop[data-failed] {
-  visibility: hidden;
+  display: none;
 }
 .micro-frame {
   position: relative;
+  flex: none;
   width: min(100%, 302px);
   padding: 5px;
   border: 1px solid #ffffffb3;
   border-radius: 21px;
   background: #ffffff38;
-  box-shadow: 0 18px 36px -20px #11111666;
+  box-shadow: 0 16px 32px -20px #25365a47;
 }
 .micro-widget {
-  padding: 18px 16px 12px;
+  padding: 14px 16px 10px;
   border-radius: 15px;
   background: #fff;
   border: 1px solid #1111160d;
@@ -119,7 +137,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   font-weight: 600;
 }
 .micro-demo {
@@ -133,7 +151,7 @@
   grid-template-columns: 28px minmax(0, 1fr) auto;
   gap: 8px;
   align-items: center;
-  min-height: 48px;
+  min-height: 40px;
   border-bottom: 1px solid #ededf5;
 }
 .micro-row > span:nth-child(2) {
@@ -170,7 +188,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 10px;
 }
 .micro-total > strong {
   font-size: 25px;
@@ -192,8 +210,8 @@
   opacity: 1;
 }
 .micro-status {
-  margin-top: 12px;
-  padding: 9px 4px;
+  margin-top: 8px;
+  padding: 7px 4px;
   background: #edf8f2;
   color: #216141;
   text-align: center;
@@ -223,7 +241,7 @@
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 10px;
   color: #68687b;
 }
 .micro-note span {
@@ -244,7 +262,7 @@
   display: flex;
   align-items: end;
   gap: 8px;
-  height: 65px;
+  height: 46px;
   padding-top: 8px;
   margin-top: 8px;
   border-bottom: 1px solid #dcddec;
@@ -365,7 +383,7 @@
     display: flex;
   }
   .micro-visual {
-    padding: 16px 18px;
+    padding: 12px 18px;
   }
 }
 @media (max-width: 620px) and (max-height: 700px) {
@@ -481,6 +499,14 @@
 }
 
 /* Adapt to the actual picture area, including short Safari viewports. */
+@container (height < 330px) {
+  #features .feature-art .micro-backdrop {
+    display: none;
+  }
+  .micro-visual {
+    gap: 0;
+  }
+}
 @container (height < 280px) {
   .micro-visual {
     padding: 6px 10px;

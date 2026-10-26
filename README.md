@@ -40,7 +40,7 @@ python tests/browser-check.py
 - `demo/index.html`, `demo/app.js`, `demo/styles.css` — отдельный адаптивный демомагазин: касса, склад и итоги. `demo/model.js` — изолированная логика учебных операций на тех же данных, что и мокапы.
 - `styles.css` — общая основа, навигация, формы и страница условий; `cinema.css` — херо и лента фотосцен.
 - `buttons.css` — общие кнопки и состояния; `screens.css` — высота экранов и адаптивные ограничения.
-- `micro-scenes.css`, `scripts/micro-scenes.js` — три коротких живых примера продажи, склада и итогов; поведение и проверка: [docs/live-feature-scenes-v41.md](docs/live-feature-scenes-v41.md).
+- `micro-scenes.css`, `scripts/micro-scenes.js` — три коротких живых примера продажи, склада и итогов; поведение и проверка: [docs/live-feature-scenes-v41.md](docs/live-feature-scenes-v41.md). Обновление фонов: [v42](docs/feature-backgrounds-v42.md).
 - `glass.css` — плавающая навигация и компактная стеклянная панель просмотра экранов.
 - `assets/`, `tools/build-styles.mjs` — готовые CSS и их воспроизводимая сборка. Порядок исходников задан в сборщике.
 - `components.css` — адаптированные кнопка, FAQ, поле копирования и рамка формы. Источники и лицензии: [third-party/README.md](third-party/README.md).
