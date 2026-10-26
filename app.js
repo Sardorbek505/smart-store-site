@@ -15,6 +15,7 @@ await Promise.allSettled(
     "story",
     "checkout",
     "micro-scenes",
+    "analytics",
   ].map(async (name) => {
     try {
       const [feature, dependencies] = await Promise.all([
