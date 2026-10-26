@@ -24,6 +24,7 @@ with sync_playwright() as p:
   page.route('**/releases/latest',lambda r:r.fulfill(json=RELEASE));page.add_init_script(STUB)
   page.goto(BASE+'/#installation',wait_until='networkidle')
   if desktop:
+   page.wait_for_function('(url)=>document.getElementById("installation-download").href===url',arg=INSTALLER)
    assert page.locator('#windows-install').is_visible() and page.locator('#handoff-tools').is_hidden()
    assert page.locator('#installation-download').get_attribute('href')==INSTALLER
    assert '1.29.4' in page.locator('[data-release-note]').inner_text()

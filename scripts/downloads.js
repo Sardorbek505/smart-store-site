@@ -26,7 +26,7 @@ export function init({ config, installerFromRelease, fetchJson }) {
     $("windows-install").hidden = true;
     $("handoff-tools").hidden = false;
     $("license-download-label").textContent = "Как установить";
-    $("start-download-label").textContent = "Продолжить на компьютере";
+    $("start-download-label").textContent = "Как установить";
   } else {
     // A stable fallback is ready even if the release API fails or times out.
     for (const link of links) {
@@ -88,7 +88,7 @@ export function init({ config, installerFromRelease, fetchJson }) {
   // A phone only needs the handoff. Resolve the installer on Windows itself.
   if (!windows) {
     $("download-note").textContent =
-      "Windows 10 / 11 · 64 бит. Продолжите установку на компьютере.";
+      "Для компьютера с Windows 10 / 11 · 64 бит";
     return;
   }
   return (async () => {
