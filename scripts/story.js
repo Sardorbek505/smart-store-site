@@ -20,7 +20,6 @@ export function init() {
       `<span class="proof-icon"><svg class="icon" aria-hidden="true"><use href="#i-${name}" /></svg></span>`;
     const details = [
       {
-        index: "01 / ТОВАР",
         title: "Нашли. Добавили.",
         description: "По названию или штрихкоду. Цена и остаток уже рядом.",
         proof:
@@ -29,7 +28,6 @@ export function init() {
         label: "Касса",
       },
       {
-        index: "02 / ЧЕК",
         title: "Всё сложилось.",
         description:
           "2 шуруповёрта, диск и бур. Количество можно менять прямо в чеке.",
@@ -38,7 +36,6 @@ export function init() {
         label: "Чек",
       },
       {
-        index: "03 / ОПЛАТА",
         title: "Как удобно покупателю.",
         description: "Наличные, Kaspi или оба способа в одной продаже.",
         proof: `${icon("shield")}<span>Наличные · 40 000 ₸<small>Kaspi · 42 300 ₸</small></span><strong>82 300 ₸</strong>`,
@@ -60,7 +57,6 @@ export function init() {
       buttons.forEach((button, i) =>
         button.setAttribute("aria-pressed", String(i === index && !overview)),
       );
-      document.getElementById("checkout-index").textContent = detail.index;
       document.getElementById("checkout-title").textContent = detail.title;
       document.getElementById("checkout-description").textContent =
         detail.description;

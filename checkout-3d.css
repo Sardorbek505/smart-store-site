@@ -245,11 +245,6 @@
 .scene-point:not(:disabled):active {
   box-shadow: 0 0 0 5px #1d4ed833;
 }
-@media (max-width: 620px) and (max-height: 700px) {
-  #workspace .checkout-detail-top {
-    display: none;
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   .scene-point,
   .checkout-return {

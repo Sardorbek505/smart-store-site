@@ -26,7 +26,6 @@ export function init({ config, installerFromRelease, fetchJson }) {
     $("windows-install").hidden = true;
     $("handoff-tools").hidden = false;
     $("license-download-label").textContent = "Как установить";
-    $("start-download-label").textContent = "Как установить";
   } else {
     // A stable fallback is ready even if the release API fails or times out.
     for (const link of links) {
@@ -86,11 +85,7 @@ export function init({ config, installerFromRelease, fetchJson }) {
     });
   }
   // A phone only needs the handoff. Resolve the installer on Windows itself.
-  if (!windows) {
-    $("download-note").textContent =
-      "Для компьютера с Windows 10 / 11 · 64 бит";
-    return;
-  }
+  if (!windows) return;
   return (async () => {
     try {
       const release = await fetchJson(config.releasesApi, {
@@ -100,12 +95,9 @@ export function init({ config, installerFromRelease, fetchJson }) {
       if (!installer) throw new Error("Invalid installer");
       for (const link of links) link.href = installer.url;
       const note = `Windows 10 / 11 · 64 бит · Версия ${installer.version} · ${Math.round(installer.size / 1024 / 1024)} МБ`;
-      $("download-note").textContent = note;
       for (const label of document.querySelectorAll("[data-release-note]"))
         label.textContent = note;
     } catch {
-      $("download-note").textContent =
-        "Windows 10 / 11 · 64 бит. Кнопка откроет страницу последнего выпуска.";
       for (const label of document.querySelectorAll("[data-release-note]"))
         label.textContent =
           "Кнопка откроет официальный выпуск. Выберите файл SmartStore-Setup…exe.";
