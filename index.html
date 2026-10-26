@@ -77,9 +77,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.88cd514c6b51.css" />
+    <link rel="stylesheet" href="assets/site.ac63d0bbd2f1.css" />
     <!-- styles:end -->
-    <script src="app.js?v=44" type="module"></script>
+    <script src="app.js?v=45" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -1181,81 +1181,88 @@
           <div class="checkout-heading">
             <p class="story-eyebrow">SMART STORE / КАССА</p>
             <h2 id="product-title">От товара.<br /><span>До чека.</span></h2>
-            <p class="story-intro">Нажмите на точку — загляните в детали.</p>
+            <p class="story-intro">Выберите шаг — рассмотрите детали.</p>
           </div>
           <div class="checkout-stage">
-            <div
-              class="checkout-object"
-              id="checkout-object"
-              data-checkout-view="overview"
-              data-checkout-renderer="poster"
-            >
-              <a
-                id="product-screen-link"
-                class="checkout-image"
-                href="img/demo-sale.png"
-                data-preview
-                data-title="Smart Store / Касса"
-                data-preview-alt="Касса Smart Store: четыре товара с фото, чек на 82 300 ₸"
-                aria-label="Рассмотреть исходный экран кассы"
+            <div class="checkout-view">
+              <div
+                class="checkout-object"
+                id="checkout-object"
+                data-checkout-view="overview"
+                data-checkout-renderer="poster"
               >
-                <img
-                  id="product-screen"
-                  src="img/checkout-overview-v44.webp"
-                  width="1600"
-                  height="1200"
-                  loading="lazy"
-                  decoding="async"
-                  alt="Кассовый терминал Smart Store и принтер чеков целиком на синей подставке"
-                  data-fallback="img/workspace-demo-sale.webp"
-                />
-                <canvas id="checkout-canvas" aria-hidden="true"></canvas>
-              </a>
+                <a
+                  id="product-screen-link"
+                  class="checkout-image"
+                  href="img/demo-sale.png"
+                  data-preview
+                  data-title="Smart Store / Касса"
+                  data-preview-alt="Касса Smart Store: четыре товара с фото, чек на 82 300 ₸"
+                  aria-label="Рассмотреть исходный экран кассы"
+                >
+                  <img
+                    id="product-screen"
+                    src="img/checkout-overview-v44.webp"
+                    width="1600"
+                    height="1200"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Кассовый терминал Smart Store и принтер чеков целиком на синей подставке"
+                    data-fallback="img/workspace-demo-sale.webp"
+                  />
+                  <canvas id="checkout-canvas" aria-hidden="true"></canvas>
+                </a>
+              </div>
+            </div>
+            <div class="checkout-controls">
               <div
                 class="checkout-points"
                 role="group"
                 aria-label="Детали кассы"
               >
                 <button
-                  class="scene-point point-product"
+                  class="scene-point"
                   data-checkout-point="0"
                   type="button"
-                  aria-pressed="true"
+                  aria-pressed="false"
                   aria-controls="checkout-detail checkout-object"
                   disabled
                 >
-                  <b>1</b><span>Товар</span>
+                  <b aria-hidden="true">01</b><span>Товар</span>
                 </button>
                 <button
-                  class="scene-point point-receipt"
+                  class="scene-point"
                   data-checkout-point="1"
                   type="button"
                   aria-pressed="false"
                   aria-controls="checkout-detail checkout-object"
                   disabled
                 >
-                  <b>2</b><span>Чек</span>
+                  <b aria-hidden="true">02</b><span>Чек</span>
                 </button>
                 <button
-                  class="scene-point point-payment"
+                  class="scene-point"
                   data-checkout-point="2"
                   type="button"
                   aria-pressed="false"
                   aria-controls="checkout-detail checkout-object"
                   disabled
                 >
-                  <b>3</b><span>Оплата</span>
+                  <b aria-hidden="true">03</b><span>Оплата</span>
                 </button>
               </div>
               <button
                 id="checkout-return"
                 class="checkout-return"
                 type="button"
-                hidden
+                aria-label="Вернуть общий вид кассы"
+                title="Общий вид"
+                aria-controls="checkout-object"
+                disabled
               >
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-arrow" /></svg
-                >Общий вид
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6" />
+                </svg>
               </button>
             </div>
           </div>
