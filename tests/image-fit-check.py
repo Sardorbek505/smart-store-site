@@ -50,7 +50,8 @@ PAINT = '''(image, asset) => {
 }'''
 
 def check(image):
-    image.evaluate('e=>e.decode()')
+    # Lazy responsive candidates settle during layout before decode can be awaited.
+    image.evaluate('async e=>{await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));await e.decode()}')
     name=Path(urlparse(image.evaluate('e=>e.currentSrc')).path).name
     result=image.evaluate(PAINT, bounds[name])
     assert not result['failures'], {'image': name, **result}
@@ -62,6 +63,7 @@ with sync_playwright() as p:
     for w,h in [(320,568),(390,844),(844,390),(932,430),(851,768),(1024,600),(1024,768),(1440,500),(1440,900)]:
         page=browser.new_page(viewport={'width':w,'height':h},is_mobile=w<851,has_touch=w<851,reduced_motion='reduce')
         page.goto(BASE,wait_until='networkidle')
+        page.wait_for_function('document.body.classList.contains("viewport-ready")&&document.querySelector(".gallery-stage").dataset.ready==="true"&&!document.querySelector("[data-checkout-point]").disabled')
         page.locator('.hero-gallery').focus()
         for i in range(5):
             check(page.locator('[data-gallery-card] .editorial-photo').nth(i))
@@ -70,11 +72,11 @@ with sync_playwright() as p:
         check(page.locator('[data-gallery-card] .editorial-photo').last)
         page.keyboard.press('ArrowRight')
         page.locator('#features').evaluate('e=>e.scrollIntoView()')
-        for art in page.locator('#features .feature-art img').all():
-            art.evaluate('e=>e.closest("article").scrollIntoView({block:"nearest",inline:"center",behavior:"instant"})')
-            if w>850:art.locator('xpath=ancestor::article').hover()
-            assert art.evaluate('e=>getComputedStyle(e.closest(".feature-art")).opacity==="1"'), 'Feature scenes must remain fully visible on tablets'
-            check(art)
+        # New photos are decorative scenery; the real UI, rather than a bitmap,
+        # must remain wholly inside the picture area on every card.
+        for scene in page.locator('[data-micro]').all():
+            scene.evaluate('e=>e.closest("article").scrollIntoView({block:"nearest",inline:"center",behavior:"instant"})')
+            assert scene.evaluate('e=>{const a=e.getBoundingClientRect(),b=e.querySelector(".micro-frame").getBoundingClientRect();return b.left>=a.left-1&&b.right<=a.right+1&&b.top>=a.top-1&&b.bottom<=a.bottom+1}'), 'Complete mini interface must fit its scene'
         page.locator('#workspace').evaluate('e=>e.scrollIntoView()')
         check(page.locator('#product-screen'))
         page.locator('#mobile').evaluate('e=>e.scrollIntoView()')

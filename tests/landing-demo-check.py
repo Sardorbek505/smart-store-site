@@ -28,7 +28,7 @@ with sync_playwright() as p:
         links = page.locator('.feature-demo-link')
         assert links.count() == 3
         assert page.locator('.bento-copy').evaluate_all('xs=>xs.every(e=>{const a=e.getBoundingClientRect(),b=e.closest("article").getBoundingClientRect();return a.top>=b.top-1&&a.bottom<=b.bottom+1})'), 'Card copy must stay within its surface'
-        carousel = width <= 850 or (width <= 1100 and height <= 600)
+        carousel = width <= 850 or height <= 600
         assert page.locator('.feature-controls').is_visible() == carousel
         if carousel:
             page.locator('#feature-next').click()

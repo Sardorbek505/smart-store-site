@@ -70,9 +70,7 @@ export function init() {
     const cards = [...track.querySelectorAll(".bento")];
     const previous = $("feature-prev");
     const next = $("feature-next");
-    const narrow = matchMedia(
-      "(max-width: 850px), (max-width: 1100px) and (max-height: 600px)",
-    );
+    const narrow = matchMedia("(max-width: 850px), (max-height: 600px)");
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     let selected = 0;
     const update = () => {
