@@ -25,6 +25,7 @@ const bundles = [
       "screens.css",
       "components.css",
       "story.css",
+      "checkout-3d.css",
       "micro-scenes.css",
       "trial.css",
       "journey.css",

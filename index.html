@@ -77,9 +77,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.5d4200cc9550.css" />
+    <link rel="stylesheet" href="assets/site.88cd514c6b51.css" />
     <!-- styles:end -->
-    <script src="app.js?v=43" type="module"></script>
+    <script src="app.js?v=44" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -1184,7 +1184,12 @@
             <p class="story-intro">Нажмите на точку — загляните в детали.</p>
           </div>
           <div class="checkout-stage">
-            <div class="checkout-object">
+            <div
+              class="checkout-object"
+              id="checkout-object"
+              data-checkout-view="overview"
+              data-checkout-renderer="poster"
+            >
               <a
                 id="product-screen-link"
                 class="checkout-image"
@@ -1196,13 +1201,15 @@
               >
                 <img
                   id="product-screen"
-                  src="img/workspace-demo-sale.webp"
-                  width="1071"
-                  height="1468"
+                  src="img/checkout-overview-v44.webp"
+                  width="1600"
+                  height="1200"
                   loading="lazy"
                   decoding="async"
                   alt="Кассовый терминал Smart Store и принтер чеков целиком на синей подставке"
+                  data-fallback="img/workspace-demo-sale.webp"
                 />
+                <canvas id="checkout-canvas" aria-hidden="true"></canvas>
               </a>
               <div
                 class="checkout-points"
@@ -1214,7 +1221,7 @@
                   data-checkout-point="0"
                   type="button"
                   aria-pressed="true"
-                  aria-controls="checkout-detail"
+                  aria-controls="checkout-detail checkout-object"
                   disabled
                 >
                   <b>1</b><span>Товар</span>
@@ -1224,7 +1231,7 @@
                   data-checkout-point="1"
                   type="button"
                   aria-pressed="false"
-                  aria-controls="checkout-detail"
+                  aria-controls="checkout-detail checkout-object"
                   disabled
                 >
                   <b>2</b><span>Чек</span>
@@ -1234,12 +1241,22 @@
                   data-checkout-point="2"
                   type="button"
                   aria-pressed="false"
-                  aria-controls="checkout-detail"
+                  aria-controls="checkout-detail checkout-object"
                   disabled
                 >
                   <b>3</b><span>Оплата</span>
                 </button>
               </div>
+              <button
+                id="checkout-return"
+                class="checkout-return"
+                type="button"
+                hidden
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" /></svg
+                >Общий вид
+              </button>
             </div>
           </div>
           <div class="checkout-detail" id="checkout-detail">

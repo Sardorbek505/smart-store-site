@@ -10,7 +10,7 @@ BROWSER = os.environ.get('BROWSER', 'chromium')
 OUT = Path('/tmp/smart-store-full') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 assets = [*Path('img').glob('hero-demo-*.webp'), *Path('img').glob('hero-full-scanner-*.webp'), *Path('img').glob('workspace-demo-*.webp'),
-          *Path('img').glob('mobile-demo-*.webp'), *Path('img').glob('feature-*.webp'), *Path('img').glob('data-backup-laptop-*.webp'), *Path('img').glob('trial-14-*.webp')]
+          *Path('img').glob('mobile-demo-*.webp'), Path('img/checkout-overview-v44.webp'), *Path('img').glob('feature-*.webp'), *Path('img').glob('data-backup-laptop-*.webp'), *Path('img').glob('trial-14-*.webp')]
 bounds = {}
 for asset in assets:
     image = Image.open(asset).convert('RGBA')
@@ -21,7 +21,7 @@ for asset in assets:
 for name in ['demo-home.png', 'demo-products.png', 'demo-sale.png','demo-payment.png','demo-backups.png']:
     image = Image.open(Path('img')/name)
     bounds[name] = {'box': [0, 0, image.width, image.height], 'width': image.width, 'height': image.height}
-assert len(assets) == 24, 'Responsive hero scenes, workspace scenes, four phone scenes, features, responsive backup scene and responsive trial sculpture'
+assert len(assets) == 25, 'Responsive hero scenes, workspace scenes, complete 3D overview, four phone scenes, features, responsive backup scene and responsive trial sculpture'
 
 PAINT = '''(image, asset) => {
   const box=asset.box;
