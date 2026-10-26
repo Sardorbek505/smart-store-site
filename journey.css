@@ -24,7 +24,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
 .installation-summary {
   min-width: 0;
 }
-.installation-guide .setup-eyebrow,
 .audience-note {
   margin: 0 0 14px;
   color: var(--muted);
@@ -227,9 +226,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
   #start h2 {
     font-size: clamp(44px, 4.3vw, 62px);
   }
-  .start-actions .release-note {
-    max-width: 44ch;
-  }
 }
 @media (max-width: 620px) {
   .installation-guide .installation-layout {
@@ -242,10 +238,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
   .installation-guide h2 {
     font-size: 34px;
     max-width: none;
-  }
-  .installation-guide .setup-eyebrow {
-    font-size: 9px;
-    margin-bottom: 10px;
   }
   .installation-guide #installation-description {
     font-size: 13px;
@@ -342,9 +334,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
   .installation-guide .installation-layout {
     gap: 12px;
   }
-  .installation-guide .setup-eyebrow {
-    display: none;
-  }
   .installation-guide h2 {
     font-size: 26px;
   }
@@ -412,9 +401,6 @@ html[data-installation-platform="handoff"] .platform-handoff {
 @media (min-width: 621px) and (max-height: 600px) {
   .installation-guide .installation-layout {
     gap: 24px;
-  }
-  .installation-guide .setup-eyebrow {
-    display: none;
   }
   .installation-guide h2 {
     font-size: 28px;
