@@ -47,8 +47,14 @@ export function init() {
       },
     ];
     let selected = 0;
-    const select = (index) => {
-      if (index === selected) return;
+    const object = document.querySelector(".checkout-object");
+    const select = (index, overview = false) => {
+      if (
+        index === selected &&
+        object.dataset.checkoutView === String(index) &&
+        !overview
+      )
+        return;
       selected = index;
       const detail = details[index];
       buttons.forEach((button, i) =>
@@ -59,11 +65,20 @@ export function init() {
       document.getElementById("checkout-description").textContent =
         detail.description;
       document.getElementById("checkout-proof").innerHTML = detail.proof;
-      const link = document.getElementById("checkout-original");
-      link.href = `img/${detail.original}`;
-      link.dataset.title = `Smart Store / ${detail.label}`;
+      for (const id of ["checkout-original", "product-screen-link"]) {
+        const link = document.getElementById(id);
+        link.href = `img/${detail.original}`;
+        link.dataset.title = `Smart Store / ${detail.label}`;
+        link.setAttribute(
+          "aria-label",
+          `Рассмотреть исходный экран: ${detail.label}`,
+        );
+      }
+      object.dataset.checkoutView = overview ? "overview" : String(index);
+      object.dispatchEvent(new CustomEvent("checkout:focus"));
       animate(document.querySelector(".checkout-reading"));
     };
+    object.addEventListener("checkout:overview", () => select(0, true));
     buttons.forEach((button, index) => {
       button.disabled = false;
       button.addEventListener("click", () => select(index));

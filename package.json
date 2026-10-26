@@ -8,12 +8,15 @@
     "check:styles": "node tools/build-styles.mjs --check",
     "build:demo": "node tools/build-demo.mjs",
     "check:demo": "node tools/build-demo.mjs --check",
-    "build": "npm run build:styles && npm run build:demo"
+    "build": "npm run build:styles && npm run build:demo && npm run build:checkout",
+    "build:checkout": "node tools/build-checkout.mjs",
+    "check:checkout": "node tools/build-checkout.mjs --check"
   },
   "engines": {
     "node": ">=22"
   },
   "devDependencies": {
-    "esbuild": "0.25.12"
+    "esbuild": "0.25.12",
+    "three": "0.180.0"
   }
 }

@@ -19,6 +19,8 @@ jobs:
         run: npm run check:styles
       - name: Check the standalone demo bundle
         run: npm run check:demo
+      - name: Check the deferred 3D bundle
+        run: npm run check:checkout
       - name: Check initial gallery frame
         run: node tools/sync-hero-layout.mjs --check
       - name: Check browser modules

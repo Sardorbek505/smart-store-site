@@ -41,6 +41,7 @@ python tests/browser-check.py
 - `styles.css` — общая основа, навигация, формы и страница условий; `cinema.css` — херо и лента фотосцен.
 - `buttons.css` — общие кнопки и состояния; `screens.css` — высота экранов и адаптивные ограничения.
 - `micro-scenes.css`, `scripts/micro-scenes.js` — три коротких живых примера продажи, склада и итогов; поведение и проверка: [docs/live-feature-scenes-v41.md](docs/live-feature-scenes-v41.md). Фотографии и адаптивная композиция: [v43](docs/feature-photo-framing-v43.md).
+- `checkout-3d.css`, `scripts/checkout.js`, `scripts/checkout-scene.js` — настоящая 3D-касса с тремя ракурсами и рендером по запросу. Сборка, резервные кадры и проверка: [docs/checkout-3d-v44.md](docs/checkout-3d-v44.md).
 - `glass.css` — плавающая навигация и компактная стеклянная панель просмотра экранов.
 - `assets/`, `tools/build-styles.mjs` — готовые CSS и их воспроизводимая сборка. Порядок исходников задан в сборщике.
 - `components.css` — адаптированные кнопка, FAQ, поле копирования и рамка формы. Источники и лицензии: [third-party/README.md](third-party/README.md).
