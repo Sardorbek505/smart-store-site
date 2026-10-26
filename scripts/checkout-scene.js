@@ -21,6 +21,7 @@ import {
   SRGBColorSpace,
   LinearFilter,
   Vector3,
+  Quaternion,
   ACESFilmicToneMapping,
   DoubleSide,
 } from "three";
@@ -276,7 +277,25 @@ export async function createCheckoutScene({ canvas, context }) {
   ];
   const target = new Vector3(),
     fromPosition = new Vector3(),
-    fromTarget = new Vector3();
+    fromTarget = new Vector3(),
+    fromLift = new Vector3(),
+    restingPosition = new Vector3();
+  const fromRotation = new Quaternion(),
+    restingRotation = new Quaternion();
+  const projectLandmarks = () =>
+    landmarks.map((point) => {
+      const p = point
+        .clone()
+        .applyMatrix4(assembly.matrixWorld)
+        .project(camera);
+      return [(p.x + 1) / 2, (1 - p.y) / 2];
+    });
+  const render = () => {
+    camera.lookAt(target);
+    shadowMaterial.opacity = 1 - assembly.position.y * 2;
+    renderer.render(scene, camera);
+    draws++;
+  };
   let destination;
   function pose(name) {
     const definitions = {
@@ -354,6 +373,8 @@ export async function createCheckoutScene({ canvas, context }) {
       view = String(next);
       fromPosition.copy(camera.position);
       fromTarget.copy(target);
+      fromRotation.copy(assembly.quaternion);
+      fromLift.copy(assembly.position);
       destination = pose(view);
       display.map = view === "2" ? payment : sale;
       display.needsUpdate = true;
@@ -363,9 +384,23 @@ export async function createCheckoutScene({ canvas, context }) {
         progress < 0.5 ? 4 * progress ** 3 : 1 - (-2 * progress + 2) ** 3 / 2;
       camera.position.lerpVectors(fromPosition, destination.position, t);
       target.lerpVectors(fromTarget, destination.target, t);
-      camera.lookAt(target);
-      renderer.render(scene, camera);
-      draws++;
+      assembly.quaternion.slerpQuaternions(fromRotation, restingRotation, t);
+      assembly.position.lerpVectors(fromLift, restingPosition, t);
+      render();
+    },
+    ambient(milliseconds) {
+      if (view !== "overview") return;
+      const start = Math.min(1, milliseconds / 900);
+      const gain = start * start * (3 - 2 * start);
+      const phase = (milliseconds * Math.PI * 2) / 9600;
+      assembly.rotation.set(
+        Math.sin(phase * 0.6) * 0.006 * gain,
+        Math.sin(phase) * 0.055 * gain,
+        Math.sin(phase * 0.5) * 0.009 * gain,
+      );
+      assembly.position.y = (1 - Math.cos(phase)) * 0.055 * gain;
+      render();
+      return projectLandmarks();
     },
     resize(width, height, pixelRatio = 1) {
       renderer.setPixelRatio(Math.min(2, pixelRatio));
@@ -386,10 +421,7 @@ export async function createCheckoutScene({ canvas, context }) {
         view,
         triangles: renderer.info.render.triangles,
         calls: renderer.info.render.calls,
-        landmarks: landmarks.map((point) => {
-          const p = point.clone().project(camera);
-          return [(p.x + 1) / 2, (1 - p.y) / 2];
-        }),
+        landmarks: projectLandmarks(),
         region:
           view === "overview"
             ? null

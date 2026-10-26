@@ -1,6 +1,6 @@
 // A visible, idle story may load 3D. Everything else stays a static poster.
 // checkout-bundle:start
-const loadScene = () => import("../assets/checkout3d.d22d639548ad.js");
+const loadScene = () => import("../assets/checkout3d.cd1e07fa3e50.js");
 // checkout-bundle:end
 export function init() {
   const object = document.querySelector(".checkout-object");
@@ -13,7 +13,10 @@ export function init() {
   back.hidden = false;
   const dialog = document.getElementById("preview-dialog");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  // Cache changes: reading MQL.matches inside RAF can swallow Chromium's change event.
+  let reduceMotion = reduced.matches;
   let visible = false,
+    ambientVisible = false,
     scrolling = false,
     touching = false,
     lost = false,
@@ -29,6 +32,11 @@ export function init() {
   let moving = false,
     pendingSize = true,
     imageAnimation;
+  let ambientFrame = 0,
+    ambientElapsed = 0,
+    ambientLastTime,
+    ambientPaintTime,
+    ambientFrames = 0;
   let width = object.clientWidth,
     height = object.clientHeight;
   const duration = 800;
@@ -37,6 +45,21 @@ export function init() {
   const points = [...stage.querySelectorAll("[data-checkout-point]")];
   const leaders = [...object.querySelectorAll("[data-checkout-leader]")];
   const dots = [...object.querySelectorAll("[data-checkout-dot]")];
+  let leaderOrigins = [];
+  function paintLeaders(projected) {
+    if (!leaderSvg || !leaderOrigins.length) return;
+    projected.forEach(([px, py], index) => {
+      const [x, y] = leaderOrigins[index];
+      const dx = px * width,
+        dy = py * height;
+      leaders[index].setAttribute(
+        "d",
+        `M${x} ${y}H${x + (dx - x) * 0.65}L${dx} ${dy}`,
+      );
+      dots[index].setAttribute("cx", dx);
+      dots[index].setAttribute("cy", dy);
+    });
+  }
   function syncLeaders(projected) {
     if (!leaderSvg || currentView() !== "overview") return;
     const box = object.getBoundingClientRect();
@@ -48,24 +71,24 @@ export function init() {
     ];
     leaderSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
     leaderSvg.dataset.ready = "true";
-    points.forEach((button, index) => {
+    leaderOrigins = points.map((button) => {
       const b = button.getBoundingClientRect();
-      const x = b.x + b.width / 2 - box.x;
-      const y = b.y + b.height / 2 - box.y;
-      const [dx, dy] = projected
-        ? [projected[index][0] * width, projected[index][1] * height]
-        : [
-            (width - 1000 * scale) / 2 + fallback[index][0] * scale,
-            (height - 750 * scale) / 2 + fallback[index][1] * scale,
-          ];
-      leaders[index].setAttribute(
-        "d",
-        `M${x} ${y}H${x + (dx - x) * 0.65}L${dx} ${dy}`,
-      );
-      dots[index].setAttribute("cx", dx);
-      dots[index].setAttribute("cy", dy);
+      return [b.x + b.width / 2 - box.x, b.y + b.height / 2 - box.y];
     });
+    paintLeaders(
+      projected ||
+        fallback.map(([x, y]) => [
+          ((width - 1000 * scale) / 2 + x * scale) / width,
+          ((height - 750 * scale) / 2 + y * scale) / height,
+        ]),
+    );
   }
+  points.forEach((button) =>
+    button.addEventListener("transitionend", (event) => {
+      if (["left", "top", "transform"].includes(event.propertyName))
+        syncLeaders(api?.stats().landmarks);
+    }),
+  );
   const active = () =>
     visible &&
     !scrolling &&
@@ -78,6 +101,58 @@ export function init() {
     renderFrame = 0;
     lastTime = undefined;
   };
+  const wantsAmbient = () =>
+    api && !lost && currentView() === "overview" && !reduceMotion;
+  function stopAmbient() {
+    cancelAnimationFrame(ambientFrame);
+    ambientFrame = 0;
+    ambientLastTime = undefined;
+    ambientPaintTime = undefined;
+    object.dataset.checkoutAmbient = wantsAmbient() ? "paused" : "off";
+  }
+  function ambientTick(time) {
+    ambientFrame = 0;
+    if (
+      !active() ||
+      !ambientVisible ||
+      !wantsAmbient() ||
+      moving ||
+      pendingSize
+    ) {
+      stopAmbient();
+      return;
+    }
+    if (ambientLastTime !== undefined)
+      ambientElapsed += Math.min(50, time - ambientLastTime);
+    ambientLastTime = time;
+    // Keep the slow overview at 30 renders/s, including on 120Hz displays.
+    if (
+      ambientPaintTime === undefined ||
+      time - ambientPaintTime >= 1000 / 30 - 0.8
+    ) {
+      ambientPaintTime = time;
+      paintLeaders(api.ambient(ambientElapsed));
+      canvas.dataset.ambientPhase = ambientElapsed.toFixed(1);
+      canvas.dataset.ambientFrames = String(++ambientFrames);
+    }
+    ambientFrame = requestAnimationFrame(ambientTick);
+  }
+  function syncAmbient() {
+    if (
+      !active() ||
+      !ambientVisible ||
+      !wantsAmbient() ||
+      moving ||
+      pendingSize
+    ) {
+      stopAmbient();
+      return;
+    }
+    if (!ambientFrame) {
+      object.dataset.checkoutAmbient = "playing";
+      ambientFrame = requestAnimationFrame(ambientTick);
+    }
+  }
   const stats = () => {
     if (!api) return;
     const state = api.stats();
@@ -100,6 +175,7 @@ export function init() {
       lastTime = undefined;
       motion("idle");
       stats();
+      syncAmbient();
     } else renderFrame = requestAnimationFrame(frame);
   };
   function drawStatic() {
@@ -109,16 +185,19 @@ export function init() {
       pendingSize = false;
       api.focus(currentView());
     }
-    api.draw(1);
+    if (wantsAmbient()) api.ambient(ambientElapsed);
+    else api.draw(1);
     stats();
     object.dataset.checkoutRenderer = "webgl";
     motion("idle");
+    syncAmbient();
   }
   function sync() {
     imageAnimation &&
       (active() ? imageAnimation.play() : imageAnimation.pause());
     if (!active()) {
       stop();
+      stopAmbient();
       if (moving) motion("paused");
       return;
     }
@@ -131,6 +210,7 @@ export function init() {
         motion("running");
         renderFrame = requestAnimationFrame(frame);
       } else if (object.dataset.checkoutRenderer !== "webgl") drawStatic();
+      syncAmbient();
     } else if (!failed) ensure();
   }
   async function ensure() {
@@ -172,6 +252,8 @@ export function init() {
     imageAnimation?.cancel();
     imageAnimation = undefined;
     stop();
+    stopAmbient();
+    ambientElapsed = 0;
     elapsed = 0;
     moving = false;
     if (api && !lost) {
@@ -180,7 +262,7 @@ export function init() {
         pendingSize = false;
       }
       api.focus(view);
-      if (reduced.matches) {
+      if (reduceMotion) {
         if (active()) {
           api.draw(1);
           stats();
@@ -191,7 +273,7 @@ export function init() {
         sync();
       }
     } else {
-      if (!reduced.matches && poster.animate) {
+      if (!reduceMotion && poster.animate) {
         imageAnimation = poster.animate(
           [
             { opacity: 0.35, transform: "scale(.98)" },
@@ -231,10 +313,11 @@ export function init() {
   });
   new IntersectionObserver(
     ([entry]) => {
-      visible = entry.isIntersecting;
+      visible = entry.isIntersecting && entry.intersectionRatio >= 0.1;
+      ambientVisible = entry.intersectionRatio >= 0.6;
       sync();
     },
-    { threshold: 0.1 },
+    { threshold: [0, 0.1, 0.6] },
   ).observe(stage);
   new ResizeObserver(() => {
     const nextWidth = object.clientWidth,
@@ -295,9 +378,12 @@ export function init() {
     attributes: true,
     attributeFilter: ["open"],
   });
-  reduced.addEventListener("change", () => {
-    if (reduced.matches) {
+  reduced.addEventListener("change", (event) => {
+    reduceMotion = event.matches;
+    if (reduceMotion) {
       stop();
+      stopAmbient();
+      ambientElapsed = 0;
       moving = false;
       imageAnimation?.cancel();
       imageAnimation = undefined;
@@ -312,6 +398,7 @@ export function init() {
   canvas.addEventListener("webglcontextlost", (event) => {
     event.preventDefault();
     lost = true;
+    stopAmbient();
     syncPoster();
     stop();
     moving = false;
@@ -327,6 +414,7 @@ export function init() {
     }, 0);
   });
   motion("idle");
+  object.dataset.checkoutAmbient = "off";
   if (currentView() === "overview") {
     back.disabled = true;
     syncPoster();
