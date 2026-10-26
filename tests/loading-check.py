@@ -22,6 +22,8 @@ with sync_playwright() as p:
   page.on('request',lambda r:requests.append(r.url));page.on('pageerror',lambda e:errors.append(str(e)))
   page.route('**/releases/latest',lambda r:r.fulfill(json=RELEASE))
   page.goto(BASE,wait_until='networkidle')
+  page.wait_for_function('!document.getElementById("copy-site").disabled')
+  if not phone:page.wait_for_function('(url)=>document.getElementById("download").href===url',arg=INSTALLER)
   assert not any('/assets/demo.' in u for u in requests),'Demo resources must load only on its separate page'
   page.locator('.hero-gallery img').evaluate_all('xs=>Promise.all(xs.map(i=>i.decode()))')
   assert len(page.locator('link[rel="stylesheet"]').all())==1
@@ -64,17 +66,20 @@ with sync_playwright() as p:
  assert page.locator('#preview-dialog').evaluate('e=>e.open')
  assert not errors,errors
  c.close()
- # Missing generated files fall back to the real screenshot, including responsive hero copies.
+ # A missing hero falls back to the real screenshot; missing scenery leaves native UI usable.
  c=b.new_context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True,user_agent=PHONE,reduced_motion='reduce')
  page=c.new_page();page.route('**/releases/latest',lambda r:r.fulfill(json=RELEASE))
  page.route('**/img/hero-demo-laptop-*.webp',lambda r:r.abort())
- page.route('**/img/feature-stock.webp',lambda r:r.abort())
+ page.route('**/img/micro-stock-v41.webp',lambda r:r.abort())
  page.goto(BASE,wait_until='networkidle')
  hero=page.locator('[data-gallery-card] img').first
  hero.evaluate('e=>e.decode()')
  assert hero.get_attribute('src')=='img/demo-sale.png' and hero.get_attribute('srcset') is None
- stock=page.locator('.bento-stock img');stock.scroll_into_view_if_needed();page.wait_for_function('document.querySelector(".bento-stock img").getAttribute("src")==="img/demo-products.png"');stock.evaluate('e=>e.decode()')
- assert stock.get_attribute('src')=='img/demo-products.png'
+ stock=page.locator('.bento-stock img');stock.scroll_into_view_if_needed()
+ page.wait_for_function('document.querySelector(".bento-stock img").dataset.failed==="true"')
+ assert page.locator('.bento-stock .micro-widget').is_visible()
+ assert page.locator('.bento-stock .micro-after').first.inner_text()=='11'
+ assert page.locator('.bento-stock .feature-demo-link').get_attribute('href')=='demo/#stock'
  page.locator('[data-gallery-card]').first.click()
  assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-sale.png')
  c.close()

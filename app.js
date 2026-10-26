@@ -13,6 +13,7 @@ await Promise.allSettled(
     "downloads",
     "store",
     "story",
+    "micro-scenes",
   ].map(async (name) => {
     try {
       const [feature, dependencies] = await Promise.all([
