@@ -31,7 +31,8 @@ with sync_playwright() as p:
   page,errors,requests=open_page(w,h)
   assert not any('/assets/checkout3d.' in u for u in requests),'3D code must not load on the hero'
   enter(page);ready(page)
-  count=draws(page);page.wait_for_timeout(220);assert draws(page)==count,'Idle overview must issue zero GL draw calls'
+  page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutAmbient==="playing"')
+  count=draws(page);page.wait_for_timeout(220);assert draws(page)>count,'The visible overview should move'
   overview=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'))
   controls=page.locator('.checkout-controls').bounding_box()
   model=page.locator('.checkout-object').bounding_box()
@@ -81,7 +82,7 @@ with sync_playwright() as p:
   assert page.locator('#workspace .screen-content').evaluate('e=>e.scrollHeight<=e.clientHeight+4'),(w,h,'section overflow')
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   assert not errors,errors
-  print(json.dumps({'browser':BROWSER,'viewport':[w,h],'realWebGLAndThreeCloseViews':'pass','idleDrawCalls':0,'returnAndFocus':'pass','lazyEngine':'pass'}),flush=True);page.close()
+  print(json.dumps({'browser':BROWSER,'viewport':[w,h],'realWebGLAndThreeCloseViews':'pass','movingOverview':'pass','focusedIdleDrawCalls':0,'returnAndFocus':'pass','lazyEngine':'pass'}),flush=True);page.close()
  # Real animation interruption and resumption, including rapid requests.
  page,errors,requests=open_page();enter(page);ready(page)
  page.locator('[data-checkout-point="0"]').click();page.wait_for_timeout(120)
