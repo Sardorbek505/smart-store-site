@@ -1,4 +1,4 @@
-/* Readable UI with quiet lighting and complete, isolated product accents. */
+/* Full photographic scenes, composed separately for square and wide cards. */
 #features .bento-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -81,37 +81,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  justify-content: flex-start;
   padding: 12px 16px;
-  background:
-    radial-gradient(ellipse at 16% 100%, #1d4ed81c, transparent 65%),
-    linear-gradient(135deg, #ffffffa3, #ededf500 70%);
 }
-#features [data-micro="stock"] .micro-visual {
-  background:
-    radial-gradient(ellipse at 90% 0%, #1d4ed816, transparent 65%),
-    linear-gradient(145deg, #f8f8fd, #e6e9f3);
+.micro-backdrop-layer {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 100%;
 }
-#features [data-micro="reports"] .micro-visual {
-  background:
-    radial-gradient(ellipse at 80% 90%, #1d4ed822, transparent 65%),
-    linear-gradient(120deg, #f8f8fd, #e7ebf8);
+[data-micro="sale"] .micro-backdrop-layer {
+  --photo-square: url("../img/micro-sale-square-v43.webp");
+  --photo-wide: url("../img/micro-sale-wide-v43.webp");
 }
-#features .feature-art .micro-backdrop {
-  position: relative;
-  order: 2;
-  flex: none;
-  width: 100%;
-  height: clamp(40px, calc(100cqh - 270px), 112px);
-  object-fit: contain;
-  aspect-ratio: auto;
-  padding: 0;
-  transition: none;
+[data-micro="stock"] .micro-backdrop-layer {
+  --photo-square: url("../img/micro-stock-square-v43.webp");
+  --photo-wide: url("../img/micro-stock-wide-v43.webp");
 }
-.micro-backdrop:not([src]),
-.micro-backdrop[data-failed] {
-  display: none;
+[data-micro="reports"] .micro-backdrop-layer {
+  --photo-square: url("../img/micro-reports-square-v43.webp");
+  --photo-wide: url("../img/micro-reports-wide-v43.webp");
 }
 .micro-frame {
   position: relative;
@@ -382,6 +372,11 @@
   #features .feature-controls {
     display: flex;
   }
+  /* Reserve the controls before enhancement so photo proportions stay stable. */
+  #features .feature-controls[hidden] {
+    display: flex !important;
+    visibility: hidden;
+  }
   .micro-visual {
     padding: 12px 18px;
   }
@@ -499,15 +494,12 @@
 }
 
 /* Adapt to the actual picture area, including short Safari viewports. */
-@container (height < 330px) {
-  #features .feature-art .micro-backdrop {
-    display: none;
-  }
-  .micro-visual {
-    gap: 0;
+@container (height < 380px) {
+  .micro-chart {
+    height: 32px;
   }
 }
-@container (height < 280px) {
+@container (height < 340px) {
   .micro-visual {
     padding: 6px 10px;
   }
@@ -549,5 +541,38 @@
   }
   .micro-revenue > strong {
     font-size: 25px;
+  }
+}
+/* Choose by the scene's real proportions, independently of viewport width. */
+@container (width > 0px) and (height > 0px) and (aspect-ratio <= 1.3) {
+  .micro-backdrop-layer {
+    background-image: var(--photo-square);
+  }
+}
+@container (width > 0px) and (height > 0px) and (aspect-ratio > 1.3) {
+  .micro-visual {
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .micro-frame {
+    width: min(64cqw, 280px);
+  }
+  .micro-backdrop-layer {
+    background-image: var(--photo-wide);
+    background-position: 70% 50%;
+  }
+  .micro-product-icon {
+    display: none;
+  }
+  .micro-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+@container (width < 320px) and (aspect-ratio > 1.3) {
+  .micro-visual {
+    padding-inline: 6px;
+  }
+  .micro-frame {
+    width: min(68cqw, 270px);
   }
 }

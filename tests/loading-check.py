@@ -68,15 +68,15 @@ with sync_playwright() as p:
  c.close()
  # A missing hero falls back to the real screenshot; missing scenery leaves native UI usable.
  c=b.new_context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True,user_agent=PHONE,reduced_motion='reduce')
- page=c.new_page();page.route('**/releases/latest',lambda r:r.fulfill(json=RELEASE))
+ page=c.new_page();failed=[];page.on('requestfailed',lambda r:failed.append(r.url));page.route('**/releases/latest',lambda r:r.fulfill(json=RELEASE))
  page.route('**/img/hero-demo-laptop-*.webp',lambda r:r.abort())
- page.route('**/img/micro-stock-v42.webp',lambda r:r.abort())
+ page.route('**/img/micro-stock-*-v43.webp',lambda r:r.abort())
  page.goto(BASE,wait_until='networkidle')
  hero=page.locator('[data-gallery-card] img').first
  hero.evaluate('e=>e.decode()')
  assert hero.get_attribute('src')=='img/demo-sale.png' and hero.get_attribute('srcset') is None
- stock=page.locator('.bento-stock img');stock.scroll_into_view_if_needed()
- page.wait_for_function('document.querySelector(".bento-stock img").dataset.failed==="true"')
+ page.locator('.bento-stock .feature-art').scroll_into_view_if_needed()
+ assert any('/img/micro-stock-' in u and '-v43.webp' in u for u in failed),failed
  assert page.locator('.bento-stock .micro-widget').is_visible()
  assert page.locator('.bento-stock .micro-after').first.inner_text()=='11'
  assert page.locator('.bento-stock .feature-demo-link').get_attribute('href')=='demo/#stock'

@@ -2,12 +2,13 @@
 export function init() {
   const scenes = [...document.querySelectorAll("[data-micro]")];
   for (const scene of scenes) {
-    const image = scene.querySelector(".micro-backdrop");
-    const hide = () => {
-      image.dataset.failed = "true";
-    };
-    image.addEventListener("error", hide);
-    if (image.complete && !image.naturalWidth) hide();
+    for (const image of scene.querySelectorAll(".micro-backdrop")) {
+      const hide = () => {
+        image.dataset.failed = "true";
+      };
+      image.addEventListener("error", hide);
+      if (image.complete && !image.naturalWidth) hide();
+    }
   }
   if (!window.IntersectionObserver || !Element.prototype.animate) return;
 
