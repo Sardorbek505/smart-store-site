@@ -20,7 +20,7 @@ with sync_playwright() as p:
   page.route('**/app.js*',lambda r:r.fulfill(status=200,content_type='text/javascript',body=BOOT+Path('app.js').read_text()))
   page.route('**/releases/latest',lambda r:r.fulfill(json={}))
   page.goto(BASE,wait_until='commit')
-  page.wait_for_function('window.__bootWaiting===true')
+  page.wait_for_function('() => (window.__bootWaiting===true)')
   page.locator('.hero-gallery img').evaluate_all('(xs)=>Promise.all(xs.map(i=>i.decode()))')
   page.evaluate('async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))}')
   before=page.evaluate(SNAP)
@@ -29,7 +29,7 @@ with sync_playwright() as p:
   first=page.locator('.cinema-hero').screenshot()
   (OUT/f'before-{w}.png').write_bytes(first)
   page.evaluate('window.dispatchEvent(new Event("release-app"))')
-  page.wait_for_function('document.body.classList.contains("viewport-ready")&&document.querySelector(".gallery-stage").dataset.ready==="true"&&!document.getElementById("store-submit").disabled')
+  page.wait_for_function('() => (document.body.classList.contains("viewport-ready")&&document.querySelector(".gallery-stage").dataset.ready==="true"&&!document.getElementById("store-submit").disabled)')
   page.wait_for_load_state('networkidle')
   after=page.evaluate(SNAP)
   assert before==after,{'browser':BROWSER,'size':[w,h],'before':before,'after':after}

@@ -63,7 +63,7 @@ with sync_playwright() as p:
     for w,h in [(320,568),(390,844),(844,390),(932,430),(851,768),(1024,600),(1024,768),(1440,500),(1440,900)]:
         page=browser.new_page(viewport={'width':w,'height':h},is_mobile=w<851,has_touch=w<851,reduced_motion='reduce')
         page.goto(BASE,wait_until='networkidle')
-        page.wait_for_function('document.body.classList.contains("viewport-ready")&&document.querySelector(".gallery-stage").dataset.ready==="true"&&!document.querySelector("[data-checkout-point]").disabled')
+        page.wait_for_function('() => (document.body.classList.contains("viewport-ready")&&document.querySelector(".gallery-stage").dataset.ready==="true"&&!document.querySelector("[data-checkout-point]").disabled)')
         page.locator('.hero-gallery').focus()
         for i in range(5):
             check(page.locator('[data-gallery-card] .editorial-photo').nth(i))

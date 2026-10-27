@@ -12,7 +12,7 @@ with sync_playwright() as p:
         errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.add_init_script('Object.defineProperty(navigator,"clipboard",{value:{writeText:async(t)=>{if(window.copyFails)throw Error("denied");window.copiedValue=t}}})')
         page.goto(BASE,wait_until='networkidle')
-        page.wait_for_function('document.documentElement.classList.contains("js")')
+        page.wait_for_function('() => (document.documentElement.classList.contains("js"))')
         explore=page.get_by_role('link',name='Открыть демо',exact=True)
         assert explore.count()==1
         explore.click();page.wait_for_url('**/demo/')
@@ -29,12 +29,12 @@ with sync_playwright() as p:
         assert page.locator('.ui-beam-ray').evaluate('e=>e.getAnimations().every(a=>a.playState!=="running")'),'focus border must not run continuously'
         assert page.locator('canvas').count()==0
         page.goto(BASE+'/#installation',wait_until='networkidle')
-        page.wait_for_function('document.documentElement.classList.contains("js")')
+        page.wait_for_function('() => (document.documentElement.classList.contains("js"))')
         copy=page.locator('#copy-site');copy.click()
-        page.wait_for_function('document.getElementById("copy-site").dataset.copied==="true"')
+        page.wait_for_function('() => (document.getElementById("copy-site").dataset.copied==="true")')
         assert page.evaluate('window.copiedValue')=='https://metov.store/#installation'
         page.evaluate('window.copyFails=true');copy.click()
-        page.wait_for_function('document.getElementById("copy-status").textContent.includes("вручную")')
+        page.wait_for_function('() => (document.getElementById("copy-status").textContent.includes("вручную"))')
         assert copy.get_attribute('data-copied')=='false'
         assert page.locator('#installation-url').evaluate('e=>e.selectionStart===0&&e.selectionEnd===e.value.length')
         page.emulate_media(reduced_motion='reduce')

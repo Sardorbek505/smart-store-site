@@ -16,7 +16,7 @@ const previous = await readFile(manifestUrl, "utf8")
 const retained = {};
 const bundles = [
   {
-    page: "index.html",
+    pages: ["index.html"],
     name: "site",
     sources: [
       "styles.css",
@@ -33,14 +33,18 @@ const bundles = [
     ],
   },
   {
-    page: "privacy.html",
+    pages: [
+      "privacy.html",
+      "404.html",
+      "programma-dlya-magazina-instrumentov/index.html",
+    ],
     name: "privacy",
     sources: ["styles.css", "buttons.css"],
   },
 ];
 const expected = new Set();
 await mkdir(new URL("assets/", root), { recursive: true });
-for (const { page, name, sources } of bundles) {
+for (const { pages, name, sources } of bundles) {
   const input = (
     await Promise.all(
       sources.map((file) => readFile(new URL(file, root), "utf8")),
@@ -59,23 +63,29 @@ for (const { page, name, sources } of bundles) {
   retained[name] = [...new Set([file, ...(previous[name] || [])])].slice(0, 2);
   for (const sheet of retained[name]) expected.add(sheet);
   const url = new URL(`assets/${file}`, root);
-  const htmlUrl = new URL(page, root);
-  const html = await readFile(htmlUrl, "utf8");
-  const marker = /<!-- styles:start -->[\s\S]*?<!-- styles:end -->/;
-  if (!marker.test(html)) throw new Error(`Missing style markers in ${page}`);
-  const updated = html.replace(
-    marker,
-    `<!-- styles:start -->\n    <link rel="stylesheet" href="${posix.relative(posix.dirname(page), `assets/${file}`)}" />\n    <!-- styles:end -->`,
-  );
-  if (check) {
-    if (html !== updated || (await readFile(url, "utf8")) !== code)
+  if (check && (await readFile(url, "utf8")) !== code)
+    throw new Error(`Stale ${name} styles; run npm run build:styles`);
+  if (!check) await writeFile(url, code);
+  for (const page of pages) {
+    const htmlUrl = new URL(page, root);
+    const html = await readFile(htmlUrl, "utf8");
+    const marker = /<!-- styles:start -->[\s\S]*?<!-- styles:end -->/;
+    if (!marker.test(html)) throw new Error(`Missing style markers in ${page}`);
+    // 404.html is served at arbitrary missing paths; its assets are root-relative.
+    const href =
+      page === "404.html"
+        ? `/assets/${file}`
+        : posix.relative(posix.dirname(page), `assets/${file}`);
+    const updated = html.replace(
+      marker,
+      `<!-- styles:start -->\n    <link rel="stylesheet" href="${href}" />\n    <!-- styles:end -->`,
+    );
+    if (check && html !== updated)
       throw new Error(`Stale styles for ${page}; run npm run build:styles`);
-  } else {
-    await writeFile(url, code);
-    await writeFile(htmlUrl, updated);
+    if (!check) await writeFile(htmlUrl, updated);
   }
   console.log(
-    `${page}: ${sources.length} sources → ${file} (${Buffer.byteLength(code)} bytes)`,
+    `${pages.join(", ")}: ${sources.length} sources → ${file} (${Buffer.byteLength(code)} bytes)`,
   );
 }
 const manifest = `${JSON.stringify(retained, null, 2)}\n`;

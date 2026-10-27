@@ -15,7 +15,7 @@ with sync_playwright() as p:
         page = b.new_page(viewport={'width': w, 'height': h}, has_touch=w<851, is_mobile=w<851)
         errors = []; page.on('pageerror', lambda e: errors.append(str(e)))
         page.goto(BASE, wait_until='networkidle')
-        page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"')
+        page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
         box = page.locator('.ribbon-window').bounding_box()
         assert box['x'] == 0 and 0 <= w-box['width'] <= 16, box
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
@@ -36,8 +36,8 @@ with sync_playwright() as p:
         assert page.evaluate('heroMutations') == 0, 'motion must not rewrite the DOM'
         assert page.evaluate('heroFrames') == 0, 'motion must not run JavaScript frames'
         page.locator('.hero-gallery').focus()
-        page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="paused"')
-        page.wait_for_function('!testFlow.pending')
+        page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="paused")')
+        page.wait_for_function('() => (!testFlow.pending)')
         paused = page.evaluate('testFlow.currentTime'); page.wait_for_timeout(200)
         assert abs(page.evaluate('testFlow.currentTime')-paused) < 1
         # Identical frames either side of a complete loop: no blank end or reset flash.
@@ -56,10 +56,10 @@ with sync_playwright() as p:
         # separate <0.2 px geometry check bounds the actual seam displacement.
         assert max(ImageStat.Stat(diff).mean) < 2, 'loop end must match its beginning'
         page.locator('.hero-gallery').evaluate('e=>e.blur()')
-        page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"')
+        page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
         page.evaluate('scrollTo(0,100)')
-        page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="paused"')
-        page.wait_for_function('!testFlow.pending')
+        page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="paused")')
+        page.wait_for_function('() => (!testFlow.pending)')
         paused = page.evaluate('testFlow.currentTime')
         for y in [150, 200, 250, 300]:
             page.evaluate('(y)=>scrollTo(0,y)', y); page.wait_for_timeout(100)
@@ -68,28 +68,28 @@ with sync_playwright() as p:
         page.wait_for_timeout(200)
         assert abs(page.evaluate('testFlow.currentTime')-paused) < 1
         page.evaluate('scrollTo(0,0)')
-        page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"')
+        page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
         page.evaluate('(duration)=>testFlow.currentTime=duration*3',duration)
         page.locator('.hero-gallery').focus()
         page.keyboard.press('ArrowRight')
         # Wait for the finite transition's completion callback; a fixed delay
         # can race the compositor when large browser checks run concurrently.
-        page.wait_for_function("document.querySelector('.ribbon-track').getAnimations().every(a=>a.animationName==='ribbon-flow')",timeout=2000)
+        page.wait_for_function("() => (document.querySelector('.ribbon-track').getAnimations().every(a=>a.animationName==='ribbon-flow'))",timeout=2000)
         card = page.locator('[data-gallery-card]').nth(1).bounding_box()
         assert abs(card['x']+card['width']/2-box['width']/2) < 1, {'message':'navigation after multiple loops must keep the selected photo visible','card':card,'window':box,'animation':page.locator('.ribbon-track').evaluate('e=>e.getAnimations().map(a=>({time:a.currentTime,state:a.playState,name:a.animationName}))')}
         page.locator('[data-gallery-card]').first.focus()
-        page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="paused"')
+        page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="paused")')
         page.emulate_media(reduced_motion='reduce')
         assert page.locator('.gallery-controls, .gallery-motion').count() == 0
         page.keyboard.press('ArrowRight')
-        page.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
+        page.wait_for_function('() => (document.getElementById("gallery-status").textContent.startsWith("2 из 5:"))')
         selected=page.locator('[data-gallery-card]').nth(1).bounding_box()
         assert abs(selected['x']+selected['width']/2-box['width']/2)<1, 'Reduced-motion selection must show the announced photo'
         page.emulate_media(reduced_motion='no-preference')
         page.mouse.move(1,1)
         page.locator('.hero-gallery').evaluate('e=>document.activeElement.blur()')
-        page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"')
-        page.wait_for_function('document.querySelector(".ribbon-track").getAnimations().some(a=>a.playState==="running")')
+        page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
+        page.wait_for_function('() => (document.querySelector(".ribbon-track").getAnimations().some(a=>a.playState==="running"))')
         current=page.locator('.ribbon-track').evaluate('e=>getComputedStyle(e).transform')
         page.wait_for_function('(before)=>getComputedStyle(document.querySelector(".ribbon-track")).transform!==before',arg=current,timeout=3000)
         assert not errors, errors

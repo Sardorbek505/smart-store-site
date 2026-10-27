@@ -16,10 +16,10 @@ with sync_playwright() as p:
         page=browser.new_page(viewport={'width':w,'height':h},has_touch=w<851,is_mobile=w<851,reduced_motion='reduce')
         errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(BASE,wait_until='networkidle')
-        page.wait_for_function('document.documentElement.classList.contains("js")')
+        page.wait_for_function('() => (document.documentElement.classList.contains("js"))')
         assert page.locator('.top').evaluate('e=>e.inert&&getComputedStyle(e).visibility==="hidden"')
         page.locator('#features').evaluate('e=>scrollTo(0,e.offsetTop)')
-        page.wait_for_function('!document.querySelector(".top").inert')
+        page.wait_for_function('() => (!document.querySelector(".top").inert)')
         header=page.locator('.top-inner').bounding_box()
         assert header['x']>=8 and header['y']>=8 and header['x']+header['width']<=w-8
         assert header['height']<=64
@@ -35,7 +35,7 @@ with sync_playwright() as p:
         page.screenshot(path=str(OUT/f'navigation-{w}.png'))
         trigger=page.locator('#product-screen-link')
         trigger.click()
-        page.wait_for_function('!document.getElementById("preview-zoom").disabled')
+        page.wait_for_function('() => (!document.getElementById("preview-zoom").disabled)')
         stage=page.locator('#preview-stage'); toolbar=page.locator('.preview-toolbar')
         bar=toolbar.bounding_box(); dialog=page.locator('#preview-dialog').bounding_box(); photo=page.locator('#preview-image').bounding_box()
         assert bar['x']>=dialog['x']+8 and bar['x']+bar['width']<=dialog['x']+dialog['width']-8
@@ -65,7 +65,7 @@ with sync_playwright() as p:
     failed=browser.new_page(viewport={'width':390,'height':844},reduced_motion='reduce')
     failed.route('**/img/demo-sale.png',lambda r:r.abort())
     failed.goto(BASE,wait_until='networkidle');failed.locator('#product-screen-link').click()
-    failed.wait_for_function('document.getElementById("preview-status").textContent.includes("не загрузилось")')
+    failed.wait_for_function('() => (document.getElementById("preview-status").textContent.includes("не загрузилось"))')
     assert failed.locator('#preview-zoom').is_disabled()
     assert failed.locator('#preview-original').is_visible()
     assert failed.locator('#preview-original').get_attribute('href').endswith('/img/demo-sale.png')

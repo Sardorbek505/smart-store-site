@@ -2,7 +2,7 @@
 const version = new URL(import.meta.url).search;
 const load = (name) => import(`./scripts/${name}.js${version}`);
 const core = load("core");
-const services = new Set(["downloads", "store"]);
+const services = new Set(["downloads", "store", "analytics"]);
 await Promise.allSettled(
   [
     "viewport",

@@ -30,7 +30,7 @@ with sync_playwright() as p:
         page.goto(BASE, wait_until='networkidle')
         assert not any('/assets/checkout3d.' in u for u in requests), 'Keep the hero free of 3D work'
         page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
-        page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutRenderer==="webgl" && document.getElementById("checkout-canvas").dataset.screenTexture', timeout=30000)
+        page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutRenderer==="webgl" && document.getElementById("checkout-canvas").dataset.screenTexture)', timeout=30000)
         info = page.locator('#checkout-canvas').evaluate('''c=>{
           const gl=c.getContext('webgl2'),r=c.getBoundingClientRect();
           return {framebuffer:[c.width,c.height],css:[r.width,r.height],texture:JSON.parse(c.dataset.screenTexture),antialias:gl.getContextAttributes().antialias,samples:gl.getParameter(gl.SAMPLES)};

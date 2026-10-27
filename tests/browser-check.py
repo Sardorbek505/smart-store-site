@@ -23,13 +23,13 @@ with sync_playwright() as p:
     errors = []
     page.on('pageerror', lambda e: errors.append(str(e)))
     page.goto(BASE, wait_until='networkidle')
-    page.wait_for_function('document.getElementById("download").href.endsWith(".exe")')
+    page.wait_for_function('() => (document.getElementById("download").href.endsWith(".exe"))')
     assert page.locator('#download').get_attribute('href').endswith('.exe')
     assert page.locator('#installation').is_hidden()
     assert page.locator('#store-submit').is_enabled()
     assert page.locator('.hero-gallery canvas').count() == 0
     assert page.locator('[data-ribbon-track]').count() == 1
-    page.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
+    page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.ready==="true")')
     assert 'hero-ribbon-clip' in page.locator('.ribbon-window').evaluate('e=>getComputedStyle(e).clipPath')
     assert page.locator('#hero-ribbon-clip path').get_attribute('d').count('C') == 4
 
@@ -42,7 +42,7 @@ with sync_playwright() as p:
     page.route('**/img/demo-home.png*', lambda r: r.abort())
     page.locator('[data-gallery-card]').nth(1).evaluate("e=>e.href='img/demo-home.png?failure=1'")
     page.locator('[data-gallery-card]').nth(1).click()
-    page.wait_for_function('document.getElementById("preview-status").textContent.includes("не загрузилось")')
+    page.wait_for_function('() => (document.getElementById("preview-status").textContent.includes("не загрузилось"))')
     assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-home.png?failure=1')
     page.keyboard.press('Escape')
     page.unroute('**/img/demo-home.png*')
@@ -54,7 +54,7 @@ with sync_playwright() as p:
     page.route('**/lookup?code=*', lambda r: r.fulfill(json={'found': False}))
     page.locator('#store-code').fill('https://demo-shop.metov.store/phone')
     page.locator('#store-submit').click()
-    page.wait_for_function('document.getElementById("store-form").dataset.state==="not-found"')
+    page.wait_for_function('() => (document.getElementById("store-form").dataset.state==="not-found")')
     page.unroute('**/lookup?code=*')
     page.route('**/lookup?code=*', lambda r: r.fulfill(json={'unexpected': True}))
     page.locator('#store-code').fill('demo-shop')
@@ -83,7 +83,7 @@ with sync_playwright() as p:
     broken = c.new_page()
     broken.route('**/scripts/gallery.js*', lambda r: r.abort())
     broken.goto(BASE, wait_until='networkidle')
-    broken.wait_for_function('document.getElementById("download").href.endsWith(".exe")')
+    broken.wait_for_function('() => (document.getElementById("download").href.endsWith(".exe"))')
     assert broken.locator('#store-submit').is_enabled()
     assert broken.locator('#download').get_attribute('href').endswith('.exe')
     assert broken.locator('.gallery-controls, .gallery-motion').count() == 0
@@ -92,7 +92,7 @@ with sync_playwright() as p:
     runtime = c.new_page()
     runtime.add_init_script('window.ResizeObserver=undefined')
     runtime.goto(BASE, wait_until='networkidle')
-    runtime.wait_for_function('document.getElementById("download").href.endsWith(".exe")')
+    runtime.wait_for_function('() => (document.getElementById("download").href.endsWith(".exe"))')
     assert runtime.locator('#store-submit').is_enabled()
     assert runtime.locator('#download').get_attribute('href').endswith('.exe')
     mobile = b.new_context(user_agent=PHONE, viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, reduced_motion='reduce')
@@ -113,13 +113,13 @@ with sync_playwright() as p:
         assert all(abs(height - 844) < 1 for height in heights), (w, heights)
     m.set_viewport_size({'width': 390, 'height': 844})
     m.locator('#feature-next').click()
-    m.wait_for_function('document.getElementById("feature-count").textContent==="02 / 03"')
+    m.wait_for_function('() => (document.getElementById("feature-count").textContent==="02 / 03")')
     m.locator('#feature-next').click()
-    m.wait_for_function('document.getElementById("feature-count").textContent==="03 / 03"')
+    m.wait_for_function('() => (document.getElementById("feature-count").textContent==="03 / 03")')
     assert m.locator('#feature-next').is_disabled()
     m.locator('.bento-grid').focus()
     m.keyboard.press('Home')
-    m.wait_for_function('document.getElementById("feature-count").textContent==="01 / 03"')
+    m.wait_for_function('() => (document.getElementById("feature-count").textContent==="01 / 03")')
     assert m.locator('#feature-prev').is_disabled()
     m.goto(BASE + '/#faq', wait_until='networkidle')
     for question in m.locator('.faq-list summary').all():

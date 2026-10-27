@@ -21,6 +21,10 @@ jobs:
         run: npm run check:checkout
       - name: Check initial gallery frame
         run: node tools/sync-hero-layout.mjs --check
+      - name: Check inline script policy and published metadata
+        run: |
+          npm run check:csp
+          npm run check:site
       - name: Check browser modules
         run: |
           node --check app.js

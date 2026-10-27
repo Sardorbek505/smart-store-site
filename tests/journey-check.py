@@ -31,19 +31,19 @@ with sync_playwright() as p:
   else:
    assert page.locator('#handoff-tools').is_visible() and page.locator('#windows-install').is_hidden()
    assert page.locator('[data-download]').evaluate_all('xs=>xs.every(e=>e.getAttribute("href")==="#installation")')
-   page.locator('#copy-site').click();page.wait_for_function('window.copied!==undefined')
+   page.locator('#copy-site').click();page.wait_for_function('() => (window.copied!==undefined)')
    assert page.evaluate('window.copied')==URL
    assert 'https://'+page.locator('#installation-url').input_value()==URL
-   page.locator('#share-site').click();page.wait_for_function('window.shared!==undefined')
+   page.locator('#share-site').click();page.wait_for_function('() => (window.shared!==undefined)')
    assert page.evaluate('window.shared.url')==URL
    assert 'Windows' in page.evaluate('window.shared.text') and 'Smart Store' in page.evaluate('window.shared.text')
    page.evaluate('window.shareMode="abort"');page.locator('#share-site').click()
-   page.wait_for_function('!document.querySelector("#share-site").disabled')
+   page.wait_for_function('() => (!document.querySelector("#share-site").disabled)')
    assert page.locator('#copy-status').inner_text()==''
    page.evaluate('window.shareMode="fail"');page.locator('#share-site').click()
-   page.wait_for_function('document.querySelector("#copy-status").textContent.includes("Не получилось")')
+   page.wait_for_function('() => (document.querySelector("#copy-status").textContent.includes("Не получилось"))')
    page.evaluate('window.copyFails=true');page.locator('#copy-site').click()
-   page.wait_for_function('document.querySelector("#copy-status").textContent.includes("вручную")')
+   page.wait_for_function('() => (document.querySelector("#copy-status").textContent.includes("вручную"))')
    assert page.locator('#installation-url').evaluate('e=>e.selectionStart===0&&e.selectionEnd===e.value.length')
   for name in ['installation','features','license','faq']:
    page.locator('#'+name).evaluate('e=>scrollTo(0,e.offsetTop)')
@@ -56,7 +56,7 @@ with sync_playwright() as p:
   assert 'WhatsApp' in page.locator('#license .secondary').inner_text()
   # Native screenshot details can be read and panned within the preview.
   page.locator('#product-screen-link').click();page.locator('#preview-image').evaluate('e=>e.decode()')
-  page.wait_for_function('!document.querySelector("#preview-zoom").disabled')
+  page.wait_for_function('() => (!document.querySelector("#preview-zoom").disabled)')
   page.locator('#preview-zoom').click()
   assert page.locator('#preview-zoom').get_attribute('aria-pressed')=='true'
   assert page.locator('#preview-image').evaluate('e=>Math.abs(e.getBoundingClientRect().width-e.naturalWidth)<1')
@@ -81,7 +81,7 @@ with sync_playwright() as p:
  fallback.goto(BASE+'/#installation',wait_until='networkidle')
  fallback.locator('#share-site').wait_for(state='visible')
  assert 'Скопировать ссылку' in fallback.locator('#share-site').inner_text()
- fallback.locator('#share-site').click();fallback.wait_for_function('window.copied!==undefined');assert fallback.evaluate('window.copied')==URL
+ fallback.locator('#share-site').click();fallback.wait_for_function('() => (window.copied!==undefined)');assert fallback.evaluate('window.copied')==URL
  # Release API failure still leaves the official release page on Windows.
  failed=b.new_page(viewport={'width':1440,'height':900},user_agent=WIN)
  failed.route('**/releases/latest',lambda r:r.fulfill(status=503,body='unavailable'))
@@ -90,14 +90,14 @@ with sync_playwright() as p:
  assert 'официальный выпуск' in failed.locator('[data-release-note]').inner_text()
  assert 'страницу скачивания' in failed.locator('#installation-download').inner_text()
  failed.route('**/img/demo-sale.png',lambda r:r.abort());failed.locator('#product-screen-link').click()
- failed.wait_for_function('document.querySelector("#preview-status").textContent.includes("не загрузилось")')
+ failed.wait_for_function('() => (document.querySelector("#preview-status").textContent.includes("не загрузилось"))')
  assert failed.locator('#preview-zoom').is_disabled()
  assert failed.locator('#preview-original').get_attribute('href').endswith('/img/demo-sale.png')
  # Device-specific controls are correct even before enhancement modules start.
  for ua,platform in [(WIN,'windows'),(PHONE,'handoff')]:
   held=b.new_page(viewport={'width':390,'height':844},user_agent=ua)
   held.route('**/app.js*',lambda r:r.fulfill(content_type='text/javascript',body='window.held=true;await new Promise(()=>{});'))
-  held.goto(BASE+'/#installation',wait_until='commit');held.wait_for_function('window.held===true')
+  held.goto(BASE+'/#installation',wait_until='commit');held.wait_for_function('() => (window.held===true)')
   assert held.locator('#windows-install').is_visible()==(platform=='windows')
   assert held.locator('#handoff-tools').is_visible()==(platform=='handoff')
   offerLabel=held.locator('#license-download-label').inner_text()

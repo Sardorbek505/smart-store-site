@@ -24,7 +24,7 @@ with sync_playwright() as p:
           Object.defineProperty(window.visualViewport,'height',{{get:()=>window.__reportedHeight}});''')
         page.route('**/app.js*',lambda r:r.fulfill(content_type='text/javascript',body=BOOT+Path('app.js').read_text()))
         page.route('**/releases/latest',lambda r:r.fulfill(json={}))
-        page.goto(BASE,wait_until='commit');page.wait_for_function('window.__moduleHeld===true')
+        page.goto(BASE,wait_until='commit');page.wait_for_function('() => (window.__moduleHeld===true)')
         page.locator('.hero-gallery img').evaluate_all('xs=>Promise.all(xs.map(e=>e.decode()))')
         before=page.evaluate(METRICS)
         # The first section must cover the actual page bottom, including content
@@ -33,7 +33,7 @@ with sync_playwright() as p:
         assert before['next']>=canvas-1
         assert page.evaluate('(h)=>!!document.elementFromPoint(1,h-1)?.closest(".cinema-hero")',canvas)
         page.evaluate('dispatchEvent(new Event("release-app"))')
-        page.wait_for_function('document.body.classList.contains("viewport-ready")')
+        page.wait_for_function('() => (document.body.classList.contains("viewport-ready"))')
         page.wait_for_load_state('networkidle')
         after=page.evaluate(METRICS)
         assert abs(before['hero']['height']-after['hero']['height'])<1,(before,after)

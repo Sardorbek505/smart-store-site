@@ -22,7 +22,7 @@ with sync_playwright() as p:
   page.on('request',lambda r:requests.append(r.url));page.on('pageerror',lambda e:errors.append(str(e)))
   page.route('**/releases/latest',lambda r:r.fulfill(json=RELEASE))
   page.goto(BASE,wait_until='networkidle')
-  page.wait_for_function('!document.getElementById("copy-site").disabled')
+  page.wait_for_function('() => (!document.getElementById("copy-site").disabled)')
   if not phone:page.wait_for_function('(url)=>document.getElementById("download").href===url',arg=INSTALLER)
   assert not any('/assets/demo.' in u for u in requests),'Demo resources must load only on its separate page'
   page.locator('.hero-gallery img').evaluate_all('xs=>Promise.all(xs.map(i=>i.decode()))')
@@ -58,7 +58,7 @@ with sync_playwright() as p:
  page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
  page.route('**/scripts/core.js*',lambda r:r.abort())
  page.goto(BASE,wait_until='networkidle')
- page.wait_for_function('document.body.classList.contains("viewport-ready")&&document.documentElement.classList.contains("js")&&document.querySelector(".gallery-stage").dataset.ready==="true"')
+ page.wait_for_function('() => (document.body.classList.contains("viewport-ready")&&document.documentElement.classList.contains("js")&&document.querySelector(".gallery-stage").dataset.ready==="true")')
  assert page.locator('#store-submit').is_disabled()
  assert 'QR-код' in page.locator('#store-note').inner_text()
  page.locator('#download').click();assert page.locator('#handoff-tools').is_visible()

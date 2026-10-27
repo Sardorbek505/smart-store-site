@@ -1,4 +1,9 @@
-export function init({ config, installerFromRelease, fetchJson }) {
+export function init({
+  config,
+  installerFromRelease,
+  fetchJson,
+  analyticsAllowed,
+}) {
   const $ = (id) => document.getElementById(id);
   const mobile =
     /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent) ||
@@ -36,9 +41,15 @@ export function init({ config, installerFromRelease, fetchJson }) {
     for (const link of links) {
       link.href = config.releasesPage;
       // Fire-and-forget: the download never waits for the counter.
-      link.addEventListener("click", () =>
-        navigator.sendBeacon?.(config.downloadPing),
-      );
+      link.addEventListener("click", () => {
+        if (analyticsAllowed())
+          fetch(config.downloadPing, {
+            method: "POST",
+            keepalive: true,
+            credentials: "omit",
+            mode: "no-cors",
+          }).catch(() => {});
+      });
     }
   }
   const field = $("installation-url");
