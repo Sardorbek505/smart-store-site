@@ -1,0 +1,55 @@
+{
+  "method": "Lighthouse 13.5.0 default mobile profile against https://metov.store/, separate lab runs; not field data or a ranking forecast",
+  "runs": {
+    "before": {
+      "url": "https://metov.store/",
+      "date": "2026-10-27T08:58:00.091Z",
+      "lighthouseVersion": "13.5.0",
+      "scores": {
+        "performance": 77,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "value": 3452.115,
+          "unit": "millisecond"
+        },
+        "total-blocking-time": {
+          "value": 454.9999999999998,
+          "unit": "millisecond"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "unit": "unitless"
+        }
+      }
+    },
+    "after": {
+      "url": "https://metov.store/",
+      "date": "2026-10-27T10:01:35.515Z",
+      "lighthouseVersion": "13.5.0",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "value": 2096.937,
+          "unit": "millisecond"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "unit": "millisecond"
+        },
+        "cumulative-layout-shift": {
+          "value": 0,
+          "unit": "unitless"
+        }
+      }
+    }
+  }
+}

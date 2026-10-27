@@ -82,6 +82,9 @@ for bot in ['Googlebot','Bingbot','OAI-SearchBot','GPTBot','Claude-SearchBot','P
 urls=[e.text for e in ET.parse(ROOT/'sitemap.xml').findall('.//{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
 assert sorted(urls)==sorted(PUBLIC.values()),('Sitemap must contain only canonical public pages',urls)
 assert (ROOT/'llms.txt').read_text().startswith('# Smart Store')
+indexnow=json.loads((ROOT/'tools/indexnow.json').read_text())
+assert indexnow['host']=='metov.store' and re.fullmatch(r'[a-f0-9]{32}\.txt',indexnow['keyFile'])
+assert (ROOT/indexnow['keyFile']).read_text().strip()+'.txt'==indexnow['keyFile'], 'IndexNow domain proof must match its filename'
 assert not list((ROOT/'assets').glob('*.map')), 'Do not publish source maps unintentionally'
 assert (ROOT/'app.js').stat().st_size<10_000, 'Keep the entry module small; 3D remains deferred'
 assert sum(p.stat().st_size for p in [ROOT/'app.js',*(ROOT/'scripts').glob('*.js')] if p.name!='checkout-scene.js')<110_000
