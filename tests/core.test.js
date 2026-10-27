@@ -43,6 +43,8 @@ test("foreign hosts, credentials, nested subdomains and reserved addresses canno
     "connect",
     "api",
     "admin",
+    "zavod",
+    "https://zavod.metov.store/",
     "evil.example",
     "https://demo.metov.store.evil.example/",
     "https://evil.example/demo.metov.store",

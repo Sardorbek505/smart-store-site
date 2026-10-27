@@ -34,13 +34,44 @@ export function storeCode(value) {
     code = address.hostname.slice(0, -suffix.length);
   }
   if (!/^[a-z0-9][a-z0-9-]{0,38}[a-z0-9]$/.test(code)) return null;
-  if (["www", "connect", "api", "admin"].includes(code)) return null;
+  if (["www", "connect", "api", "admin", "zavod"].includes(code)) return null;
   return code;
 }
 
 export function storeUrl(code) {
   const normalized = storeCode(code);
   return normalized ? `https://${normalized}.${config.storeDomain}/` : null;
+}
+
+export const analyticsPreferenceKey = "smart-store-analytics";
+
+export function browserPrivacySignal(nav = globalThis.navigator) {
+  return Boolean(
+    nav?.globalPrivacyControl ||
+    ["1", "yes"].includes(String(nav?.doNotTrack).toLowerCase()),
+  );
+}
+
+// No analytics when storage is unavailable or the browser requests privacy.
+export function analyticsAllowed(
+  nav = globalThis.navigator,
+  read = () => globalThis.localStorage.getItem(analyticsPreferenceKey),
+) {
+  if (nav?.webdriver || browserPrivacySignal(nav)) return false;
+  try {
+    return read() !== "off";
+  } catch {
+    return false;
+  }
+}
+
+export function referrerOrigin(value) {
+  try {
+    const url = new URL(value);
+    return ["https:", "http:"].includes(url.protocol) ? url.origin : "";
+  } catch {
+    return "";
+  }
 }
 
 export function installerFromRelease(release) {

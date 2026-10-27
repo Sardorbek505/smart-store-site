@@ -13,7 +13,7 @@ with sync_playwright() as p:
         page=b.new_page(viewport={'width':w,'height':h},has_touch=w<851,is_mobile=w<851,reduced_motion='reduce')
         errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(BASE+'/#ai-info',wait_until='networkidle')
-        page.wait_for_function('document.documentElement.classList.contains("js")')
+        page.wait_for_function('() => (document.documentElement.classList.contains("js"))')
         page.wait_for_timeout(150)
         answer=page.locator('#ai-info')
         assert answer.get_attribute('open') is not None
@@ -21,7 +21,7 @@ with sync_playwright() as p:
         header=page.locator('.top').bounding_box()
         assert summary['y'] >= header['y']+header['height'], {'summary':summary,'header':header}
         answer.evaluate('e=>e.open=false')
-        page.wait_for_function('!document.querySelector("#faq .screen-content").classList.contains("is-scrollable")')
+        page.wait_for_function('() => (!document.querySelector("#faq .screen-content").classList.contains("is-scrollable"))')
         page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
         for point in page.locator('[data-checkout-point]').all():
             box=point.bounding_box()
@@ -32,7 +32,7 @@ with sync_playwright() as p:
         page.locator('#data').evaluate('e=>e.open=true')
         assert all(word in page.locator('#data').inner_text() for word in ['компьютере','2 часа','флешку'])
         page.locator('#data').evaluate('e=>e.open=false')
-        page.wait_for_function('!document.querySelector("#faq .screen-content").classList.contains("is-scrollable")')
+        page.wait_for_function('() => (!document.querySelector("#faq .screen-content").classList.contains("is-scrollable"))')
         unexpected=page.locator('.screen-content.is-scrollable').evaluate_all('xs=>xs.map(e=>({section:e.closest("section").getAttribute("aria-labelledby")||e.closest("section").id,scroll:e.scrollHeight,height:e.clientHeight}))')
         assert not unexpected,unexpected
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')

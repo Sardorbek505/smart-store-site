@@ -41,7 +41,7 @@ with sync_playwright() as p:
             page.wait_for_function('(tone)=>document.querySelector(".top").dataset.surface===tone',arg=tone)
             assert page.locator('.top-inner').evaluate('e=>e.scrollWidth<=e.clientWidth+1')
         page.locator('#features').evaluate('e=>scrollTo(0,e.offsetTop)')
-        page.wait_for_function('document.querySelector(".top").dataset.surface==="light"')
+        page.wait_for_function('() => (document.querySelector(".top").dataset.surface==="light")')
         page.screenshot(path=str(OUT/f'navigation-{w}.png'))
         page.add_style_tag(content='.top-inner > * {visibility:hidden !important}')
         page.evaluate('''()=>{const probe=document.createElement('div');probe.id='glass-probe';probe.style.cssText='position:fixed;inset:0 0 auto;height:100px;z-index:19;pointer-events:none';document.body.append(probe)}''')
@@ -80,7 +80,7 @@ with sync_playwright() as p:
     fallback.route('**/releases/latest',lambda r:r.fulfill(json={}))
     fallback.goto(BASE,wait_until='networkidle')
     fallback.locator('#features').evaluate('e=>scrollTo(0,e.offsetTop)')
-    fallback.wait_for_function('!document.querySelector(".top").inert')
+    fallback.wait_for_function('() => (!document.querySelector(".top").inert)')
     fallback.locator('#menu-toggle').click()
     assert fallback.locator('#menu-toggle').get_attribute('aria-expanded')=='true'
     fallback.keyboard.press('Escape')

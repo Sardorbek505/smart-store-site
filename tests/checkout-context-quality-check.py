@@ -31,7 +31,7 @@ with sync_playwright() as p:
     differences = []
     for cycle in range(2):
         canvas.evaluate('c=>{window.checkoutLost=c.getContext("webgl2").getExtension("WEBGL_lose_context");checkoutLost.loseContext()}')
-        page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutRenderer==="poster"')
+        page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutRenderer==="poster")')
         assert page.locator('#product-screen').get_attribute('src').endswith('checkout-overview-v56.webp')
         page.wait_for_timeout(120)
         page.evaluate('checkoutLost.restoreContext()')

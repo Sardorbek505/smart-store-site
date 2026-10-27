@@ -1,5 +1,5 @@
-// What visitors press and how far they read — anonymous counts for the developer's dashboard
-// (zavod.metov.store). No cookie, no names: the dashboard keeps only a one-day fingerprint.
+// Visits, button labels and section reads for the developer's dashboard.
+// No executable third-party SDK, query strings, form values or browser credentials.
 // Labels come from the page itself (button text, section headings), so new buttons are
 // counted without any markup. Downloads are labelled "Скачать — …" so the dashboard can put
 // them into the landing → install funnel.
@@ -15,21 +15,26 @@ export function cleanLabel(text) {
   // Animated buttons repeat their text in a second layer: "Открыть демо Открыть демо".
   const words = line.split(" ");
   const half = words.length / 2;
-  if (Number.isInteger(half) && words.slice(0, half).join(" ") === words.slice(half).join(" "))
+  if (
+    Number.isInteger(half) &&
+    words.slice(0, half).join(" ") === words.slice(half).join(" ")
+  )
     line = words.slice(0, half).join(" ");
   return line.length > MAX ? `${line.slice(0, MAX - 1)}…` : line;
 }
 
 /** A download button: the main call to action, the installation links or a direct release link. */
 export function isDownload(element) {
-  if (element.matches?.("#download, [data-download], #start-download")) return true;
+  if (element.matches?.("#download, [data-download], #start-download"))
+    return true;
   const href = element.getAttribute?.("href") ?? "";
   return /smart-store-releases\/releases|\.exe($|\?)/.test(href);
 }
 
 function sectionName(element) {
   const section = element.closest?.("section[aria-labelledby]");
-  const heading = section && document.getElementById(section.getAttribute("aria-labelledby"));
+  const heading =
+    section && document.getElementById(section.getAttribute("aria-labelledby"));
   // innerText keeps line breaks as spaces: "Весь магазин. В вашем фокусе."
   return heading ? cleanLabel(heading.innerText || heading.textContent) : "";
 }
@@ -47,21 +52,44 @@ function labelFor(element) {
   return cleanLabel(where && where !== own ? `${own} · ${where}` : own);
 }
 
-function tell(name, label) {
-  if (!label) return;
+function transmit(endpoint, payload, json = false) {
   try {
-    navigator.sendBeacon(ENDPOINT, JSON.stringify({ site: SITE, name, label }));
+    fetch(endpoint, {
+      method: "POST",
+      keepalive: true,
+      credentials: "omit",
+      mode: json ? "cors" : "no-cors",
+      referrerPolicy: "no-referrer",
+      ...(json ? { headers: { "content-type": "application/json" } } : {}),
+      body: JSON.stringify(payload),
+    }).catch(() => {});
   } catch {
     // The counter must never get in the way of the site.
   }
 }
 
-export function init() {
-  if (navigator.webdriver || !navigator.sendBeacon) return;
+export function init({ analyticsAllowed, referrerOrigin }) {
+  if (!analyticsAllowed()) return;
+  transmit(
+    "https://zavod.metov.store/hit",
+    {
+      site: SITE,
+      path: location.pathname,
+      ref: referrerOrigin(document.referrer),
+    },
+    true,
+  );
+  const tell = (name, label) => {
+    if (label && analyticsAllowed())
+      transmit(ENDPOINT, { site: SITE, name, label });
+  };
   document.addEventListener(
     "click",
     (event) => {
-      const target = event.target instanceof Element ? event.target.closest("a, button") : null;
+      const target =
+        event.target instanceof Element
+          ? event.target.closest("a, button")
+          : null;
       if (target) tell("click", labelFor(target));
     },
     { capture: true },
@@ -78,5 +106,6 @@ export function init() {
     },
     { threshold: 0.33 },
   );
-  for (const section of document.querySelectorAll("section[aria-labelledby]")) seen.observe(section);
+  for (const section of document.querySelectorAll("section[aria-labelledby]"))
+    seen.observe(section);
 }

@@ -43,17 +43,17 @@ with sync_playwright() as p:
         if w<851 or h<=600:
             assert runs(page)==[1,0,0],('Hidden carousel cards must stay cold',runs(page))
             page.locator('#feature-next').click()
-            page.wait_for_function('Number(document.querySelector("[data-micro=stock]").dataset.runs)===1')
+            page.wait_for_function('() => (Number(document.querySelector("[data-micro=stock]").dataset.runs)===1)')
             assert runs(page)==[1,1,0]
             page.locator('#feature-prev').click();fresh(page,1)
         scene=page.locator('[data-micro=sale]')
         scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=a.effect.getTiming().duration*.98)')
-        page.wait_for_function('document.querySelector("[data-micro=sale]").dataset.state==="complete"')
+        page.wait_for_function('() => (document.querySelector("[data-micro=sale]").dataset.state==="complete")')
         count=runs(page)[0]
         page.evaluate('scrollBy(0,8)');page.wait_for_timeout(550)
         assert runs(page)[0]==count and scene.get_attribute('data-state')=='complete'
         scroll(page,'#workspace')
-        page.wait_for_function('document.querySelector("[data-micro=sale]").dataset.state==="idle"')
+        page.wait_for_function('() => (document.querySelector("[data-micro=sale]").dataset.state==="idle")')
         assert scene.evaluate('e=>e.getAnimations({subtree:true}).length')==0
         # A glimpse followed by departure must cancel the pending entrance.
         scroll(page,'#features');page.wait_for_timeout(80);scroll(page,'#workspace');page.wait_for_timeout(550)

@@ -26,11 +26,11 @@ with sync_playwright() as p:
         page.goto(BASE, wait_until='networkidle')
         page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
         def playing():
-            page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutAmbient==="playing"')
+            page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutAmbient==="playing")')
         def phase():
             return float(page.locator('#checkout-canvas').get_attribute('data-ambient-phase'))
         def paused():
-            page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutAmbient!=="playing"')
+            page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutAmbient!=="playing")')
             page.evaluate('()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))')
             count = page.evaluate('checkoutDraws')
             time = phase()
@@ -38,7 +38,7 @@ with sync_playwright() as p:
             assert page.evaluate('checkoutDraws') == count, 'Paused motion must issue zero GL calls'
             assert phase() == time, 'Paused motion must keep its phase'
         playing()
-        page.wait_for_function('Number(document.getElementById("checkout-canvas").dataset.ambientFrames)>2')
+        page.wait_for_function('() => (Number(document.getElementById("checkout-canvas").dataset.ambientFrames)>2)')
         buttons = page.locator('[data-checkout-point]').evaluate_all('xs=>xs.map(e=>{const r=e.getBoundingClientRect();return [r.x,r.y,r.width,r.height]})')
         before = int(page.locator('#checkout-canvas').get_attribute('data-ambient-frames'))
         layouts = page.evaluate('checkoutLayoutReads')
@@ -114,10 +114,10 @@ with sync_playwright() as p:
           observer.observe(c,{attributes:true,attributeFilter:['data-ambient-phase']});
         }''')
         page.emulate_media(reduced_motion='no-preference');playing()
-        page.wait_for_function('window.checkoutRestartPhase!==null')
+        page.wait_for_function('() => (window.checkoutRestartPhase!==null)')
         assert page.evaluate('checkoutRestartPhase') == 0, 'Restart must render its neutral first frame'
         page.locator('[data-checkout-point="2"]').click()
-        page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutMotion==="idle"')
+        page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutMotion==="idle")')
         paused()
         page.locator('#checkout-return').click();playing()
         if width == 390:

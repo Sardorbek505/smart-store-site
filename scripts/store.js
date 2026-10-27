@@ -53,6 +53,7 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
   });
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (["checking", "redirecting"].includes(state)) return;
     cancel();
     const current = revision;
     const code = storeCode(field.value);

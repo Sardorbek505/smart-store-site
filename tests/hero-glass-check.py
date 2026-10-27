@@ -20,10 +20,10 @@ with sync_playwright() as p:
         errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(BASE,wait_until='networkidle')
         page.locator('[data-gallery-card] img').evaluate_all('(xs)=>Promise.all(xs.map(i=>i.decode()))')
-        page.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
+        page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.ready==="true")')
         page.locator('.hero-gallery').focus()
         page.evaluate('window.flow=document.querySelector(".ribbon-track").getAnimations()[0]')
-        page.wait_for_function('flow.playState==="paused"&&!flow.pending')
+        page.wait_for_function('() => (flow.playState==="paused"&&!flow.pending)')
         page.evaluate('flow.currentTime=flow.effect.getTiming().duration*.11')
         lens = page.locator('.ribbon-window').evaluate('''e=>{
             const left=getComputedStyle(e,'::before'),right=getComputedStyle(e,'::after');
@@ -64,7 +64,7 @@ with sync_playwright() as p:
         if w==390:
             page.mouse.move(1,1)
             page.evaluate('document.activeElement.blur()')
-            page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"')
+            page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
             def swipe():
                 common={'pointerId':7,'pointerType':'touch','isPrimary':True,'button':0,'buttons':1,'clientY':y}
                 stage=page.locator('.gallery-stage')
@@ -73,19 +73,19 @@ with sync_playwright() as p:
                 stage.dispatch_event('pointerup',{**common,'buttons':0,'clientX':w*.25})
                 stage.dispatch_event('click',{'clientX':w*.25,'clientY':y})
             swipe()
-            page.wait_for_function("document.querySelector('.ribbon-track').getAnimations().every(a=>a.animationName==='ribbon-flow')")
+            page.wait_for_function("() => (document.querySelector('.ribbon-track').getAnimations().every(a=>a.animationName==='ribbon-flow'))")
             assert page.locator('#preview-dialog').evaluate('e=>!e.open')
-            page.wait_for_function('flow.playState==="paused"&&!flow.pending')
+            page.wait_for_function('() => (flow.playState==="paused"&&!flow.pending)')
             frozen=page.evaluate('flow.currentTime')
             page.wait_for_timeout(700)
             assert abs(page.evaluate('flow.currentTime')-frozen)<1
-            page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"',timeout=3000)
+            page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")',timeout=3000)
             # The swipe timer must not resume motion after the visitor scrolls away.
             swipe();page.evaluate('scrollTo(0,100)')
             page.wait_for_timeout(2800)
             assert page.locator('.gallery-stage').get_attribute('data-motion')=='paused'
             page.evaluate('scrollTo(0,0)')
-            page.wait_for_function('document.querySelector(".gallery-stage").dataset.motion==="running"')
+            page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
         assert not errors,errors
         print(json.dumps({'browser':BROWSER,'viewport':[w,h],'dpr':dpr,'edgeWidth':lens['left'],'centreMeanDifference':round(middle_mean,4),'edgeMeanDifference':round(edge_mean,4),'photoTapThroughGlass':'pass','swipeRestAndScroll':'pass' if w==390 else 'not repeated'}),flush=True)
         page.close()

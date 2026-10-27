@@ -53,7 +53,7 @@ try:
             page.locator('#store-submit').click()
             page.wait_for_url(BASE+'/synthetic-shop/')
             page.go_back(wait_until='commit')
-            page.wait_for_function('document.querySelector("#store-form")?.dataset.state==="idle"&&!document.querySelector("#store-submit").disabled')
+            page.wait_for_function('() => (document.querySelector("#store-form")?.dataset.state==="idle"&&!document.querySelector("#store-submit").disabled)')
             cached=page.evaluate('window.restored')
             if cached:
                 assert page.locator('#store-code').input_value()=='synthetic-shop'
@@ -62,7 +62,7 @@ try:
 
             page.locator('#store-code').fill('missing-shop')
             page.locator('#store-submit').click()
-            page.wait_for_function('document.querySelector("#store-form").dataset.state==="not-found"')
+            page.wait_for_function('() => (document.querySelector("#store-form").dataset.state==="not-found")')
             assert page.locator('#store-code').get_attribute('aria-invalid')=='true'
             page.evaluate('dispatchEvent(new PageTransitionEvent("pageshow",{persisted:true}))')
             assert page.locator('#store-code').get_attribute('aria-invalid') is None

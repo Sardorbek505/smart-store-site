@@ -14,7 +14,7 @@ with sync_playwright() as p:
     errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
     page.add_init_script(INSTRUMENT)
     page.goto(BASE,wait_until='networkidle')
-    page.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
+    page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.ready==="true")')
     page.wait_for_timeout(150)
     assert page.evaluate('window.webglContexts')==0
     before=page.evaluate('window.draws')
@@ -26,12 +26,12 @@ with sync_playwright() as p:
     assert page.evaluate('window.draws')==before,'scroll pauses must not restart drawing'
     assert page.locator('.gallery-controls, .gallery-motion, .gallery-bottom').count()==0
     page.locator('.hero-gallery').focus();page.keyboard.press('ArrowRight')
-    page.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
+    page.wait_for_function('() => (document.getElementById("gallery-status").textContent.startsWith("2 из 5:"))')
     page.wait_for_timeout(700)
     page.keyboard.press('ArrowLeft')
-    page.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("1 из 5:")')
+    page.wait_for_function('() => (document.getElementById("gallery-status").textContent.startsWith("1 из 5:"))')
     page.keyboard.press('ArrowRight')
-    page.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
+    page.wait_for_function('() => (document.getElementById("gallery-status").textContent.startsWith("2 из 5:"))')
     card=page.locator('[data-gallery-card]').nth(1)
     original=card.get_attribute('href');card.click()
     assert page.locator('#preview-dialog').is_visible()
@@ -44,7 +44,7 @@ with sync_playwright() as p:
     c=b.new_context(viewport={'width':390,'height':844},device_scale_factor=3,is_mobile=True,has_touch=True)
     touch=c.new_page();touch.add_init_script(INSTRUMENT)
     touch.goto(BASE,wait_until='networkidle')
-    touch.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
+    touch.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.ready==="true")')
     assert touch.locator('canvas').count()==0
     source=touch.locator('.hero-gallery img').first.evaluate('e=>e.currentSrc')
     response=touch.request.get(source)
@@ -54,7 +54,7 @@ with sync_playwright() as p:
     stage.dispatch_event('pointermove',{'pointerId':1,'pointerType':'touch','isPrimary':True,'clientX':160,'clientY':620})
     stage.dispatch_event('pointerup',{'pointerId':1,'pointerType':'touch','isPrimary':True,'clientX':150,'clientY':620})
     stage.dispatch_event('click')
-    touch.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
+    touch.wait_for_function('() => (document.getElementById("gallery-status").textContent.startsWith("2 из 5:"))')
     touch.wait_for_timeout(700)
     assert touch.locator('#preview-dialog').is_hidden()
     # A real tap targets the moving photograph without waiting for layout stability.
@@ -64,12 +64,12 @@ with sync_playwright() as p:
     fallback=b.new_page(viewport={'width':390,'height':844})
     fallback.add_init_script('HTMLCanvasElement.prototype.getContext=()=>null')
     fallback.goto(BASE,wait_until='networkidle')
-    fallback.wait_for_function('document.querySelector(".gallery-stage").dataset.ready==="true"')
+    fallback.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.ready==="true")')
     assert fallback.locator('canvas').count()==0
     assert fallback.locator('#store-submit').is_enabled()
     fallback.evaluate('scrollTo({top:100,behavior:"instant"})')
     fallback.locator('.hero-gallery').focus();fallback.keyboard.press('ArrowRight')
-    fallback.wait_for_function('document.getElementById("gallery-status").textContent.startsWith("2 из 5:")')
+    fallback.wait_for_function('() => (document.getElementById("gallery-status").textContent.startsWith("2 из 5:"))')
     assert not errors,errors
     print('PASS',BROWSER,'native gallery, no Canvas/WebGL drawing, burst scrolling, keyboard, originals, Retina, swipe/tap, unavailable graphics APIs.')
     b.close()

@@ -2,14 +2,57 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
+    <!-- security:start -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-Oqy2BJPgZ7FikUI6yUqyhZlLYDguOvxi0MjGbM4+bc0=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
+    <!-- security:end -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#111116" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>Smart Store — касса и склад для магазина инструмента</title>
     <meta
       name="description"
       content="Продажи, склад, закупки, долги и аренда инструмента в одной программе для Windows. Основной учёт работает без интернета. Попробуйте Smart Store 14 дней."
     />
     <link rel="canonical" href="https://metov.store/" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://metov.store/#website",
+            "url": "https://metov.store/",
+            "name": "Smart Store",
+            "inLanguage": "ru"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://metov.store/#software",
+            "name": "Smart Store",
+            "url": "https://metov.store/",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Windows 10, Windows 11",
+            "inLanguage": ["ru", "kk"],
+            "description": "Касса, склад, закупки, долги и аренда для магазина инструмента. Основной учёт работает без интернета. Пробный период — 14 дней; затем для новых операций нужна лицензия.",
+            "image": "https://metov.store/img/smart-store-share-v39.jpg",
+            "screenshot": "https://metov.store/img/demo-sale.png",
+            "license": "https://metov.store/privacy.html#license-terms",
+            "featureList": [
+              "Продажи и поиск по штрихкоду",
+              "Склад и закупки",
+              "Долги покупателей",
+              "Аренда инструмента",
+              "Продажи, выручка и прибыль в отчётах",
+              "Доступ с телефона при включённом компьютере"
+            ],
+            "subjectOf": {
+              "@id": "https://metov.store/programma-dlya-magazina-instrumentov/#page"
+            }
+          }
+        ]
+      }
+    </script>
     <meta
       property="og:title"
       content="Smart Store — касса, склад и контроль магазина"
@@ -77,17 +120,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.a85dc910a0d6.css" />
+    <link rel="stylesheet" href="assets/site.5a3843945a99.css" />
     <!-- styles:end -->
-    <script src="app.js?v=57" type="module"></script>
-    <!-- Visit counter of the developer dashboard: no cookie, no personal data (see privacy.html). -->
-    <script
-      defer
-      src="https://zavod.metov.store/t.js"
-      data-site="smart-store"
-      integrity="sha384-gmouqRIAawA0HotzkOg6jfoke6pXAZs7Mtecz9AF3u/Qd12SJkOQpuKgJTJEgwAV"
-      crossorigin="anonymous"
-    ></script>
+    <script src="app.js?v=58" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -1612,6 +1647,7 @@
           >Войти в магазин</a
         >
         <a href="https://wa.me/77066352006">WhatsApp: +7 706 635 20 06</a
+        ><a href="programma-dlya-magazina-instrumentov/">О программе</a
         ><a href="privacy.html">Конфиденциальность и условия</a
         ><a href="https://github.com/Sardorbek505/smart-store-releases/releases"
           >Все версии программы</a

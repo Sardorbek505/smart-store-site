@@ -18,24 +18,24 @@ with sync_playwright() as p:
   for endpoint in ['hit','act']:page.route('https://zavod.metov.store/'+endpoint,lambda r:r.fulfill(status=204))
   if block:page.route(block,lambda r:r.abort())
   page.goto(BASE,wait_until='networkidle')
-  page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutMotion==="idle"')
+  page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutMotion==="idle")')
   # Record transient states before clicking: a slow software frame can finish
   # the transition before a later polling call sees its running state.
   page.evaluate("""()=>{window.checkoutMotions=[];new MutationObserver(records=>{for(const r of records)checkoutMotions.push(r.oldValue,r.target.dataset.checkoutMotion)}).observe(document.querySelector('.checkout-object'),{attributes:true,attributeFilter:['data-checkout-motion'],attributeOldValue:true})}""")
   return page,errors,requests
  def enter(page):page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
- def ready(page):page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutRenderer==="webgl"',timeout=20000)
+ def ready(page):page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutRenderer==="webgl")',timeout=20000)
  def settled(page,view):page.wait_for_function('(v)=>{const e=document.querySelector(".checkout-object");return e.dataset.checkoutView===v&&e.dataset.checkoutMotion==="idle"}',arg=view,timeout=12000)
  def draws(page):return page.evaluate('window.checkoutDraws')
  def pause_settled(page):
-  page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutMotion==="paused"')
+  page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutMotion==="paused")')
   page.evaluate('()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))')
   count=draws(page);page.wait_for_timeout(200);assert draws(page)==count,'Paused 3D must issue zero GL draw calls'
  for w,h in [(320,568),(390,844),(844,390),(851,768),(1440,900)]:
   page,errors,requests=open_page(w,h)
   assert not any('/assets/checkout3d.' in u for u in requests),'3D code must not load on the hero'
   enter(page);ready(page)
-  page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutAmbient==="playing"')
+  page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutAmbient==="playing")')
   count=draws(page);page.wait_for_function('(n)=>checkoutDraws>n',arg=count,timeout=3000)
   overview=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'))
   controls=page.locator('.checkout-controls').bounding_box()
@@ -50,7 +50,7 @@ with sync_playwright() as p:
   page.screenshot(path=str(OUT/f'overview-{w}.png'))
   for view in ['0','1','2']:
    button=page.locator(f'[data-checkout-point="{view}"]');page.evaluate('window.checkoutMotions=[]');button.click()
-   page.wait_for_function('window.checkoutMotions.includes("running")')
+   page.wait_for_function('() => (window.checkoutMotions.includes("running"))')
    settled(page,view)
    distance=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'));assert distance<overview*.5,(w,view,distance,overview)
    assert button.get_attribute('aria-pressed')=='true'
@@ -118,7 +118,7 @@ with sync_playwright() as p:
  assert page.locator('#preview-original').get_attribute('href').endswith('demo-payment.png');page.locator('#preview-close').click()
  # Exercise the actual GPU context-loss path and restoration.
  page.locator('#checkout-canvas').evaluate('c=>{window.checkoutLost=c.getContext("webgl2").getExtension("WEBGL_lose_context");checkoutLost.loseContext()}')
- page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutRenderer==="poster"')
+ page.wait_for_function('() => (document.querySelector(".checkout-object").dataset.checkoutRenderer==="poster")')
  assert page.locator('#product-screen').get_attribute('src').endswith('checkout-2-v56.webp')
  page.evaluate('checkoutLost.restoreContext()');ready(page);assert page.locator('.checkout-object').get_attribute('data-checkout-view')=='2'
  assert not errors,errors

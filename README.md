@@ -17,9 +17,18 @@ python -m http.server 4173
 После изменения CSS выполнять `npm run build:styles`; после изменения самой
 3D-сцены — `npm run build:checkout`. Сборщики сохраняют предыдущие опубликованные
 файлы для кэшированного HTML. После изменения браузерного JS повышать `?v=`
-у `app.js`: загрузчик передаёт версию всем модулям.
+у `app.js`: загрузчик передаёт версию всем модулям. После изменения inline-кода
+или JSON-LD и форматирования HTML выполнять `npm run build:csp`. Публикуемый CSP
+проверяется в CI; форматирование после генерации требует повторной генерации.
 
 ## Страница
+
+В v58 добавлены публичное описание программы, карта сайта, robots.txt, JSON-LD,
+социальные метаданные документов и собственная 404. CSP разрешает собственные
+скрипты и точные хеши inline-кода. Статистика «Завода» работает локальным модулем
+без удалённого SDK и полного referrer; необязательные счётчики отключаются
+в настройках конфиденциальности и по DNT/GPC. Дубликаты отправки формы входа
+игнорируются. Полный [аудит и дальнейшая работа с поиском](docs/site-readiness-2026-10-27.md).
 
 В v57 иллюстрация «14» и подпись собраны в одну центрированную группу:
 текст больше не прижат к низу секции на высоком экране. Заголовок FAQ стоит
@@ -100,7 +109,11 @@ Windows-приложения; это инструмент разработки �
 
 ## Структура
 
-- `index.html`, `privacy.html` — содержание, условия и статические ссылки.
+- `index.html`, `privacy.html`, `programma-dlya-magazina-instrumentov/` — лендинг,
+  условия и описание продукта; `404.html` — неизвестные адреса.
+- `robots.txt`, `sitemap.xml`, `llms.txt` — обход, канонические URL и факты.
+- `tools/sync-csp.mjs`, `tools/check-site.py`, `tools/check-live.py` — политика
+  скриптов, проверка публикации и публичная доступность.
 - `styles.css`, `cinema.css`, `buttons.css`, `screens.css` — основа, херо,
   кнопки и адаптивные экраны.
 - `story.css`, `scripts/story.js` — подписи кассы и последовательность телефона.
@@ -126,6 +139,9 @@ Windows-приложения; это инструмент разработки �
 npm test
 npm run check:styles
 npm run check:checkout
+npm run check:csp
+npm run check:site
+BROWSER=chromium python tests/readiness-check.py
 node tools/sync-hero-layout.mjs --check
 BROWSER=chromium python tests/short-landing-check.py
 PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1 BROWSER=webkit python tests/short-landing-check.py
