@@ -67,6 +67,7 @@ with sync_playwright() as p:
   page.locator('#preview-zoom').click()
   assert page.locator('#preview-stage').evaluate('e=>e.scrollLeft===0&&e.scrollTop===0')
   page.keyboard.press('Escape')
+  page.wait_for_function('() => !document.querySelector("#preview-dialog").open && document.activeElement===document.querySelector("#product-screen-link")')
   assert page.locator('#product-screen-link').evaluate('e=>document.activeElement===e')
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   assert not errors,errors
