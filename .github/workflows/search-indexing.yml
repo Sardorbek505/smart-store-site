@@ -1,0 +1,27 @@
+name: Notify search engines after publication
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - privacy.html
+      - programma-dlya-magazina-instrumentov/index.html
+      - robots.txt
+      - sitemap.xml
+      - llms.txt
+      - tools/indexnow.json
+      - b7f1bcd1cf3b163793889feb50602152.txt
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: search-indexing
+  cancel-in-progress: true
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify the Pages publication and notify IndexNow once
+        run: python3 tools/notify-indexnow.py --submit --wait-for-publish 240
