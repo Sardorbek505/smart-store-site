@@ -12,6 +12,8 @@
 
 - [Официальный сайт и установка](https://metov.store/)
 - [Возможности и ограничения программы](https://metov.store/programma-dlya-magazina-instrumentov/)
+- [От первого запуска до чека](https://metov.store/programma-dlya-magazina-instrumentov/#first-sale)
+- [Активация лицензии](https://metov.store/programma-dlya-magazina-instrumentov/#activation)
 - [Официальные выпуски для Windows](https://github.com/Sardorbek505/smart-store-releases/releases)
 - [Конфиденциальность и условия](https://metov.store/privacy.html)
 - [Поддержка в WhatsApp](https://wa.me/77066352006)

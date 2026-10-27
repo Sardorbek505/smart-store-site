@@ -626,6 +626,24 @@ summary::-webkit-details-marker {
 .guide-screen {
   margin: 24px 0;
 }
+.guide-deployment {
+  border-left: 3px solid var(--blue);
+  padding: 16px 20px;
+  background: var(--accent-soft);
+  border-radius: 0 14px 14px 0;
+  margin-block: 24px;
+}
+.guide-deployment p {
+  margin: 0;
+}
+.installation-checklist a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .guide-screen img {
   display: block;
   width: 100%;
