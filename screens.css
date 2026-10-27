@@ -200,8 +200,9 @@ html:has(dialog[open]) {
 }
 .faq-section .screen-content {
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 60px;
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 1040px;
+  gap: clamp(20px, calc(var(--screen-height) * 0.03), 32px);
   align-items: start;
 }
 .installation-guide .screen-content {
@@ -427,6 +428,10 @@ html:has(dialog[open]) {
   #features .extra-features {
     display: none;
   }
+}
+
+/* Six questions also fit on laptop windows just above the compact breakpoint. */
+@media (min-width: 621px) and (max-height: 700px) {
   .faq-section .screen-content {
     display: block;
   }
