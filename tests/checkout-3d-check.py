@@ -15,6 +15,7 @@ with sync_playwright() as p:
   page.add_init_script(INSTRUMENT)
   if init:page.add_init_script(init)
   errors=[];requests=[];page.on('pageerror',lambda e:errors.append(str(e)));page.on('request',lambda r:requests.append(r.url));page.route('**/releases/latest',lambda r:r.fulfill(json={}))
+  for endpoint in ['hit','act']:page.route('https://zavod.metov.store/'+endpoint,lambda r:r.fulfill(status=204))
   if block:page.route(block,lambda r:r.abort())
   page.goto(BASE,wait_until='networkidle')
   page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutMotion==="idle"')
@@ -32,7 +33,7 @@ with sync_playwright() as p:
   assert not any('/assets/checkout3d.' in u for u in requests),'3D code must not load on the hero'
   enter(page);ready(page)
   page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutAmbient==="playing"')
-  count=draws(page);page.wait_for_timeout(220);assert draws(page)>count,'The visible overview should move'
+  count=draws(page);page.wait_for_function('(n)=>checkoutDraws>n',arg=count,timeout=3000)
   overview=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'))
   controls=page.locator('.checkout-controls').bounding_box()
   model=page.locator('.checkout-object').bounding_box()

@@ -170,7 +170,9 @@ export function init() {
   const frame = (time) => {
     renderFrame = 0;
     if (!active() || !moving || !api) return;
-    if (lastTime !== undefined) elapsed += Math.min(time - lastTime, 50);
+    // Keep the 800ms camera move responsive even when a frame arrives late.
+    // Explicit scroll/touch/visibility pauses clear lastTime in stop().
+    if (lastTime !== undefined) elapsed += time - lastTime;
     lastTime = time;
     api.draw(Math.min(1, elapsed / duration));
     if (elapsed >= duration) {
