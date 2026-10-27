@@ -1,0 +1,17 @@
+{
+  "name": "smart-store-landing",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "404-page",
+    "run_worker_first": true,
+  },
+  "routes": [
+    { "pattern": "metov.store/*", "zone_name": "metov.store" },
+    { "pattern": "www.metov.store/*", "zone_name": "metov.store" },
+  ],
+}

@@ -11,7 +11,8 @@
     "check:csp": "node tools/sync-csp.mjs --check",
     "check:site": "python3 tools/check-site.py",
     "build:checkout": "node tools/build-checkout.mjs",
-    "check:checkout": "node tools/build-checkout.mjs --check"
+    "check:checkout": "node tools/build-checkout.mjs --check",
+    "build:edge": "node tools/build-edge.mjs"
   },
   "engines": {
     "node": ">=22"
