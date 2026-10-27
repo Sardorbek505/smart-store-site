@@ -76,7 +76,7 @@ for name,page in parsed.items():
 
 robots=RobotFileParser();robots.parse((ROOT/'robots.txt').read_text().splitlines())
 assert robots.site_maps()==[BASE+'sitemap.xml']
-for bot in ['Googlebot','Bingbot','OAI-SearchBot','GPTBot','Claude-SearchBot','PerplexityBot']:
+for bot in ['Googlebot','Bingbot','YandexBot','YandexWebmaster','OAI-SearchBot','GPTBot','Claude-SearchBot','PerplexityBot']:
     for path in ['', GUIDE, 'privacy.html', 'app.js', 'assets/styles.json', 'img/icon.png']:
         assert robots.can_fetch(bot,BASE+path),(bot,path)
 urls=[e.text for e in ET.parse(ROOT/'sitemap.xml').findall('.//{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
