@@ -144,13 +144,19 @@ export async function createCheckoutScene({ canvas, context }) {
     throw error;
   }
   // Bake the studio reflections once; no live reflection or shadow passes.
-  const studio = new RoomEnvironment();
-  const pmrem = new PMREMGenerator(renderer);
-  const environment = pmrem.fromScene(studio, 0.04, 0.1, 100, { size: 128 });
-  scene.environment = environment.texture;
-  scene.environmentIntensity = 0.65;
-  studio.dispose();
-  pmrem.dispose();
+  let environment;
+  function bakeEnvironment() {
+    const studio = new RoomEnvironment();
+    const pmrem = new PMREMGenerator(renderer);
+    const next = pmrem.fromScene(studio, 0.04, 0.1, 100, { size: 128 });
+    environment?.dispose();
+    environment = next;
+    scene.environment = environment.texture;
+    scene.environmentIntensity = 0.65;
+    studio.dispose();
+    pmrem.dispose();
+  }
+  bakeEnvironment();
   const screenGeometry = new ShapeGeometry(roundedShape(2.7, 1.6875, 0.025), 5);
   const positions = screenGeometry.attributes.position,
     uv = screenGeometry.attributes.uv;
@@ -431,6 +437,11 @@ export async function createCheckoutScene({ canvas, context }) {
   camera.position.copy(destination.position);
   target.copy(destination.target);
   const api = {
+    restore() {
+      // Render-target pixels are lost with the GPU context; ordinary image
+      // textures upload again automatically, but this baked map must be redrawn.
+      bakeEnvironment();
+    },
     focus(next) {
       view = String(next);
       fromPosition.copy(camera.position);

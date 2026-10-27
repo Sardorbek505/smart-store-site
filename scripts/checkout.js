@@ -1,6 +1,6 @@
 // A visible, idle story may load 3D. Everything else stays a static poster.
 // checkout-bundle:start
-const loadScene = () => import("../assets/checkout3d.ba0c841a841f.js");
+const loadScene = () => import("../assets/checkout3d.ba32c8dc116e.js");
 // checkout-bundle:end
 export function init() {
   const object = document.querySelector(".checkout-object");
@@ -416,8 +416,18 @@ export function init() {
     setTimeout(() => {
       lost = false;
       pendingSize = true;
-      api?.focus(currentView());
-      sync();
+      try {
+        api?.restore();
+        api?.focus(currentView());
+        sync();
+      } catch {
+        failed = true;
+        api?.dispose();
+        api = undefined;
+        syncPoster();
+        object.dataset.checkoutRenderer = "poster";
+        motion("idle");
+      }
     }, 0);
   });
   motion("idle");
