@@ -1,6 +1,6 @@
 // A visible, idle story may load 3D. Everything else stays a static poster.
 // checkout-bundle:start
-const loadScene = () => import("../assets/checkout3d.cd1e07fa3e50.js");
+const loadScene = () => import("../assets/checkout3d.ba32c8dc116e.js");
 // checkout-bundle:end
 export function init() {
   const object = document.querySelector(".checkout-object");
@@ -159,6 +159,9 @@ export function init() {
     canvas.dataset.draws = String(state.draws);
     canvas.dataset.cameraDistance = state.distance.toFixed(3);
     canvas.dataset.region = JSON.stringify(state.region);
+    canvas.dataset.renderScale = state.renderScale.toFixed(3);
+    canvas.dataset.framebuffer = JSON.stringify(state.framebuffer);
+    canvas.dataset.screenTexture = JSON.stringify(state.screenTexture);
     syncLeaders(state.landmarks);
   };
   const motion = (value) => {
@@ -167,7 +170,9 @@ export function init() {
   const frame = (time) => {
     renderFrame = 0;
     if (!active() || !moving || !api) return;
-    if (lastTime !== undefined) elapsed += Math.min(time - lastTime, 50);
+    // Keep the 800ms camera move responsive even when a frame arrives late.
+    // Explicit scroll/touch/visibility pauses clear lastTime in stop().
+    if (lastTime !== undefined) elapsed += time - lastTime;
     lastTime = time;
     api.draw(Math.min(1, elapsed / duration));
     if (elapsed >= duration) {
@@ -241,7 +246,7 @@ export function init() {
   }
   function syncPoster() {
     const view = currentView();
-    const src = `img/checkout-${view === "overview" ? "overview" : view}-v46.webp`;
+    const src = `img/checkout-${view === "overview" ? "overview" : view}-v56.webp`;
     if (poster.getAttribute("src") !== src) poster.src = src;
     syncLeaders();
   }
@@ -411,8 +416,18 @@ export function init() {
     setTimeout(() => {
       lost = false;
       pendingSize = true;
-      api?.focus(currentView());
-      sync();
+      try {
+        api?.restore();
+        api?.focus(currentView());
+        sync();
+      } catch {
+        failed = true;
+        api?.dispose();
+        api = undefined;
+        syncPoster();
+        object.dataset.checkoutRenderer = "poster";
+        motion("idle");
+      }
     }, 0);
   });
   motion("idle");

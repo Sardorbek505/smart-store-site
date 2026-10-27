@@ -17,6 +17,6 @@ with sync_playwright() as p:
   if view=='overview':
    box=im.getchannel('A').point(lambda x:255 if x>=240 else 0).getbbox()
    assert box and min(box[:2])>=2 and box[2]<=im.width-2 and box[3]<=im.height-2,('Clipped overview',box)
-  out=ROOT/'img'/f'checkout-{view}-v46.webp';im.save(out,quality=91,method=6)
+  out=ROOT/'img'/f'checkout-{view}-v56.webp';im.save(out,quality=96,method=6)
   print(view,im.size,out.stat().st_size,page.evaluate('scene.stats()'),flush=True)
  page.evaluate('scene.dispose()');b.close()

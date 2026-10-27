@@ -15,9 +15,13 @@ with sync_playwright() as p:
   page.add_init_script(INSTRUMENT)
   if init:page.add_init_script(init)
   errors=[];requests=[];page.on('pageerror',lambda e:errors.append(str(e)));page.on('request',lambda r:requests.append(r.url));page.route('**/releases/latest',lambda r:r.fulfill(json={}))
+  for endpoint in ['hit','act']:page.route('https://zavod.metov.store/'+endpoint,lambda r:r.fulfill(status=204))
   if block:page.route(block,lambda r:r.abort())
   page.goto(BASE,wait_until='networkidle')
   page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutMotion==="idle"')
+  # Record transient states before clicking: a slow software frame can finish
+  # the transition before a later polling call sees its running state.
+  page.evaluate("""()=>{window.checkoutMotions=[];new MutationObserver(records=>{for(const r of records)checkoutMotions.push(r.oldValue,r.target.dataset.checkoutMotion)}).observe(document.querySelector('.checkout-object'),{attributes:true,attributeFilter:['data-checkout-motion'],attributeOldValue:true})}""")
   return page,errors,requests
  def enter(page):page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
  def ready(page):page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutRenderer==="webgl"',timeout=20000)
@@ -32,7 +36,7 @@ with sync_playwright() as p:
   assert not any('/assets/checkout3d.' in u for u in requests),'3D code must not load on the hero'
   enter(page);ready(page)
   page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutAmbient==="playing"')
-  count=draws(page);page.wait_for_timeout(220);assert draws(page)>count,'The visible overview should move'
+  count=draws(page);page.wait_for_function('(n)=>checkoutDraws>n',arg=count,timeout=3000)
   overview=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'))
   controls=page.locator('.checkout-controls').bounding_box()
   model=page.locator('.checkout-object').bounding_box()
@@ -45,8 +49,8 @@ with sync_playwright() as p:
   assert page.locator('[data-checkout-point][aria-pressed="true"]').count()==0,'Overview must not claim a close-up is selected'
   page.screenshot(path=str(OUT/f'overview-{w}.png'))
   for view in ['0','1','2']:
-   button=page.locator(f'[data-checkout-point="{view}"]');button.click()
-   page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutMotion==="running"')
+   button=page.locator(f'[data-checkout-point="{view}"]');page.evaluate('window.checkoutMotions=[]');button.click()
+   page.wait_for_function('window.checkoutMotions.includes("running")')
    settled(page,view)
    distance=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'));assert distance<overview*.5,(w,view,distance,overview)
    assert button.get_attribute('aria-pressed')=='true'
@@ -66,7 +70,7 @@ with sync_playwright() as p:
    assert page.locator('#checkout-original').get_attribute('href').endswith('demo-payment.png' if view=='2' else 'demo-sale.png')
    count=draws(page);page.wait_for_timeout(180);assert draws(page)==count
    page.screenshot(path=str(OUT/f'focus-{view}-{w}.png'))
-  assert not any('/img/checkout-'+v+'-v46.webp' in u for u in requests for v in ['0','1','2']),'A working renderer should not download fallback focus posters'
+  assert not any('/img/checkout-'+v+'-v56.webp' in u for u in requests for v in ['0','1','2']),'A working renderer should not download fallback focus posters'
   page.locator('#checkout-return').click();settled(page,'overview')
   assert abs(float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'))-overview)<.02
   assert page.locator('[data-checkout-point="0"]').evaluate('e=>e===document.activeElement')
@@ -115,25 +119,25 @@ with sync_playwright() as p:
  # Exercise the actual GPU context-loss path and restoration.
  page.locator('#checkout-canvas').evaluate('c=>{window.checkoutLost=c.getContext("webgl2").getExtension("WEBGL_lose_context");checkoutLost.loseContext()}')
  page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutRenderer==="poster"')
- assert page.locator('#product-screen').get_attribute('src').endswith('checkout-2-v46.webp')
+ assert page.locator('#product-screen').get_attribute('src').endswith('checkout-2-v56.webp')
  page.evaluate('checkoutLost.restoreContext()');ready(page);assert page.locator('.checkout-object').get_attribute('data-checkout-view')=='2'
  assert not errors,errors
  print(json.dumps({'browser':BROWSER,'rapidSelection':'pass','touchOffscreenHiddenModalPause':'pass','reducedMotion':'one frame','sourcePreview':'pass','GPUContextRecovery':'pass'}),flush=True);page.close()
  # Missing GPU, engine or screenshot textures keep the exact rendered view posters usable.
  no_gpu='''(()=>{const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(kind,...args){return kind==='webgl2'?null:get.call(this,kind,...args)}})()'''
- for mode,init,block in [('no-gpu',no_gpu,None),('engine-error',None,'**/assets/checkout3d.*.js'),('texture-error',None,'**/img/demo-payment.png')]:
+ for mode,init,block in [('no-gpu',no_gpu,None),('engine-error',None,'**/assets/checkout3d.*.js'),('texture-error',None,'**/img/checkout-payment-2x-v56.webp')]:
   page,errors,requests=open_page(init=init,block=block);enter(page);page.wait_for_timeout(650)
   if mode=='no-gpu':assert not any('/assets/checkout3d.' in u for u in requests)
   for view in ['0','1','2']:
    page.locator(f'[data-checkout-point="{view}"]').click()
-   page.wait_for_function('(v)=>document.getElementById("product-screen").getAttribute("src").endsWith(`checkout-${v}-v46.webp`)',arg=view)
-   page.wait_for_function('(v)=>{const i=document.getElementById("product-screen");return i.complete&&i.naturalWidth>0&&i.currentSrc.endsWith(`checkout-${v}-v46.webp`)}',arg=view)
+   page.wait_for_function('(v)=>document.getElementById("product-screen").getAttribute("src").endsWith(`checkout-${v}-v56.webp`)',arg=view)
+   page.wait_for_function('(v)=>{const i=document.getElementById("product-screen");return i.complete&&i.naturalWidth>0&&i.currentSrc.endsWith(`checkout-${v}-v56.webp`)}',arg=view)
    page.locator('#product-screen').evaluate('e=>e.decode()')
    assert page.locator('.checkout-object').get_attribute('data-checkout-renderer')=='poster'
   page.locator('#checkout-return').click();assert page.locator('.checkout-object').get_attribute('data-checkout-view')=='overview'
   assert not errors,errors
   print(json.dumps({'browser':BROWSER,'fallback':mode,'threeRenderedPostersAndReturn':'pass'}),flush=True);page.close()
  context=browser.new_context(java_script_enabled=False,viewport={'width':390,'height':844});page=context.new_page();page.goto(BASE);page.locator('#product-screen').scroll_into_view_if_needed()
- assert page.locator('#product-screen').get_attribute('src')=='img/checkout-overview-v46.webp'
+ assert page.locator('#product-screen').get_attribute('src')=='img/checkout-overview-v56.webp'
  assert page.locator('[data-checkout-point]').first.is_disabled()
  page.locator('#product-screen-link').click();page.wait_for_url('**/img/demo-sale.png');context.close();browser.close()
