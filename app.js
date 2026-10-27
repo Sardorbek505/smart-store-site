@@ -2,6 +2,15 @@
 const version = new URL(import.meta.url).search;
 const load = (name) => import(`./scripts/${name}.js${version}`);
 const core = load("core");
+// Independent monitoring: a blocked diagnostics module must not delay login.
+const diagnostics = load("diagnostics")
+  .then(async ({ createDiagnostics }) =>
+    createDiagnostics({
+      ...(await core),
+      version: new URL(import.meta.url).searchParams.get("v"),
+    }),
+  )
+  .catch(() => () => {});
 const services = new Set(["downloads", "store", "analytics"]);
 await Promise.allSettled(
   [
@@ -24,6 +33,7 @@ await Promise.allSettled(
       ]);
       await feature.init(dependencies);
     } catch {
+      void diagnostics.then((report) => report(`module:${name}`));
       console.warn(`Smart Store: ${name} unavailable`);
       if (name === "store") {
         document.getElementById("store-note").textContent =

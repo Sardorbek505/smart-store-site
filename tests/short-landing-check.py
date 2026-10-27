@@ -66,7 +66,10 @@ with sync_playwright() as p:
   entry.click();page.locator('#store .store-help summary').click()
   page.screenshot(path=str(OUT/f'login-{w}.png'))
   page.mouse.click(1,1);page.wait_for_function('() => (!document.getElementById("store").open)')
+  page.wait_for_url(previous)
   page.goto(BASE+'/#data',wait_until='networkidle')
+  # Fragment navigation dispatches hashchange asynchronously; no new network load.
+  page.wait_for_function('() => document.getElementById("data").open')
   assert page.locator('#data').get_attribute('open') is not None
   text=page.locator('#data').inner_text();assert all(x in text for x in ['компьютере','2 часа','флешку'])
   page.goto(BASE+'/#start',wait_until='networkidle');page.wait_for_url('**/#installation')
