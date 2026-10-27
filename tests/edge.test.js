@@ -114,6 +114,66 @@ test("edge respects HEAD, caches only immutable assets, protects previews and ha
   assert.equal(failure.headers.get("cache-control"), "no-store");
 });
 
+test("edge prevents proxy injection into HTML without changing CSP, bodies or asset caching", async () => {
+  const html =
+    '<!doctype html><meta http-equiv="Content-Security-Policy" content="script-src \'self\'"><h1>Smart Store</h1>';
+  for (const [path, status, type, method, cache] of [
+    [
+      "/",
+      200,
+      "text/html; charset=utf-8",
+      "GET",
+      "public, no-cache, no-transform",
+    ],
+    [
+      "/privacy.html",
+      200,
+      "text/html",
+      "HEAD",
+      "public, no-cache, no-transform",
+    ],
+    [
+      "/missing",
+      404,
+      "text/html; charset=utf-8",
+      "GET",
+      "no-store, no-transform",
+    ],
+    [
+      "/assets/site.123456abcdef.css",
+      200,
+      "text/css",
+      "GET",
+      "public, max-age=31536000, immutable",
+    ],
+    ["/img/screen.webp", 200, "image/webp", "GET", "public, no-cache"],
+  ]) {
+    const response = await worker.fetch(
+      new Request(`https://metov.store${path}`, { method }),
+      {
+        ASSETS: {
+          fetch: async () =>
+            new Response(html, {
+              status,
+              headers: {
+                "Content-Type": type,
+                "Content-Security-Policy": "script-src 'self'",
+              },
+            }),
+        },
+      },
+    );
+    assert.equal(response.status, status);
+    assert.equal(response.headers.get("cache-control"), cache);
+    assert.equal(response.headers.get("content-type"), type);
+    assert.equal(
+      response.headers.get("content-security-policy"),
+      "script-src 'self', frame-ancestors 'none'",
+    );
+    assert.equal(await response.text(), method === "HEAD" ? "" : html);
+  }
+});
+
 test("edge package excludes development files and preserves proofs and original screens", async () => {
   const files = await publicFiles();
   assert.ok(files.includes("privacy.html"));
