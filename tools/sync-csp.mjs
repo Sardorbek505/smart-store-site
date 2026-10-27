@@ -12,7 +12,9 @@ for (const name of [
   "programma-dlya-magazina-instrumentov/index.html",
 ]) {
   const path = new URL(name, root);
-  const source = await readFile(path, "utf8");
+  // HTML parsing converts CRLF and bare CR to LF before scripts are hashed.
+  // Windows checkouts must use the same script text as the browser.
+  const source = (await readFile(path, "utf8")).replace(/\r\n?/g, "\n");
   const hashes = [...source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
     .filter(([, attrs]) => !/\bsrc\s*=/i.test(attrs))
     .map(
