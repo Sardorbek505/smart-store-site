@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <!-- security:start -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-Oqy2BJPgZ7FikUI6yUqyhZlLYDguOvxi0MjGbM4+bc0=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-LiwTku89XVhOb4Gu1KXfj8EODTjYLdZCaT2HKgaOurA=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
     <!-- security:end -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#111116" />
@@ -36,6 +36,11 @@
             "name": "Smart Store",
             "url": "https://metov.store/",
             "applicationCategory": "BusinessApplication",
+            "publisher": {
+              "@type": "Person",
+              "name": "Эрметов Сардорбек",
+              "url": "https://metov.store/privacy.html"
+            },
             "operatingSystem": "Windows 10, Windows 11",
             "inLanguage": ["ru", "kk"],
             "description": "Касса, склад, закупки, долги и аренда для магазина инструмента. Основной учёт работает без интернета. Пробный период — 14 дней; затем для новых операций нужна лицензия.",
@@ -124,7 +129,7 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.5a3843945a99.css" />
+    <link rel="stylesheet" href="assets/site.d503e397b543.css" />
     <!-- styles:end -->
     <script src="app.js?v=58" type="module"></script>
     <noscript
@@ -823,7 +828,11 @@
               </li>
               <li>
                 <span aria-hidden="true">03</span
-                ><strong id="install-step-3">Добавьте первый товар</strong>
+                ><strong id="install-step-3"
+                  ><a href="programma-dlya-magazina-instrumentov/#first-sale"
+                    >Первый приход и продажа →</a
+                  ></strong
+                >
               </li>
             </ol>
             <a
@@ -1489,9 +1498,7 @@
           <div class="license-copy">
             <h2 id="license-title">Проверьте в работе.</h2>
             <p class="offer-lead">Касса, склад и отчёты — 14 дней бесплатно.</p>
-            <p class="offer-terms">
-              Без кода активации · Лицензия на 1 компьютер
-            </p>
+            <p class="offer-terms">Разовая оплата · Лицензия на 1 компьютер</p>
             <div class="actions">
               <a href="#installation" data-download class="button dark"
                 ><span id="license-download-label" class="button-label"
