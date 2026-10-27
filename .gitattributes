@@ -1,0 +1,2 @@
+# Keep published HTML and CSP markers identical across Windows/Linux checkouts.
+*.html text eol=lf
