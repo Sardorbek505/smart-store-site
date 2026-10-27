@@ -20,11 +20,15 @@ import {
   CanvasTexture,
   SRGBColorSpace,
   LinearFilter,
+  LinearMipmapLinearFilter,
+  PMREMGenerator,
   Vector3,
   Quaternion,
   ACESFilmicToneMapping,
   DoubleSide,
 } from "three";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
 
 export async function createCheckoutScene({ canvas, context }) {
   const renderer = new WebGLRenderer({
@@ -38,16 +42,16 @@ export async function createCheckoutScene({ canvas, context }) {
   renderer.setClearColor(0xededf5, 0);
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.95;
+  renderer.toneMappingExposure = 1;
   const scene = new Scene();
   const camera = new PerspectiveCamera(35, 4 / 3, 0.05, 50);
   const assembly = new Group();
   scene.add(assembly);
-  scene.add(new HemisphereLight(0xffffff, 0x7585ae, 1.8));
+  scene.add(new HemisphereLight(0xffffff, 0x8995b5, 0.85));
   for (const [position, intensity] of [
-    [[-3, 6, 5], 2.5],
-    [[4, 3, 3], 1],
-    [[-2, 4, -3], 1.3],
+    [[-3, 6, 5], 2.8],
+    [[4, 3, 3], 0.7],
+    [[-2, 4, -3], 1.1],
   ]) {
     const light = new DirectionalLight(0xffffff, intensity);
     light.position.set(...position);
@@ -59,14 +63,14 @@ export async function createCheckoutScene({ canvas, context }) {
     materials.push(value);
     return value;
   };
-  const blue = material({ color: "#1d4ed8", roughness: 0.5, metalness: 0.08 });
-  const ink = material({ color: "#17191e", roughness: 0.36, metalness: 0.18 });
+  const blue = material({ color: "#1d4ed8", roughness: 0.3, metalness: 0.15 });
+  const ink = material({ color: "#17191e", roughness: 0.24, metalness: 0.3 });
   const metal = material({
-    color: "#8b8d95",
-    roughness: 0.32,
-    metalness: 0.55,
+    color: "#b3b7c1",
+    roughness: 0.24,
+    metalness: 0.88,
   });
-  const white = material({ color: "#f6f6fa", roughness: 0.48 });
+  const white = material({ color: "#f6f6fa", roughness: 0.34 });
   const dark = material({ color: "#080a0f", roughness: 0.8 });
   function roundedShape(w, h, r) {
     const s = new Shape(),
@@ -94,11 +98,12 @@ export async function createCheckoutScene({ canvas, context }) {
         steps: 1,
         bevelSize: bevel,
         bevelThickness: bevel,
-        curveSegments: 8,
+        curveSegments: 12,
       },
     );
     geometry.translate(0, 0, -d / 2 + bevel);
-    const mesh = new Mesh(geometry, surface);
+    const smooth = toCreasedNormals(geometry, Math.PI / 3);
+    const mesh = new Mesh(smooth, surface);
     mesh.position.set(...position);
     mesh.rotation.set(...rotation);
     assembly.add(mesh);
@@ -114,7 +119,7 @@ export async function createCheckoutScene({ canvas, context }) {
   // The entire monitor, stand, printer and plinth are actual depth geometry.
   block(4.4, 0.22, 1.95, 0.075, blue, [0.05, 0.11, 0.12]);
   block(0.95, 0.07, 0.72, 0.055, metal, [-0.45, 0.255, 0.02]);
-  box(0.22, 0.58, 0.15, metal, [-0.45, 0.58, -0.15], [-0.2, 0, 0]);
+  block(0.22, 0.58, 0.15, 0.025, metal, [-0.45, 0.58, -0.15], [-0.2, 0, 0]);
   block(2.89, 1.86, 0.21, 0.09, ink, [-0.45, 1.66, -0.03]);
   block(2.76, 1.73, 0.018, 0.035, dark, [-0.45, 1.66, 0.085]);
   const loader = new TextureLoader();
@@ -123,20 +128,29 @@ export async function createCheckoutScene({ canvas, context }) {
       new URL(`../img/${name}`, import.meta.url).href,
     );
     texture.colorSpace = SRGBColorSpace;
-    texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
-    texture.minFilter = LinearFilter;
+    texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    texture.minFilter = LinearMipmapLinearFilter;
+    texture.magFilter = LinearFilter;
     return texture;
   };
   let sale, payment;
   try {
     [sale, payment] = await Promise.all([
-      load("demo-sale.png"),
-      load("demo-payment.png"),
+      load("checkout-sale-2x-v56.webp"),
+      load("checkout-payment-2x-v56.webp"),
     ]);
   } catch (error) {
     renderer.dispose();
     throw error;
   }
+  // Bake the studio reflections once; no live reflection or shadow passes.
+  const studio = new RoomEnvironment();
+  const pmrem = new PMREMGenerator(renderer);
+  const environment = pmrem.fromScene(studio, 0.04, 0.1, 100, { size: 128 });
+  scene.environment = environment.texture;
+  scene.environmentIntensity = 0.65;
+  studio.dispose();
+  pmrem.dispose();
   const screenGeometry = new ShapeGeometry(roundedShape(2.7, 1.6875, 0.025), 5);
   const positions = screenGeometry.attributes.position,
     uv = screenGeometry.attributes.uv;
@@ -156,10 +170,14 @@ export async function createCheckoutScene({ canvas, context }) {
   block(0.76, 0.065, 0.81, 0.035, ink, [1.47, 0.79, 0.41]);
   block(0.59, 0.017, 0.11, 0.007, dark, [1.47, 0.83, 0.21]);
   block(0.13, 0.09, 0.015, 0.03, metal, [1.73, 0.57, 0.885]);
+  const panel = material({ color: "#e4e6ed", roughness: 0.42 });
+  block(0.73, 0.31, 0.012, 0.045, panel, [1.47, 0.48, 0.883]);
+  block(0.052, 0.02, 0.012, 0.009, blue, [1.73, 0.65, 0.895]);
   const paperCanvas = document.createElement("canvas");
-  paperCanvas.width = 384;
-  paperCanvas.height = 640;
+  paperCanvas.width = 768;
+  paperCanvas.height = 1280;
   const p = paperCanvas.getContext("2d");
+  p.scale(2, 2);
   p.fillStyle = "#fff";
   p.fillRect(0, 0, 384, 640);
   p.fillStyle = "#30343c";
@@ -187,6 +205,10 @@ export async function createCheckoutScene({ canvas, context }) {
   }
   const paperTexture = new CanvasTexture(paperCanvas);
   paperTexture.colorSpace = SRGBColorSpace;
+  paperTexture.anisotropy = Math.min(
+    8,
+    renderer.capabilities.getMaxAnisotropy(),
+  );
   const paperMaterial = new MeshBasicMaterial({
     map: paperTexture,
     side: DoubleSide,
@@ -216,8 +238,9 @@ export async function createCheckoutScene({ canvas, context }) {
   paperGeometry.computeVertexNormals();
   assembly.add(new Mesh(paperGeometry, paperMaterial));
   // A compact scanner remains part of the overview, with no extra animation.
-  block(0.48, 0.2, 0.32, 0.06, blue, [-1.58, 0.36, 0.69], [0, 0.25, -0.12]);
-  block(0.12, 0.12, 0.39, 0.025, blue, [-1.42, 0.3, 0.42], [0, -0.3, 0]);
+  block(0.48, 0.2, 0.32, 0.06, ink, [-1.58, 0.36, 0.69], [0, 0.25, -0.12]);
+  block(0.42, 0.06, 0.28, 0.045, blue, [-1.58, 0.45, 0.68], [0, 0.25, -0.12]);
+  block(0.12, 0.12, 0.39, 0.025, ink, [-1.42, 0.3, 0.42], [0, -0.3, 0]);
   block(
     0.37,
     0.105,
@@ -249,11 +272,49 @@ export async function createCheckoutScene({ canvas, context }) {
   shadow.position.y = -0.015;
   scene.add(shadow);
 
+  // Soft contact occlusion grounds the hardware on the plinth. This texture is
+  // painted once and moves with the assembly; it needs no shadow-map passes.
+  const contactCanvas = document.createElement("canvas");
+  contactCanvas.width = 512;
+  contactCanvas.height = 256;
+  const contactPaint = contactCanvas.getContext("2d");
+  for (const [x, z, width, depth] of [
+    [-0.45, 0.02, 1.12, 0.86],
+    [1.47, 0.42, 1.02, 1.04],
+    [-1.55, 0.62, 0.88, 0.65],
+  ]) {
+    contactPaint.save();
+    contactPaint.translate(
+      ((x + 2.15) / 4.4) * 512,
+      ((z + 0.855) / 1.95) * 256,
+    );
+    contactPaint.scale((width / 4.4) * 256, (depth / 1.95) * 128);
+    const fade = contactPaint.createRadialGradient(0, 0, 0.25, 0, 0, 1);
+    fade.addColorStop(0, "rgba(5,12,40,.38)");
+    fade.addColorStop(0.65, "rgba(5,12,40,.2)");
+    fade.addColorStop(1, "rgba(5,12,40,0)");
+    contactPaint.fillStyle = fade;
+    contactPaint.fillRect(-1, -1, 2, 2);
+    contactPaint.restore();
+  }
+  const contactTexture = new CanvasTexture(contactCanvas);
+  const contactMaterial = new MeshBasicMaterial({
+    map: contactTexture,
+    transparent: true,
+    depthWrite: false,
+    toneMapped: false,
+  });
+  const contactShadow = new Mesh(new PlaneGeometry(4.4, 1.95), contactMaterial);
+  contactShadow.rotation.x = -Math.PI / 2;
+  contactShadow.position.set(0.05, 0.223, 0.12);
+  contactShadow.userData.decorative = true;
+  assembly.add(contactShadow);
+
   // Fit the complete physical assembly, excluding the decorative floor shadow.
   assembly.updateMatrixWorld(true);
   const fitPoints = [];
   assembly.traverse((object) => {
-    if (!object.geometry) return;
+    if (!object.geometry || object.userData.decorative) return;
     object.geometry.computeBoundingBox();
     const box = object.geometry.boundingBox;
     for (const x of [box.min.x, box.max.x])
@@ -264,7 +325,8 @@ export async function createCheckoutScene({ canvas, context }) {
 
   let view = "overview",
     draws = 0,
-    viewportHeight = 600;
+    viewportHeight = 600,
+    renderScale = 1;
   const landmarks = [
     new Vector3(-1.118, 1.841, 0.11),
     new Vector3(0.25, 2.13, 0.11),
@@ -402,8 +464,14 @@ export async function createCheckoutScene({ canvas, context }) {
       render();
       return projectLandmarks();
     },
-    resize(width, height, pixelRatio = 1) {
-      renderer.setPixelRatio(Math.min(2, pixelRatio));
+    resize(width, height) {
+      // Supersample at 2x on ordinary desktops and Retina alike, bounded by
+      // a fixed pixel budget for large windows.
+      renderScale = Math.min(
+        2,
+        Math.sqrt(2100000 / Math.max(1, width * height)),
+      );
+      renderer.setPixelRatio(renderScale);
       renderer.setSize(Math.max(1, width), Math.max(1, height), false);
       viewportHeight = Math.max(1, height);
       camera.aspect = width / Math.max(1, height);
@@ -421,6 +489,9 @@ export async function createCheckoutScene({ canvas, context }) {
         view,
         triangles: renderer.info.render.triangles,
         calls: renderer.info.render.calls,
+        renderScale,
+        framebuffer: [renderer.domElement.width, renderer.domElement.height],
+        screenTexture: [sale.image.width, sale.image.height],
         landmarks: projectLandmarks(),
         region:
           view === "overview"
@@ -447,10 +518,23 @@ export async function createCheckoutScene({ canvas, context }) {
       scene.traverse((object) => {
         object.geometry?.dispose();
       });
-      for (const m of [...materials, display, paperMaterial, shadowMaterial])
+      for (const m of [
+        ...materials,
+        display,
+        paperMaterial,
+        shadowMaterial,
+        contactMaterial,
+      ])
         m.dispose();
-      for (const texture of [sale, payment, paperTexture, shadowTexture])
+      for (const texture of [
+        sale,
+        payment,
+        paperTexture,
+        shadowTexture,
+        contactTexture,
+      ])
         texture.dispose();
+      environment.dispose();
       renderer.dispose();
     },
   };

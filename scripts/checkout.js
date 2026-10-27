@@ -1,6 +1,6 @@
 // A visible, idle story may load 3D. Everything else stays a static poster.
 // checkout-bundle:start
-const loadScene = () => import("../assets/checkout3d.cd1e07fa3e50.js");
+const loadScene = () => import("../assets/checkout3d.ba0c841a841f.js");
 // checkout-bundle:end
 export function init() {
   const object = document.querySelector(".checkout-object");
@@ -159,6 +159,9 @@ export function init() {
     canvas.dataset.draws = String(state.draws);
     canvas.dataset.cameraDistance = state.distance.toFixed(3);
     canvas.dataset.region = JSON.stringify(state.region);
+    canvas.dataset.renderScale = state.renderScale.toFixed(3);
+    canvas.dataset.framebuffer = JSON.stringify(state.framebuffer);
+    canvas.dataset.screenTexture = JSON.stringify(state.screenTexture);
     syncLeaders(state.landmarks);
   };
   const motion = (value) => {
@@ -241,7 +244,7 @@ export function init() {
   }
   function syncPoster() {
     const view = currentView();
-    const src = `img/checkout-${view === "overview" ? "overview" : view}-v46.webp`;
+    const src = `img/checkout-${view === "overview" ? "overview" : view}-v56.webp`;
     if (poster.getAttribute("src") !== src) poster.src = src;
     syncLeaders();
   }
