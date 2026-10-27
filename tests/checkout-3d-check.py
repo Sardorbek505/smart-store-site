@@ -19,6 +19,9 @@ with sync_playwright() as p:
   if block:page.route(block,lambda r:r.abort())
   page.goto(BASE,wait_until='networkidle')
   page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutMotion==="idle"')
+  # Record transient states before clicking: a slow software frame can finish
+  # the transition before a later polling call sees its running state.
+  page.evaluate("""()=>{window.checkoutMotions=[];new MutationObserver(records=>{for(const r of records)checkoutMotions.push(r.oldValue,r.target.dataset.checkoutMotion)}).observe(document.querySelector('.checkout-object'),{attributes:true,attributeFilter:['data-checkout-motion'],attributeOldValue:true})}""")
   return page,errors,requests
  def enter(page):page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
  def ready(page):page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutRenderer==="webgl"',timeout=20000)
@@ -46,8 +49,8 @@ with sync_playwright() as p:
   assert page.locator('[data-checkout-point][aria-pressed="true"]').count()==0,'Overview must not claim a close-up is selected'
   page.screenshot(path=str(OUT/f'overview-{w}.png'))
   for view in ['0','1','2']:
-   button=page.locator(f'[data-checkout-point="{view}"]');button.click()
-   page.wait_for_function('document.querySelector(".checkout-object").dataset.checkoutMotion==="running"')
+   button=page.locator(f'[data-checkout-point="{view}"]');page.evaluate('window.checkoutMotions=[]');button.click()
+   page.wait_for_function('window.checkoutMotions.includes("running")')
    settled(page,view)
    distance=float(page.locator('#checkout-canvas').get_attribute('data-camera-distance'));assert distance<overview*.5,(w,view,distance,overview)
    assert button.get_attribute('aria-pressed')=='true'

@@ -20,7 +20,7 @@ with sync_playwright() as p:
         opts.update(executable_path=shutil.which('chromium'), args=['--no-sandbox', '--enable-unsafe-swiftshader'])
     browser = getattr(p, BROWSER).launch(**opts)
     for width, height, dpr in [(1731, 891, 1), (390, 844, 3), (2560, 1440, 1)]:
-        page = browser.new_page(viewport={'width': width, 'height': height}, device_scale_factor=dpr, reduced_motion='reduce')
+        page = browser.new_page(viewport={'width': width, 'height': height}, device_scale_factor=dpr, has_touch=width<851, is_mobile=width<851, reduced_motion='reduce')
         errors, requests = [], []
         page.on('pageerror', lambda e: errors.append(str(e)))
         page.on('request', lambda r: requests.append(r.url))
