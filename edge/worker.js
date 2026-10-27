@@ -3,6 +3,12 @@ const GUIDE = "/programma-dlya-magazina-instrumentov";
 
 function secure(response, request, preview = false) {
   const headers = new Headers(response.headers);
+  if (/^text\/html(?:\s*;|$)/i.test(headers.get("Content-Type") || "")) {
+    // Keep the reviewed HTML and CSP intact when passing through Cloudflare.
+    // This also prevents automatic Web Analytics beacon injection.
+    const cache = headers.get("Cache-Control") || "no-cache";
+    headers.set("Cache-Control", `${cache}, no-transform`);
+  }
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("X-Frame-Options", "DENY");
   // Independent of the exact script hashes in each HTML document's meta CSP.
@@ -70,7 +76,7 @@ export default {
           ? "no-store"
           : immutable
             ? "public, max-age=31536000, immutable"
-            : "no-cache",
+            : "public, no-cache",
       );
       return secure(
         new Response(upstream.body, {
