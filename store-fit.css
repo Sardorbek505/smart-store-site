@@ -265,6 +265,7 @@
   background: radial-gradient(ellipse, #182a5326, transparent 68%);
 }
 .fit-solid-camera {
+  pointer-events: none;
   position: absolute;
   left: 50%;
   top: 48%;

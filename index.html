@@ -129,9 +129,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.238fd7509841.css" />
+    <link rel="stylesheet" href="assets/site.3d5af37c1508.css" />
     <!-- styles:end -->
-    <script src="app.js?v=77" type="module"></script>
+    <script src="app.js?v=78" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -1005,16 +1005,6 @@
                 </div>
                 <h3>Продажа оформлена.</h3>
                 <p>Добавили товары в чек и приняли оплату — 40 550 ₸.</p>
-                <button
-                  class="micro-replay"
-                  type="button"
-                  aria-label="Повторить пример продажи"
-                  hidden
-                >
-                  <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                    <path d="M4 10a8 8 0 1 1 2 8M4 4v6h6" />
-                  </svg>
-                </button>
               </div>
               <a
                 class="feature-screen-link"
@@ -1089,16 +1079,6 @@
                 </div>
                 <h3>Остаток обновился сам.</h3>
                 <p>Продали один шуруповёрт: было 12, осталось 11.</p>
-                <button
-                  class="micro-replay"
-                  type="button"
-                  aria-label="Повторить пример склада"
-                  hidden
-                >
-                  <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                    <path d="M4 10a8 8 0 1 1 2 8M4 4v6h6" />
-                  </svg>
-                </button>
               </div>
               <a
                 class="feature-screen-link"
@@ -1176,16 +1156,6 @@
                 </div>
                 <h3>Продажа попала в отчёт.</h3>
                 <p>Выручка дня выросла на сумму чека — 40 550 ₸.</p>
-                <button
-                  class="micro-replay"
-                  type="button"
-                  aria-label="Повторить пример отчёта"
-                  hidden
-                >
-                  <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-                    <path d="M4 10a8 8 0 1 1 2 8M4 4v6h6" />
-                  </svg>
-                </button>
               </div>
               <a
                 class="feature-screen-link"
@@ -1224,24 +1194,33 @@
               <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg>
             </button>
           </div>
-          <div class="extra-features">
+          <div
+            class="extra-features"
+            role="group"
+            aria-label="Дополнительные возможности"
+          >
             <div>
-              <span class="extra-icon" aria-hidden="true">↺</span>
+              <span class="extra-icon" aria-hidden="true"
+                ><svg class="icon" viewBox="0 0 24 24">
+                  <path d="M5 7a8 8 0 1 1-1 9M5 3v5h5" /></svg
+              ></span>
               <p>
-                <strong>Инструмент напрокат</strong
-                ><span>Тарифы, выдача и сроки возврата.</span>
+                <strong>Аренда инструмента</strong
+                ><span>Выдача, тарифы и сроки возврата.</span>
               </p>
             </div>
             <div>
-              <span class="extra-icon" aria-hidden="true">✦</span>
+              <span class="extra-icon" aria-hidden="true"
+                ><svg class="icon"><use href="#i-receipt" /></svg
+              ></span>
               <p>
-                <strong>Накладная → черновик</strong
-                ><span>AI распознаёт фото и PDF. Вы проверяете.</span>
+                <strong
+                  ><a href="#ai-info" class="extra-feature-link"
+                    >Накладные с AI
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#i-arrow" /></svg></a></strong
+                ><span>Фото или PDF → черновик прихода.</span>
               </p>
-              <a href="#ai-info" aria-label="Условия работы AI"
-                ><svg class="icon diagonal-arrow" aria-hidden="true">
-                  <use href="#i-arrow" /></svg
-              ></a>
             </div>
           </div>
         </div>
