@@ -15,7 +15,7 @@ export function init() {
     !CSS.supports("transform-style", "preserve-3d") ||
     getComputedStyle(section)
       .getPropertyValue("--feature-cubes-version")
-      .trim() !== "69"
+      .trim() !== "70"
   ) {
     section.dataset.featureFallback = "true";
     section.dispatchEvent(new Event("featurechange"));
@@ -23,6 +23,7 @@ export function init() {
   }
   const links = cards.map((card) => card.querySelector(".feature-screen-link"));
   const copies = cards.map((card) => card.querySelector(".bento-copy"));
+  const actionGroups = [];
   const previewIndex = () =>
     links.findIndex(
       (link) => link.href === history.state?.smartStoreScreen?.src,
@@ -30,6 +31,7 @@ export function init() {
   const initialPreview = previewIndex();
   let selected = Math.max(0, initialPreview),
     queued;
+  let presented = selected;
   let entered = reduced.matches || initialPreview >= 0;
   let rotation = entered ? -selected * 90 : 90;
   let visible = false,
@@ -91,6 +93,7 @@ export function init() {
     replay.append(replayText);
     const actions = document.createElement("div");
     actions.className = "feature-solid-actions";
+    actionGroups.push(actions);
     const link = links[index];
     link.innerHTML =
       'Рассмотреть экран <svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg>';
@@ -156,22 +159,27 @@ export function init() {
       body.style.transform = pose(side, rotation);
     });
   const update = () => {
-    section.dataset.featureMotion = animations.length ? "running" : "idle";
+    const moving = animations.length > 0;
+    section.dataset.featureMotion = moving ? "running" : "idle";
+    section.dataset.featurePresented = String(presented);
+    stage.setAttribute("aria-busy", String(moving));
     section.dataset.featureEntered = String(entered);
     section.dataset.featureIndex = String(selected);
     section.dataset.featureAutomatic = String(automatic && !reduced.matches);
     cards.forEach((card, index) => {
-      const active = index === selected;
-      card.dataset.featureSelected = String(active);
+      // Keep the caption, accessible article and counter on the last settled face.
+      const active = index === presented;
+      card.dataset.featureSelected = String(index === selected);
       card.setAttribute("aria-hidden", String(!active));
       card.inert = !active;
       copies[index].dataset.featureSelected = String(active);
       copies[index].setAttribute("aria-hidden", String(!active));
       copies[index].inert = !active;
+      actionGroups[index].inert = moving;
     });
     previous.disabled = false;
     next.disabled = false;
-    count.textContent = `${String(selected + 1).padStart(2, "0")} / 03`;
+    count.textContent = `${String(presented + 1).padStart(2, "0")} / 03`;
     // Auto changes are visual. Announce only deliberate user navigation.
     count.setAttribute("aria-live", automatic ? "off" : "polite");
     playback.hidden = reduced.matches;
@@ -189,6 +197,7 @@ export function init() {
     revision++;
     animations.forEach((animation) => animation.cancel());
     animations = [];
+    presented = selected;
     // Whole revolutions may be discarded without changing a visible face.
     if (Math.abs(rotation) >= 360) rotation %= 360;
     paint();
@@ -320,7 +329,7 @@ export function init() {
   stage.addEventListener("focusin", (event) => {
     focused = true;
     if (event.target !== stage) stopAutomatic();
-    if (!entered || animations.length) {
+    if (!entered) {
       entered = true;
       rotation = -selected * 90;
       queued = undefined;
@@ -432,7 +441,14 @@ export function init() {
   });
   window.addEventListener("popstate", () => {
     const index = previewIndex();
-    if (index < 0 || (index === selected && entered)) return;
+    if (
+      index < 0 ||
+      (index === selected &&
+        index === presented &&
+        entered &&
+        !animations.length)
+    )
+      return;
     automatic = false;
     selected = index;
     entered = true;

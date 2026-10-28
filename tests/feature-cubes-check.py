@@ -84,7 +84,7 @@ with sync_playwright() as p:
         print(json.dumps({'browser':BROWSER,'viewport':[w,h],'solidGeometry':'pass','captionsAndOriginalScreens':'pass','reducedMotion':'static','keyboardAndHistory':'pass'}),flush=True)
         c.close()
 
-    c=context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True)
+    c=context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True,reduced_motion='no-preference')
     page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(BASE,wait_until='networkidle');page.wait_for_timeout(350)
     section=page.locator('#features');stage=page.locator('.bento-grid');bodies=page.locator('.feature-solid-body')
@@ -106,7 +106,16 @@ with sync_playwright() as p:
     page.wait_for_function('()=>Number(document.querySelector("[data-micro=sale]").dataset.runs)===1')
     assert page.locator('[data-micro=stock]').get_attribute('data-runs') is None
     page.wait_for_function('()=>document.querySelector("#features").dataset.featureIndex==="1"',timeout=9000)
+    assert section.get_attribute('data-feature-presented')=='0'
+    assert page.locator('#feature-count').inner_text()=='01 / 03'
+    assert 'Продажа оформлена' in page.locator('.feature-solid-captions [data-feature-selected=true]').inner_text()
+    assert stage.get_attribute('aria-busy')=='true'
+    assert page.locator('.feature-solid-actions').evaluate_all('xs=>xs.every(e=>e.inert)')
     page.wait_for_function(IDLE)
+    assert section.get_attribute('data-feature-presented')=='1'
+    assert 'Остаток обновился' in page.locator('.feature-solid-captions [data-feature-selected=true]').inner_text()
+    assert stage.get_attribute('aria-busy')=='false'
+    assert page.locator('.feature-solid-actions').evaluate_all('xs=>xs.every(e=>!e.inert)')
     page.wait_for_function('()=>Number(document.querySelector("[data-micro=stock]").dataset.runs)===1')
     # Pause prevents both the current clock and future automatic turns.
     page.locator('#feature-playback').click()
@@ -138,8 +147,24 @@ with sync_playwright() as p:
     swipe(100,4)
     assert section.get_attribute('data-feature-index')=='0'
     stage.dispatch_event('click');assert not page.locator('#preview-dialog').evaluate('e=>e.open')
+    page.emulate_media(reduced_motion='no-preference')
+    page.locator('.feature-solid-captions [data-feature-selected=true] .feature-screen-link').click()
+    page.wait_for_function('()=>document.querySelector("#preview-dialog").open')
+    page.keyboard.press('Escape')
+    page.wait_for_function('()=>!document.querySelector("#preview-dialog").open')
+    page.locator('#feature-next').click();page.wait_for_function(IDLE)
+    page.locator('#feature-prev').click()
+    assert section.get_attribute('data-feature-index')=='0'
+    assert section.get_attribute('data-feature-presented')=='1'
+    page.go_forward()
+    page.wait_for_function('()=>document.querySelector("#preview-dialog").open')
+    page.wait_for_function(IDLE)
+    assert section.get_attribute('data-feature-presented')=='0'
+    assert page.locator('#preview-original').get_attribute('href').endswith('demo-sale.png')
+    page.keyboard.press('Escape')
+    page.wait_for_function('()=>!document.querySelector("#preview-dialog").open')
     assert not errors,errors
-    print(json.dumps({'browser':BROWSER,'coldBelowFold':'pass','oppositeRigidRotation':'pass','automaticCycleAndPause':'pass','offscreenPause':'pass','rapidInputAndSwipe':'pass','modalPause':'pass'}),flush=True)
+    print(json.dumps({'browser':BROWSER,'captionAndCounterWaitForBothFaces':'pass','historyDuringTurn':'pass','coldBelowFold' :'pass','oppositeRigidRotation':'pass','automaticCycleAndPause':'pass','offscreenPause':'pass','rapidInputAndSwipe':'pass','modalPause':'pass'}),flush=True)
     c.close()
     for mode in ['blocked-module','cached-styles','no-js']:
         c=context(viewport={'width':390,'height':844},java_script_enabled=mode!='no-js')
