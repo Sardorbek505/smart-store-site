@@ -5,7 +5,6 @@
 ## Официальные страницы
 
 - [Главная](https://metov.store/): продажи, склад, отчёты и примеры работы.
-- [Для кого](https://metov.store/#for-stores): семь примеров форматов небольших магазинов, общие задачи учёта и ограничения для аптек.
 - [О программе](https://metov.store/programma-dlya-magazina-instrumentov/): кому подходит Smart Store, продажа и склад на примерах, долги, аренда, офлайн-режим и установка.
 - [Первый чек](https://metov.store/programma-dlya-magazina-instrumentov/#first-sale): настройка новой установки, приход остатков, продажа, сдача и резервная копия.
 - [Активация](https://metov.store/programma-dlya-magazina-instrumentov/#activation): код компьютера, получение кода активации и перенос.
