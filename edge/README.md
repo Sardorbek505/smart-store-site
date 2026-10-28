@@ -22,12 +22,13 @@
 
 ```sh
 npm ci
+npm run check:deps
 npm test
 npm run check:csp
 npm run check:site
 npm run build:edge
-npx --yes wrangler@4.152.0 deploy --dry-run --config edge/wrangler.preview.jsonc
-npx --yes wrangler@4.152.0 dev --config edge/wrangler.preview.jsonc --local --host preview.workers.dev --port 4181
+npm run check:edge
+npm run cf -- dev --config edge/wrangler.preview.jsonc --local --host preview.workers.dev --port 4181
 ```
 
 `--host` в локальном режиме позволяет проверить страницу без HTTPS-редиректа
@@ -39,14 +40,14 @@ npx --yes wrangler@4.152.0 dev --config edge/wrangler.preview.jsonc --local --ho
 Сначала развернуть preview без маршрутов production:
 
 ```sh
-npx --yes wrangler@4.152.0 deploy --config edge/wrangler.preview.jsonc
+npm run cf -- deploy --config edge/wrangler.preview.jsonc
 ```
 
 Проверить опубликованный preview, тариф/квоты Workers и сертификаты домена.
 Затем из того же подготовленного коммита:
 
 ```sh
-npx --yes wrangler@4.152.0 deploy --config edge/wrangler.jsonc
+npm run cf -- deploy --config edge/wrangler.jsonc
 ```
 
 Production-конфигурация задаёт только `metov.store/*` и `www.metov.store/*`.
