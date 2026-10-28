@@ -1,4 +1,4 @@
-/* One landing section fills the current viewport; dialogs remain independent. */
+/* Visual sections fill the viewport; open FAQ answers grow in document flow. */
 .landing-page {
   --screen-height: var(--initial-screen-height, 100vh);
   --navigation-height: 88px;
@@ -198,12 +198,23 @@ html:has(dialog[open]) {
   align-items: center;
   gap: 60px;
 }
+/* Answers grow the final section instead of creating a second scroll area.
+   A fragment link must never leave an answer clipped behind its own frame. */
+.landing-page .faq-section {
+  height: auto;
+  min-height: var(--screen-height);
+  align-items: flex-start;
+}
 .faq-section .screen-content {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  max-height: none;
   max-width: 1040px;
   gap: clamp(20px, calc(var(--screen-height) * 0.03), 32px);
   align-items: start;
+}
+.viewport-ready .faq-section .screen-content.is-scrollable {
+  overflow: visible;
 }
 .installation-guide .screen-content {
   display: grid;
