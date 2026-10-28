@@ -109,7 +109,7 @@ with sync_playwright() as p:
     for w in [320, 390, 620, 768, 1440]:
         m.set_viewport_size({'width': w, 'height': 844})
         assert m.evaluate('document.documentElement.scrollWidth<=innerWidth'), w
-        heights = m.locator('main > section').evaluate_all('(xs)=>xs.map(e=>e.getBoundingClientRect().height).filter(Boolean)')
+        heights = m.locator('main > section.screen-section').evaluate_all('(xs)=>xs.map(e=>e.getBoundingClientRect().height).filter(Boolean)')
         assert all(abs(height - 844) < 1 for height in heights), (w, heights)
     m.set_viewport_size({'width': 390, 'height': 844})
     m.locator('#feature-next').click()

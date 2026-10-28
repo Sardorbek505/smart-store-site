@@ -129,9 +129,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.7ddb5fd08986.css" />
+    <link rel="stylesheet" href="assets/site.ada6ff003fe6.css" />
     <!-- styles:end -->
-    <script src="app.js?v=70" type="module"></script>
+    <script src="app.js?v=71" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -210,7 +210,7 @@
           /><span>Smart Store</span></a
         >
         <nav class="top-links" id="site-nav" aria-label="Навигация по сайту">
-          <a href="#features">Возможности</a
+          <a href="#features">Возможности</a><a href="#for-stores">Для кого</a
           ><a href="#installation">Установка</a><a href="#license">Лицензия</a
           ><a href="#faq">Вопросы</a>
         </nav>
@@ -1253,6 +1253,159 @@
                   <use href="#i-arrow" /></svg
               ></a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="for-stores"
+        class="section store-fit-section"
+        aria-labelledby="store-fit-title"
+      >
+        <div class="wrap fit-content">
+          <div class="fit-heading">
+            <div>
+              <p class="audience-note">ДЛЯ КОГО SMART STORE</p>
+              <h2 id="store-fit-title">Подойдёт вашему магазину?</h2>
+            </div>
+            <div
+              class="fit-tabs"
+              role="tablist"
+              aria-label="Тип магазина"
+              hidden
+            >
+              <button
+                type="button"
+                id="fit-tab-tools"
+                role="tab"
+                aria-controls="fit-tools"
+                aria-selected="true"
+                data-fit-select="0"
+              >
+                Инструменты
+              </button>
+              <button
+                type="button"
+                id="fit-tab-parts"
+                role="tab"
+                aria-controls="fit-parts"
+                aria-selected="false"
+                tabindex="-1"
+                data-fit-select="1"
+              >
+                Запчасти
+              </button>
+              <button
+                type="button"
+                id="fit-tab-hardware"
+                role="tab"
+                aria-controls="fit-hardware"
+                aria-selected="false"
+                tabindex="-1"
+                data-fit-select="2"
+              >
+                Крепёж
+              </button>
+            </div>
+          </div>
+          <div class="fit-stage">
+            <article class="fit-card" id="fit-tools" data-fit-panel>
+              <figure class="fit-photo">
+                <img
+                  src="img/shop-tools-1200-v71.webp"
+                  srcset="
+                    img/shop-tools-600-v71.webp   600w,
+                    img/shop-tools-1200-v71.webp 1200w
+                  "
+                  sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1100px) 55vw, 680px"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Иллюстрация магазина инструментов: синий шуруповёрт и набор бит на прилавке, стеллажи с инструментом за ним"
+                />
+                <figcaption>Магазин инструментов · иллюстрация</figcaption>
+              </figure>
+              <div class="fit-copy">
+                <span class="fit-category">01 / ИНСТРУМЕНТЫ</span>
+                <h3>Инструменты и расходники.</h3>
+                <p>Продажи, склад и прокат — вместе.</p>
+                <ul>
+                  <li>Поиск по названию, артикулу и штрихкоду</li>
+                  <li>Долги покупателей</li>
+                  <li>Аренда инструмента</li>
+                </ul>
+              </div>
+            </article>
+            <article class="fit-card" id="fit-parts" data-fit-panel>
+              <figure class="fit-photo">
+                <img
+                  src="img/shop-parts-1200-v71.webp"
+                  srcset="
+                    img/shop-parts-600-v71.webp   600w,
+                    img/shop-parts-1200-v71.webp 1200w
+                  "
+                  sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1100px) 55vw, 680px"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Иллюстрация магазина запчастей: фильтр, тормозной диск и синяя коробка на прилавке"
+                />
+                <figcaption>Магазин запчастей · иллюстрация</figcaption>
+              </figure>
+              <div class="fit-copy">
+                <span class="fit-category">02 / ЗАПЧАСТИ</span>
+                <h3>Магазин запчастей.</h3>
+                <p>Нужная деталь и её остаток — под рукой.</p>
+                <ul>
+                  <li>Поиск по артикулу</li>
+                  <li>Закупки и поставщики</li>
+                  <li>Расчёты с покупателями</li>
+                </ul>
+              </div>
+            </article>
+            <article class="fit-card" id="fit-hardware" data-fit-panel>
+              <figure class="fit-photo">
+                <img
+                  src="img/shop-hardware-1200-v71.webp"
+                  srcset="
+                    img/shop-hardware-600-v71.webp   600w,
+                    img/shop-hardware-1200-v71.webp 1200w
+                  "
+                  sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1100px) 55vw, 680px"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Иллюстрация магазина крепежа: синий органайзер с шурупами, гайки и металлические уголки на прилавке"
+                />
+                <figcaption>Магазин крепежа · иллюстрация</figcaption>
+              </figure>
+              <div class="fit-copy">
+                <span class="fit-category">03 / КРЕПЁЖ</span>
+                <h3>Крепёж и хозтовары.</h3>
+                <p>Много позиций. У каждой — свой остаток.</p>
+                <ul>
+                  <li>Поиск по штрихкоду</li>
+                  <li>Приход товара</li>
+                  <li>Выручка и прибыль</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+          <div class="fit-proof">
+            <p>
+              <span class="fit-proof-dot" aria-hidden="true"></span
+              ><span
+                ><strong>Уже в магазине</strong><br />«Электроинструменты»,
+                Шымкент</span
+              >
+            </p>
+            <a class="fit-next" href="#workspace"
+              >Посмотреть кассу
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ></a>
           </div>
         </div>
       </section>

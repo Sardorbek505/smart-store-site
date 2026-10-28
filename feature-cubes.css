@@ -1,6 +1,6 @@
 /* Closed six-face bodies, sharing one camera and turning in opposite directions. */
 #features {
-  --feature-cubes-version: 70;
+  --feature-cubes-version: 71;
 }
 #features.feature-cubes-ready .bento-grid {
   display: flex;
@@ -38,7 +38,7 @@
   top: 48%;
   width: calc(var(--solid-edge) * 2 + 1px);
   height: var(--solid-edge);
-  transform: translate(-50%, -50%) rotateX(-12deg) rotateY(-12deg);
+  transform: translate(-50%, -50%) translateZ(calc(var(--solid-edge) / -2));
   transform-style: preserve-3d;
 }
 .feature-solid-body {
@@ -517,4 +517,72 @@
   #features.feature-cubes-ready .micro-chart {
     display: none;
   }
+}
+
+/* One unbroken front screen conceals every seam until the viewport reveal. */
+.feature-flat-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8%;
+  padding: 7%;
+  border: 1px solid #cbd5e8;
+  background: linear-gradient(
+    110deg,
+    #edf4ff 0%,
+    #c4d7f4 28%,
+    #f7f9ff 62%,
+    #fff 100%
+  );
+  transform: translateZ(calc(var(--solid-edge) / 2 + 1px));
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  container-type: size;
+  pointer-events: none;
+}
+.feature-flat-cover[hidden] {
+  display: none;
+}
+.feature-flat-cover small {
+  font-size: 3cqw;
+  letter-spacing: 0.06em;
+  color: #3d526f;
+}
+.feature-flat-cover strong {
+  display: block;
+  margin-top: 12%;
+  font-size: 10cqw;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  color: #183e98;
+}
+.feature-flat-flow {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16%;
+}
+.feature-flat-flow > span {
+  display: flex;
+  align-items: center;
+  gap: 10%;
+  font-size: 4.4cqw;
+  color: #243956;
+}
+.feature-flat-flow i {
+  flex: none;
+  width: 14%;
+  aspect-ratio: 1;
+  border-radius: 25%;
+  background: #1d4ed8;
+  box-shadow: 0 3px 8px #1d4ed820;
+}
+.feature-flat-flow > span:nth-child(2) i {
+  background: #6389d9;
+}
+.feature-flat-flow > span:nth-child(3) i {
+  background: #a5bce9;
 }

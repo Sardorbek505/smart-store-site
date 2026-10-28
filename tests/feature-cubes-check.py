@@ -24,7 +24,7 @@ with sync_playwright() as p:
         c=context(viewport={'width':w,'height':h},has_touch=w<851,is_mobile=w<851,reduced_motion='reduce')
         page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(BASE+'/#features',wait_until='networkidle')
-        page.wait_for_function('() => document.querySelector("#features").classList.contains("feature-cubes-ready")')
+        page.wait_for_function('() => document.querySelector("#features").classList.contains("feature-cubes-ready")&&document.querySelector("#features").dataset.featureShape==="volume"')
         assert page.locator('.feature-solid-body').count()==2
         assert page.locator('.feature-solid-cap').count()==4
         assert page.locator('#feature-playback').is_hidden()
