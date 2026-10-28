@@ -129,9 +129,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.da3af1c57803.css" />
+    <link rel="stylesheet" href="assets/site.97d7f4203f5e.css" />
     <!-- styles:end -->
-    <script src="app.js?v=72" type="module"></script>
+    <script src="app.js?v=73" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -1264,195 +1264,192 @@
       >
         <div class="wrap fit-content">
           <div class="fit-heading">
-            <div>
-              <p class="audience-note">ДЛЯ КОГО SMART STORE</p>
-              <h2 id="store-fit-title">Подойдёт вашему магазину?</h2>
-              <p class="fit-intro">
-                Выберите свой формат — посмотрите, какие задачи можно решать.
-              </p>
-            </div>
-            <div
-              class="fit-tabs"
-              role="tablist"
-              aria-label="Тип магазина"
-              hidden
-            >
-              <button
-                type="button"
-                id="fit-tab-grocery"
-                role="tab"
-                aria-controls="fit-grocery"
-                aria-selected="true"
-                data-fit-select="0"
-              >
-                У дома
-              </button>
-              <button
-                type="button"
-                id="fit-tab-clothing"
-                role="tab"
-                aria-controls="fit-clothing"
-                aria-selected="false"
-                tabindex="-1"
-                data-fit-select="1"
-              >
-                Одежда
-              </button>
-              <button
-                type="button"
-                id="fit-tab-hardware"
-                role="tab"
-                aria-controls="fit-hardware"
-                aria-selected="false"
-                tabindex="-1"
-                data-fit-select="2"
-              >
-                Хозтовары
-              </button>
-              <button
-                type="button"
-                id="fit-tab-pharmacy"
-                role="tab"
-                aria-controls="fit-pharmacy"
-                aria-selected="false"
-                tabindex="-1"
-                data-fit-select="3"
-              >
-                Аптека
-              </button>
-            </div>
+            <p class="audience-note">ДЛЯ КОГО SMART STORE</p>
+            <h2 id="store-fit-title">Для какого магазина?</h2>
+            <p class="fit-intro">
+              Продажи, остатки и закупки — для разных форматов розницы.
+            </p>
           </div>
-          <div class="fit-stage">
-            <article class="fit-card" id="fit-grocery" data-fit-panel>
-              <figure class="fit-photo">
+          <div class="fit-grid" aria-label="Примеры форматов магазинов">
+            <article class="fit-card" data-shop-kind="grocery">
+              <div class="fit-photo">
                 <img
-                  src="img/shop-grocery-1200-v72.webp"
+                  src="img/store-grocery-900-v73.webp"
                   srcset="
-                    img/shop-grocery-600-v72.webp   600w,
-                    img/shop-grocery-1200-v72.webp 1200w
+                    img/store-grocery-450-v73.webp 450w,
+                    img/store-grocery-900-v73.webp 900w
                   "
-                  sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1100px) 55vw, 680px"
-                  width="1200"
-                  height="800"
+                  sizes="(max-width: 700px) calc((100vw - 52px) / 2), (max-width: 1000px) 30vw, 300px"
+                  width="900"
+                  height="600"
                   loading="lazy"
                   decoding="async"
-                  alt="Иллюстрация небольшого продуктового магазина: синяя корзина с фасованными продуктами на светлом прилавке"
+                  alt="Иллюстрация: продуктовый магазин с хлебом, упаковками продуктов и небольшой кассой"
                 />
-                <figcaption>Магазин у дома · иллюстрация</figcaption>
-              </figure>
+              </div>
               <div class="fit-copy">
-                <span class="fit-category">01 / МАГАЗИН У ДОМА</span>
-                <h3>Продукты на каждый день.</h3>
-                <p>Продажи и остатки фасованных товаров.</p>
-                <ul>
-                  <li>Товар в чеке по штрихкоду</li>
-                  <li>Приходы от поставщиков</li>
-                  <li>Выручка и прибыль за день</li>
-                </ul>
+                <h3>Продукты у дома</h3>
+                <p>Фасованные товары</p>
               </div>
             </article>
-            <article class="fit-card" id="fit-clothing" data-fit-panel>
-              <figure class="fit-photo">
+            <article class="fit-card" data-shop-kind="clothing">
+              <div class="fit-photo">
                 <img
-                  src="img/shop-clothing-1200-v72.webp"
+                  src="img/store-clothing-900-v73.webp"
                   srcset="
-                    img/shop-clothing-600-v72.webp   600w,
-                    img/shop-clothing-1200-v72.webp 1200w
+                    img/store-clothing-450-v73.webp 450w,
+                    img/store-clothing-900-v73.webp 900w
                   "
-                  sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1100px) 55vw, 680px"
-                  width="1200"
-                  height="800"
+                  sizes="(max-width: 700px) calc((100vw - 52px) / 2), (max-width: 1000px) 30vw, 300px"
+                  width="900"
+                  height="600"
                   loading="lazy"
                   decoding="async"
-                  alt="Иллюстрация магазина одежды: синий свитшот и светлая футболка на прилавке, вешалки с одеждой за ними"
+                  alt="Иллюстрация: магазин одежды со стойкой рубашек, джинсами и манекеном"
                 />
-                <figcaption>Магазин одежды · иллюстрация</figcaption>
-              </figure>
+              </div>
               <div class="fit-copy">
-                <span class="fit-category">02 / ОДЕЖДА И АКСЕССУАРЫ</span>
-                <h3>Каждая вещь на учёте.</h3>
-                <p>Товары, продажи и возвраты в одном месте.</p>
-                <ul>
-                  <li>Отдельный товар для каждого размера</li>
-                  <li>Поиск по названию и артикулу</li>
-                  <li>Возврат покупки по чеку</li>
-                </ul>
+                <h3>Одежда</h3>
+                <p>Продажи и возвраты</p>
               </div>
             </article>
-            <article class="fit-card" id="fit-hardware" data-fit-panel>
-              <figure class="fit-photo">
+            <article class="fit-card" data-shop-kind="hardware">
+              <div class="fit-photo">
                 <img
-                  src="img/shop-hardware-1200-v71.webp"
+                  src="img/store-hardware-900-v73.webp"
                   srcset="
-                    img/shop-hardware-600-v71.webp   600w,
-                    img/shop-hardware-1200-v71.webp 1200w
+                    img/store-hardware-450-v73.webp 450w,
+                    img/store-hardware-900-v73.webp 900w
                   "
-                  sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1100px) 55vw, 680px"
-                  width="1200"
-                  height="800"
+                  sizes="(max-width: 700px) calc((100vw - 52px) / 2), (max-width: 1000px) 30vw, 300px"
+                  width="900"
+                  height="600"
                   loading="lazy"
                   decoding="async"
-                  alt="Иллюстрация магазина хозтоваров: синий органайзер с шурупами, гайки и металлические уголки на прилавке"
+                  alt="Иллюстрация: магазин хозтоваров со стендом инструментов и бытовыми товарами"
                 />
-                <figcaption>Магазин хозтоваров · иллюстрация</figcaption>
-              </figure>
+              </div>
               <div class="fit-copy">
-                <span class="fit-category">03 / ХОЗТОВАРЫ И ИНСТРУМЕНТ</span>
-                <h3>Большой ассортимент. Порядок в остатках.</h3>
-                <p>Для хозтоваров, инструмента и запчастей.</p>
-                <ul>
-                  <li>Поиск по артикулу и штрихкоду</li>
-                  <li>Закупки и поставщики</li>
-                  <li>Остатки и инвентаризация</li>
-                </ul>
+                <h3>Хозтовары</h3>
+                <p>Большой ассортимент</p>
               </div>
             </article>
-            <article class="fit-card" id="fit-pharmacy" data-fit-panel>
-              <figure class="fit-photo">
+            <article class="fit-card" data-shop-kind="stationery">
+              <div class="fit-photo">
                 <img
-                  src="img/shop-pharmacy-1200-v72.webp"
+                  src="img/store-stationery-900-v73.webp"
                   srcset="
-                    img/shop-pharmacy-600-v72.webp   600w,
-                    img/shop-pharmacy-1200-v72.webp 1200w
+                    img/store-stationery-450-v73.webp 450w,
+                    img/store-stationery-900-v73.webp 900w
                   "
-                  sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1100px) 55vw, 680px"
-                  width="1200"
-                  height="800"
+                  sizes="(max-width: 700px) calc((100vw - 52px) / 2), (max-width: 1000px) 30vw, 300px"
+                  width="900"
+                  height="600"
                   loading="lazy"
                   decoding="async"
-                  alt="Иллюстрация небольшой аптеки: закрытые упаковки и аптечный флакон на светлом прилавке"
+                  alt="Иллюстрация: магазин канцтоваров с тетрадями, карандашами и рюкзаками"
                 />
-                <figcaption>Аптека · иллюстрация</figcaption>
-              </figure>
+              </div>
               <div class="fit-copy">
-                <span class="fit-category">04 / АПТЕКА</span>
-                <h3>Обсудим отдельно.</h3>
-                <p>Для аптеки нужен специальный учёт.</p>
-                <div class="fit-scope-note">
-                  <p>
-                    Сроки годности, серии и маркировка пока не поддерживаются.
-                    Перед внедрением проверим требования вашей аптеки.
-                  </p>
-                  <a
-                    class="text-link"
-                    href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B9%D0%B4%D1%91%D1%82%20%D0%BB%D0%B8%20Smart%20Store%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D0%B5%D0%B9%20%D0%B0%D0%BF%D1%82%D0%B5%D0%BA%D0%B8."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >Обсудить задачи →</a
-                  >
-                </div>
+                <h3>Канцтовары</h3>
+                <p>Много мелких позиций</p>
               </div>
             </article>
-          </div>
-          <p class="fit-other">
-            Другой формат?
+            <article class="fit-card" data-shop-kind="beauty">
+              <div class="fit-photo">
+                <img
+                  src="img/store-beauty-900-v73.webp"
+                  srcset="
+                    img/store-beauty-450-v73.webp 450w,
+                    img/store-beauty-900-v73.webp 900w
+                  "
+                  sizes="(max-width: 700px) calc((100vw - 52px) / 2), (max-width: 1000px) 30vw, 300px"
+                  width="900"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Иллюстрация: магазин косметики с помадами, средствами ухода и небольшим зеркалом"
+                />
+              </div>
+              <div class="fit-copy">
+                <h3>Косметика</h3>
+                <p>Категории и бренды</p>
+              </div>
+            </article>
+            <article class="fit-card" data-shop-kind="pets">
+              <div class="fit-photo">
+                <img
+                  src="img/store-pets-900-v73.webp"
+                  srcset="
+                    img/store-pets-450-v73.webp 450w,
+                    img/store-pets-900-v73.webp 900w
+                  "
+                  sizes="(max-width: 700px) calc((100vw - 52px) / 2), (max-width: 1000px) 30vw, 300px"
+                  width="900"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Иллюстрация: зоомагазин с упаковками корма, когтеточкой, мисками и поводками"
+                />
+              </div>
+              <div class="fit-copy">
+                <h3>Зоотовары</h3>
+                <p>Приходы и остатки</p>
+              </div>
+            </article>
+            <article class="fit-card" data-shop-kind="auto">
+              <div class="fit-photo">
+                <img
+                  src="img/store-auto-900-v73.webp"
+                  srcset="
+                    img/store-auto-450-v73.webp 450w,
+                    img/store-auto-900-v73.webp 900w
+                  "
+                  sizes="(max-width: 700px) calc((100vw - 52px) / 2), (max-width: 1000px) 30vw, 300px"
+                  width="900"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Иллюстрация: магазин автотоваров с шиной, аккумулятором, дворниками и фильтрами"
+                />
+              </div>
+              <div class="fit-copy">
+                <h3>Автотовары</h3>
+                <p>Поиск по артикулу</p>
+              </div>
+            </article>
             <a
+              class="fit-card fit-contact"
               href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B9%D0%B4%D1%91%D1%82%20%D0%BB%D0%B8%20Smart%20Store%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D0%B5%D0%B3%D0%BE%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0."
               target="_blank"
               rel="noopener noreferrer"
-              >Расскажите о вашем магазине →</a
             >
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg>
+              <div class="fit-copy">
+                <h3>Другой магазин?</h3>
+                <p>Расскажите, что продаёте</p>
+              </div>
+            </a>
+          </div>
+          <p class="fit-image-note">
+            Изображения — иллюстрации типов магазинов.
           </p>
+          <details class="fit-special">
+            <summary>Аптека или специальный учёт?</summary>
+            <div>
+              <p>
+                Сроки годности, серии лекарств и маркировка пока не
+                поддерживаются. Перед внедрением обсудим требования вашего
+                магазина.
+              </p>
+              <a
+                href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D1%82%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%20%D0%BA%20%D1%83%D1%87%D1%91%D1%82%D1%83%20%D0%B2%20%D0%BC%D0%BE%D0%B5%D0%B9%20%D0%B0%D0%BF%D1%82%D0%B5%D0%BA%D0%B5."
+                target="_blank"
+                rel="noopener noreferrer"
+                >Обсудить требования →</a
+              >
+            </div>
+          </details>
           <div class="fit-proof">
             <p>
               <span class="fit-proof-dot" aria-hidden="true"></span

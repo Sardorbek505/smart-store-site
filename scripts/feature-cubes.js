@@ -15,7 +15,7 @@ export function init() {
     !CSS.supports("transform-style", "preserve-3d") ||
     getComputedStyle(section)
       .getPropertyValue("--feature-cubes-version")
-      .trim() !== "72"
+      .trim() !== "73"
   ) {
     section.dataset.featureFallback = "true";
     section.dispatchEvent(new Event("featurechange"));
