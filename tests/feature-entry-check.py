@@ -40,11 +40,12 @@ with sync_playwright() as p:
         page.evaluate('window.released=performance.now();dispatchEvent(new PointerEvent("pointerup",{pointerType:"touch"}))')
         fresh(page,0)
         assert page.evaluate('performance.now()-released')>=200
-        assert runs(page)==[1,0,0],('Hidden cube faces must stay cold',runs(page))
-        page.locator('#feature-next').click()
-        page.wait_for_function('() => (Number(document.querySelector("[data-micro=stock]").dataset.runs)===1)')
-        assert runs(page)==[1,1,0]
-        page.locator('#feature-prev').click();fresh(page,1)
+        if w<851 or h<=600:
+            assert runs(page)==[1,0,0],('Hidden carousel cards must stay cold',runs(page))
+            page.locator('#feature-next').click()
+            page.wait_for_function('() => (Number(document.querySelector("[data-micro=stock]").dataset.runs)===1)')
+            assert runs(page)==[1,1,0]
+            page.locator('#feature-prev').click();fresh(page,1)
         scene=page.locator('[data-micro=sale]')
         scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=a.effect.getTiming().duration*.98)')
         page.wait_for_function('() => (document.querySelector("[data-micro=sale]").dataset.state==="complete")')
