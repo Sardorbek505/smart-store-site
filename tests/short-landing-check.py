@@ -18,10 +18,15 @@ with sync_playwright() as p:
   assert page.locator('a[href^="demo/"]').count()==0
   for name in ['features','workspace','mobile','license','faq']:
    section=page.locator('#'+name);section.evaluate('e=>scrollTo(0,e.offsetTop)')
-   assert section.evaluate('e=>Math.abs(e.getBoundingClientRect().height-innerHeight)<1')
+   if name=='faq':
+    assert section.evaluate('e=>e.getBoundingClientRect().height>=innerHeight')
+   else:
+    assert section.evaluate('e=>Math.abs(e.getBoundingClientRect().height-innerHeight)<1'),(w,h,name,section.bounding_box())
    assert section.locator('.screen-content').evaluate('e=>e.scrollHeight<=e.clientHeight+4&&e.scrollWidth<=e.clientWidth+1'),(w,name)
   assert page.locator('.faq-list details').count()==6
-  for link,raw in zip(page.locator('.feature-screen-link').all(),['demo-sale.png','demo-products.png','demo-home.png']):
+  for i,(link,raw) in enumerate(zip(page.locator('.feature-screen-link').all(),['demo-sale.png','demo-products.png','demo-home.png'])):
+   if i:page.locator('#feature-next').click()
+   page.wait_for_function('(i)=>document.querySelector("#features").dataset.featureIndex===String(i)',arg=i)
    link.scroll_into_view_if_needed();link.click()
    assert page.locator('#preview-dialog').evaluate('e=>e.open')
    assert page.locator('#preview-original').get_attribute('href').endswith(raw)

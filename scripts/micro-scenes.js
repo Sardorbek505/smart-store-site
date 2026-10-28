@@ -162,8 +162,32 @@ export function init() {
   const sync = () => {
     const suspended = blocked();
     for (const state of states) {
+      const cubes = state.element.closest(".feature-cubes-ready");
+      const section = state.element.closest("#features");
+      const waiting =
+        section?.dataset.featureLayout === "cubes" &&
+        !cubes &&
+        section.dataset.featureFallback !== "true";
+      const selected =
+        !cubes ||
+        state.element.closest("article").dataset.featureSelected === "true";
+      if (!selected && (state.played || state.animations.length)) {
+        complete(state);
+        state.played = false;
+        state.element.dataset.state = "idle";
+      }
       state.button.hidden = reduced.matches;
-      const active = state.visible && !suspended && !reduced.matches;
+      const ready =
+        !cubes ||
+        (cubes.dataset.featureEntered === "true" &&
+          cubes.dataset.featureMotion === "idle");
+      const active =
+        state.visible &&
+        selected &&
+        ready &&
+        !waiting &&
+        !suspended &&
+        !reduced.matches;
       if (!active) {
         clearTimeout(state.startTimer);
         state.startTimer = 0;
@@ -176,7 +200,16 @@ export function init() {
       if (active && !state.played && !state.startTimer) {
         state.startTimer = setTimeout(() => {
           state.startTimer = 0;
-          if (!state.visible || blocked() || reduced.matches || state.played)
+          if (
+            !state.visible ||
+            blocked() ||
+            reduced.matches ||
+            state.played ||
+            (cubes &&
+              (cubes.dataset.featureMotion !== "idle" ||
+                state.element.closest("article").dataset.featureSelected !==
+                  "true"))
+          )
             return;
           start(state);
           sync();
@@ -263,6 +296,7 @@ export function init() {
     sync();
   });
   reduced.addEventListener("change", sync);
+  document.getElementById("features")?.addEventListener("featurechange", sync);
   const dialogObserver = new MutationObserver(sync);
   for (const dialog of dialogs)
     dialogObserver.observe(dialog, {

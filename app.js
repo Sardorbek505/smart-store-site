@@ -16,6 +16,7 @@ await Promise.allSettled(
   [
     "viewport",
     "interface",
+    "feature-cubes",
     "preview",
     "media",
     "gallery",
@@ -33,8 +34,15 @@ await Promise.allSettled(
       ]);
       await feature.init(dependencies);
     } catch {
-      void diagnostics.then((report) => report(`module:${name}`));
+      void diagnostics.then((report) =>
+        report(`module:${name === "feature-cubes" ? "interface" : name}`),
+      );
       console.warn(`Smart Store: ${name} unavailable`);
+      if (name === "feature-cubes") {
+        const section = document.getElementById("features");
+        section.dataset.featureFallback = "true";
+        section.dispatchEvent(new Event("featurechange"));
+      }
       if (name === "store") {
         document.getElementById("store-note").textContent =
           "Вход по коду сейчас недоступен. Откройте QR-код в Smart Store на компьютере: «Система» → настройки телефона.";
