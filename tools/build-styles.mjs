@@ -31,6 +31,7 @@ const bundles = [
       "journey.css",
       "glass.css",
       "feature-cubes.css",
+      "store-fit.css",
     ],
   },
   {

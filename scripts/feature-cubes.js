@@ -15,7 +15,7 @@ export function init() {
     !CSS.supports("transform-style", "preserve-3d") ||
     getComputedStyle(section)
       .getPropertyValue("--feature-cubes-version")
-      .trim() !== "70"
+      .trim() !== "71"
   ) {
     section.dataset.featureFallback = "true";
     section.dispatchEvent(new Event("featurechange"));
@@ -32,7 +32,8 @@ export function init() {
   let selected = Math.max(0, initialPreview),
     queued;
   let presented = selected;
-  let entered = reduced.matches || initialPreview >= 0;
+  let entered = initialPreview >= 0;
+  let revealing = false;
   let rotation = entered ? -selected * 90 : 90;
   let visible = false,
     scrolling = false,
@@ -49,6 +50,10 @@ export function init() {
   const dialogs = [...document.querySelectorAll("dialog")];
   const scene = document.createElement("div");
   scene.className = "feature-solid-scene";
+  const flatPose =
+    "translate(-50%, -50%) translateZ(calc(var(--solid-edge) / -2)) rotateX(0deg) rotateY(0deg)";
+  const volumePose =
+    "translate(-50%, -50%) translateZ(0px) rotateX(-12deg) rotateY(-12deg)";
   const assembly = document.createElement("div");
   assembly.className = "feature-solid-assembly";
   const bodies = ["copy", "visual"].map((kind) => {
@@ -136,6 +141,13 @@ export function init() {
       body.append(cap);
     }
   });
+  const flatCover = document.createElement("div");
+  flatCover.className = "feature-flat-cover";
+  flatCover.setAttribute("aria-hidden", "true");
+  flatCover.inert = true;
+  flatCover.innerHTML =
+    '<div><small>SMART STORE</small><strong>Всё<br>связано.</strong></div><div class="feature-flat-flow"><span><i></i>Чек</span><span><i></i>Склад</span><span><i></i>Отчёт</span></div>';
+  assembly.append(flatCover);
   stage.append(scene, captions);
   section.classList.add("feature-cubes-ready");
   stage.setAttribute("aria-roledescription", "карусель");
@@ -154,13 +166,21 @@ export function init() {
     document.hidden ||
     dialogs.some((dialog) => dialog.open);
   const pose = (side, angle) => `rotateX(${side === 0 ? angle : -angle}deg)`;
-  const paint = () =>
+  const paint = () => {
     bodies.forEach((body, side) => {
       body.style.transform = pose(side, rotation);
     });
+    assembly.style.transform = entered ? volumePose : flatPose;
+    flatCover.hidden = entered;
+  };
   const update = () => {
     const moving = animations.length > 0;
     section.dataset.featureMotion = moving ? "running" : "idle";
+    section.dataset.featureShape = !entered
+      ? "flat"
+      : revealing
+        ? "opening"
+        : "volume";
     section.dataset.featurePresented = String(presented);
     stage.setAttribute("aria-busy", String(moving));
     section.dataset.featureEntered = String(entered);
@@ -198,6 +218,7 @@ export function init() {
     animations.forEach((animation) => animation.cancel());
     animations = [];
     presented = selected;
+    revealing = false;
     // Whole revolutions may be discarded without changing a visible face.
     if (Math.abs(rotation) >= 360) rotation %= 360;
     paint();
@@ -215,7 +236,7 @@ export function init() {
       entryTimer = setTimeout(() => {
         if (!visible || blocked() || entered) return;
         entered = true;
-        turn(0, 0);
+        turn(0, 0, true);
       }, 240);
     }
     for (const animation of animations)
@@ -245,7 +266,7 @@ export function init() {
       }, 6000);
     }
   };
-  const turn = (index, target) => {
+  const turn = (index, target, intro = false) => {
     const start = rotation;
     selected = index;
     rotation = target;
@@ -257,11 +278,12 @@ export function init() {
       return;
     }
     const generation = ++revision;
+    const duration = Math.abs(target - start) > 90 ? 1600 : 1150;
     animations = bodies.map((body, side) => {
       const animation = body.animate(
         [{ transform: pose(side, start) }, { transform: pose(side, target) }],
         {
-          duration: Math.abs(target - start) > 90 ? 1600 : 1150,
+          duration,
           delay: side * 70,
           easing: "cubic-bezier(.45,0,.2,1)",
           fill: "both",
@@ -270,6 +292,31 @@ export function init() {
       animation.pause();
       return animation;
     });
+    if (intro) {
+      revealing = true;
+      flatCover.hidden = false;
+      assembly.style.transform = volumePose;
+      const camera = assembly.animate(
+        [{ transform: flatPose }, { transform: volumePose }],
+        {
+          duration,
+          easing: "cubic-bezier(.45,0,.2,1)",
+          fill: "both",
+        },
+      );
+      const cover = flatCover.animate(
+        [
+          { opacity: 1, offset: 0 },
+          { opacity: 1, offset: 0.06 },
+          { opacity: 0, offset: 0.34 },
+          { opacity: 0, offset: 1 },
+        ],
+        { duration, fill: "both" },
+      );
+      camera.pause();
+      cover.pause();
+      animations.push(camera, cover);
+    }
     update();
     Promise.all(animations.map((animation) => animation.finished))
       .then(() => {
@@ -290,8 +337,8 @@ export function init() {
     const target = (index + cards.length) % cards.length;
     if (!entered) {
       entered = true;
-      rotation = -selected * 90;
-      paint();
+      turn(target, -target * 90, true);
+      return;
     }
     if (animations.length) {
       queued = index;
@@ -458,7 +505,7 @@ export function init() {
     sync();
   });
   reduced.addEventListener("change", () => {
-    if (reduced.matches) {
+    if (reduced.matches && entered) {
       automatic = false;
       entered = true;
       rotation = -selected * 90;
