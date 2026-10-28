@@ -25,12 +25,29 @@ const copies = cards.map((card, i) =>
   ),
 );
 const gallery = `<div class="gallery-stage">
-  <svg class="ribbon-defs" width="0" height="0" aria-hidden="true"><defs><clipPath id="hero-ribbon-clip" clipPathUnits="objectBoundingBox"><path d="M0 .035 C.16 .07 .32 .10 .5 .10 C.68 .10 .84 .07 1 .035 L1 .965 C.84 .93 .68 .90 .5 .90 C.32 .90 .16 .93 0 .965 Z"/></clipPath></defs></svg>
+  <svg class="ribbon-defs" width="0" height="0" aria-hidden="true"><defs><clipPath id="hero-ribbon-clip" clipPathUnits="objectBoundingBox"><path d="M0 .035 C.16 .07 .32 .10 .5 .10 C.68 .10 .84 .07 1 .035 L1 .965 C.84 .93 .68 .90 .5 .90 C.32 .90 .16 .93 0 .965 Z"/></clipPath>
+<filter id="hero-refraction" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+  <feImage href="img/hero-refraction-field-v81.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="field"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".18" xChannelSelector="R" yChannelSelector="G" result="warp-r"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".165" xChannelSelector="R" yChannelSelector="G" result="warp-g"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".15" xChannelSelector="R" yChannelSelector="G" result="warp-b"/>
+  <feColorMatrix in="warp-r" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
+  <feColorMatrix in="warp-g" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>
+  <feColorMatrix in="warp-b" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>
+  <feBlend in="red" in2="green" mode="screen" result="rg"/>
+  <feBlend in="rg" in2="blue" mode="screen" result="spectrum"/>
+  <feGaussianBlur in="spectrum" stdDeviation=".008 .003" result="soft-spectrum"/>
+  <feColorMatrix in="field" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0" result="periphery"/>
+  <feComposite in="soft-spectrum" in2="periphery" operator="in" result="edge-optics"/>
+  <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="edge-optics"/></feMerge>
+</filter></defs></svg>
   <div class="ribbon-window">
+    <div class="ribbon-refraction">
     <div class="ribbon-track motion-ready" data-ribbon-track>
       <div class="ribbon-set" data-ribbon-set="before" aria-hidden="true">${copies.join("\n")}</div>
       <div class="ribbon-set" data-ribbon-set="main">${cards.join("\n")}</div>
       <div class="ribbon-set" data-ribbon-set="after" aria-hidden="true">${copies.join("\n")}</div>
+    </div>
     </div>
     <svg class="ribbon-rim" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <defs><linearGradient id="ribbon-rim-light"><stop stop-color="#ededf5" stop-opacity=".65"/><stop offset=".4" stop-color="#8aa9ff" stop-opacity=".12"/><stop offset=".65" stop-color="#ededf5" stop-opacity=".25"/><stop offset="1" stop-color="#8aa9ff" stop-opacity=".65"/></linearGradient></defs>

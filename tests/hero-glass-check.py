@@ -1,4 +1,4 @@
-"""Stronger peripheral optics, a sharp centre, readable originals and swipe/rest behaviour."""
+"""Curved chromatic refraction, a sharp centre, readable originals and swipe/rest behaviour."""
 from io import BytesIO
 from pathlib import Path
 import json, os, shutil
@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173').rstrip('/')
 BROWSER = os.environ.get('BROWSER', 'chromium')
-OUT = Path('/tmp/smart-store-glass-v80') / BROWSER
+OUT = Path('/tmp/smart-store-refraction-v81') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as p:
@@ -25,33 +25,44 @@ with sync_playwright() as p:
         page.evaluate('window.flow=document.querySelector(".ribbon-track").getAnimations()[0]')
         page.wait_for_function('() => (flow.playState==="paused"&&!flow.pending)')
         page.evaluate('flow.currentTime=flow.effect.getTiming().duration*.11')
-        lens = page.locator('.ribbon-window').evaluate('''e=>{
-            const left=getComputedStyle(e,'::before'),right=getComputedStyle(e,'::after');
-            return {left:parseFloat(left.width),right:parseFloat(right.width),pointer:left.pointerEvents,filter:left.getPropertyValue('backdrop-filter')||left.getPropertyValue('-webkit-backdrop-filter'),trackFilter:getComputedStyle(e.querySelector('.ribbon-track')).filter}
-        }''')
-        assert lens['left']==lens['right'] and lens['left']<=min(w*.24,340)+1
-        assert lens['pointer']=='none' and lens['trackFilter']=='none'
-        assert ('10px' if w<=620 else '14px') in lens['filter'],lens
+        lens = page.locator('.ribbon-refraction').evaluate('''e=>({pointer:getComputedStyle(e).pointerEvents,filter:getComputedStyle(e).filter,trackFilter:getComputedStyle(e.querySelector('.ribbon-track')).filter})''')
+        assert 'hero-refraction' in lens['filter'] and lens['trackFilter']=='none'
+        scales=page.locator('#hero-refraction feDisplacementMap').evaluate_all('xs=>xs.map(e=>e.getAttribute("scale"))')
+        assert len(scales)==3 and len(set(scales))==3 and all(float(n)>0 for n in scales)
         with_lens = page.locator('.ribbon-window').screenshot()
-        # Keep the same compositing structure when disabling the optics. Removing
-        # a backdrop layer entirely can change Chromium's image antialiasing.
-        off = page.add_style_tag(content='.ribbon-window::before,.ribbon-window::after{background:transparent!important;-webkit-backdrop-filter:blur(0px)!important;backdrop-filter:blur(0px)!important}')
+        # Neutralize displacement while preserving the same filter graph and blur.
+        # This difference measures refraction, rather than an ordinary blur overlay.
+        page.locator('#hero-refraction feDisplacementMap').evaluate_all('xs=>xs.forEach(e=>e.setAttribute("scale","0"))')
         without_lens = page.locator('.ribbon-window').screenshot()
-        off.evaluate('e=>e.remove()')
+        page.locator('#hero-refraction feDisplacementMap').evaluate_all('(xs,ss)=>xs.forEach((e,i)=>e.setAttribute("scale",ss[i]))',scales)
         a=Image.open(BytesIO(with_lens)).convert('RGB')
         b=Image.open(BytesIO(without_lens)).convert('RGB')
         difference=ImageChops.difference(a,b)
-        inset=round(a.width*.25)
+        inset=round(a.width*.28)
         middle=difference.crop((inset,0,a.width-inset,a.height))
         edge=Image.new('RGB',(inset*2,a.height))
         edge.paste(difference.crop((0,0,inset,a.height)),(0,0))
         edge.paste(difference.crop((a.width-inset,0,a.width,a.height)),(inset,0))
         middle_mean=max(ImageStat.Stat(middle).mean)
         edge_mean=max(ImageStat.Stat(edge).mean)
-        assert middle_mean<.05, {'centreDifference':middle_mean}
-        assert 3<edge_mean<45, {'edgeDifference':edge_mean}
+        assert middle_mean<.35, {'centreDifference':middle_mean}
+        assert 3<edge_mean<90, {'edgeDifference':edge_mean}
         (OUT/f'lens-{w}.png').write_bytes(with_lens)
         (OUT/f'no-lens-{w}.png').write_bytes(without_lens)
+        if w in [390,1440]:
+            grid=page.add_style_tag(content='.gallery-card .editorial-photo{visibility:hidden!important}.gallery-card{background:repeating-linear-gradient(90deg,#101010 0 3px,#fafafa 3px 20px)!important}')
+            warped=Image.open(BytesIO(page.locator('.ribbon-window').screenshot())).convert('RGB')
+            # A vertical stripe is identical between rows until a lens bends it.
+            def row_difference(img,left,right):
+                y1,y2=round(img.height*.30),round(img.height*.50)
+                row1=img.crop((left,y1,right,y1+1));row2=img.crop((left,y2,right,y2+1))
+                return max(ImageStat.Stat(ImageChops.difference(row1,row2)).mean)
+            edge_end=round(warped.width*.24)
+            bend=row_difference(warped,0,edge_end)
+            assert bend>5,('Straight lines must visibly bend at the edges',bend)
+            assert row_difference(warped,round(warped.width*.30),round(warped.width*.70))<.5
+            warped.save(OUT/f'curved-grid-{w}.png')
+            grid.evaluate('e=>e.remove()')
         # A lens covers this coordinate visually, but never intercepts a photo tap.
         box=page.locator('.ribbon-window').bounding_box()
         y=box['y']+box['height']/2
@@ -87,6 +98,6 @@ with sync_playwright() as p:
             page.evaluate('scrollTo(0,0)')
             page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
         assert not errors,errors
-        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'dpr':dpr,'edgeWidth':lens['left'],'centreMeanDifference':round(middle_mean,4),'edgeMeanDifference':round(edge_mean,4),'photoTapThroughGlass':'pass','swipeRestAndScroll':'pass' if w==390 else 'not repeated'}),flush=True)
+        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'dpr':dpr,'edgeEffect':'curved displacement + chromatic split','centreMeanDifference':round(middle_mean,4),'edgeMeanDifference':round(edge_mean,4),'photoTapThroughGlass':'pass','swipeRestAndScroll':'pass' if w==390 else 'not repeated'}),flush=True)
         page.close()
     browser.close()
