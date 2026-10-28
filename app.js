@@ -17,7 +17,6 @@ await Promise.allSettled(
     "viewport",
     "interface",
     "feature-cubes",
-    "store-fit",
     "preview",
     "media",
     "gallery",
@@ -36,9 +35,7 @@ await Promise.allSettled(
       await feature.init(dependencies);
     } catch {
       void diagnostics.then((report) =>
-        report(
-          `module:${["feature-cubes", "store-fit"].includes(name) ? "interface" : name}`,
-        ),
+        report(`module:${name === "feature-cubes" ? "interface" : name}`),
       );
       console.warn(`Smart Store: ${name} unavailable`);
       if (name === "feature-cubes") {

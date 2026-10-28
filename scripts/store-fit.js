@@ -5,6 +5,8 @@ export function init() {
   const stage = root.querySelector(".fit-stage");
   const panels = [...root.querySelectorAll("[data-fit-panel]")];
   const tabs = [...root.querySelectorAll("[data-fit-select]")];
+  // Retained for cached v71/v72 entries; the current grid needs no module.
+  if (!stage || !panels.length || tabs.length !== panels.length) return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   let selected = 0,
     target = 0,
