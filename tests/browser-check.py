@@ -116,11 +116,11 @@ with sync_playwright() as p:
     m.wait_for_function('() => (document.getElementById("feature-count").textContent==="02 / 03")')
     m.locator('#feature-next').click()
     m.wait_for_function('() => (document.getElementById("feature-count").textContent==="03 / 03")')
-    assert m.locator('#feature-next').is_disabled()
+    assert m.locator('#feature-next').is_enabled()
     m.locator('.bento-grid').focus()
     m.keyboard.press('Home')
     m.wait_for_function('() => (document.getElementById("feature-count").textContent==="01 / 03")')
-    assert m.locator('#feature-prev').is_disabled()
+    assert m.locator('#feature-prev').is_enabled()
     m.goto(BASE + '/#faq', wait_until='networkidle')
     for question in m.locator('.faq-list summary').all():
         question.click()

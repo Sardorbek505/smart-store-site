@@ -15,7 +15,9 @@ export function init() {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const states = scenes.map((element) => ({
     element,
-    button: element.closest("article").querySelector(".micro-replay"),
+    button:
+      document.getElementById(element.dataset.replayId) ||
+      element.closest("article").querySelector(".micro-replay"),
     visible: false,
     played: false,
     startTimer: 0,
@@ -26,7 +28,9 @@ export function init() {
   let touching = false;
   let idleTimer;
   const dialogs = [...document.querySelectorAll("dialog")];
-  const duration = 5200;
+  const duration = document.querySelector('[data-feature-layout="solid"]')
+    ? 3000
+    : 5200;
   const entryDelay = 240;
   const ease = "cubic-bezier(.22, 1, .36, 1)";
   const add = (state, element, frames) => {
@@ -165,7 +169,7 @@ export function init() {
       const cubes = state.element.closest(".feature-cubes-ready");
       const section = state.element.closest("#features");
       const waiting =
-        section?.dataset.featureLayout === "cubes" &&
+        ["cubes", "solid"].includes(section?.dataset.featureLayout) &&
         !cubes &&
         section.dataset.featureFallback !== "true";
       const selected =
@@ -226,15 +230,20 @@ export function init() {
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        const state = states.find(
-          ({ element }) => element.closest("article") === entry.target,
+        const matching = states.filter(
+          ({ element }) =>
+            (element.closest(".feature-solid-scene") ||
+              element.closest("article")) === entry.target,
         );
-        state.visible = entry.isIntersecting && entry.intersectionRatio >= 0.9;
-        // A new visit gets a fresh beginning; tiny scrolls never rearm it.
-        if (!entry.isIntersecting || entry.intersectionRatio === 0) {
-          complete(state);
-          state.played = false;
-          state.element.dataset.state = "idle";
+        for (const state of matching) {
+          state.visible =
+            entry.isIntersecting && entry.intersectionRatio >= 0.9;
+          // A new visit gets a fresh beginning; tiny scrolls never rearm it.
+          if (!entry.isIntersecting || entry.intersectionRatio === 0) {
+            complete(state);
+            state.played = false;
+            state.element.dataset.state = "idle";
+          }
         }
       }
       sync();
@@ -248,7 +257,10 @@ export function init() {
       start(state);
       sync();
     });
-    observer.observe(state.element.closest("article"));
+    observer.observe(
+      state.element.closest(".feature-solid-scene") ||
+        state.element.closest("article"),
+    );
   }
   // Capture includes horizontal carousel and nested viewport scroll containers.
   document.addEventListener(
@@ -296,7 +308,16 @@ export function init() {
     sync();
   });
   reduced.addEventListener("change", sync);
-  document.getElementById("features")?.addEventListener("featurechange", sync);
+  document.getElementById("features")?.addEventListener("featurechange", () => {
+    for (const state of states) {
+      const scene = state.element.closest(".feature-solid-scene");
+      if (scene) {
+        observer.unobserve(state.element.closest("article"));
+        observer.observe(scene);
+      }
+    }
+    sync();
+  });
   const dialogObserver = new MutationObserver(sync);
   for (const dialog of dialogs)
     dialogObserver.observe(dialog, {

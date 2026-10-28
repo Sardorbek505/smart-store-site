@@ -60,8 +60,8 @@ for (const { pages, name, sources } of bundles) {
   if (warnings.length) throw new Error(JSON.stringify(warnings));
   const hash = createHash("sha256").update(code).digest("hex").slice(0, 12);
   const file = `${name}.${hash}.css`;
-  // Keep the last published name too: a cached HTML document can still need it.
-  retained[name] = [...new Set([file, ...(previous[name] || [])])].slice(0, 2);
+  // Pages and the Worker can serve different releases; keep both prior sheets.
+  retained[name] = [...new Set([file, ...(previous[name] || [])])].slice(0, 3);
   for (const sheet of retained[name]) expected.add(sheet);
   const url = new URL(`assets/${file}`, root);
   if (check && (await readFile(url, "utf8")) !== code)
