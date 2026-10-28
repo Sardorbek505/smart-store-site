@@ -30,7 +30,6 @@ const bundles = [
       "trial.css",
       "journey.css",
       "glass.css",
-      "feature-cubes.css",
       "store-fit.css",
     ],
   },

@@ -11,7 +11,8 @@ export function init() {
     !window.ResizeObserver ||
     !window.IntersectionObserver ||
     !CSS.supports("transform-style", "preserve-3d") ||
-    getComputedStyle(root).getPropertyValue("--fit-cubes-version").trim() !== "76"
+    getComputedStyle(root).getPropertyValue("--fit-cubes-version").trim() !==
+      "77"
   )
     return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
@@ -27,10 +28,13 @@ export function init() {
   const flat =
     "translate(-50%, -50%) translateZ(calc(var(--fit-edge) / -2)) rotateX(0deg) rotateY(0deg)";
   const volume =
-    "translate(-50%, -50%) translateZ(calc(var(--fit-edge) / -2)) rotateX(-12deg) rotateY(-16deg)";
+    "translate(-50%, -50%) translateZ(calc(var(--fit-edge) / -2)) rotateX(-10deg) rotateY(0deg)";
   const scene = make("div", "fit-solid-scene");
   scene.setAttribute("role", "group");
-  scene.setAttribute("aria-label", "Автоматическая витрина форматов магазинов.");
+  scene.setAttribute(
+    "aria-label",
+    "Автоматическая витрина форматов магазинов.",
+  );
   const camera = make("div", "fit-solid-camera");
   camera.setAttribute("aria-hidden", "true");
   const bodies = ["label", "photo"].map((kind) => {
@@ -99,7 +103,11 @@ export function init() {
   camera.style.transform = flat;
   root.dataset.fitShape = "flat";
   const allowed = () =>
-    visible && !document.hidden && !moving && !touching && !dialogs.some((d) => d.open);
+    visible &&
+    !document.hidden &&
+    !moving &&
+    !touching &&
+    !dialogs.some((d) => d.open);
   const render = () => {
     cards.forEach((c, i) => (c.hidden = i !== selected));
     root.dataset.fitIndex = String(selected);
@@ -111,7 +119,9 @@ export function init() {
     toggle.setAttribute("aria-pressed", String(!automatic));
     toggle.setAttribute(
       "aria-label",
-      automatic ? "Остановить автоматическую смену" : "Включить автоматическую смену",
+      automatic
+        ? "Остановить автоматическую смену"
+        : "Включить автоматическую смену",
     );
     scene.setAttribute("aria-busy", String(busy));
   };
@@ -123,7 +133,8 @@ export function init() {
       turn(selected, 1, true);
       return;
     }
-    if (automatic && !reduced.matches) timer = setTimeout(() => turn(mod(selected + 1), 1), 3200);
+    if (automatic && !reduced.matches)
+      timer = setTimeout(() => turn(mod(selected + 1), 1), 3200);
   };
   const turn = async (index, direction, intro = false) => {
     index = mod(index);
@@ -148,7 +159,10 @@ export function init() {
       camera.style.transform = volume;
       cover.hidden = true;
       slots.flat().forEach((face) => {
-        if (face !== slots[0][mod(destination, 4)] && face !== slots[1][mod(destination, 4)])
+        if (
+          face !== slots[0][mod(destination, 4)] &&
+          face !== slots[1][mod(destination, 4)]
+        )
           face.replaceChildren();
       });
       animations.forEach((a) => a.cancel());
@@ -162,7 +176,8 @@ export function init() {
       render();
       const pending = queued;
       queued = null;
-      if (pending && pending.index !== selected) turn(pending.index, pending.direction);
+      if (pending && pending.index !== selected)
+        turn(pending.index, pending.direction);
       else sync();
     };
     finish = done;
@@ -177,10 +192,16 @@ export function init() {
       fill: "both",
     };
     animations = bodies.map((body, i) =>
-      body.animate([{ transform: poses(orientation)[i] }, { transform: poses(destination)[i] }], {
-        ...options,
-        delay: i * 50,
-      }),
+      body.animate(
+        [
+          { transform: poses(orientation)[i] },
+          { transform: poses(destination)[i] },
+        ],
+        {
+          ...options,
+          delay: i * 50,
+        },
+      ),
     );
     if (intro) {
       animations.push(
@@ -257,7 +278,9 @@ export function init() {
   }).observe(scene);
   document.addEventListener("visibilitychange", sync);
   const observer = new MutationObserver(sync);
-  dialogs.forEach((d) => observer.observe(d, { attributes: true, attributeFilter: ["open"] }));
+  dialogs.forEach((d) =>
+    observer.observe(d, { attributes: true, attributeFilter: ["open"] }),
+  );
   reduced.addEventListener("change", () => {
     if (reduced.matches) {
       automatic = false;

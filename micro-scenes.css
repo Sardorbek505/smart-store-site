@@ -610,3 +610,12 @@
     width: min(68cqw, 270px);
   }
 }
+
+/* Keep the photographic subjects clear in the narrow three-column layout. */
+@media (min-width: 851px) and (max-width: 1100px) and (min-height: 601px) {
+  .micro-widget .micro-note,
+  .micro-widget .micro-status,
+  .micro-widget .micro-profit {
+    margin-top: 0;
+  }
+}

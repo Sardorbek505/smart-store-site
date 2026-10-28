@@ -244,7 +244,7 @@
 
 /* Same paired-cube composition as the supplied reference video. */
 #for-stores {
-  --fit-cubes-version: 76;
+  --fit-cubes-version: 77;
 }
 .fit-solid-scene {
   position: relative;
