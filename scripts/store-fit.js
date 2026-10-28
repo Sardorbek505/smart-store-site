@@ -1,132 +1,320 @@
-// A shop-type selector: intentional changes, fixed layout, no auto-advancing text.
+// The reference's paired, closed cubes: one shop label, one photograph.
 export function init() {
   const root = document.getElementById("for-stores");
-  if (!root) return;
-  const stage = root.querySelector(".fit-stage");
-  const panels = [...root.querySelectorAll("[data-fit-panel]")];
-  const tabs = [...root.querySelectorAll("[data-fit-select]")];
-  // Retained for cached v71/v72 entries; the current grid needs no module.
-  if (!stage || !panels.length || tabs.length !== panels.length) return;
+  const sources = root?.querySelector(".fit-grid");
+  const cards = [...(sources?.querySelectorAll("[data-shop-kind]") || [])];
+  const controls = root?.querySelector(".fit-object-controls");
+  if (
+    !controls ||
+    !cards.length ||
+    !Element.prototype.animate ||
+    !window.ResizeObserver ||
+    !window.IntersectionObserver ||
+    !CSS.supports("transform-style", "preserve-3d") ||
+    getComputedStyle(root).getPropertyValue("--fit-cubes-version").trim() !== "74"
+  )
+    return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  let selected = 0,
-    target = 0,
-    visible = false,
-    revision = 0,
-    animations = [];
-  const render = () => {
-    panels.forEach((panel, index) => {
-      const active = index === selected;
-      panel.dataset.fitActive = String(active);
-      panel.setAttribute("role", "tabpanel");
-      panel.setAttribute("aria-labelledby", tabs[index].id);
-      panel.setAttribute("aria-hidden", String(!active));
-      panel.inert = !active;
-      tabs[index].setAttribute("aria-selected", String(active));
-      tabs[index].tabIndex = active ? 0 : -1;
-    });
-    root.dataset.fitIndex = String(selected);
-    stage.setAttribute("aria-busy", String(animations.length > 0));
-  };
-  const finish = (index = target) => {
-    revision++;
-    animations.forEach((animation) => animation.cancel());
-    animations = [];
-    selected = index;
-    render();
-  };
-  const choose = (index) => {
-    target = (index + panels.length) % panels.length;
-    if (animations.length) {
-      finish();
-      return;
-    }
-    if (target === selected) return;
-    if (
-      reduced.matches ||
-      document.hidden ||
-      !visible ||
-      !Element.prototype.animate
-    ) {
-      finish();
-      return;
-    }
-    const generation = ++revision;
-    const out = panels[selected].animate(
-      [
-        { opacity: 1, transform: "none" },
-        { opacity: 0, transform: "rotateY(-7deg) translateX(-8px)" },
-      ],
-      { duration: 180, easing: "ease-in", fill: "both" },
-    );
-    animations = [out];
-    render();
-    out.finished
-      .then(() => {
-        if (generation !== revision) return;
-        out.cancel();
-        selected = target;
-        const incoming = panels[selected].animate(
-          [
-            { opacity: 0, transform: "rotateY(7deg) translateX(8px)" },
-            { opacity: 1, transform: "none" },
-          ],
-          { duration: 420, easing: "cubic-bezier(.22,.7,.16,1)", fill: "both" },
-        );
-        animations = [incoming];
-        render();
-        incoming.finished
-          .then(() => {
-            if (generation === revision) finish();
-          })
-          .catch(() => {});
-      })
-      .catch(() => {});
-  };
-  tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => choose(index));
-    tab.addEventListener("keydown", (event) => {
-      const destinations = {
-        ArrowRight: index + 1,
-        ArrowLeft: index - 1,
-        Home: 0,
-        End: panels.length - 1,
-      };
-      if (!(event.key in destinations)) return;
-      event.preventDefault();
-      const next = (destinations[event.key] + panels.length) % panels.length;
-      choose(next);
-      tabs[next].focus({ preventScroll: true });
-    });
-  });
-  const suspend = () => {
-    if (animations.length) finish();
-  };
-  if (window.IntersectionObserver)
-    new IntersectionObserver(
-      ([entry]) => {
-        visible = entry.isIntersecting;
-        if (!visible) suspend();
-      },
-      { rootMargin: "-80px 0px 0px 0px" },
-    ).observe(stage);
-  else visible = true;
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) suspend();
-  });
-  window.addEventListener("pagehide", suspend);
-  reduced.addEventListener("change", () => {
-    if (reduced.matches) suspend();
-  });
+  const select = controls.querySelector("select"),
+    prev = controls.querySelector("[data-fit-prev]"),
+    next = controls.querySelector("[data-fit-next]"),
+    toggle = controls.querySelector("[data-fit-auto]"),
+    count = controls.querySelector("output"),
+    caption = controls.querySelector(".fit-benefit");
   const dialogs = [...document.querySelectorAll("dialog")];
-  if (window.MutationObserver) {
-    const observer = new MutationObserver(() => {
-      if (dialogs.some((dialog) => dialog.open)) suspend();
+  const make = (tag, cls) => {
+    const el = document.createElement(tag);
+    el.className = cls;
+    return el;
+  };
+  const flat =
+    "translate(-50%, -50%) translateZ(calc(var(--fit-edge) / -2)) rotateX(0deg) rotateY(0deg)";
+  const volume = "translate(-50%, -50%) translateZ(0px) rotateX(-12deg) rotateY(-12deg)";
+  const scene = make("div", "fit-solid-scene");
+  scene.tabIndex = 0;
+  scene.setAttribute("role", "group");
+  scene.setAttribute("aria-label", "Форматы магазинов. Переключайте стрелками влево и вправо.");
+  const camera = make("div", "fit-solid-camera");
+  camera.setAttribute("aria-hidden", "true");
+  const bodies = ["label", "photo"].map((kind) => {
+    const b = make("div", "fit-solid-body fit-body-" + kind);
+    camera.append(b);
+    return b;
+  });
+  const slots = bodies.map((body, side) => {
+    const faces = Array.from({ length: 4 }, (_, i) => {
+      const face = make("div", "fit-solid-face");
+      face.style.transform = `rotateX(${(side ? -1 : 1) * i * 90}deg) translateZ(calc(var(--fit-edge) / 2))`;
+      body.append(face);
+      return face;
     });
-    dialogs.forEach((dialog) =>
-      observer.observe(dialog, { attributes: true, attributeFilter: ["open"] }),
+    for (const angle of [-90, 90]) {
+      const cap = make("div", "fit-solid-face fit-solid-cap");
+      cap.style.transform = `rotateY(${angle}deg) translateZ(calc(var(--fit-edge) / 2))`;
+      body.append(cap);
+    }
+    return faces;
+  });
+  const photo = (index) => {
+    const img = cards[index].querySelector("img").cloneNode();
+    img.alt = "";
+    img.loading = "eager";
+    img.sizes = "(max-width:700px) 44vw, 330px";
+    return img;
+  };
+  const label = (index) => {
+    const el = make("div", "fit-face-copy");
+    const number = make("span", "fit-face-number");
+    number.textContent = String(index + 1).padStart(2, "0");
+    const title = make("strong", "fit-face-title");
+    title.textContent = cards[index].querySelector("h3").textContent;
+    if (index === 0) title.textContent = "Продукты\nу дома";
+    el.append(number, title);
+    return el;
+  };
+  const paint = (slot, index, img) => {
+    slots[0][slot].replaceChildren(label(index));
+    slots[1][slot].replaceChildren(img);
+  };
+  const cover = make("div", "fit-flat-cover");
+  cover.append(label(0), photo(0));
+  camera.append(cover);
+  scene.append(camera);
+  sources.before(scene);
+  sources.classList.add("visually-hidden");
+  root.classList.add("fit-solid-ready");
+  controls.hidden = false;
+  let selected = 0,
+    requested = 0,
+    orientation = -1,
+    entered = false,
+    visible = false,
+    moving = false,
+    touching = false,
+    focused = false,
+    automatic = !reduced.matches,
+    busy = false,
+    queued = null,
+    animations = [],
+    revision = 0,
+    finish = null,
+    timer,
+    restTimer;
+  const mod = (i, n = cards.length) => ((i % n) + n) % n;
+  const poses = (q) => [`rotateX(${-q * 90}deg)`, `rotateX(${q * 90}deg)`];
+  bodies.forEach((b, i) => (b.style.transform = poses(orientation)[i]));
+  camera.style.transform = flat;
+  root.dataset.fitShape = "flat";
+  const allowed = () =>
+    visible && !document.hidden && !moving && !touching && !dialogs.some((d) => d.open);
+  const render = () => {
+    cards.forEach((c, i) => (c.hidden = i !== selected));
+    root.dataset.fitIndex = String(selected);
+    root.dataset.fitTurning = String(busy);
+    count.textContent = `${String(selected + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
+    select.value = String(busy ? requested : selected);
+    caption.textContent = cards[selected].querySelector("p").textContent;
+    toggle.disabled = reduced.matches;
+    toggle.textContent = automatic ? "Пауза" : "Авто";
+    toggle.setAttribute("aria-pressed", String(!automatic));
+    toggle.setAttribute(
+      "aria-label",
+      automatic ? "Остановить автоматическую смену" : "Включить автоматическую смену",
     );
-  }
+    scene.setAttribute("aria-busy", String(busy));
+  };
+  const sync = () => {
+    clearTimeout(timer);
+    animations.forEach((a) => (allowed() ? a.play() : a.pause()));
+    if (!allowed() || busy) return;
+    if (!entered) {
+      turn(selected, 1, true);
+      return;
+    }
+    if (automatic && !focused && !reduced.matches)
+      timer = setTimeout(() => turn(mod(selected + 1), 1), 5200);
+  };
+  const turn = async (index, direction, intro = false) => {
+    index = mod(index);
+    requested = index;
+    if (busy) {
+      queued = { index, direction };
+      return;
+    }
+    if (!intro && index === selected) return;
+    clearTimeout(timer);
+    busy = true;
+    const generation = ++revision;
+    const destination = intro ? 0 : orientation + direction;
+    const img = photo(index);
+    render();
+    await img.decode().catch(() => {});
+    if (generation !== revision) return;
+    paint(mod(destination, 4), index, img);
+    const done = () => {
+      if (generation !== revision) return;
+      revision++;
+      bodies.forEach((b, i) => (b.style.transform = poses(destination)[i]));
+      camera.style.transform = volume;
+      cover.hidden = true;
+      slots.flat().forEach((face) => {
+        if (face !== slots[0][mod(destination, 4)] && face !== slots[1][mod(destination, 4)])
+          face.replaceChildren();
+      });
+      animations.forEach((a) => a.cancel());
+      animations = [];
+      finish = null;
+      orientation = destination;
+      selected = index;
+      entered = true;
+      busy = false;
+      root.dataset.fitShape = "volume";
+      render();
+      const pending = queued;
+      queued = null;
+      if (pending && pending.index !== selected) turn(pending.index, pending.direction);
+      else sync();
+    };
+    finish = done;
+    if (reduced.matches) {
+      done();
+      return;
+    }
+    root.dataset.fitShape = intro ? "opening" : "volume";
+    const options = {
+      duration: intro ? 1250 : 1050,
+      easing: "cubic-bezier(.22,.72,.16,1)",
+      fill: "both",
+    };
+    animations = bodies.map((body, i) =>
+      body.animate([{ transform: poses(orientation)[i] }, { transform: poses(destination)[i] }], {
+        ...options,
+        delay: i * 50,
+      }),
+    );
+    if (intro) {
+      animations.push(
+        camera.animate([{ transform: flat }, { transform: volume }], {
+          ...options,
+          duration: 1350,
+        }),
+      );
+      animations.push(
+        cover.animate(
+          [
+            { opacity: 1, offset: 0 },
+            { opacity: 0, offset: 0.32 },
+            { opacity: 0, offset: 1 },
+          ],
+          { ...options, duration: 1350 },
+        ),
+      );
+    }
+    Promise.all(animations.map((a) => a.finished))
+      .then(done)
+      .catch(() => {});
+    sync();
+  };
+  const choose = (index, direction = 1) => {
+    automatic = false;
+    caption.setAttribute("aria-live", "polite");
+    if (!entered && !busy) {
+      selected = mod(index);
+      cover.replaceChildren(label(selected), photo(selected));
+      render();
+      sync();
+    } else turn(index, direction);
+    render();
+  };
+  prev.addEventListener("click", () => choose(selected - 1, -1));
+  next.addEventListener("click", () => choose(selected + 1, 1));
+  select.addEventListener("change", () =>
+    choose(Number(select.value), Number(select.value) > selected ? 1 : -1),
+  );
+  toggle.addEventListener("click", () => {
+    automatic = !automatic;
+    if (automatic) focused = false;
+    caption.setAttribute("aria-live", automatic ? "off" : "polite");
+    render();
+    sync();
+  });
+  scene.addEventListener("keydown", (e) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+    e.preventDefault();
+    choose(
+      e.key === "Home"
+        ? 0
+        : e.key === "End"
+          ? cards.length - 1
+          : selected + (e.key === "ArrowLeft" ? -1 : 1),
+      e.key === "ArrowLeft" ? -1 : 1,
+    );
+  });
+  root.addEventListener("focusin", () => {
+    focused = true;
+    sync();
+  });
+  root.addEventListener("focusout", (e) => {
+    if (!root.contains(e.relatedTarget)) {
+      focused = false;
+      sync();
+    }
+  });
+  window.addEventListener(
+    "scroll",
+    () => {
+      moving = true;
+      sync();
+      clearTimeout(restTimer);
+      restTimer = setTimeout(() => {
+        moving = false;
+        sync();
+      }, 200);
+    },
+    { passive: true },
+  );
+  window.addEventListener(
+    "pointerdown",
+    (e) => {
+      if (e.pointerType === "touch") {
+        touching = true;
+        sync();
+      }
+    },
+    { passive: true },
+  );
+  for (const event of ["pointerup", "pointercancel"])
+    window.addEventListener(
+      event,
+      () => {
+        touching = false;
+        sync();
+      },
+      { passive: true },
+    );
+  new IntersectionObserver(
+    ([entry]) => {
+      visible = entry.isIntersecting && entry.intersectionRatio >= 0.65;
+      sync();
+    },
+    { threshold: [0, 0.65], rootMargin: "-80px 0px -20px 0px" },
+  ).observe(scene);
+  new ResizeObserver(() => {
+    const edge = Math.min(scene.clientWidth * 0.445, scene.clientHeight * 0.66, 320);
+    scene.style.setProperty("--fit-edge", `${edge}px`);
+    if (animations.length) finish?.();
+  }).observe(scene);
+  document.addEventListener("visibilitychange", sync);
+  const observer = new MutationObserver(sync);
+  dialogs.forEach((d) => observer.observe(d, { attributes: true, attributeFilter: ["open"] }));
+  reduced.addEventListener("change", () => {
+    if (reduced.matches) {
+      automatic = false;
+      finish?.();
+    }
+    render();
+    sync();
+  });
+  window.addEventListener("pageshow", sync);
   render();
-  root.classList.add("fit-ready");
-  root.querySelector(".fit-tabs").hidden = false;
 }
