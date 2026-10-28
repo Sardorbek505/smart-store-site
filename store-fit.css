@@ -25,6 +25,13 @@
   font-size: 11px;
   letter-spacing: 0.07em;
 }
+.fit-intro {
+  max-width: 470px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
 .fit-tabs {
   display: flex;
   flex: none;
@@ -61,7 +68,7 @@
 }
 .fit-stage {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
   perspective: 1400px;
 }
@@ -166,6 +173,42 @@
 .fit-ready .fit-copy {
   padding: clamp(24px, 3.2vw, 48px);
 }
+.fit-scope-note {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #f0f3fa;
+}
+.fit-scope-note p {
+  margin: 0 0 10px;
+  color: #3c4355;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.fit-scope-note a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 13px;
+}
+.fit-other {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.fit-other a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #1d4ed8;
+  text-underline-offset: 3px;
+}
+.fit-scope-note a:focus-visible,
+.fit-other a:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 3px;
+}
 .fit-proof {
   display: flex;
   align-items: center;
@@ -241,7 +284,7 @@
   .fit-tabs {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2px;
   }
   .fit-tabs button {
