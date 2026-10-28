@@ -17,9 +17,9 @@ jobs:
       - name: Audit locked dependencies
         run: npm run check:deps
       - run: npm test
-      - name: Validate the optional edge publication package without deploying
+      - name: Validate the optional preview package without deploying
         run: npm run build:edge
-      - name: Validate both Worker configurations with the locked CLI
+      - name: Validate the preview Worker configuration with the locked CLI
         run: npm run check:edge
       - name: Test publication notifications without external requests
         run: python3 -m unittest discover -s tests -p 'test_*.py'

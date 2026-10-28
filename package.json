@@ -15,7 +15,7 @@
     "build:edge": "node tools/build-edge.mjs",
     "check:deps": "npm audit --audit-level=moderate",
     "cf": "wrangler",
-    "check:edge": "wrangler deploy --dry-run --config edge/wrangler.preview.jsonc && wrangler deploy --dry-run --config edge/wrangler.jsonc"
+    "check:edge": "wrangler deploy --dry-run --config edge/wrangler.preview.jsonc"
   },
   "engines": {
     "node": ">=22"
