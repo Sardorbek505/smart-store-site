@@ -124,7 +124,8 @@ with sync_playwright() as p:
     m.goto(BASE + '/#faq', wait_until='networkidle')
     for question in m.locator('.faq-list summary').all():
         question.click()
-    assert m.locator('#faq').evaluate('(e)=>e.getBoundingClientRect().height') == 844
+    assert m.locator('#faq').evaluate('(e)=>e.getBoundingClientRect().height') > 844
+    assert not m.locator('#faq .screen-content').evaluate('e=>e.classList.contains("is-scrollable")')
     m.locator('.faq-list details').last.locator('p').scroll_into_view_if_needed()
     assert m.locator('.faq-list details').last.locator('p').is_visible()
     m.locator('#menu-toggle').click()
