@@ -1,4 +1,4 @@
-// Finite compositor animations; static HTML is the complete, accessible result.
+// Visible cards replay after a three-second result hold; HTML stays readable.
 export function init() {
   const scenes = [...document.querySelectorAll("[data-micro]")];
   for (const scene of scenes) {
@@ -15,10 +15,12 @@ export function init() {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const states = scenes.map((element) => ({
     element,
-    button: element.closest("article").querySelector(".micro-replay"),
     visible: false,
     played: false,
     startTimer: 0,
+    replayTimer: 0,
+    holdRemaining: 0,
+    holdStarted: 0,
     animations: [],
     revision: 0,
   }));
@@ -75,7 +77,18 @@ export function init() {
       { opacity: 0, transform: "none", offset: 1 },
     ]);
   };
+  const suspendHold = (state) => {
+    if (!state.replayTimer) return;
+    clearTimeout(state.replayTimer);
+    state.replayTimer = 0;
+    state.holdRemaining = Math.max(
+      0,
+      state.holdRemaining - (performance.now() - state.holdStarted),
+    );
+  };
   const complete = (state) => {
+    suspendHold(state);
+    state.holdRemaining = 0;
     clearTimeout(state.startTimer);
     state.startTimer = 0;
     state.revision++;
@@ -150,7 +163,11 @@ export function init() {
     pulse(state, element.querySelector(".micro-status .icon"), 0.78);
     Promise.all(state.animations.map((animation) => animation.finished))
       .then(() => {
-        if (state.revision === revision) complete(state);
+        if (state.revision !== revision) return;
+        complete(state);
+        state.holdRemaining = 3000;
+        state.element.dataset.state = "waiting";
+        sync();
       })
       .catch(() => {}); // Cancellation restores the static final state.
   };
@@ -162,15 +179,35 @@ export function init() {
   const sync = () => {
     const suspended = blocked();
     for (const state of states) {
-      state.button.hidden = reduced.matches;
       const active = state.visible && !suspended && !reduced.matches;
       if (!active) {
+        suspendHold(state);
         clearTimeout(state.startTimer);
         state.startTimer = 0;
       }
       if (reduced.matches) {
-        if (state.animations.length) complete(state);
+        if (state.animations.length || state.holdRemaining) complete(state);
+        state.played = false;
         continue;
+      }
+      if (
+        active &&
+        state.played &&
+        !state.animations.length &&
+        !state.replayTimer
+      ) {
+        state.holdStarted = performance.now();
+        state.replayTimer = setTimeout(() => {
+          state.replayTimer = 0;
+          state.holdRemaining = 0;
+          if (!state.visible || blocked() || reduced.matches) {
+            state.holdRemaining = 1;
+            sync();
+            return;
+          }
+          start(state);
+          sync();
+        }, state.holdRemaining);
       }
       // Start only after the full card has arrived and scrolling has settled.
       if (active && !state.played && !state.startTimer) {
@@ -210,11 +247,6 @@ export function init() {
   );
   for (const state of states) {
     state.element.dataset.state = "idle";
-    state.button.addEventListener("click", () => {
-      if (reduced.matches) return;
-      start(state);
-      sync();
-    });
     observer.observe(state.element.closest("article"));
   }
   // Capture includes horizontal carousel and nested viewport scroll containers.

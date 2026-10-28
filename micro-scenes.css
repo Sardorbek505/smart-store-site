@@ -59,12 +59,12 @@
 #features .bento h3 {
   font-size: clamp(24px, 2.35vw, 34px);
   margin-bottom: 10px;
-  max-width: calc(100% - 44px);
+  max-width: 14ch;
 }
 #features .bento p {
   font-size: 14px;
   line-height: 1.45;
-  max-width: calc(100% - 44px);
+  max-width: none;
   color: var(--muted);
 }
 #features .bento .feature-art {
@@ -99,16 +99,16 @@
   background-position: 50% 100%;
 }
 [data-micro="sale"] .micro-backdrop-layer {
-  --photo-square: url("../img/micro-sale-square-v43.webp");
-  --photo-wide: url("../img/micro-sale-wide-v43.webp");
+  --photo-square: url("../img/micro-sale-square-v78.webp");
+  --photo-wide: url("../img/micro-sale-wide-v78.webp");
 }
 [data-micro="stock"] .micro-backdrop-layer {
-  --photo-square: url("../img/micro-stock-square-v43.webp");
-  --photo-wide: url("../img/micro-stock-wide-v43.webp");
+  --photo-square: url("../img/micro-stock-square-v78.webp");
+  --photo-wide: url("../img/micro-stock-wide-v78.webp");
 }
 [data-micro="reports"] .micro-backdrop-layer {
-  --photo-square: url("../img/micro-reports-square-v43.webp");
-  --photo-wide: url("../img/micro-reports-wide-v43.webp");
+  --photo-square: url("../img/micro-reports-square-v78.webp");
+  --photo-wide: url("../img/micro-reports-wide-v78.webp");
 }
 .micro-frame {
   position: relative;
@@ -307,33 +307,6 @@
   transform-origin: right center;
   white-space: nowrap;
 }
-.micro-replay {
-  position: absolute;
-  right: 12px;
-  bottom: 14px;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 1px solid #1d4ed820;
-  border-radius: 50%;
-  color: var(--blue);
-  background: var(--paper);
-  cursor: pointer;
-}
-.micro-replay[hidden] {
-  display: none;
-}
-.micro-replay:focus-visible {
-  outline: 3px solid #1d4ed8;
-  outline-offset: -4px;
-}
-.micro-replay .icon {
-  width: 18px;
-  height: 18px;
-}
 #features .feature-controls {
   display: none;
 }
@@ -471,10 +444,6 @@
   .micro-revenue > strong {
     font-size: 30px;
   }
-  .micro-replay {
-    right: 10px;
-    bottom: 12px;
-  }
 }
 @media (min-width: 621px) and (max-height: 600px) {
   #features .bento {
@@ -589,7 +558,7 @@
     justify-content: center;
   }
   .micro-frame {
-    width: min(64cqw, 280px);
+    width: min(60cqw, 280px);
   }
   .micro-backdrop-layer {
     background-image: var(--photo-wide);
@@ -607,7 +576,7 @@
     padding-inline: 6px;
   }
   .micro-frame {
-    width: min(68cqw, 270px);
+    width: min(60cqw, 270px);
   }
 }
 
@@ -617,5 +586,111 @@
   .micro-widget .micro-status,
   .micro-widget .micro-profit {
     margin-top: 0;
+  }
+}
+
+/* Two supporting capabilities share one quiet row and a consistent rhythm. */
+#features .extra-features {
+  gap: 12px;
+  padding-top: 14px;
+}
+#features .extra-features > div {
+  position: relative;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid #dce0eb;
+  border-radius: 16px;
+  background: #ffffff65;
+}
+#features .extra-features .extra-icon {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #e4eafb;
+  color: #1d4ed8;
+}
+#features .extra-features .extra-icon .icon {
+  width: 18px;
+  height: 18px;
+}
+#features .extra-features p {
+  min-width: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+#features .extra-features strong {
+  font-size: 14px;
+  line-height: 1.4;
+}
+#features .extra-features .extra-feature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+}
+#features .extra-feature-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+}
+#features .extra-feature-link .icon {
+  width: 14px;
+  height: 14px;
+}
+#features .extra-feature-link:focus-visible {
+  outline: none;
+}
+#features .extra-feature-link:focus-visible::after {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 2px;
+}
+#features .extra-features > div:has(a):hover {
+  border-color: #9daee1;
+  background: #ffffffa8;
+}
+@media (max-width: 620px) {
+  #features .extra-features {
+    gap: 8px;
+    padding-top: 10px;
+  }
+  #features .extra-features > div {
+    gap: 8px;
+    padding: 8px;
+    border-radius: 12px;
+  }
+  #features .extra-features strong {
+    font-size: 12px;
+  }
+  #features .extra-features .extra-icon {
+    flex-basis: 26px;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+  }
+  #features .extra-features .extra-icon .icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Keep the full stock widget readable in short, narrow photo areas (Safari too). */
+@container (width < 320px) and (aspect-ratio > 1.27) {
+  .micro-widget {
+    font-size: 11px;
+    padding-inline: 8px;
+  }
+  .micro-heading,
+  .micro-demo {
+    font-size: 10px;
+  }
+  .micro-inventory .micro-row > strong {
+    font-size: 22px;
   }
 }

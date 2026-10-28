@@ -48,10 +48,10 @@ with sync_playwright() as p:
             page.locator('#feature-prev').click();fresh(page,1)
         scene=page.locator('[data-micro=sale]')
         scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=a.effect.getTiming().duration*.98)')
-        page.wait_for_function('() => (document.querySelector("[data-micro=sale]").dataset.state==="complete")')
+        page.wait_for_function('() => (document.querySelector("[data-micro=sale]").dataset.state==="waiting")')
         count=runs(page)[0]
         page.evaluate('scrollBy(0,8)');page.wait_for_timeout(550)
-        assert runs(page)[0]==count and scene.get_attribute('data-state')=='complete'
+        assert runs(page)[0]==count and scene.get_attribute('data-state')=='waiting'
         scroll(page,'#workspace')
         page.wait_for_function('() => (document.querySelector("[data-micro=sale]").dataset.state==="idle")')
         assert scene.evaluate('e=>e.getAnimations({subtree:true}).length')==0
@@ -60,6 +60,6 @@ with sync_playwright() as p:
         assert runs(page)[0]==count
         scroll(page,'#features');fresh(page,count)
         assert not errors,errors
-        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'coldOnLoadAndPartialCard':'pass','waitsForTouchAndRest':'pass','carouselEntry':'pass','cancelledGlimpse':'pass','freshReturn':'pass','tinyScrollNoReplay':'pass'}),flush=True)
+        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'coldOnLoadAndPartialCard':'pass','waitsForTouchAndRest':'pass','carouselEntry':'pass','cancelledGlimpse':'pass','freshReturn':'pass','tinyScrollKeepsHold':'pass'}),flush=True)
         page.close()
     browser.close()
