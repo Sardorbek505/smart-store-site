@@ -52,48 +52,66 @@ with sync_playwright() as p:
  assert not errors,errors
  c.close()
  print(json.dumps({'browser':BROWSER,'singleFlatScreenBeforeArrival':'pass','interpolatedCamera':'pass','openingPausesBehindDialog':'pass','closedVolumesAfterArrival':'pass'}),flush=True)
+ # The audience follows the same physical reference, with seven photo/label pairs.
  for w,h in [(320,568),(390,844),(768,1024),(844,390),(851,601),(1440,900)]:
-  c=context(viewport={'width':w,'height':h},is_mobile=w<851,has_touch=w<851,reduced_motion='reduce')
+  c=context(viewport={'width':w,'height':h},reduced_motion='reduce',is_mobile=w<851,has_touch=w<851)
   page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(BASE+'/#for-stores',wait_until='networkidle')
-  root=page.locator('#for-stores');cards=root.locator('article.fit-card')
-  assert cards.count()==7 and root.locator('.fit-card:visible').count()==8
-  assert root.locator('[role=tablist]').count()==0
-  assert root.locator('[inert]').count()==0
-  assert 'Для какого магазина?' in root.locator('h2').inner_text()
+  stage=page.locator('.fit-solid-scene');stage.evaluate('e=>scrollTo(0,e.getBoundingClientRect().top+scrollY-100)')
+  page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitShape==="volume"')
+  assert page.locator('.fit-solid-body').count()==2 and page.locator('.fit-solid-face').count()==12
   for i,word in enumerate(['Продукты у дома','Одежда','Хозтовары','Канцтовары','Косметика','Зоотовары','Автотовары']):
-   card=cards.nth(i)
-   assert card.locator('h3').inner_text()==word
-   assert card.locator('p').inner_text()
-   image=card.locator('img');image.scroll_into_view_if_needed();image.evaluate('e=>e.decode()')
-   assert image.evaluate(r'e=>e.complete&&e.naturalWidth>0&&/store-(grocery|clothing|hardware|stationery|beauty|pets|auto)-(450|900)-v73\.webp$/.test(e.currentSrc)'),(w,i,'photo did not load')
-   assert image.get_attribute('alt').startswith('Иллюстрация:')
-   assert card.evaluate('e=>e.scrollWidth<=e.clientWidth+1&&e.scrollHeight<=e.clientHeight+1'),(w,i,'card overflow')
-   assert card.locator('h3').evaluate('e=>e.scrollWidth<=e.clientWidth+1')
-  assert root.locator('.fit-contact').get_attribute('href').startswith('https://wa.me/77066352006?text=')
-  assert 'иллюстрации' in root.locator('.fit-image-note').inner_text()
-  special=root.locator('.fit-special');assert special.get_attribute('open') is None
-  summary=special.locator('summary');summary.focus();summary.press('Enter')
-  assert special.get_attribute('open') is not None
-  assert 'пока не поддерживаются' in special.inner_text()
-  assert special.locator('a').evaluate('e=>e.getBoundingClientRect().height>=44')
-  summary.press('Enter');assert special.get_attribute('open') is None
-  assert '«Электроинструменты», Шымкент' in root.locator('.fit-proof').inner_text()
-  assert root.evaluate('e=>e.getAnimations({subtree:true}).length')==0
+   page.locator('#fit-kind').select_option(str(i))
+   page.wait_for_function('(i)=>document.querySelector("#for-stores").dataset.fitIndex===String(i)&&document.querySelector(".fit-solid-scene").getAttribute("aria-busy")==="false"',arg=i)
+   assert page.locator('.fit-face-title:visible').count()==1
+   assert page.locator('.fit-face-title:visible').inner_text().replace('\n',' ')==word
+   img=page.locator('.fit-body-photo img');assert img.count()==1
+   assert img.evaluate('e=>e.complete&&e.naturalWidth>0')
+   assert page.locator('.fit-face-copy:visible').evaluate('e=>e.scrollWidth<=e.clientWidth+1&&e.scrollHeight<=e.clientHeight+1')
+   assert page.locator('.fit-solid-scene').evaluate('e=>e.getAnimations({subtree:true}).length')==0
+  if w==390:
+   for _ in range(14):
+    page.locator('[data-fit-prev]').click()
+    page.wait_for_function('()=>document.querySelector(".fit-solid-scene").getAttribute("aria-busy")==="false"')
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
-  root.screenshot(path=str(OUT/f'fit-{w}.png'))
-  page.locator('.fit-next').click();page.wait_for_url('**/#workspace')
+  assert page.locator('[data-fit-auto]').is_disabled()
+  page.locator('.fit-special summary').click();assert 'пока не поддерживаются' in page.locator('.fit-special').inner_text()
+  assert '«Электроинструменты», Шымкент' in page.locator('.fit-proof').inner_text()
   assert not errors,errors
+  c.close();print(json.dumps({'browser':BROWSER,'size':[w,h],'sevenSolidPhotoPairs':'pass','negativeRotations':'pass','reducedMotion':'static'}),flush=True)
+ c=context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
+ c.add_init_script("Object.defineProperty(document,'hidden',{configurable:true,value:true})")
+ page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+ page.goto(BASE+'/#for-stores',wait_until='networkidle')
+ page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitShape==="flat"')
+ stage=page.locator('.fit-solid-scene');stage.evaluate('e=>scrollTo(0,e.getBoundingClientRect().top+scrollY-100)')
+ assert stage.evaluate('e=>e.getAnimations({subtree:true}).length')==0
+ page.evaluate("delete document.hidden;document.dispatchEvent(new Event('visibilitychange'))")
+ page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitShape==="opening"')
+ page.locator('.enter-link').click();page.wait_for_timeout(150)
+ assert stage.evaluate('e=>e.getAnimations({subtree:true}).length===4&&e.getAnimations({subtree:true}).every(a=>a.playState==="paused")')
+ page.keyboard.press('Escape');page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitShape==="volume"')
+ page.locator('#fit-kind').focus();page.locator('#fit-kind').select_option('3')
+ page.wait_for_function('()=>document.querySelector(".fit-solid-scene").getAnimations({subtree:true}).length===2')
+ directions=stage.evaluate('e=>e.getAnimations({subtree:true}).map(a=>a.effect.getKeyframes().map(k=>k.transform))')
+ assert '-90deg' in str(directions) and '90deg' in str(directions),directions
+ page.locator('#fit-kind').select_option('6');page.locator('#fit-kind').select_option('1')
+ page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitIndex==="1"&&document.querySelector(".fit-solid-scene").getAttribute("aria-busy")==="false"')
+ assert page.locator('#fit-kind').evaluate('e=>e===document.activeElement')
+ assert page.locator('[data-fit-count]').inner_text()=='02 / 07'
+ assert page.locator('.fit-benefit').inner_text()=='Продажи и возвраты'
+ page.locator('[data-fit-auto]').click()
+ page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitIndex==="2"',timeout=12000)
+ page.locator('.fit-solid-scene').evaluate('e=>scrollTo(0,0)');page.wait_for_timeout(300)
+ assert stage.evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.playState==="paused")')
+ assert not errors,errors
+ c.close();print(json.dumps({'browser':BROWSER,'flatArrival':'pass','oppositeRotations':'pass','modalPause':'pass','queuedSelectionAndFocus':'pass','autoAndOffscreenPause':'pass'}),flush=True)
+ for mode in ['no-js','blocked-module']:
+  c=context(viewport={'width':390,'height':844},java_script_enabled=mode!='no-js')
+  if mode=='blocked-module':c.route('**/scripts/store-fit.js*',lambda r:r.abort())
+  page=c.new_page();page.goto(BASE+'/#for-stores',wait_until='networkidle')
+  assert page.locator('#for-stores article.fit-card:visible').count()==7
+  assert page.locator('.fit-object-controls').is_hidden()
   c.close()
-  print(json.dumps({'browser':BROWSER,'viewport':[w,h],'sevenFormatsVisibleAtOnce':'pass','recognizablePhotosAndLabels':'pass','nativePharmacyDisclosure':'pass','noOverflow':'pass'}),flush=True)
- # Every format and the special-scope disclosure work without JavaScript.
- c=context(viewport={'width':390,'height':844},java_script_enabled=False)
- page=c.new_page();page.goto(BASE+'/#for-stores',wait_until='networkidle')
- assert page.locator('#for-stores .fit-card:visible').count()==8
- page.locator('.fit-special summary').click()
- assert page.locator('.fit-special').get_attribute('open') is not None
- assert 'пока не поддерживаются' in page.locator('.fit-special').inner_text()
- assert page.locator('.fit-next').get_attribute('href')=='#workspace'
- c.close()
- print(json.dumps({'browser':BROWSER,'noJS':'all seven shop types and native disclosure readable'}),flush=True)
+ print(json.dumps({'browser':BROWSER,'fallback':'seven native cards'}),flush=True)
  b.close()

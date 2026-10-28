@@ -129,9 +129,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.97d7f4203f5e.css" />
+    <link rel="stylesheet" href="assets/site.1aab177d9a3a.css" />
     <!-- styles:end -->
-    <script src="app.js?v=73" type="module"></script>
+    <script src="app.js?v=74" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -1418,19 +1418,66 @@
                 <p>Поиск по артикулу</p>
               </div>
             </article>
+          </div>
+          <div class="fit-object-controls" hidden>
+            <label class="fit-type-field" for="fit-kind"
+              >Тип магазина
+              <select id="fit-kind" aria-controls="fit-shop-caption">
+                <option value="0">Продукты у дома</option>
+                <option value="1">Одежда</option>
+                <option value="2">Хозтовары</option>
+                <option value="3">Канцтовары</option>
+                <option value="4">Косметика</option>
+                <option value="5">Зоотовары</option>
+                <option value="6">Автотовары</option>
+              </select>
+            </label>
+            <div
+              class="fit-turn-controls"
+              role="group"
+              aria-label="Смена формата магазина"
+            >
+              <button
+                type="button"
+                data-fit-prev
+                aria-label="Предыдущий тип магазина"
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" />
+                </svg>
+              </button>
+              <output data-fit-count aria-live="off">01 / 07</output>
+              <button
+                type="button"
+                data-fit-next
+                aria-label="Следующий тип магазина"
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-arrow" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                data-fit-auto
+                aria-pressed="false"
+                aria-label="Остановить автоматическую смену"
+              >
+                Пауза
+              </button>
+            </div>
+            <p class="fit-benefit" id="fit-shop-caption" aria-live="off">
+              Фасованные товары
+            </p>
+          </div>
+          <p class="fit-other">
+            Другой формат?
             <a
-              class="fit-card fit-contact"
               href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B9%D0%B4%D1%91%D1%82%20%D0%BB%D0%B8%20Smart%20Store%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D0%B5%D0%B3%D0%BE%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0."
               target="_blank"
               rel="noopener noreferrer"
+              >Расскажите о вашем магазине →</a
             >
-              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg>
-              <div class="fit-copy">
-                <h3>Другой магазин?</h3>
-                <p>Расскажите, что продаёте</p>
-              </div>
-            </a>
-          </div>
+          </p>
           <p class="fit-image-note">
             Изображения — иллюстрации типов магазинов.
           </p>
