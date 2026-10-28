@@ -59,8 +59,12 @@ with sync_playwright() as p:
   stage=page.locator('.fit-solid-scene');stage.evaluate('e=>scrollTo(0,e.getBoundingClientRect().top+scrollY-100)')
   page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitShape==="volume"')
   assert page.locator('.fit-solid-face').count()==12
+  assert page.locator('.fit-current').count()==0
+  img=page.locator('.fit-body-photo img')
+  assert img.evaluate(r'e=>/store-.*-(768|1536)-v76\.webp$/.test(e.currentSrc)')
+  if h>=500:assert img.bounding_box()['width']>stage.bounding_box()['width']*.38
+  assert stage.evaluate('e=>e.getBoundingClientRect().width')>w*.8
   assert page.locator('#fit-kind,[data-fit-prev],[data-fit-next]').count()==0
-  assert page.locator('.fit-current').inner_text()=='Продукты у дома'
   assert page.locator('[data-fit-auto]').is_disabled()
   assert stage.evaluate('e=>e.getAnimations({subtree:true}).length')==0
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
@@ -79,7 +83,7 @@ with sync_playwright() as p:
  page.keyboard.press('Escape');page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitShape==="volume"')
  for i,name in enumerate(['Продукты у дома','Одежда','Хозтовары','Канцтовары','Косметика','Зоотовары','Автотовары']):
   page.wait_for_function('(i)=>document.querySelector("#for-stores").dataset.fitIndex===String(i)&&document.querySelector(".fit-solid-scene").getAttribute("aria-busy")==="false"',arg=i,timeout=12000)
-  assert page.locator('.fit-current').inner_text()==name
+  assert page.locator('.fit-face-title:visible').inner_text().replace('\n',' ')==name
   assert page.locator('.fit-body-photo img').evaluate('e=>e.complete&&e.naturalWidth>0')
  page.locator('[data-fit-auto]').click();selected=page.locator('#for-stores').get_attribute('data-fit-index')
  page.wait_for_timeout(4600);assert page.locator('#for-stores').get_attribute('data-fit-index')==selected
