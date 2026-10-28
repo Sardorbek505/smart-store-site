@@ -129,9 +129,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.9fa114b42582.css" />
+    <link rel="stylesheet" href="assets/site.ddb9220f498e.css" />
     <!-- styles:end -->
-    <script src="app.js?v=68" type="module"></script>
+    <script src="app.js?v=69" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -935,8 +935,8 @@
         <div class="screen-content wrap">
           <div class="section-heading">
             <div>
-              <p class="audience-note">Для магазинов инструмента и запчастей</p>
-              <h2 id="features-title">Продажи. Склад. Контроль.</h2>
+              <p class="audience-note">Пример: продажа → склад → отчёт</p>
+              <h2 id="features-title">Один чек. Всё обновилось.</h2>
             </div>
           </div>
           <div
@@ -945,15 +945,17 @@
             role="region"
             aria-label="Возможности Smart Store"
           >
-            <article class="bento bento-sale story-feature">
+            <article
+              class="bento bento-sale story-feature"
+              data-cube-title="Товары&#10;в чеке"
+            >
               <figure class="feature-art micro-scene" data-micro="sale">
                 <div class="micro-visual" aria-hidden="true">
                   <div class="micro-backdrop-layer"></div>
                   <div class="micro-frame">
                     <div class="micro-widget micro-receipt">
                       <div class="micro-heading">
-                        <span>Новый чек</span
-                        ><span class="micro-demo">ПРИМЕР</span>
+                        <span>Чек</span><span class="micro-demo">ПРИМЕР</span>
                       </div>
                       <div class="micro-row micro-item">
                         <span class="micro-product-icon"
@@ -1000,13 +1002,13 @@
               </figure>
               <div class="bento-copy">
                 <div class="bento-top">
-                  <span class="pill">ПРОДАЖИ</span
+                  <span class="pill">ПРОДАЖА</span
                   ><span class="feature-screen-label" aria-hidden="true"
                     >Экран <svg class="icon"><use href="#i-zoom" /></svg
                   ></span>
                 </div>
-                <h3>Пик. И товар<br />уже в чеке.</h3>
-                <p>Наличные, Kaspi или в долг.</p>
+                <h3>Продажа оформлена.</h3>
+                <p>Добавили товары в чек и приняли оплату — 40 550 ₸.</p>
                 <button
                   class="micro-replay"
                   type="button"
@@ -1026,14 +1028,17 @@
                 aria-label="Рассмотреть экран: Касса"
               ></a>
             </article>
-            <article class="bento bento-stock story-feature">
+            <article
+              class="bento bento-stock story-feature"
+              data-cube-title="Остаток&#10;обновлён"
+            >
               <figure class="feature-art micro-scene" data-micro="stock">
                 <div class="micro-visual" aria-hidden="true">
                   <div class="micro-backdrop-layer"></div>
                   <div class="micro-frame">
                     <div class="micro-widget micro-inventory">
                       <div class="micro-heading">
-                        <span>Остатки на складе</span
+                        <span>Остаток, шт.</span
                         ><span class="micro-demo">ПРИМЕР</span>
                       </div>
                       <div class="micro-row">
@@ -1089,8 +1094,8 @@
                     >Экран <svg class="icon"><use href="#i-zoom" /></svg
                   ></span>
                 </div>
-                <h3>Товар продан.<br />Склад в курсе.</h3>
-                <p>Остатки обновляются сразу.</p>
+                <h3>Остаток обновился сам.</h3>
+                <p>Продали один шуруповёрт: было 12, осталось 11.</p>
                 <button
                   class="micro-replay"
                   type="button"
@@ -1110,14 +1115,17 @@
                 aria-label="Рассмотреть экран: Товары и остатки"
               ></a>
             </article>
-            <article class="bento bento-reports story-feature">
+            <article
+              class="bento bento-reports story-feature"
+              data-cube-title="Продажа&#10;в отчёте"
+            >
               <figure class="feature-art micro-scene" data-micro="reports">
                 <div class="micro-visual" aria-hidden="true">
                   <div class="micro-backdrop-layer"></div>
                   <div class="micro-frame">
                     <div class="micro-widget micro-report">
                       <div class="micro-heading">
-                        <span>Сегодня в магазине</span
+                        <span>Выручка дня</span
                         ><span class="micro-demo">ПРИМЕР</span>
                       </div>
                       <div class="micro-revenue">
@@ -1157,7 +1165,7 @@
                             ><svg class="icon" aria-hidden="true">
                               <use href="#i-check" />
                             </svg>
-                            Продажа в отчёте</span
+                            Чек +40 550 ₸</span
                           ></span
                         >
                       </div>
@@ -1171,13 +1179,13 @@
               </figure>
               <div class="bento-copy">
                 <div class="bento-top">
-                  <span class="pill">КОНТРОЛЬ</span
+                  <span class="pill">ОТЧЁТ</span
                   ><span class="feature-screen-label" aria-hidden="true"
                     >Экран <svg class="icon"><use href="#i-zoom" /></svg
                   ></span>
                 </div>
-                <h3>Один чек.<br />Итоги яснее.</h3>
-                <p>Выручка и прибыль — перед глазами.</p>
+                <h3>Продажа попала в отчёт.</h3>
+                <p>Выручка дня выросла на сумму чека — 40 550 ₸.</p>
                 <button
                   class="micro-replay"
                   type="button"
