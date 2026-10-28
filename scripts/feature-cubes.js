@@ -15,7 +15,7 @@ export function init() {
     !CSS.supports("transform-style", "preserve-3d") ||
     getComputedStyle(section)
       .getPropertyValue("--feature-cubes-version")
-      .trim() !== "68"
+      .trim() !== "69"
   ) {
     section.dataset.featureFallback = "true";
     section.dispatchEvent(new Event("featurechange"));
@@ -77,6 +77,14 @@ export function init() {
     const replay = copy.querySelector(".micro-replay");
     replay.id = `feature-solid-replay-${index}`;
     visual.dataset.replayId = replay.id;
+    // Make the compact stock result explain the change rather than a bare count.
+    visual.querySelectorAll(".micro-inventory .micro-row").forEach((row) => {
+      const origin = document.createElement("span");
+      origin.className = "feature-solid-origin";
+      origin.setAttribute("aria-hidden", "true");
+      origin.textContent = `${row.querySelector(".micro-before").textContent} → `;
+      row.querySelector(".micro-after").prepend(origin);
+    });
     replay.addEventListener("click", () => stopAutomatic());
     const replayText = document.createElement("span");
     replayText.textContent = "Ещё раз";
@@ -97,7 +105,8 @@ export function init() {
     const number = document.createElement("strong");
     number.textContent = String(index + 1).padStart(2, "0");
     const title = document.createElement("span");
-    title.textContent = copy.querySelector(".pill").textContent;
+    title.textContent =
+      card.dataset.cubeTitle || copy.querySelector(".pill").textContent;
     const footer = document.createElement("small");
     footer.textContent = "SMART STORE";
     label.append(number, title, footer);
@@ -224,7 +233,7 @@ export function init() {
           !animations.length
         )
           go(selected + 1, true);
-      }, 4200);
+      }, 6000);
     }
   };
   const turn = (index, target) => {

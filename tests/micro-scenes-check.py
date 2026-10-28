@@ -44,7 +44,7 @@ def scroll(page, selector='#features'):
     page.locator(selector).evaluate('e=>scrollTo(0,e.offsetTop)')
 
 def assert_data(page):
-    for key, expected in [('sale',['40 550 ₸','Оплата принята']),('stock',['11','239','Остатки обновлены']),('reports',['437 500 ₸','164 150 ₸','Продажа в отчёте'])]:
+    for key, expected in [('sale',['40 550 ₸','Оплата принята']),('stock',['11','239','Остатки обновлены']),('reports',['437 500 ₸','164 150 ₸','Чек +40 550 ₸'])]:
         scene=page.locator('[data-micro="'+key+'"]')
         text=scene.locator('.micro-after').all_text_contents()
         assert all(any(s in t for t in text) for s in expected), (key,text)
@@ -82,7 +82,7 @@ with sync_playwright() as p:
             def seek(phase):
                 scene.evaluate('''(e,phase)=>{for(const a of e.getAnimations({subtree:true})){a.pause();a.currentTime=a.effect.getTiming().duration*phase}}''',phase)
             seek(.08)
-            if key=='reports':
+            if key=='reports' and scene.locator('.micro-chart').is_visible():
                 initial=scene.locator('.micro-chart > span').evaluate_all('xs=>xs.map(e=>e.getBoundingClientRect().height)')
             if key=='sale':
                 seek(.20)
@@ -101,7 +101,7 @@ with sync_playwright() as p:
                     assert item.evaluate('e=>e.scrollWidth<=e.clientWidth+1'),(width,height,key,'animation overflows row',phase)
             seek(.94)
             assert scene.locator('.micro-after').evaluate_all('xs=>xs.every(e=>getComputedStyle(e).opacity==="1")')
-            if key=='reports':
+            if key=='reports' and scene.locator('.micro-chart').is_visible():
                 final=scene.locator('.micro-chart > span').evaluate_all('xs=>xs.map(e=>e.getBoundingClientRect().height)')
                 assert all(b>a*2 for a,b in zip(initial,final)),('Every bar must visibly grow',initial,final)
             scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.play())')

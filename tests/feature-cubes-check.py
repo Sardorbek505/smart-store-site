@@ -105,20 +105,20 @@ with sync_playwright() as p:
     page.keyboard.press('Escape');page.wait_for_function(IDLE)
     page.wait_for_function('()=>Number(document.querySelector("[data-micro=sale]").dataset.runs)===1')
     assert page.locator('[data-micro=stock]').get_attribute('data-runs') is None
-    page.wait_for_function('()=>document.querySelector("#features").dataset.featureIndex==="1"',timeout=6500)
+    page.wait_for_function('()=>document.querySelector("#features").dataset.featureIndex==="1"',timeout=9000)
     page.wait_for_function(IDLE)
     page.wait_for_function('()=>Number(document.querySelector("[data-micro=stock]").dataset.runs)===1')
     # Pause prevents both the current clock and future automatic turns.
     page.locator('#feature-playback').click()
     assert section.get_attribute('data-feature-automatic')=='false'
-    page.wait_for_timeout(4400)
+    page.wait_for_timeout(6400)
     assert section.get_attribute('data-feature-index')=='1'
     page.locator('#feature-playback').click()
     page.locator('#workspace').evaluate('e=>scrollTo(0,e.offsetTop)')
-    page.wait_for_timeout(4500)
+    page.wait_for_timeout(6500)
     assert section.get_attribute('data-feature-index')=='1'
     section.evaluate('e=>scrollTo(0,e.offsetTop)')
-    page.wait_for_function('()=>document.querySelector("#features").dataset.featureIndex==="2"',timeout=6500)
+    page.wait_for_function('()=>document.querySelector("#features").dataset.featureIndex==="2"',timeout=9000)
     page.wait_for_function(IDLE)
     # Rapid manual input stops autoplay and queues the most recent destination.
     page.locator('#feature-prev').click();page.locator('#feature-prev').click()

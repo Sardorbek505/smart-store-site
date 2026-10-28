@@ -1,6 +1,6 @@
 /* Closed six-face bodies, sharing one camera and turning in opposite directions. */
 #features {
-  --feature-cubes-version: 68;
+  --feature-cubes-version: 69;
 }
 #features.feature-cubes-ready .bento-grid {
   display: flex;
@@ -82,25 +82,25 @@
   position: absolute;
   left: 7%;
   right: 7%;
-  top: 36%;
+  top: 28%;
   border-top: 1px solid #a6afc440;
 }
 .feature-solid-label strong {
   display: block;
-  font-size: 31cqw;
+  font-size: 9cqw;
   font-weight: 650;
-  font-style: italic;
-  letter-spacing: -0.09em;
+  font-style: normal;
+  letter-spacing: -0.04em;
   line-height: 0.98;
 }
 .feature-solid-label > span {
   display: block;
-  margin-top: 4%;
-  max-width: 90%;
-  font-size: 8cqw;
+  margin-top: 14%;
+  max-width: 100%;
+  font-size: 19cqw;
   font-weight: 600;
   line-height: 1.05;
-  text-transform: uppercase;
+  white-space: pre-line;
   letter-spacing: -0.045em;
 }
 .feature-solid-label small {
@@ -481,8 +481,18 @@
     padding-top: 2px;
   }
 }
-@container (max-width: 160px) {
-  #features.feature-cubes-ready .micro-heading,
+/* Labels stay legible on small faces; full descriptions remain below. */
+.feature-solid-origin {
+  display: none;
+}
+#features.feature-cubes-ready .micro-heading {
+  display: flex;
+  font-size: clamp(9px, 8cqw, 14px);
+}
+@container (max-width: 280px) {
+  #features.feature-cubes-ready .feature-solid-origin {
+    display: inline;
+  }
   #features.feature-cubes-ready
     .micro-inventory
     .micro-row
@@ -495,6 +505,13 @@
   #features.feature-cubes-ready .micro-inventory .micro-row > strong {
     display: block;
     text-align: left;
-    font-size: 20cqw;
+    font-size: 15cqw;
+    line-height: 1.1;
+  }
+}
+@container (max-width: 160px) {
+  #features.feature-cubes-ready .micro-inventory .micro-status,
+  #features.feature-cubes-ready .micro-chart {
+    display: none;
   }
 }
