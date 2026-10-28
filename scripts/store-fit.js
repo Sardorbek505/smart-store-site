@@ -11,13 +11,11 @@ export function init() {
     !window.ResizeObserver ||
     !window.IntersectionObserver ||
     !CSS.supports("transform-style", "preserve-3d") ||
-    getComputedStyle(root).getPropertyValue("--fit-cubes-version").trim() !== "74"
+    getComputedStyle(root).getPropertyValue("--fit-cubes-version").trim() !== "75"
   )
     return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const select = controls.querySelector("select"),
-    prev = controls.querySelector("[data-fit-prev]"),
-    next = controls.querySelector("[data-fit-next]"),
+  const current = controls.querySelector(".fit-current"),
     toggle = controls.querySelector("[data-fit-auto]"),
     count = controls.querySelector("output"),
     caption = controls.querySelector(".fit-benefit");
@@ -31,9 +29,8 @@ export function init() {
     "translate(-50%, -50%) translateZ(calc(var(--fit-edge) / -2)) rotateX(0deg) rotateY(0deg)";
   const volume = "translate(-50%, -50%) translateZ(0px) rotateX(-12deg) rotateY(-12deg)";
   const scene = make("div", "fit-solid-scene");
-  scene.tabIndex = 0;
   scene.setAttribute("role", "group");
-  scene.setAttribute("aria-label", "Форматы магазинов. Переключайте стрелками влево и вправо.");
+  scene.setAttribute("aria-label", "Автоматическая витрина форматов магазинов.");
   const camera = make("div", "fit-solid-camera");
   camera.setAttribute("aria-hidden", "true");
   const bodies = ["label", "photo"].map((kind) => {
@@ -85,13 +82,11 @@ export function init() {
   root.classList.add("fit-solid-ready");
   controls.hidden = false;
   let selected = 0,
-    requested = 0,
     orientation = -1,
     entered = false,
     visible = false,
     moving = false,
     touching = false,
-    focused = false,
     automatic = !reduced.matches,
     busy = false,
     queued = null,
@@ -112,7 +107,7 @@ export function init() {
     root.dataset.fitIndex = String(selected);
     root.dataset.fitTurning = String(busy);
     count.textContent = `${String(selected + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
-    select.value = String(busy ? requested : selected);
+    current.textContent = cards[selected].querySelector("h3").textContent;
     caption.textContent = cards[selected].querySelector("p").textContent;
     toggle.disabled = reduced.matches;
     toggle.textContent = automatic ? "Пауза" : "Авто";
@@ -131,12 +126,10 @@ export function init() {
       turn(selected, 1, true);
       return;
     }
-    if (automatic && !focused && !reduced.matches)
-      timer = setTimeout(() => turn(mod(selected + 1), 1), 5200);
+    if (automatic && !reduced.matches) timer = setTimeout(() => turn(mod(selected + 1), 1), 3200);
   };
   const turn = async (index, direction, intro = false) => {
     index = mod(index);
-    requested = index;
     if (busy) {
       queued = { index, direction };
       return;
@@ -215,50 +208,11 @@ export function init() {
       .catch(() => {});
     sync();
   };
-  const choose = (index, direction = 1) => {
-    automatic = false;
-    caption.setAttribute("aria-live", "polite");
-    if (!entered && !busy) {
-      selected = mod(index);
-      cover.replaceChildren(label(selected), photo(selected));
-      render();
-      sync();
-    } else turn(index, direction);
-    render();
-  };
-  prev.addEventListener("click", () => choose(selected - 1, -1));
-  next.addEventListener("click", () => choose(selected + 1, 1));
-  select.addEventListener("change", () =>
-    choose(Number(select.value), Number(select.value) > selected ? 1 : -1),
-  );
   toggle.addEventListener("click", () => {
     automatic = !automatic;
-    if (automatic) focused = false;
     caption.setAttribute("aria-live", automatic ? "off" : "polite");
     render();
     sync();
-  });
-  scene.addEventListener("keydown", (e) => {
-    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
-    e.preventDefault();
-    choose(
-      e.key === "Home"
-        ? 0
-        : e.key === "End"
-          ? cards.length - 1
-          : selected + (e.key === "ArrowLeft" ? -1 : 1),
-      e.key === "ArrowLeft" ? -1 : 1,
-    );
-  });
-  root.addEventListener("focusin", () => {
-    focused = true;
-    sync();
-  });
-  root.addEventListener("focusout", (e) => {
-    if (!root.contains(e.relatedTarget)) {
-      focused = false;
-      sync();
-    }
   });
   window.addEventListener(
     "scroll",

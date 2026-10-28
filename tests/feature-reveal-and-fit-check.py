@@ -52,33 +52,19 @@ with sync_playwright() as p:
  assert not errors,errors
  c.close()
  print(json.dumps({'browser':BROWSER,'singleFlatScreenBeforeArrival':'pass','interpolatedCamera':'pass','openingPausesBehindDialog':'pass','closedVolumesAfterArrival':'pass'}),flush=True)
- # The audience follows the same physical reference, with seven photo/label pairs.
+ # The audience starts itself; no manual shop-selection controls remain.
  for w,h in [(320,568),(390,844),(768,1024),(844,390),(851,601),(1440,900)]:
   c=context(viewport={'width':w,'height':h},reduced_motion='reduce',is_mobile=w<851,has_touch=w<851)
-  page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
-  page.goto(BASE+'/#for-stores',wait_until='networkidle')
+  page=c.new_page();page.goto(BASE+'/#for-stores',wait_until='networkidle')
   stage=page.locator('.fit-solid-scene');stage.evaluate('e=>scrollTo(0,e.getBoundingClientRect().top+scrollY-100)')
   page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitShape==="volume"')
-  assert page.locator('.fit-solid-body').count()==2 and page.locator('.fit-solid-face').count()==12
-  for i,word in enumerate(['Продукты у дома','Одежда','Хозтовары','Канцтовары','Косметика','Зоотовары','Автотовары']):
-   page.locator('#fit-kind').select_option(str(i))
-   page.wait_for_function('(i)=>document.querySelector("#for-stores").dataset.fitIndex===String(i)&&document.querySelector(".fit-solid-scene").getAttribute("aria-busy")==="false"',arg=i)
-   assert page.locator('.fit-face-title:visible').count()==1
-   assert page.locator('.fit-face-title:visible').inner_text().replace('\n',' ')==word
-   img=page.locator('.fit-body-photo img');assert img.count()==1
-   assert img.evaluate('e=>e.complete&&e.naturalWidth>0')
-   assert page.locator('.fit-face-copy:visible').evaluate('e=>e.scrollWidth<=e.clientWidth+1&&e.scrollHeight<=e.clientHeight+1')
-   assert page.locator('.fit-solid-scene').evaluate('e=>e.getAnimations({subtree:true}).length')==0
-  if w==390:
-   for _ in range(14):
-    page.locator('[data-fit-prev]').click()
-    page.wait_for_function('()=>document.querySelector(".fit-solid-scene").getAttribute("aria-busy")==="false"')
-  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+  assert page.locator('.fit-solid-face').count()==12
+  assert page.locator('#fit-kind,[data-fit-prev],[data-fit-next]').count()==0
+  assert page.locator('.fit-current').inner_text()=='Продукты у дома'
   assert page.locator('[data-fit-auto]').is_disabled()
-  page.locator('.fit-special summary').click();assert 'пока не поддерживаются' in page.locator('.fit-special').inner_text()
-  assert '«Электроинструменты», Шымкент' in page.locator('.fit-proof').inner_text()
-  assert not errors,errors
-  c.close();print(json.dumps({'browser':BROWSER,'size':[w,h],'sevenSolidPhotoPairs':'pass','negativeRotations':'pass','reducedMotion':'static'}),flush=True)
+  assert stage.evaluate('e=>e.getAnimations({subtree:true}).length')==0
+  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+  c.close();print(json.dumps({'browser':BROWSER,'size':[w,h],'automaticUI':'pass','reducedMotion':'static'}),flush=True)
  c=context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
  c.add_init_script("Object.defineProperty(document,'hidden',{configurable:true,value:true})")
  page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
@@ -91,21 +77,19 @@ with sync_playwright() as p:
  page.locator('.enter-link').click();page.wait_for_timeout(150)
  assert stage.evaluate('e=>e.getAnimations({subtree:true}).length===4&&e.getAnimations({subtree:true}).every(a=>a.playState==="paused")')
  page.keyboard.press('Escape');page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitShape==="volume"')
- page.locator('#fit-kind').focus();page.locator('#fit-kind').select_option('3')
- page.wait_for_function('()=>document.querySelector(".fit-solid-scene").getAnimations({subtree:true}).length===2')
- directions=stage.evaluate('e=>e.getAnimations({subtree:true}).map(a=>a.effect.getKeyframes().map(k=>k.transform))')
- assert '-90deg' in str(directions) and '90deg' in str(directions),directions
- page.locator('#fit-kind').select_option('6');page.locator('#fit-kind').select_option('1')
- page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitIndex==="1"&&document.querySelector(".fit-solid-scene").getAttribute("aria-busy")==="false"')
- assert page.locator('#fit-kind').evaluate('e=>e===document.activeElement')
- assert page.locator('[data-fit-count]').inner_text()=='02 / 07'
- assert page.locator('.fit-benefit').inner_text()=='Продажи и возвраты'
+ for i,name in enumerate(['Продукты у дома','Одежда','Хозтовары','Канцтовары','Косметика','Зоотовары','Автотовары']):
+  page.wait_for_function('(i)=>document.querySelector("#for-stores").dataset.fitIndex===String(i)&&document.querySelector(".fit-solid-scene").getAttribute("aria-busy")==="false"',arg=i,timeout=12000)
+  assert page.locator('.fit-current').inner_text()==name
+  assert page.locator('.fit-body-photo img').evaluate('e=>e.complete&&e.naturalWidth>0')
+ page.locator('[data-fit-auto]').click();selected=page.locator('#for-stores').get_attribute('data-fit-index')
+ page.wait_for_timeout(4600);assert page.locator('#for-stores').get_attribute('data-fit-index')==selected
  page.locator('[data-fit-auto]').click()
- page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitIndex==="2"',timeout=12000)
- page.locator('.fit-solid-scene').evaluate('e=>scrollTo(0,0)');page.wait_for_timeout(300)
- assert stage.evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.playState==="paused")')
+ page.wait_for_function('()=>document.querySelector("#for-stores").dataset.fitIndex==="0"',timeout=12000)
+ assert page.locator('[data-fit-auto]').evaluate('e=>e===document.activeElement')
+ page.evaluate('scrollTo(0,0)');page.wait_for_timeout(4500)
+ assert page.locator('#for-stores').get_attribute('data-fit-index')=='0'
  assert not errors,errors
- c.close();print(json.dumps({'browser':BROWSER,'flatArrival':'pass','oppositeRotations':'pass','modalPause':'pass','queuedSelectionAndFocus':'pass','autoAndOffscreenPause':'pass'}),flush=True)
+ c.close();print(json.dumps({'browser':BROWSER,'allSevenCycleWithoutInput':'pass','pauseResumeWithFocus':'pass','arrivalModalAndOffscreen':'pass'}),flush=True)
  for mode in ['no-js','blocked-module']:
   c=context(viewport={'width':390,'height':844},java_script_enabled=mode!='no-js')
   if mode=='blocked-module':c.route('**/scripts/store-fit.js*',lambda r:r.abort())

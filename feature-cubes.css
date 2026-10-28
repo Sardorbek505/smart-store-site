@@ -1,6 +1,6 @@
 /* Closed six-face bodies, sharing one camera and turning in opposite directions. */
 #features {
-  --feature-cubes-version: 74;
+  --feature-cubes-version: 75;
 }
 #features.feature-cubes-ready .bento-grid {
   display: flex;
