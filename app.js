@@ -16,7 +16,6 @@ await Promise.allSettled(
   [
     "viewport",
     "interface",
-    "store-fit",
     "preview",
     "media",
     "gallery",
@@ -34,9 +33,7 @@ await Promise.allSettled(
       ]);
       await feature.init(dependencies);
     } catch {
-      void diagnostics.then((report) =>
-        report(`module:${name === "store-fit" ? "interface" : name}`),
-      );
+      void diagnostics.then((report) => report(`module:${name}`));
       console.warn(`Smart Store: ${name} unavailable`);
       if (name === "store") {
         document.getElementById("store-note").textContent =
