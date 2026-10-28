@@ -104,6 +104,26 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
   const dialog = document.getElementById("store");
   if (typeof dialog?.showModal !== "function") return;
   let trigger;
+  let returnPosition;
+  let returning = false;
+  let returnTimer;
+  const restorePosition = () => {
+    clearTimeout(returnTimer);
+    // Chromium may restore fragment focus after popstate. Finish after that
+    // native step, and only for the page from which this login was opened.
+    returnTimer = setTimeout(() => {
+      if (!returning || dialog.open || location.hash === "#store") return;
+      returning = false;
+      if (
+        !returnPosition ||
+        location.href !== returnPosition.url ||
+        document.querySelector("dialog[open]")
+      )
+        return;
+      scrollTo(returnPosition.x, returnPosition.y);
+      if (trigger?.isConnected) trigger.focus({ preventScroll: true });
+    }, 0);
+  };
   const fitKeyboard = () => {
     const viewport = window.visualViewport;
     const keyboard =
@@ -121,6 +141,8 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
   window.visualViewport?.addEventListener("scroll", fitKeyboard);
   const open = () => {
     if (dialog.open) return;
+    returning = false;
+    clearTimeout(returnTimer);
     dialog.showModal();
     field.focus({ preventScroll: true });
     fitKeyboard();
@@ -143,8 +165,10 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
         return;
       event.preventDefault();
       trigger = link;
-      if (location.hash !== "#store")
+      if (location.hash !== "#store") {
+        returnPosition = { x: scrollX, y: scrollY, url: location.href };
         history.pushState({ ...history.state, storeLogin: true }, "", "#store");
+      }
       open();
     });
   }
@@ -167,6 +191,7 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
   dialog.addEventListener("close", () => {
     // The native event can arrive after Forward has already reopened the dialog.
     if (dialog.open) return;
+    returning = Boolean(returnPosition);
     restore();
     fitKeyboard();
     if (location.hash === "#store") {
@@ -182,10 +207,12 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
         ? trigger
         : document.getElementById("download");
     if (target?.isConnected) target.focus({ preventScroll: true });
+    restorePosition();
   });
   const syncLocation = () => {
     if (location.hash === "#store") open();
     else if (dialog.open) dismiss();
+    else if (returning) restorePosition();
   };
   window.addEventListener("hashchange", syncLocation);
   window.addEventListener("popstate", syncLocation);

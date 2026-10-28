@@ -161,25 +161,15 @@ export function init() {
     }
   }
   const revealAnswer = () => {
-    const hash = location.hash;
     let id;
     try {
-      id = decodeURIComponent(hash.slice(1));
+      id = decodeURIComponent(location.hash.slice(1));
     } catch {
       return;
     }
     const target = document.getElementById(id);
     const details = target?.closest("details");
-    if (!details) return;
-    details.open = true;
-    // The browser may target a collapsed answer before this module loads.
-    // Wait for its final layout, then use the native scroll-margin below the
-    // fixed header. A newer navigation or an open dialog keeps its position.
-    requestAnimationFrame(() => {
-      if (location.hash !== hash || document.querySelector("dialog[open]"))
-        return;
-      details.scrollIntoView({ block: "start", behavior: "instant" });
-    });
+    if (details) details.open = true;
   };
   revealAnswer();
   window.addEventListener("hashchange", revealAnswer);

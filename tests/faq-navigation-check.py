@@ -51,6 +51,31 @@ with sync_playwright() as p:
             assert page.url.endswith('#' + answer)
         page.screenshot(path=str(OUT / f'answer-{w}.png'))
 
+        # Closing login from a deep answer must restore the visitor's reading
+        # position, rather than force the old answer back to the top.
+        page.evaluate('scrollTo(0,document.documentElement.scrollHeight)')
+        page.wait_for_timeout(80)
+        reading_position = page.evaluate('scrollY')
+        page.locator('.enter-link').click()
+        page.wait_for_function('document.querySelector("#store").open')
+        page.keyboard.press('Escape')
+        page.wait_for_url('**/#license-info')
+        page.wait_for_timeout(100)
+        assert abs(page.evaluate('scrollY') - reading_position) <= 1, (w, 'login moved the answer')
+        page.go_forward()
+        page.wait_for_function('document.querySelector("#store").open')
+        page.go_back()
+        page.wait_for_function('!document.querySelector("#store").open')
+        page.wait_for_timeout(100)
+        assert abs(page.evaluate('scrollY') - reading_position) <= 1, (w, 'Back moved the answer')
+
+        if w in [390, 1440]:
+            page.goto(BASE + '/#features', wait_until='networkidle')
+            page.locator('.extra-features a[href="#ai-info"]').click()
+            page.wait_for_function('document.querySelector("#ai-info").open')
+            assert page.locator('#ai-info').evaluate('e=>e.getBoundingClientRect().top>=document.querySelector(".top-inner").getBoundingClientRect().bottom')
+            assert page.locator('#ai-info p').evaluate('e=>e.getBoundingClientRect().bottom<=innerHeight')
+
         page.goto(BASE + '/#faq', wait_until='networkidle')
         for summary in page.locator('.faq-list summary').all():
             summary.click()

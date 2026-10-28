@@ -203,6 +203,7 @@ html:has(dialog[open]) {
 .landing-page .faq-section {
   height: auto;
   min-height: var(--screen-height);
+  align-items: flex-start;
 }
 .faq-section .screen-content {
   display: grid;
