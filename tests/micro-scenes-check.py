@@ -48,7 +48,7 @@ def assert_data(page):
         scene=page.locator('[data-micro="'+key+'"]')
         text=scene.locator('.micro-after').all_text_contents()
         assert all(any(s in t for t in text) for s in expected), (key,text)
-        assert scene.locator('figcaption').inner_text().strip()
+        assert scene.locator('figcaption').text_content().strip()
 
 with sync_playwright() as p:
     args={'headless':True}
@@ -61,7 +61,9 @@ with sync_playwright() as p:
         assert_data(page);scroll(page)
         for i,key in enumerate(['sale','stock','reports']):
             scene=page.locator('[data-micro="'+key+'"]')
-            scene.evaluate('e=>e.closest("article").scrollIntoView({block:"nearest",inline:"center",behavior:"instant"})')
+            if i:
+                page.locator('#feature-next').click()
+            page.wait_for_function('(i)=>document.querySelector("#features").dataset.featureIndex===String(i)&&document.querySelector("#features").dataset.featureMotion==="idle"',arg=i)
             page.wait_for_function('(key)=>["running","complete"].includes(document.querySelector(`[data-micro="${key}"]`).dataset.state)',arg=key)
             if scene.get_attribute('data-state')=='complete':
                 scene.locator('xpath=ancestor::article').locator('.micro-replay').click()
