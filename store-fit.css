@@ -244,12 +244,12 @@
 
 /* Same paired-cube composition as the supplied reference video. */
 #for-stores {
-  --fit-cubes-version: 75;
+  --fit-cubes-version: 76;
 }
 .fit-solid-scene {
   position: relative;
-  height: clamp(280px, 34vw, 460px);
-  perspective: 1800px;
+  height: clamp(280px, 50vw, 680px);
+  perspective: 3200px;
   perspective-origin: 50% 45%;
   touch-action: pan-y pinch-zoom;
   --fit-edge: 160px;
@@ -465,7 +465,7 @@
 
 @media (max-height: 420px) {
   .fit-solid-scene {
-    height: 240px;
+    height: 280px;
   }
 }
 
@@ -477,5 +477,82 @@
 @media (max-width: 700px) {
   .fit-current {
     text-align: center;
+  }
+}
+
+/* A real, large reference object; the title appears once. */
+.fit-face-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.fit-face-title {
+  margin-top: 0;
+}
+.fit-object-controls {
+  grid-template-columns: 1fr;
+  max-width: none;
+  gap: 16px;
+}
+.fit-turn-controls {
+  justify-content: flex-end;
+}
+.fit-benefit {
+  max-width: 650px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 48px;
+}
+@media (max-width: 700px) {
+  .fit-benefit {
+    font-size: 14px;
+  }
+}
+
+.fit-object-controls {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+}
+.fit-benefit {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: left;
+  margin: 0;
+  min-height: 0;
+}
+.fit-turn-controls {
+  grid-column: 2;
+  grid-row: 1;
+}
+@media (max-width: 700px) {
+  .fit-solid-scene {
+    height: 230px;
+  }
+  .fit-object-controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .fit-benefit {
+    text-align: center;
+  }
+  .fit-turn-controls {
+    grid-column: 1;
+    grid-row: 2;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 701px) {
+  .fit-object-controls {
+    margin-top: 48px;
+  }
+}
+
+@media (min-width: 701px) and (min-height: 421px) {
+  .fit-solid-scene {
+    height: auto;
+    aspect-ratio: 1.65;
   }
 }

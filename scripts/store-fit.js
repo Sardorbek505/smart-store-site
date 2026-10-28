@@ -11,12 +11,11 @@ export function init() {
     !window.ResizeObserver ||
     !window.IntersectionObserver ||
     !CSS.supports("transform-style", "preserve-3d") ||
-    getComputedStyle(root).getPropertyValue("--fit-cubes-version").trim() !== "75"
+    getComputedStyle(root).getPropertyValue("--fit-cubes-version").trim() !== "76"
   )
     return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const current = controls.querySelector(".fit-current"),
-    toggle = controls.querySelector("[data-fit-auto]"),
+  const toggle = controls.querySelector("[data-fit-auto]"),
     count = controls.querySelector("output"),
     caption = controls.querySelector(".fit-benefit");
   const dialogs = [...document.querySelectorAll("dialog")];
@@ -27,7 +26,8 @@ export function init() {
   };
   const flat =
     "translate(-50%, -50%) translateZ(calc(var(--fit-edge) / -2)) rotateX(0deg) rotateY(0deg)";
-  const volume = "translate(-50%, -50%) translateZ(0px) rotateX(-12deg) rotateY(-12deg)";
+  const volume =
+    "translate(-50%, -50%) translateZ(calc(var(--fit-edge) / -2)) rotateX(-12deg) rotateY(-16deg)";
   const scene = make("div", "fit-solid-scene");
   scene.setAttribute("role", "group");
   scene.setAttribute("aria-label", "Автоматическая витрина форматов магазинов.");
@@ -56,17 +56,15 @@ export function init() {
     const img = cards[index].querySelector("img").cloneNode();
     img.alt = "";
     img.loading = "eager";
-    img.sizes = "(max-width:700px) 44vw, 330px";
+    img.sizes = "70vw";
     return img;
   };
   const label = (index) => {
     const el = make("div", "fit-face-copy");
-    const number = make("span", "fit-face-number");
-    number.textContent = String(index + 1).padStart(2, "0");
     const title = make("strong", "fit-face-title");
     title.textContent = cards[index].querySelector("h3").textContent;
     if (index === 0) title.textContent = "Продукты\nу дома";
-    el.append(number, title);
+    el.append(title);
     return el;
   };
   const paint = (slot, index, img) => {
@@ -107,7 +105,6 @@ export function init() {
     root.dataset.fitIndex = String(selected);
     root.dataset.fitTurning = String(busy);
     count.textContent = `${String(selected + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
-    current.textContent = cards[selected].querySelector("h3").textContent;
     caption.textContent = cards[selected].querySelector("p").textContent;
     toggle.disabled = reduced.matches;
     toggle.textContent = automatic ? "Пауза" : "Авто";
@@ -254,7 +251,7 @@ export function init() {
     { threshold: [0, 0.65], rootMargin: "-80px 0px -20px 0px" },
   ).observe(scene);
   new ResizeObserver(() => {
-    const edge = Math.min(scene.clientWidth * 0.445, scene.clientHeight * 0.66, 320);
+    const edge = Math.min(scene.clientWidth * 0.44, scene.clientHeight * 0.74);
     scene.style.setProperty("--fit-edge", `${edge}px`);
     if (animations.length) finish?.();
   }).observe(scene);
