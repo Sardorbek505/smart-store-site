@@ -4,6 +4,9 @@
 
 ## Официальные страницы
 
+- [Учёт товаров и продаж](https://metov.store/programma-dlya-ucheta-magazina/): общий рабочий путь, склад, долги, AI-накладные и промо; ограничения и пробные 14 дней.
+- [Магазин в Шымкенте](https://metov.store/istorii/elektroinstrumenty-shymkent/): подтверждённые разработчиком функции в магазине «Электроинструменты», без выдуманных показателей.
+
 - [Главная](https://metov.store/): продажи, склад, отчёты и примеры работы.
 - [О программе](https://metov.store/programma-dlya-magazina-instrumentov/): кому подходит Smart Store, продажа и склад на примерах, долги, аренда, офлайн-режим и установка.
 - [Первый чек](https://metov.store/programma-dlya-magazina-instrumentov/#first-sale): настройка новой установки, приход остатков, продажа, сдача и резервная копия.

@@ -11,7 +11,9 @@
 доступа нужен интернет. AI-функции требуют собственного ключа Gemini.
 
 - [Официальный сайт и установка](https://metov.store/)
+- [Учёт товаров, продаж, долгов и AI-накладных](https://metov.store/programma-dlya-ucheta-magazina/)
 - [Возможности и ограничения программы](https://metov.store/programma-dlya-magazina-instrumentov/)
+- [Использование в магазине Шымкента](https://metov.store/istorii/elektroinstrumenty-shymkent/)
 - [От первого запуска до чека](https://metov.store/programma-dlya-magazina-instrumentov/#first-sale)
 - [Активация лицензии](https://metov.store/programma-dlya-magazina-instrumentov/#activation)
 - [Справка: копии и доступ с телефона](https://metov.store/pomoshch/)

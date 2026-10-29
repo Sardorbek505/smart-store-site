@@ -65,7 +65,8 @@ with sync_playwright() as p:
     c.close()
     for width in [320,390,1440]:
         c=browser.new_context(viewport={'width':width,'height':900},java_script_enabled=False)
-        for slug in ['/pomoshch/','/pomoshch/rezervnaya-kopiya/','/pomoshch/dostup-s-telefona/']:
+        pages=json.loads((Path(__file__).resolve().parents[1]/'tools/pages.json').read_text())
+        for slug in [item['canonical'].removeprefix('https://metov.store') for item in pages if item.get('static')]:
             page=c.new_page();response=page.goto(BASE+slug,wait_until='networkidle')
             assert response.status==200 and page.locator('h1').count()==1
             assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(width,slug)

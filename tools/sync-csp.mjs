@@ -7,8 +7,7 @@ const check = process.argv.includes("--check");
 const pages = JSON.parse(
   await readFile(new URL("tools/pages.json", root), "utf8"),
 );
-for (const { file: name } of pages) {
-  const staticHelp = name.startsWith("pomoshch/");
+for (const { file: name, static: staticHelp = false } of pages) {
   const path = new URL(name, root);
   // HTML parsing converts CRLF and bare CR to LF before scripts are hashed.
   // Windows checkouts must use the same script text as the browser.

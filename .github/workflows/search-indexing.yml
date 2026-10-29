@@ -7,6 +7,8 @@ on:
       - privacy.html
       - programma-dlya-magazina-instrumentov/index.html
       - pomoshch/**
+      - programma-dlya-ucheta-magazina/**
+      - istorii/**
       - tools/pages.json
       - robots.txt
       - sitemap.xml
