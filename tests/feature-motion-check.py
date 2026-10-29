@@ -16,6 +16,13 @@ with sync_playwright() as p:
   page.wait_for_function('()=>document.querySelector("[data-feature-scene=sale]").getAnimations({subtree:true}).some(a=>a.playState==="running")')
   a=scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime');page.wait_for_timeout(200)
   assert scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime')>a
+  # A product enters the basket before its price updates; payment follows.
+  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=1200)');page.wait_for_timeout(40)
+  assert scene.locator('[data-feature-enter]').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
+  assert scene.locator('.feature-value .feature-before').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
+  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=2450)');page.wait_for_timeout(40)
+  assert scene.locator('.feature-value .feature-after').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
+  assert scene.locator('.feature-state .feature-before').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
   # The result remains readable for more than three seconds per cycle.
   scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=4000)');page.wait_for_timeout(50)
   assert scene.locator('.feature-state .feature-after').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
@@ -25,13 +32,14 @@ with sync_playwright() as p:
   page.wait_for_function('()=>document.querySelector("[data-feature-scene=sale]").getAnimations({subtree:true}).every(a=>a.playState==="paused"&&!a.pending)')
   t=scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime');page.wait_for_timeout(150)
   assert scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime')==t
-  page.keyboard.press('Escape');page.wait_for_timeout(80)
-  assert scene.evaluate('e=>e.getAnimations({subtree:true}).some(a=>a.playState==="running")')
+  page.keyboard.press('Escape')
+  page.wait_for_function('()=>document.querySelector("[data-feature-scene=sale]").getAnimations({subtree:true}).some(a=>a.playState==="running")')
   page.locator('#assistant').evaluate('e=>e.scrollIntoView({block:"start",behavior:"instant"})')
   page.wait_for_function('()=>document.querySelector("[data-feature-scene=sale]").getAnimations({subtree:true}).every(a=>a.playState==="paused"&&!a.pending)')
-  page.emulate_media(reduced_motion='reduce');page.wait_for_timeout(80)
-  assert scene.evaluate('e=>e.getAnimations({subtree:true}).length')==0
+  page.emulate_media(reduced_motion='reduce')
+  page.wait_for_function('()=>document.querySelector("[data-feature-scene=sale]").getAnimations({subtree:true}).length===0')
   assert scene.locator('.feature-state .feature-after').evaluate('e=>getComputedStyle(e).opacity')=='1'
+  assert scene.locator('.feature-result').evaluate('e=>{const s=getComputedStyle(e);return s.boxShadow==="none"&&parseFloat(s.borderTopWidth)===0}')
   assert not errors,errors
   print(json.dumps({'browser':ENGINE,'width':width,'motion':'visible only, stable page, dialog pause, reduced motion final values'}),flush=True)
   c.close()

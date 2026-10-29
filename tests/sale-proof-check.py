@@ -20,10 +20,12 @@ with sync_playwright() as p:
   assert page.locator('.sale-proof-screen,.sale-proof-steps,.feature-controls').count()==0
   assert 'Продажи. Склад. Контроль.' in page.locator('#features-title').inner_text()
   assert page.locator('.feature-card').count()==3
+  assert page.locator('.feature-kicker').count()==0
+  assert page.locator('#feature-sale img').get_attribute('src').endswith('feature-drill-640-v101.webp')
   assert not media,media
   for image in page.locator('.feature-illustration img').all():
    image.evaluate('i=>{i.loading="eager";return i.decode()}')
-  assert page.locator('#feature-sale .feature-value').inner_text()=='82 300 ₸'
+  assert page.locator('#feature-sale .feature-value .feature-after').inner_text()=='82 300 ₸'
   assert page.locator('#feature-stock .feature-value .feature-after').inner_text()=='10'
   assert page.locator('#feature-reports .feature-value .feature-after').inner_text()=='479 250 ₸'
   if w<=850:
@@ -68,10 +70,10 @@ with sync_playwright() as p:
   assert not errors,errors
   print(json.dumps({'browser':ENGINE,'viewport':[w,h],'sale':'consistent','cards':'three illustrated capabilities','screens':'loaded and zoomable','video':'lazy, decodes, Escape/Back pause','errors':errors}),flush=True);c.close()
  # Decorations may fail; the content and real UI links must still work.
- c=b.new_context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True,reduced_motion='reduce');c.route('https://**',lambda r:r.fulfill(status=204));c.route('**/img/feature-*-v100.webp',lambda r:r.abort())
+ c=b.new_context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True,reduced_motion='reduce');c.route('https://**',lambda r:r.fulfill(status=204));c.route('**/img/feature-drill-*-v101.webp',lambda r:r.abort())
  page=c.new_page();page.goto(BASE+'/#features',wait_until='networkidle')
  assert page.locator('.feature-card').count()==3
- assert page.locator('#feature-sale .feature-value').inner_text()=='82 300 ₸'
+ assert page.locator('#feature-sale .feature-value .feature-after').inner_text()=='82 300 ₸'
  c.close()
  c=b.new_context(viewport={'width':390,'height':844},java_script_enabled=False);page=c.new_page();page.goto(BASE+'/#features')
  assert page.locator('.feature-card').count()==3 and page.locator('[data-sale-tour]').get_attribute('href').endswith('.mp4')
