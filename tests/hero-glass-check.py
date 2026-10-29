@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173').rstrip('/')
 BROWSER = os.environ.get('BROWSER', 'chromium')
-OUT = Path('/tmp/smart-store-refraction-v84') / BROWSER
+OUT = Path('/tmp/smart-store-refraction-v86') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as p:

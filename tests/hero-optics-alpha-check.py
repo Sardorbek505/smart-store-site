@@ -4,7 +4,7 @@ from PIL import Image,ImageChops,ImageStat
 from pathlib import Path
 from io import BytesIO
 import os,shutil,json
-which=os.environ.get('BROWSER','chromium');out=Path('/tmp/smart-store-alpha-v85')/which;out.mkdir(parents=True,exist_ok=True)
+which=os.environ.get('BROWSER','chromium');out=Path('/tmp/smart-store-alpha-v86')/which;out.mkdir(parents=True,exist_ok=True)
 with sync_playwright() as p:
  opts={'headless':True}
  if which=='chromium':opts.update(executable_path=shutil.which('chromium'),args=['--no-sandbox'])

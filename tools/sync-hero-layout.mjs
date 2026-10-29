@@ -29,22 +29,22 @@ const refractionFilter = (
   field,
 ) => `<filter id="${id}" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
   <feImage href="img/${field}" xlink:href="img/${field}" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="field"/>
-  <feDisplacementMap in="SourceGraphic" in2="field" scale=".162" xChannelSelector="R" yChannelSelector="G" result="warp-r"/>
-  <feDisplacementMap in="SourceGraphic" in2="field" scale=".1485" xChannelSelector="R" yChannelSelector="G" result="warp-g"/>
-  <feDisplacementMap in="SourceGraphic" in2="field" scale=".135" xChannelSelector="R" yChannelSelector="G" result="warp-b"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".1458" xChannelSelector="R" yChannelSelector="G" result="warp-r"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".13365" xChannelSelector="R" yChannelSelector="G" result="warp-g"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".1215" xChannelSelector="R" yChannelSelector="G" result="warp-b"/>
   <feColorMatrix in="warp-r" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
   <feColorMatrix in="warp-g" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>
   <feColorMatrix in="warp-b" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>
   <feBlend in="red" in2="green" mode="screen" result="rg"/>
   <feBlend in="rg" in2="blue" mode="screen" result="spectrum"/>
-  <feGaussianBlur in="spectrum" stdDeviation=".0072 .0027" result="soft-spectrum"/>
+  <feGaussianBlur in="spectrum" stdDeviation=".00648 .00243" result="soft-spectrum"/>
   <feColorMatrix in="field" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0" result="periphery"/>
   <feComposite in="soft-spectrum" in2="periphery" operator="in" result="edge-optics"/>
   <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="edge-optics"/></feMerge>
 </filter>`;
 const gallery = `<div class="gallery-stage">
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="ribbon-defs" width="0" height="0" aria-hidden="true"><defs><clipPath id="hero-ribbon-clip" clipPathUnits="objectBoundingBox"><path d="M0 .035 C.16 .07 .32 .10 .5 .10 C.68 .10 .84 .07 1 .035 L1 .965 C.84 .93 .68 .90 .5 .90 C.32 .90 .16 .93 0 .965 Z"/></clipPath>
-${refractionFilter("hero-refraction", "hero-refraction-field-v82.png")}${refractionFilter("hero-refraction-mobile", "hero-refraction-mobile-v83.png")}</defs></svg>
+${refractionFilter("hero-refraction", "hero-refraction-field-v86.png")}${refractionFilter("hero-refraction-mobile", "hero-refraction-mobile-v86.png")}</defs></svg>
   <div class="ribbon-window">
     <div class="ribbon-refraction">
     <div class="ribbon-track motion-ready" data-ribbon-track>

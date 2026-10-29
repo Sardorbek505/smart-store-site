@@ -14,22 +14,25 @@ vec3 source(vec2 p){
 }
 vec3 refractPhoto(vec2 p){
   float s=max(0.,sin(3.14159265*p.y));
-  float extent=.045+.115*pow(s,.65);
+  float extent=.0405+.1035*pow(s,.65);
   float left=1.-smoothstep(0.,extent,p.x);
   float right=1.-smoothstep(0.,extent,1.-p.x);
   vec2 shift=vec2(.40*(left-right)*(.30+.70*s*s),.32*(left+right)*sin(6.2831853*p.y));
-  return vec3(source(p+.162*shift).r,source(p+.1485*shift).g,source(p+.135*shift).b);
+  return vec3(source(p+.1458*shift).r,source(p+.13365*shift).g,source(p+.1215*shift).b);
 }
 void main(){
-  float extent=.045+.115*pow(max(0.,sin(3.14159265*uv.y)),.65);
+  float extent=.0405+.1035*pow(max(0.,sin(3.14159265*uv.y)),.65);
   float edge=1.-smoothstep(0.,extent,uv.x)+1.-smoothstep(0.,extent,1.-uv.x);
-  float mask=smoothstep(0.,.35,edge);
-  if(mask<.001){gl_FragColor=vec4(0.);return;}
+  // A wider quintic feather has zero slope and curvature at both ends,
+  // so the lens fades into the original photograph without an outline.
+  edge=clamp(edge/.75,0.,1.);
+  float mask=edge*edge*edge*(edge*(edge*6.-15.)+10.);
+  if(mask<=0.){gl_FragColor=vec4(0.);return;}
   vec3 color=.40*refractPhoto(uv);
-  color+=.15*refractPhoto(uv+vec2(.0072,0.));
-  color+=.15*refractPhoto(uv-vec2(.0072,0.));
-  color+=.15*refractPhoto(uv+vec2(0.,.0027));
-  color+=.15*refractPhoto(uv-vec2(0.,.0027));
+  color+=.15*refractPhoto(uv+vec2(.00648,0.));
+  color+=.15*refractPhoto(uv-vec2(.00648,0.));
+  color+=.15*refractPhoto(uv+vec2(0.,.00243));
+  color+=.15*refractPhoto(uv-vec2(0.,.00243));
   // Match the browser compositor's premultiplied canvas convention. Straight
   // RGB at fractional alpha produces bright blue/white arcs in iOS WebViews.
   gl_FragColor=vec4(color*mask,mask);
@@ -166,7 +169,7 @@ export function mount({ window: aperture, track, cards, flow, getManual }) {
   function frame(time) {
     raf = 0;
     if (!ready || !eligible() || lost || document.hidden) return;
-    if (dirty || time - last >= 32) {
+    if (dirty || time - last >= 1000 / 60 - 0.5) {
       // Read the CSS transition only during a manual 650 ms swipe. Native flow
       // uses its shared animation clock, without reading computed styles.
       const offset =
