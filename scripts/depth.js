@@ -18,21 +18,10 @@ export function init() {
   if (!roots.length || !CSS.supports("rotate", "1 1 0 1deg")) return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const coarse = matchMedia("(pointer: coarse)");
-  const controls = document.getElementById("depth-controls");
-  const toggle = document.getElementById("depth-toggle");
-  const status = document.getElementById("depth-status");
-  const orientation = window.DeviceOrientationEvent;
-  const needsPermission = typeof orientation?.requestPermission === "function";
-  const supported = isSecureContext && typeof orientation !== "undefined";
-  const readPreference = () => {
-    try { return localStorage.getItem("store-depth"); } catch { return null; }
-  };
-  const savePreference = (value) => {
-    try { localStorage.setItem("store-depth", value); } catch { /* Optional. */ }
-  };
-  let enabled = supported && coarse.matches && !needsPermission && readPreference() !== "off";
-  let granted = !needsPermission, listening = false, received = false;
-  let pending = false, origin = null, raf = 0, last = 0, scrollTimer = 0;
+  // Listen passively only. Never request sensor permission or show a prompt.
+  const supported = isSecureContext && typeof window.DeviceOrientationEvent !== "undefined";
+  let listening = false, received = false, unavailable = false;
+  let origin = null, raf = 0, last = 0, scrollTimer = 0;
   let scrolling = false, checking = 0, ended = false;
   const touches = new Set();
   const scenes = roots.map((root) => ({
@@ -46,15 +35,6 @@ export function init() {
   const dialogOpen = () => !!document.querySelector("dialog[open]");
   const blocked = () => ended || document.hidden || reduced.matches || scrolling || touches.size > 0 || dialogOpen();
   const locked = (scene) => !!scene.root.querySelector(":focus-visible");
-  const message = (text) => { if (status && status.textContent !== text) status.textContent = text; };
-  function control() {
-    if (!toggle || !controls) return;
-    controls.hidden = !coarse.matches || !supported;
-    toggle.disabled = pending || reduced.matches;
-    toggle.setAttribute("aria-pressed", String(enabled));
-    toggle.textContent = pending ? "Подключаем…" : enabled ? "Выключить 3D-наклон" : "Включить 3D-наклон";
-    if (reduced.matches) message("Уменьшение движения включено в настройках устройства.");
-  }
   function clearScene(scene) {
     scene.x = scene.y = scene.tx = scene.ty = 0;
     scene.rect = null;
@@ -106,7 +86,6 @@ export function init() {
     if (!next) return;
     if (!origin) origin = {beta: event.beta, gamma: event.gamma};
     received = true; clearTimeout(checking);
-    message("Наклоняйте телефон плавно — сцены следуют за движением.");
     const tilt = relativeTilt(event.beta, event.gamma, origin, screen.orientation?.angle ?? window.orientation ?? 0);
     for (const scene of scenes)
       if (scene.visible && !locked(scene)) target(scene, tilt.x, tilt.y);
@@ -117,42 +96,18 @@ export function init() {
     clearTimeout(checking);
   }
   function syncSensor() {
-    const active = enabled && granted && coarse.matches && !blocked() && scenes.some((s) => s.visible);
+    const active = supported && !unavailable && coarse.matches && !blocked() && scenes.some((s) => s.visible);
     if (!active) { stopSensor(); return; }
     if (listening) return;
     listening = true; origin = null;
     window.addEventListener("deviceorientation", sensor, {passive: true});
     if (!received) {
-      message("Ожидаем датчик наклона…");
       checking = setTimeout(() => {
-        stopSensor(); enabled = false; reset(); control();
-        message("Датчик недоступен в этом браузере. Можно попробовать открыть сайт в Safari или Chrome.");
+        unavailable = true; stopSensor(); reset();
       }, 5000);
     }
   }
   function suspend() { stopSensor(); reset(); }
-  toggle?.addEventListener("click", async () => {
-    if (pending || reduced.matches) return;
-    if (enabled) {
-      enabled = false; savePreference("off"); suspend(); control();
-      message("3D-наклон выключен."); return;
-    }
-    pending = true; control();
-    try {
-      // Must run in this click, before any await: Safari requires user activation.
-      const permission = needsPermission && !granted ? orientation.requestPermission() : Promise.resolve("granted");
-      granted = await permission === "granted";
-      enabled = granted;
-      if (granted) {
-        received = false; savePreference("on"); origin = null;
-        message("Наклон включён. Датчик подключится, когда сцена на экране.");
-        syncSensor();
-      } else message("Доступ к наклону не разрешён. Сайт работает без этого эффекта.");
-    } catch {
-      enabled = false;
-      message("Браузер не дал доступ к наклону. Попробуйте открыть сайт в Safari или Chrome.");
-    } finally { pending = false; control(); }
-  });
   for (const scene of scenes) {
     scene.root.addEventListener("pointermove", (event) => {
       if (event.pointerType !== "mouse" || coarse.matches || blocked() || !scene.visible) return;
@@ -205,7 +160,6 @@ export function init() {
   screen.orientation?.addEventListener("change", reorient);
   const dialogs = new MutationObserver(() => { suspend(); resume(); });
   document.querySelectorAll("dialog").forEach((dialog) => dialogs.observe(dialog, {attributes: true, attributeFilter: ["open"]}));
-  reduced.addEventListener("change", () => { suspend(); control(); resume(); });
-  coarse.addEventListener("change", () => { suspend(); control(); resume(); });
-  control();
+  reduced.addEventListener("change", () => { suspend(); resume(); });
+  coarse.addEventListener("change", () => { suspend(); resume(); });
 }

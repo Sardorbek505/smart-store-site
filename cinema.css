@@ -561,13 +561,3 @@
 [data-depth-scene] { perspective: 900px; overflow-anchor: none; }
 [data-depth] { transform-origin: center; }
 [data-depth-engaged] [data-depth] { will-change: translate, rotate; }
-.depth-controls { text-align: center; margin: 14px auto 18px; max-width: 340px; }
-.depth-controls[hidden] { display: none; }
-.depth-controls button {
-  min-height: 44px; padding: 10px 18px; border: 1px solid #cfd3e5;
-  border-radius: 24px; background: #fff; color: #2447b4; font: inherit;
-  font-size: 14px; font-weight: 600; cursor: pointer;
-}
-.depth-controls button:focus-visible { outline: 3px solid #2447b4; outline-offset: 4px; }
-.depth-controls button:disabled { cursor: default; color: #65687a; }
-.depth-controls p { min-height: 4.5em; margin: 8px 0 0; color: #5e6274; font-size: 12px; line-height: 1.5; }

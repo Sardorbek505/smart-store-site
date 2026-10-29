@@ -24,16 +24,22 @@ export function init() {
   const measureOverflow = () => {
     measureFrame = 0;
     // Batch reads before changing any scroll-container styles.
-    const overflow = frames.map(
-      (frame) => frame.scrollHeight - frame.clientHeight > 4,
-    );
-    frames.forEach((frame, index) => {
-      if (frame.classList.contains("is-scrollable") === overflow[index]) return;
-      frame.classList.toggle("is-scrollable", overflow[index]);
-      if (overflow[index] && !frame.hasAttribute("tabindex")) {
+    const overflow = frames.map((frame) => {
+      const section = frame.closest(".screen-section");
+      const flexible = (innerWidth <= 620 || (touch.matches && innerWidth <= 1100)) && section && !section.matches(".faq-section");
+      if (!flexible) return { frame, section, flexible, overflow: frame.scrollHeight - frame.clientHeight > 4 };
+      const style = getComputedStyle(section);
+      const available = height - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+      return { frame, section, flexible, overflow: frame.scrollHeight - available > 4 };
+    });
+    overflow.forEach(({ frame, section, flexible, overflow: exceeds }) => {
+      section?.classList.toggle("content-overflow", !!(flexible && exceeds));
+      const innerScroll = !flexible && exceeds && !section?.matches(".faq-section");
+      frame.classList.toggle("is-scrollable", innerScroll);
+      if (innerScroll && !frame.hasAttribute("tabindex")) {
         frame.dataset.viewportTabindex = "true";
         frame.tabIndex = 0;
-      } else if (!overflow[index] && frame.dataset.viewportTabindex) {
+      } else if (!innerScroll && frame.dataset.viewportTabindex) {
         frame.removeAttribute("tabindex");
         delete frame.dataset.viewportTabindex;
       }
@@ -79,7 +85,10 @@ export function init() {
   body.classList.add("viewport-ready");
   if (typeof ResizeObserver === "function") {
     const observer = new ResizeObserver(queueMeasure);
-    for (const frame of frames) observer.observe(frame);
+    for (const frame of frames) {
+      observer.observe(frame);
+      for (const child of frame.children) observer.observe(child);
+    }
   }
   document.addEventListener("toggle", queueMeasure, true);
   window.addEventListener("resize", queueHeight, { passive: true });

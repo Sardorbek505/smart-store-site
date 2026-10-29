@@ -1,0 +1,64 @@
+/* Phone proportions follow the viewport, rather than a specific device model. */
+@media (max-width: 620px), (pointer: coarse) and (max-width: 1100px) {
+  .landing-page {
+    --page-gutter: clamp(16px, 4.5vw, 28px);
+    --page-left: max(var(--page-gutter), env(safe-area-inset-left, 0px));
+    --page-right: max(var(--page-gutter), env(safe-area-inset-right, 0px));
+    --navigation-height: calc(72px + env(safe-area-inset-top, 0px));
+  }
+  body.landing-page :is(.wrap, .screen-content) {
+    width: calc(100% - var(--page-left) - var(--page-right));
+    margin-left: var(--page-left);
+    margin-right: var(--page-right);
+  }
+  .landing-page .top { top: max(8px, env(safe-area-inset-top, 0px)); }
+  .landing-page .screen-section {
+    padding-bottom: max(var(--screen-gap), calc(env(safe-area-inset-bottom, 0px) + 12px));
+  }
+  .landing-page .cinema-hero {
+    padding-top: max(clamp(24px, calc(var(--screen-height) * .06), 64px), calc(env(safe-area-inset-top, 0px) + 20px));
+  }
+  .landing-page .foot { padding-bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 16px)); }
+  /* If content cannot fit, grow the section instead of shrinking type or
+     trapping the reader in a second vertical scroll area. */
+  .landing-page .screen-section.content-overflow { height: auto; min-height: var(--screen-height); }
+  body.landing-page :is(#features, #workspace, #license, #installation).content-overflow > .screen-content {
+    height: auto; max-height: none; overflow: visible;
+  }
+  .landing-page :is(.store-dialog, .tour-dialog, .preview-dialog) {
+    max-width: calc(100vw - var(--page-left) - var(--page-right));
+  }
+}
+@media (pointer: coarse) and (min-width: 621px) and (max-height: 600px) {
+  .landing-page { --navigation-height: calc(56px + env(safe-area-inset-top, 0px)); }
+}
+@media (max-width: 620px) {
+  .landing-page {
+    --mobile-title: clamp(30px, 9vw, 44px);
+    --mobile-copy: clamp(15px, 3.85vw, 17px);
+    --screen-gap: clamp(14px, 2.1svh, 22px);
+    --section-space: clamp(40px, 6svh, 64px);
+  }
+  .landing-page .section-heading h2 { font-size: clamp(28px, 7.8vw, 38px); }
+  .landing-page :is(.assistant-section, #mobile.phone-section) { padding-block: var(--section-space); }
+  .assistant-intro h2, #mobile h2 { font-size: var(--mobile-title); max-width: none; }
+  .assistant-summary, #mobile .mobile-summary { font-size: var(--mobile-copy); }
+  .assistant-token-voice { width: clamp(164px, 51vw, 285px); }
+  .assistant-token-facts { width: clamp(185px, 57vw, 315px); }
+  #mobile .mobile-stage { height: clamp(270px, min(83vw, 43svh), 430px); }
+  #mobile .mobile-device { max-width: clamp(210px, 61vw, 300px); }
+  #mobile .mobile-orbit { inset: 8% 3% 6%; max-width: 400px; }
+  #mobile .mobile-story { gap: clamp(20px, 5vw, 30px); }
+  #features .bento-grid, #features .bento { min-height: min-content; }
+  #features .bento { height: auto; }
+  .license-section .trial-campaign { grid-template-rows: minmax(min-content, 1fr) auto; }
+  .trial-scene { min-height: clamp(160px, 48vw, 240px); }
+  #features .bento h3 { font-size: clamp(26px, 7.3vw, 34px); }
+  #features .bento p { font-size: var(--mobile-copy); }
+  #features .bento .feature-art { min-height: clamp(200px, 52vw, 330px); }
+  #workspace .checkout-stage { min-height: clamp(200px, 58vw, 360px); }
+  .trial-campaign .license-copy h2 { font-size: clamp(28px, 8.1vw, 40px); }
+  .trial-campaign .license-copy > p:not(.license-note) { font-size: clamp(14px, 3.6vw, 16px); }
+  .landing-page .faq-list summary { font-size: clamp(16px, 4vw, 18px); }
+  .landing-page .content-overflow .trial-scene img { max-height: min(90vw, 460px); }
+}
