@@ -1,4 +1,4 @@
-"""One coherent sale, no carousel, real-screen previews and opt-in recorded UI."""
+"""Illustrated capability cards, native swiping and opt-in real UI recording."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import os,shutil,json
@@ -17,27 +17,39 @@ with sync_playwright() as p:
   if ENGINE=='chromium' and w==320:c.route('**/media/smart-store-sale-v99.mp4',lambda r:r.fulfill(status=404))
   page=c.new_page();errors=[];media=[];page.on('pageerror',lambda e:errors.append(str(e)));page.on('request',lambda r:media.append(r.url) if '/media/' in r.url else None)
   page.goto(BASE+'/#features',wait_until='networkidle');page.locator('#features').evaluate('e=>e.scrollIntoView({block:"start",behavior:"instant"})')
-  assert page.locator('.bento-grid,.feature-controls,[data-micro]').count()==0
-  assert 'Продали товар.' in page.locator('#features-title').inner_text()
+  assert page.locator('.sale-proof-screen,.sale-proof-steps,.feature-controls').count()==0
+  assert 'Продажи. Склад. Контроль.' in page.locator('#features-title').inner_text()
+  assert page.locator('.feature-card').count()==3
   assert not media,media
-  page.wait_for_function('()=>{const i=document.querySelector(".sale-proof-poster");return i.complete&&i.naturalWidth>0}')
-  for step in page.locator('.sale-step').all():
-   step.scroll_into_view_if_needed();step.locator('img').evaluate('i=>i.decode()')
-   assert step.is_visible()
-  assert page.locator('.sale-step').count()==3
-  assert page.locator('#features').evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.effect.getTiming().iterations!==Infinity)')
-  source=page.locator('.sale-proof-poster').evaluate('i=>i.currentSrc')
-  assert ('sale-cash-phone-' in source)==(w<=620),source
-  assert page.locator('.sale-proof-steps').evaluate('e=>e.scrollWidth<=e.clientWidth+2')
-  page.locator('.feature-screen-link').click();page.wait_for_function('()=>document.getElementById("preview-dialog").open&&!document.getElementById("preview-image").hidden')
+  for image in page.locator('.feature-illustration img').all():
+   image.evaluate('i=>{i.loading="eager";return i.decode()}')
+  assert page.locator('#feature-sale .feature-value').inner_text()=='82 300 ₸'
+  assert page.locator('#feature-stock .feature-value .feature-after').inner_text()=='10'
+  assert page.locator('#feature-reports .feature-value .feature-after').inner_text()=='479 250 ₸'
+  if w<=850:
+   y=page.evaluate('scrollY');page.locator('.feature-switcher a').nth(1).click()
+   page.wait_for_function('()=>document.querySelectorAll(".feature-switcher a")[1].getAttribute("aria-current")==="true"')
+   page.wait_for_timeout(550)
+   assert abs(page.evaluate('scrollY')-y)<2,'Switching cards must not jump the page'
+   deck=page.locator('.feature-deck');deck.evaluate('e=>e.focus({preventScroll:true})');page.keyboard.press('End')
+   page.wait_for_function('()=>document.querySelectorAll(".feature-switcher a")[2].getAttribute("aria-current")==="true"')
+   page.wait_for_timeout(550);assert abs(page.evaluate('scrollY')-y)<2
+   page.keyboard.press('Home');page.wait_for_timeout(600)
+   # Native scroll gestures work without the selector controls too.
+   deck.evaluate('e=>e.scrollTo({left:e.scrollWidth,behavior:"instant"})');page.wait_for_timeout(200)
+   assert page.locator('.feature-switcher a').nth(2).get_attribute('aria-current')=='true'
+   deck.evaluate('e=>e.scrollTo({left:0,behavior:"instant"})');page.wait_for_timeout(200)
+  else:
+   assert page.locator('.feature-deck').evaluate('e=>e.scrollWidth<=e.clientWidth+2')
+  page.locator('.feature-screen-link').first.click();page.wait_for_function('()=>document.getElementById("preview-dialog").open&&!document.getElementById("preview-image").hidden')
   assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-sale.png')
   page.keyboard.press('Escape');page.wait_for_function('()=>!document.getElementById("preview-dialog").open')
-  page.locator('.sale-step-screen').nth(1).click();page.wait_for_function('()=>document.getElementById("preview-dialog").open&&!document.getElementById("preview-image").hidden')
-  assert page.locator('#preview-original').get_attribute('href').endswith('sale-stock-v99.webp')
-  page.keyboard.press('Escape');page.wait_for_function('()=>!document.getElementById("preview-dialog").open')
+  page.locator('#features').evaluate('e=>e.scrollIntoView({block:"start",behavior:"instant"})')
   if w in [440,1440]:
-   page.locator('#features').evaluate('e=>e.scrollIntoView({block:"start",behavior:"instant"})');page.screenshot(path=str(OUT/f'sale-proof-{ENGINE}-{w}.png'))
-   page.locator('#features').screenshot(path=str(OUT/f'sale-proof-section-{ENGINE}-{w}.png'))
+   page.emulate_media(reduced_motion='reduce');page.wait_for_timeout(80)
+   page.screenshot(path=str(OUT/f'feature-cards-{ENGINE}-{w}.png'))
+   page.locator('#features').screenshot(path=str(OUT/f'feature-cards-section-{ENGINE}-{w}.png'))
+   page.emulate_media(reduced_motion='no-preference')
   page.locator('[data-sale-tour]').scroll_into_view_if_needed();page.wait_for_timeout(100);position=page.evaluate('scrollY')
   page.locator('[data-sale-tour]').click();page.wait_for_function('()=>document.getElementById("sale-tour").open')
   page.wait_for_function('()=>{const v=document.getElementById("sale-tour-video");return v.readyState>=2&&v.videoWidth>0}')
@@ -54,13 +66,13 @@ with sync_playwright() as p:
   assert video.evaluate('v=>v.paused')
   assert not page.evaluate('document.documentElement.scrollWidth>innerWidth')
   assert not errors,errors
-  print(json.dumps({'browser':ENGINE,'viewport':[w,h],'sale':'consistent','proofSteps':'all in page flow','screens':'loaded and zoomable','video':'lazy, decodes, Escape/Back pause','errors':errors}),flush=True);c.close()
- c=b.new_context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True,reduced_motion='reduce');c.route('https://**',lambda r:r.fulfill(status=204));c.route('**/img/sale-cash-*.webp',lambda r:r.abort())
+  print(json.dumps({'browser':ENGINE,'viewport':[w,h],'sale':'consistent','cards':'three illustrated capabilities','screens':'loaded and zoomable','video':'lazy, decodes, Escape/Back pause','errors':errors}),flush=True);c.close()
+ # Decorations may fail; the content and real UI links must still work.
+ c=b.new_context(viewport={'width':390,'height':844},has_touch=True,is_mobile=True,reduced_motion='reduce');c.route('https://**',lambda r:r.fulfill(status=204));c.route('**/img/feature-*-v100.webp',lambda r:r.abort())
  page=c.new_page();page.goto(BASE+'/#features',wait_until='networkidle')
- page.wait_for_function('()=>{const i=document.querySelector(".sale-proof-poster");return i.complete&&i.naturalWidth>0&&i.currentSrc.endsWith("demo-sale.png")}')
- assert page.locator('.sale-proof-poster').get_attribute('srcset') is None
- assert page.locator('.sale-proof-screen source').get_attribute('srcset') is None
+ assert page.locator('.feature-card').count()==3
+ assert page.locator('#feature-sale .feature-value').inner_text()=='82 300 ₸'
  c.close()
  c=b.new_context(viewport={'width':390,'height':844},java_script_enabled=False);page=c.new_page();page.goto(BASE+'/#features')
- assert page.locator('.sale-step').count()==3 and page.locator('[data-sale-tour]').get_attribute('href').endswith('.mp4')
+ assert page.locator('.feature-card').count()==3 and page.locator('[data-sale-tour]').get_attribute('href').endswith('.mp4')
  c.close();b.close()

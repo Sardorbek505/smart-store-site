@@ -16,6 +16,7 @@ await Promise.allSettled(
   [
     "viewport",
     "interface",
+    "features",
     "preview",
     "media",
     "tour",
