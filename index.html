@@ -15,7 +15,7 @@
     <title>Smart Store — касса и склад для небольшого магазина</title>
     <meta
       name="description"
-      content="Продажи, склад, закупки и долги в одной программе для небольшого магазина на Windows. Основной учёт работает без интернета. Попробуйте Smart Store 14 дней."
+      content="Smart Store для Windows: касса и склад офлайн, AI-помощник по данным магазина, накладные с фото и PDF, промоматериалы. Пробные 14 дней."
     />
     <link rel="canonical" href="https://metov.store/" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
@@ -79,7 +79,7 @@
     />
     <meta
       property="og:description"
-      content="Для небольших магазинов: продукты, одежда, хозтовары, инструменты и запчасти. Основной учёт без интернета. Windows. 14 дней бесплатно."
+      content="Smart Store для Windows: касса и склад офлайн, AI-помощник по данным магазина, накладные с фото и PDF, промоматериалы. Пробные 14 дней."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://metov.store/" />
@@ -103,7 +103,7 @@
     />
     <meta
       name="twitter:description"
-      content="Для небольших магазинов: продукты, одежда, хозтовары, инструменты и запчасти. Основной учёт без интернета. Windows. 14 дней бесплатно."
+      content="Smart Store для Windows: касса и склад офлайн, AI-помощник по данным магазина, накладные с фото и PDF, промоматериалы. Пробные 14 дней."
     />
     <meta
       name="twitter:image"
@@ -142,7 +142,7 @@
     <!-- styles:start -->
     <link rel="stylesheet" href="assets/site.56b78e8cd2c0.css" />
     <!-- styles:end -->
-    <script src="app.js?v=90" type="module"></script>
+    <script src="app.js?v=91" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -172,6 +172,7 @@
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
+      <symbol id="i-ai" viewBox="0 0 24 24"><path d="m12 3 2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3Z" /></symbol>
       <symbol id="i-arrow" viewBox="0 0 24 24">
         <path d="M5 12h14m-6-6 6 6-6 6" />
       </symbol>
@@ -222,7 +223,7 @@
         >
         <nav class="top-links" id="site-nav" aria-label="Навигация по сайту">
           <a href="#features">Возможности</a
-          ><a href="#installation">Установка</a><a href="#license">Лицензия</a
+          ><a href="#assistant">AI-помощник</a><a href="#installation">Установка</a><a href="#license">Лицензия</a
           ><a href="#faq">Вопросы</a>
         </nav>
         <a
@@ -256,7 +257,7 @@
             Весь магазин.<br /><span>В вашем фокусе.</span>
           </h1>
           <p class="cinema-lead">
-            Касса и склад для вашего магазина. Даже без интернета.
+            Касса и склад офлайн. AI-помощник — по данным вашего магазина.
           </p>
           <div class="cinema-actions">
             <a
@@ -635,152 +636,11 @@
                     ></a>
                   </div>
                   <div class="ribbon-set" data-ribbon-set="main">
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-sale.png"
-                      data-gallery-card
-                      data-preview
-                      data-title="Продажи без пауз"
-                      data-preview-alt="Экран Smart Store: Продажи без пауз"
-                      aria-label="Продажи без пауз. Открыть оригинальный экран"
-                      data-visual="laptop"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-laptop-1536.webp"
-                        srcset="
-                          img/hero-demo-laptop-768.webp   768w,
-                          img/hero-demo-laptop-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целый ноутбук с кассой Smart Store и синей подставкой, вид три четверти"
-                        width="1536"
-                        height="1024"
-                        fetchpriority="high" /><span
-                        class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-receipt" /></svg
-                          >Продажи без пауз</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-home.png"
-                      data-gallery-card
-                      data-preview
-                      data-title="Главное — перед глазами"
-                      data-preview-alt="Экран Smart Store: Главное — перед глазами"
-                      aria-label="Главное — перед глазами. Открыть оригинальный экран"
-                      data-visual="monitor"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-monitor-1536.webp"
-                        srcset="
-                          img/hero-demo-monitor-768.webp   768w,
-                          img/hero-demo-monitor-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целый монитор с итогами Smart Store и сканер рядом"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-chart" /></svg
-                          >Главное — перед глазами</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-phone.png"
-                      data-gallery-card
-                      data-preview
-                      data-title="Магазин всегда рядом"
-                      data-preview-alt="Экран Smart Store: Магазин всегда рядом"
-                      aria-label="Магазин всегда рядом. Открыть оригинальный экран"
-                      data-visual="phone"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-phone-1536.webp"
-                        srcset="
-                          img/hero-demo-phone-768.webp   768w,
-                          img/hero-demo-phone-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целый iPhone с показателями Smart Store на компактном синем цилиндре"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-phone" /></svg
-                          >Магазин всегда рядом</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-sale.png"
-                      data-gallery-card
-                      data-preview
-                      data-title="На своём рабочем месте"
-                      data-preview-alt="Экран Smart Store: На своём рабочем месте"
-                      aria-label="На своём рабочем месте. Открыть оригинальный экран"
-                      data-visual="flatlay"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-flatlay-1536.webp"
-                        srcset="
-                          img/hero-demo-flatlay-768.webp   768w,
-                          img/hero-demo-flatlay-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Вид сверху: ноутбук с кассой, сканер, чек и блокнот"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-receipt" /></svg
-                          >На своём рабочем месте</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-sale.png"
-                      data-gallery-card
-                      data-preview
-                      data-title="От сканера до оплаты"
-                      data-preview-alt="Экран Smart Store: От сканера до оплаты"
-                      aria-label="От сканера до оплаты. Открыть оригинальный экран"
-                      data-visual="scanner"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-full-scanner-1536.webp"
-                        srcset="
-                          img/hero-full-scanner-768.webp   768w,
-                          img/hero-full-scanner-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целые сканер, шуруповёрт и коробки со штрихкодами"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-box" /></svg
-                          >От сканера до оплаты</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
+                    <a class="gallery-card editorial-card" href="img/demo-sale.png" data-gallery-card data-preview data-title="Продажа и склад" data-preview-alt="Экран Smart Store с демонстрационными данными: Продажа и склад" aria-label="Продажа и склад. Рассмотреть экран" data-visual="laptop"><img class="editorial-photo" src="img/hero-demo-laptop-1536.webp" srcset="img/hero-demo-laptop-768.webp 768w, img/hero-demo-laptop-1024-v91.webp 1024w, img/hero-demo-laptop-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Ноутбук с экраном продажи Smart Store на синей подставке" width="1536" height="1024" fetchpriority="high" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-receipt" /></svg>Продажа и склад</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+                    <a class="gallery-card editorial-card" href="img/hero-ai-assistant-source-v91.png" data-gallery-card data-preview data-title="AI-помощник" data-preview-alt="Иллюстрация возможности Smart Store: AI-помощник" aria-label="AI-помощник. Рассмотреть иллюстрацию" data-visual="monitor"><img class="editorial-photo" src="img/hero-ai-assistant-1536-v91.webp" srcset="img/hero-ai-assistant-768-v91.webp 768w, img/hero-ai-assistant-1024-v91.webp 1024w, img/hero-ai-assistant-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Монитор с примером ответа AI-помощника и робот Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>AI-помощник</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+                    <a class="gallery-card editorial-card" href="img/demo-phone.png" data-gallery-card data-preview data-title="Магазин в телефоне" data-preview-alt="Экран Smart Store с демонстрационными данными: Магазин в телефоне" aria-label="Магазин в телефоне. Рассмотреть экран" data-visual="phone"><img class="editorial-photo" src="img/hero-demo-phone-1536.webp" srcset="img/hero-demo-phone-768.webp 768w, img/hero-demo-phone-1024-v91.webp 1024w, img/hero-demo-phone-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Телефон с демонстрационными итогами магазина Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>Магазин в телефоне</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+                    <a class="gallery-card editorial-card" href="img/hero-ai-invoice-source-v91.png" data-gallery-card data-preview data-title="Накладные с AI" data-preview-alt="Иллюстрация возможности Smart Store: Накладные с AI" aria-label="Накладные с AI. Рассмотреть иллюстрацию" data-visual="flatlay"><img class="editorial-photo" src="img/hero-ai-invoice-1536-v91.webp" srcset="img/hero-ai-invoice-768-v91.webp 768w, img/hero-ai-invoice-1024-v91.webp 1024w, img/hero-ai-invoice-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: накладная рядом с ноутбуком и результатом распознавания" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>Накладные с AI</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+                    <a class="gallery-card editorial-card" href="img/hero-ai-promo-source-v91.png" data-gallery-card data-preview data-title="Промо из каталога" data-preview-alt="Иллюстрация возможности Smart Store: Промо из каталога" aria-label="Промо из каталога. Рассмотреть иллюстрацию" data-visual="scanner"><img class="editorial-photo" src="img/hero-ai-promo-1536-v91.webp" srcset="img/hero-ai-promo-768-v91.webp 768w, img/hero-ai-promo-1024-v91.webp 1024w, img/hero-ai-promo-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: раздел Промо, карточка товара, прайс-лист и визитки" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>Промо из каталога</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
                   </div>
                   <div
                     class="ribbon-set"
@@ -1410,6 +1270,31 @@
         </div>
       </section>
 
+
+<section id="assistant" class="assistant-section section" aria-labelledby="assistant-title">
+<div class="wrap">
+ <div class="assistant-heading"><div><p class="eyebrow">AI-помощник Smart Store</p><h2 id="assistant-title">Спросите про свой магазин.</h2></div><p>Продажи, остатки и долги — основа ответа. Цифры считает программа, помощник их объясняет.</p></div>
+ <div class="assistant-layout">
+  <div class="assistant-copy">
+   <div class="assistant-character"><img src="img/assistant-hello-v91.webp" width="237" height="300" loading="lazy" decoding="async" alt="Робот-помощник Smart Store приветствует вас"/><p>Спросите<br/><strong>своими словами.</strong><span>Текстом или голосом.</span></p></div>
+   <ul class="assistant-questions" aria-label="Примеры вопросов помощнику"><li>Что происходит с магазином?</li><li>Какие товары пора заказать?</li><li>Кто должен вернуть деньги?</li></ul>
+   <p class="assistant-explanation">В ответе — исходные цифры и подходящее действие: закупка, медленные товары или должники. Проверяете и проводите вы.</p>
+   <div class="assistant-faces" aria-label="Выражения робота в программе"><figure><img src="img/assistant-thinking-v91.webp" width="237" height="300" loading="lazy" decoding="async" alt=""/><figcaption>Думает</figcaption></figure><figure><img src="img/assistant-ok-v91.webp" width="237" height="300" loading="lazy" decoding="async" alt=""/><figcaption>Ответ готов</figcaption></figure></div>
+  </div>
+  <div class="assistant-example" role="group" aria-labelledby="assistant-example-title">
+   <p class="assistant-example-label">Демонстрационный пример</p>
+   <h3 id="assistant-example-title">«Что происходит с магазином?»</h3>
+   <dl class="assistant-facts"><div><dt>Выручка за день</dt><dd>396 950 ₸</dd></div><div><dt>Чеков</dt><dd>17</dd></div><div><dt>Прибыль</dt><dd>142 880 ₸</dd></div><div><dt>Долги покупателей</dt><dd>61 300 ₸</dd></div></dl>
+   <div class="assistant-answer"><p class="assistant-answer-label"><svg class="icon" aria-hidden="true"><use href="#i-ai"/></svg>Помощник объясняет</p><p>За день оформлено 17 чеков. Покупатели должны 61 300 ₸ — посмотрите список должников и сроки возврата.</p></div>
+   <p class="assistant-example-action">Из подходящего ответа в программе можно перейти к списку должников.</p>
+   <p class="assistant-example-note">Схематичный пример с демонстрационными цифрами и ответом. Это иллюстрация возможностей, а не чат на сайте.</p>
+   <a href="img/hero-ai-assistant-source-v91.png" data-preview data-title="AI-помощник Smart Store" data-preview-alt="Студийная иллюстрация AI-помощника по настоящему интерфейсу Smart Store" class="assistant-example-link">Рассмотреть иллюстрацию <svg class="icon" aria-hidden="true"><use href="#i-zoom"/></svg></a>
+  </div>
+ </div>
+ <div class="assistant-details"><a href="img/hero-ai-invoice-source-v91.png" data-preview data-title="Накладные с AI" data-preview-alt="Иллюстрация: фото накладной и проверяемый результат распознавания">Фото или PDF → черновик прихода <span aria-hidden="true">↗</span></a><a href="img/hero-ai-promo-source-v91.png" data-preview data-title="Промо из каталога" data-preview-alt="Иллюстрация раздела Промо: карточка товара, прайс-лист и визитки">Каталог → промоматериалы, без AI <span aria-hidden="true">↗</span></a></div>
+ <p class="assistant-service-note">Для AI нужны интернет и ваш ключ Gemini. Доступность и квоты зависят от Google. <a href="#ai-info">Условия AI-функций →</a></p>
+</div>
+</section>
       <section
         id="workspace"
         class="product-section screen-section"
