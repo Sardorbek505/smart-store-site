@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173').rstrip('/')
 BROWSER = os.environ.get('BROWSER', 'chromium')
-OUT = Path('/tmp/smart-store-refraction-v82') / BROWSER
+OUT = Path('/tmp/smart-store-refraction-v83') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as p:
@@ -24,21 +24,25 @@ with sync_playwright() as p:
         page.locator('.hero-gallery').focus()
         page.evaluate('window.flow=document.querySelector(".ribbon-track").getAnimations()[0]')
         page.wait_for_function('() => (flow.playState==="paused"&&!flow.pending)')
-        page.evaluate('flow.currentTime=flow.effect.getTiming().duration*.11')
+        # Check the actual phone opening frame, which the desktop-sized field
+        # left completely undistorted. Desktop still uses the narrower field.
+        page.evaluate('(n)=>flow.currentTime=flow.effect.getTiming().duration*n',0 if w<851 else .11)
+        filter_id='hero-refraction-mobile' if w<851 else 'hero-refraction'
+        maps=page.locator(f'#{filter_id} feDisplacementMap')
         lens = page.locator('.ribbon-refraction').evaluate('''e=>({pointer:getComputedStyle(e).pointerEvents,filter:getComputedStyle(e).filter,trackFilter:getComputedStyle(e.querySelector('.ribbon-track')).filter})''')
-        assert 'hero-refraction' in lens['filter'] and lens['trackFilter']=='none'
-        scales=page.locator('#hero-refraction feDisplacementMap').evaluate_all('xs=>xs.map(e=>e.getAttribute("scale"))')
+        assert f'#{filter_id}' in lens['filter'] and lens['trackFilter']=='none'
+        scales=maps.evaluate_all('xs=>xs.map(e=>e.getAttribute("scale"))')
         assert len(scales)==3 and len(set(scales))==3 and all(float(n)>0 for n in scales)
         with_lens = page.locator('.ribbon-window').screenshot()
         # Neutralize displacement while preserving the same filter graph and blur.
         # This difference measures refraction, rather than an ordinary blur overlay.
-        page.locator('#hero-refraction feDisplacementMap').evaluate_all('xs=>xs.forEach(e=>e.setAttribute("scale","0"))')
+        maps.evaluate_all('xs=>xs.forEach(e=>e.setAttribute("scale","0"))')
         without_lens = page.locator('.ribbon-window').screenshot()
-        page.locator('#hero-refraction feDisplacementMap').evaluate_all('(xs,ss)=>xs.forEach((e,i)=>e.setAttribute("scale",ss[i]))',scales)
+        maps.evaluate_all('(xs,ss)=>xs.forEach((e,i)=>e.setAttribute("scale",ss[i]))',scales)
         a=Image.open(BytesIO(with_lens)).convert('RGB')
         b=Image.open(BytesIO(without_lens)).convert('RGB')
         difference=ImageChops.difference(a,b)
-        inset=round(a.width*.10)
+        inset=round(a.width*(.18 if w<851 else .10))
         middle=difference.crop((inset,0,a.width-inset,a.height))
         edge=Image.new('RGB',(inset*2,a.height))
         edge.paste(difference.crop((0,0,inset,a.height)),(0,0))
@@ -62,7 +66,7 @@ with sync_playwright() as p:
             edge_end=round(warped.width*.08)
             bend=row_difference(warped,0,edge_end)
             assert bend>5,('Straight lines must visibly bend at the edges',bend)
-            assert row_difference(warped,round(warped.width*.10),round(warped.width*.90))<.5
+            assert row_difference(warped,round(warped.width*(.18 if w<851 else .10)),round(warped.width*(.82 if w<851 else .90)))<.5
             warped.save(OUT/f'curved-grid-{w}.png')
             grid.evaluate('e=>e.remove()')
         # A lens covers this coordinate visually, but never intercepts a photo tap.
@@ -100,6 +104,6 @@ with sync_playwright() as p:
             page.evaluate('scrollTo(0,0)')
             page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
         assert not errors,errors
-        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'dpr':dpr,'edgeEffect':'curved displacement + chromatic split','centreMeanDifference':round(middle_mean,4),'edgeMeanDifference':round(edge_mean,4),'photoTapThroughGlass':'pass','swipeRestAndScroll':'pass' if w==390 else 'not repeated'}),flush=True)
+        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'dpr':dpr,'edgeEffect':'curved displacement + chromatic split','openingPhoneFrame':'pass' if w<851 else 'not applicable','centreMeanDifference':round(middle_mean,4),'edgeMeanDifference':round(edge_mean,4),'photoTapThroughGlass':'pass','swipeRestAndScroll':'pass' if w==390 else 'not repeated'}),flush=True)
         page.close()
     browser.close()

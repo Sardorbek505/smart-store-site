@@ -390,6 +390,11 @@
   filter: url(#hero-refraction);
   pointer-events: auto;
 }
+@media (max-width: 850px) {
+  .ribbon-refraction {
+    filter: url(#hero-refraction-mobile);
+  }
+}
 .ribbon-rim {
   position: absolute;
   inset: 0;
