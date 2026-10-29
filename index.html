@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <!-- security:start -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-XwZdAlZrXc1vY5qTuGZK3YzcdTyFqantH7+neN1pQEg=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-9cOAE/1qUXNXv80YRHg7Jr/rH7g+fHAsiZz+6FIXZnk=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
     <!-- security:end -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#111116" />
@@ -51,13 +51,24 @@
               "Продажи и поиск по штрихкоду",
               "Склад и закупки",
               "Долги покупателей",
+              "Сроки возврата долгов и напоминания",
+              "AI-помощник и черновики прихода по накладным",
+              "Промоматериалы: визитка, карточка товара и прайс-лист",
               "Аренда инструмента",
               "Продажи, выручка и прибыль в отчётах",
               "Доступ с телефона при включённом компьютере"
             ],
-            "subjectOf": {
-              "@id": "https://metov.store/programma-dlya-magazina-instrumentov/#page"
-            }
+            "subjectOf": [
+              {
+                "@id": "https://metov.store/programma-dlya-ucheta-magazina/#page"
+              },
+              {
+                "@id": "https://metov.store/programma-dlya-magazina-instrumentov/#page"
+              },
+              {
+                "@id": "https://metov.store/istorii/elektroinstrumenty-shymkent/#page"
+              }
+            ]
           }
         ]
       }
@@ -1833,7 +1844,8 @@
           >Войти в магазин</a
         >
         <a href="https://wa.me/77066352006">WhatsApp: +7 706 635 20 06</a
-        ><a href="programma-dlya-magazina-instrumentov/">О программе</a
+        ><a href="programma-dlya-ucheta-magazina/">О программе</a
+        ><a href="/istorii/elektroinstrumenty-shymkent/">Магазин в Шымкенте</a
         ><a href="/pomoshch/">Помощь</a
         ><a href="privacy.html">Конфиденциальность и условия</a
         ><a href="https://github.com/Sardorbek505/smart-store-releases/releases"

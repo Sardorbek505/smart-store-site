@@ -21,20 +21,42 @@
     "file": "pomoshch/index.html",
     "canonical": "https://metov.store/pomoshch/",
     "styles": "privacy",
-    "marker": "Помощь со Smart Store"
+    "marker": "Помощь со Smart Store",
+    "static": true
   },
   {
     "file": "pomoshch/rezervnaya-kopiya/index.html",
     "canonical": "https://metov.store/pomoshch/rezervnaya-kopiya/",
     "styles": "privacy",
-    "marker": "Резервная копия Smart Store"
+    "marker": "Резервная копия Smart Store",
+    "static": true
   },
   {
     "file": "pomoshch/dostup-s-telefona/index.html",
     "canonical": "https://metov.store/pomoshch/dostup-s-telefona/",
     "styles": "privacy",
-    "marker": "Доступ к Smart Store с телефона"
+    "marker": "Доступ к Smart Store с телефона",
+    "static": true
   },
-  { "file": "404.html", "styles": "privacy" },
-  { "file": "demo/index.html" }
+  {
+    "file": "programma-dlya-ucheta-magazina/index.html",
+    "canonical": "https://metov.store/programma-dlya-ucheta-magazina/",
+    "styles": "privacy",
+    "marker": "Программа для учёта товаров и продаж в магазине",
+    "static": true
+  },
+  {
+    "file": "istorii/elektroinstrumenty-shymkent/index.html",
+    "canonical": "https://metov.store/istorii/elektroinstrumenty-shymkent/",
+    "styles": "privacy",
+    "marker": "Smart Store в магазине «Электроинструменты» в Шымкенте",
+    "static": true
+  },
+  {
+    "file": "404.html",
+    "styles": "privacy"
+  },
+  {
+    "file": "demo/index.html"
+  }
 ]
