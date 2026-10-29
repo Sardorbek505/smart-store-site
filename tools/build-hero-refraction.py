@@ -13,7 +13,7 @@ def smooth(t):
 def byte(v):return max(0,min(255,round(v*255)))
 def chunk(name,data):
  return struct.pack('>I',len(data))+name+data+struct.pack('>I',zlib.crc32(name+data)&0xffffffff)
-def build(name,minimum,span):
+def build(name,minimum,span,feather=False):
  rows=[]
  for j in range(H):
   y=j/(H-1);row=bytearray([0])
@@ -25,7 +25,9 @@ def build(name,minimum,span):
    bow=.30+.70*math.sin(math.pi*y)**2
    r=.5+.40*direction*bow
    g=.5+.32*edge*math.sin(2*math.pi*y)
-   row.extend((byte(r),byte(g),byte(smooth(edge/.35))))
+   fade=max(0,min(1,edge/.75))
+   mask=fade**3*(fade*(fade*6-15)+10) if feather else smooth(edge/.35)
+   row.extend((byte(r),byte(g),byte(mask)))
   rows.append(row)
  png=b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',W,H,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(b''.join(rows),9))+chunk(b'IEND',b'')
  file=ROOT/'img'/name
@@ -38,3 +40,7 @@ build('hero-refraction-field-v82.png',.025,.055)
 # A phone needs a wider contact area: the adjacent cards otherwise expose only
 # their flat backgrounds to the desktop lens, hiding all displacement at rest.
 build('hero-refraction-mobile-v83.png',.045,.115)
+
+# v86: ten percent narrower, with a full-width C2 feather into clear pixels.
+build('hero-refraction-field-v86.png',.0225,.0495,True)
+build('hero-refraction-mobile-v86.png',.0405,.1035,True)
