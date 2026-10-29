@@ -4,13 +4,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 const root = new URL("../", import.meta.url);
 const check = process.argv.includes("--check");
-for (const name of [
-  "index.html",
-  "privacy.html",
-  "404.html",
-  "demo/index.html",
-  "programma-dlya-magazina-instrumentov/index.html",
-]) {
+const pages = JSON.parse(
+  await readFile(new URL("tools/pages.json", root), "utf8"),
+);
+for (const { file: name } of pages) {
+  const staticHelp = name.startsWith("pomoshch/");
   const path = new URL(name, root);
   // HTML parsing converts CRLF and bare CR to LF before scripts are hashed.
   // Windows checkouts must use the same script text as the browser.
@@ -26,12 +24,14 @@ for (const name of [
     "base-uri 'none'",
     "object-src 'none'",
     "frame-src 'none'",
-    `script-src 'self' ${hashes.join(" ")}`.trim(),
-    "style-src 'self' 'unsafe-inline'",
+    `script-src ${staticHelp ? "" : "'self' "}${hashes.join(" ")}`.trim(),
+    staticHelp ? "style-src 'self'" : "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self'",
-    "connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store",
-    "form-action 'self'",
+    staticHelp
+      ? "connect-src 'none'"
+      : "connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store",
+    staticHelp ? "form-action 'none'" : "form-action 'self'",
   ].join("; ");
   const block = `<!-- security:start -->\n    <meta http-equiv="Content-Security-Policy" content="${policy}" />\n    <!-- security:end -->`;
   const marker = /<!-- security:start -->[\s\S]*?<!-- security:end -->/;

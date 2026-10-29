@@ -6,10 +6,12 @@ export function init() {
   const cards = [...track.querySelectorAll("[data-gallery-card]")];
   const dialogs = [...document.querySelectorAll("dialog")];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const pauseButton = gallery.querySelector(".ribbon-pause");
   const wrap = (n) => ((n % cards.length) + cards.length) % cards.length;
   const transformAt = (n) =>
     `translate3d(calc(-1 * var(--ribbon-cycle) + var(--ribbon-offset) - ${n} * var(--ribbon-step)), 0, 0)`;
   let focused = false,
+    pausedByVisitor = false,
     hovering = false,
     inView = true,
     resting = false;
@@ -40,6 +42,7 @@ export function init() {
     const running =
       !!flow &&
       !focused &&
+      !pausedByVisitor &&
       !reduced.matches &&
       !hovering &&
       !resting &&
@@ -63,6 +66,8 @@ export function init() {
     }
     const motion = running ? "running" : "paused";
     if (stage.dataset.motion !== motion) stage.dataset.motion = motion;
+    if (pauseButton && pauseButton.hidden !== reduced.matches)
+      pauseButton.hidden = reduced.matches;
     optics?.update(running || manual?.playState === "running");
   };
   const restAfterSwipe = () => {
@@ -110,19 +115,36 @@ export function init() {
     sync();
   };
   const move = (direction) => go(Math.round(target ?? phase()) + direction);
+  pauseButton?.addEventListener("click", () => {
+    pausedByVisitor = !pausedByVisitor;
+    pauseButton.dataset.paused = String(pausedByVisitor);
+    pauseButton.querySelector("span").textContent = pausedByVisitor
+      ? "Продолжить"
+      : "Пауза";
+    pauseButton.setAttribute(
+      "aria-label",
+      pausedByVisitor
+        ? "Продолжить движение фотографий"
+        : "Пауза: приостановить движение фотографий",
+    );
+    sync();
+  });
   gallery.addEventListener("keydown", (event) => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
     event.preventDefault();
     move(event.key === "ArrowRight" ? 1 : -1);
   });
   gallery.addEventListener("focusin", (event) => {
+    if (event.target === pauseButton) return;
     focused = true;
     sync();
     const index = cards.indexOf(event.target);
     if (index >= 0 && !pointer) go(index);
   });
   gallery.addEventListener("focusout", (event) => {
-    focused = gallery.contains(event.relatedTarget);
+    focused =
+      gallery.contains(event.relatedTarget) &&
+      event.relatedTarget !== pauseButton;
     sync();
   });
   stage.addEventListener("pointerenter", (event) => {

@@ -1,0 +1,40 @@
+[
+  {
+    "file": "index.html",
+    "canonical": "https://metov.store/",
+    "styles": "site",
+    "marker": "Smart Store"
+  },
+  {
+    "file": "privacy.html",
+    "canonical": "https://metov.store/privacy.html",
+    "styles": "privacy",
+    "marker": "Конфиденциальность"
+  },
+  {
+    "file": "programma-dlya-magazina-instrumentov/index.html",
+    "canonical": "https://metov.store/programma-dlya-magazina-instrumentov/",
+    "styles": "privacy",
+    "marker": "Программа для магазина инструментов"
+  },
+  {
+    "file": "pomoshch/index.html",
+    "canonical": "https://metov.store/pomoshch/",
+    "styles": "privacy",
+    "marker": "Помощь со Smart Store"
+  },
+  {
+    "file": "pomoshch/rezervnaya-kopiya/index.html",
+    "canonical": "https://metov.store/pomoshch/rezervnaya-kopiya/",
+    "styles": "privacy",
+    "marker": "Резервная копия Smart Store"
+  },
+  {
+    "file": "pomoshch/dostup-s-telefona/index.html",
+    "canonical": "https://metov.store/pomoshch/dostup-s-telefona/",
+    "styles": "privacy",
+    "marker": "Доступ к Smart Store с телефона"
+  },
+  { "file": "404.html", "styles": "privacy" },
+  { "file": "demo/index.html" }
+]

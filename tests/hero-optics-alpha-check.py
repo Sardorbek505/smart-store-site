@@ -7,9 +7,11 @@ import os,shutil,json
 which=os.environ.get('BROWSER','chromium');out=Path('/tmp/smart-store-alpha-v86')/which;out.mkdir(parents=True,exist_ok=True)
 with sync_playwright() as p:
  opts={'headless':True}
- if which=='chromium':opts.update(executable_path=shutil.which('chromium'),args=['--no-sandbox'])
+ if which=='chromium':opts.update(executable_path=shutil.which('chromium'),args=['--no-sandbox','--enable-unsafe-swiftshader'])
  b=getattr(p,which).launch(**opts)
  page=b.new_page(**p.devices['iPhone 13'])
+ for host in ['zavod.metov.store','connect.metov.store','api.github.com']:
+  page.route('https://'+host+'/**',lambda r:r.fulfill(status=204))
  # Use the premultiplied compositor convention of the affected iOS view.
  page.add_init_script('''const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,options){return original.call(this,type,type==='webgl'?{...options,premultipliedAlpha:true}:options)}''')
  page.goto(os.environ.get('SITE_TEST_URL','http://127.0.0.1:4173'),wait_until='networkidle')

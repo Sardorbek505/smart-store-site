@@ -8,6 +8,9 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
   let revision = 0;
   let controller;
   let state = "idle";
+  let disconnected = false;
+  const offlineMessage =
+    "Нет подключения к интернету. Подключитесь и повторите проверку — код магазина сохранён.";
   const show = (next, text = "") => {
     state = next;
     form.dataset.state = next;
@@ -68,6 +71,12 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
     }
     controller = new AbortController();
     const target = storeUrl(code);
+    if (navigator.onLine === false) {
+      disconnected = true;
+      show("unavailable", offlineMessage);
+      return;
+    }
+    disconnected = false;
     show("checking", "Проверяем код магазина…");
     try {
       const url = new URL(config.connectionUrl);
@@ -102,6 +111,20 @@ export function init({ config, storeCode, storeUrl, fetchJson }) {
     }
   });
   const dialog = document.getElementById("store");
+  window.addEventListener("offline", () => {
+    if (state !== "checking") return;
+    cancel();
+    disconnected = true;
+    show("unavailable", offlineMessage);
+  });
+  window.addEventListener("online", () => {
+    if (!disconnected) return;
+    disconnected = false;
+    show(
+      "idle",
+      "Соединение появилось. Нажмите «Открыть магазин», чтобы повторить проверку.",
+    );
+  });
   if (typeof dialog?.showModal !== "function") return;
   let trigger;
   let returnPosition;

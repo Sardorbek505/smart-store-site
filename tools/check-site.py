@@ -7,9 +7,18 @@ import json, re, xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 'https://metov.store/'
-GUIDE = 'programma-dlya-magazina-instrumentov/'
-PAGES = ['index.html', 'privacy.html', '404.html', 'demo/index.html', GUIDE+'index.html']
-PUBLIC = {'index.html': BASE, 'privacy.html': BASE + 'privacy.html', GUIDE+'index.html': BASE+GUIDE}
+MANIFEST = json.loads((ROOT/'tools/pages.json').read_text())
+PAGES = [p['file'] for p in MANIFEST]
+PUBLIC = {p['file']:p['canonical'] for p in MANIFEST if 'canonical' in p}
+assert len(PAGES)==len(set(PAGES)), 'Duplicate page in manifest'
+assert len(PUBLIC.values())==len(set(PUBLIC.values())), 'Duplicate canonical'
+for page in MANIFEST:
+    name=page['file']
+    assert re.fullmatch(r'[a-z0-9/-]+\.html', name) and '..' not in name
+    assert page.get('styles') in [None,'site','privacy']
+    if 'canonical' in page:
+        path=name.removesuffix('index.html')
+        assert page['canonical']==BASE+path, ('Canonical must match its file',name)
 
 class Page(HTMLParser):
     def __init__(self, source):
@@ -77,7 +86,7 @@ for name,page in parsed.items():
 robots=RobotFileParser();robots.parse((ROOT/'robots.txt').read_text().splitlines())
 assert robots.site_maps()==[BASE+'sitemap.xml']
 for bot in ['Googlebot','Bingbot','YandexBot','YandexWebmaster','OAI-SearchBot','GPTBot','Claude-SearchBot','PerplexityBot']:
-    for path in ['', GUIDE, 'privacy.html', 'app.js', 'assets/styles.json', 'img/icon.png']:
+    for path in [*(u.removeprefix(BASE) for u in PUBLIC.values()), 'app.js', 'assets/styles.json', 'img/icon.png']:
         assert robots.can_fetch(bot,BASE+path),(bot,path)
 urls=[e.text for e in ET.parse(ROOT/'sitemap.xml').findall('.//{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
 assert sorted(urls)==sorted(PUBLIC.values()),('Sitemap must contain only canonical public pages',urls)

@@ -15,9 +15,11 @@ OUT.mkdir(parents=True,exist_ok=True)
 
 with sync_playwright() as p:
     opts={'headless':True}
-    if BROWSER=='chromium':opts.update(executable_path=shutil.which('chromium'),args=['--no-sandbox'])
+    if BROWSER=='chromium':opts.update(executable_path=shutil.which('chromium'),args=['--no-sandbox','--enable-unsafe-swiftshader'])
     browser=getattr(p,BROWSER).launch(**opts)
     page=browser.new_page(**p.devices['iPhone 13'])
+    for host in ['zavod.metov.store','connect.metov.store','api.github.com']:
+        page.route('https://'+host+'/**',lambda r:r.fulfill(status=204))
     # Reproduce the iOS WebView compositor convention that exposed bright arcs
     # when v84 supplied straight RGB at fractional alpha.
     page.add_init_script('''const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,options){return original.call(this,type,type==='webgl'?{...options,premultipliedAlpha:true}:options)}''')
@@ -71,6 +73,8 @@ with sync_playwright() as p:
     page.close()
     # No WebGL is an enhancement failure, not a failure of the landing page.
     page=browser.new_page(**p.devices['iPhone 13'])
+    for host in ['zavod.metov.store','connect.metov.store','api.github.com']:
+        page.route('https://'+host+'/**',lambda r:r.fulfill(status=204))
     page.add_init_script('''const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return type==='webgl'?null:original.call(this,type,...args)}''')
     page.goto(BASE,wait_until='networkidle')
     page.wait_for_function('()=>document.querySelector(".gallery-stage").dataset.motion==="running"')
