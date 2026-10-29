@@ -18,7 +18,7 @@ for j in range(H):
  y=j/(H-1);row=bytearray([0])
  for i in range(W):
   x=i/(W-1)
-  extent=.18+.08*math.sin(math.pi*y)**2
+  extent=.025+.055*math.sin(math.pi*y)**.65
   left=1-smooth(x/extent);right=1-smooth((1-x)/extent)
   edge=left+right;direction=left-right
   bow=.30+.70*math.sin(math.pi*y)**2
@@ -27,7 +27,7 @@ for j in range(H):
   row.extend((byte(r),byte(g),byte(smooth(edge/.35))))
  rows.append(row)
 png=b'\x89PNG\r\n\x1a\n'+chunk(b'IHDR',struct.pack('>IIBBBBB',W,H,8,2,0,0,0))+chunk(b'IDAT',zlib.compress(b''.join(rows),9))+chunk(b'IEND',b'')
-file=ROOT/'img/hero-refraction-field-v81.png'
+file=ROOT/'img/hero-refraction-field-v82.png'
 if '--check' in sys.argv:
  if file.read_bytes()!=png:raise SystemExit('Stale hero displacement field')
 else:file.write_bytes(png)

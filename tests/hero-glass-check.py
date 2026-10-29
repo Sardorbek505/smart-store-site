@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173').rstrip('/')
 BROWSER = os.environ.get('BROWSER', 'chromium')
-OUT = Path('/tmp/smart-store-refraction-v81') / BROWSER
+OUT = Path('/tmp/smart-store-refraction-v82') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as p:
@@ -38,7 +38,7 @@ with sync_playwright() as p:
         a=Image.open(BytesIO(with_lens)).convert('RGB')
         b=Image.open(BytesIO(without_lens)).convert('RGB')
         difference=ImageChops.difference(a,b)
-        inset=round(a.width*.28)
+        inset=round(a.width*.10)
         middle=difference.crop((inset,0,a.width-inset,a.height))
         edge=Image.new('RGB',(inset*2,a.height))
         edge.paste(difference.crop((0,0,inset,a.height)),(0,0))
@@ -50,17 +50,19 @@ with sync_playwright() as p:
         (OUT/f'lens-{w}.png').write_bytes(with_lens)
         (OUT/f'no-lens-{w}.png').write_bytes(without_lens)
         if w in [390,1440]:
-            grid=page.add_style_tag(content='.gallery-card .editorial-photo{visibility:hidden!important}.gallery-card{background:repeating-linear-gradient(90deg,#101010 0 3px,#fafafa 3px 20px)!important}')
+            # Anchor the fixture to the aperture so a stripe crosses the narrow outer band
+            # regardless of the translated cards or viewport size.
+            grid=page.add_style_tag(content='.ribbon-track{visibility:hidden!important}.ribbon-refraction{background:repeating-linear-gradient(90deg,#101010 0 10px,#fafafa 10px 20px)!important}')
             warped=Image.open(BytesIO(page.locator('.ribbon-window').screenshot())).convert('RGB')
             # A vertical stripe is identical between rows until a lens bends it.
             def row_difference(img,left,right):
-                y1,y2=round(img.height*.30),round(img.height*.50)
+                y1,y2=round(img.height*.18),round(img.height*.50)
                 row1=img.crop((left,y1,right,y1+1));row2=img.crop((left,y2,right,y2+1))
                 return max(ImageStat.Stat(ImageChops.difference(row1,row2)).mean)
-            edge_end=round(warped.width*.24)
+            edge_end=round(warped.width*.08)
             bend=row_difference(warped,0,edge_end)
             assert bend>5,('Straight lines must visibly bend at the edges',bend)
-            assert row_difference(warped,round(warped.width*.30),round(warped.width*.70))<.5
+            assert row_difference(warped,round(warped.width*.10),round(warped.width*.90))<.5
             warped.save(OUT/f'curved-grid-{w}.png')
             grid.evaluate('e=>e.remove()')
         # A lens covers this coordinate visually, but never intercepts a photo tap.
