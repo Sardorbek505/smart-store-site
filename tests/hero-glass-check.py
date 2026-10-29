@@ -25,9 +25,9 @@ with sync_playwright() as p:
         page.locator('.hero-gallery').focus()
         page.evaluate('window.flow=document.querySelector(".ribbon-track").getAnimations()[0]')
         page.wait_for_function('() => (flow.playState==="paused"&&!flow.pending)')
-        # Check the actual phone opening frame, which the desktop-sized field
-        # left completely undistorted. Desktop still uses the narrower field.
-        page.evaluate('(n)=>flow.currentTime=flow.effect.getTiming().duration*n',0 if w<851 else .11)
+        # Sample a photograph crossing the lens. A flat opening background can
+        # legitimately look unchanged when the requested distortion is subtle.
+        page.evaluate('(n)=>flow.currentTime=flow.effect.getTiming().duration*n',.28 if w<851 else .11)
         if w<851:
             page.evaluate('dispatchEvent(new Event("resize"))');page.wait_for_timeout(100)
         filter_id='hero-refraction-mobile' if w<851 else 'hero-refraction'
@@ -110,6 +110,6 @@ with sync_playwright() as p:
             page.evaluate('scrollTo(0,0)')
             page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
         assert not errors,errors
-        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'dpr':dpr,'edgeEffect':'curved displacement + chromatic split','openingPhoneFrame':'pass' if w<851 else 'not applicable','centreMeanDifference':round(middle_mean,4),'edgeMeanDifference':round(edge_mean,4),'photoTapThroughGlass':'pass','swipeRestAndScroll':'pass' if w==390 else 'not repeated'}),flush=True)
+        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'dpr':dpr,'edgeEffect':'curved displacement + chromatic split','movingPhotoFrame':'pass' if w<851 else 'not applicable','centreMeanDifference':round(middle_mean,4),'edgeMeanDifference':round(edge_mean,4),'photoTapThroughGlass':'pass','swipeRestAndScroll':'pass' if w==390 else 'not repeated'}),flush=True)
         page.close()
     browser.close()

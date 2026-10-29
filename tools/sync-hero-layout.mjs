@@ -29,9 +29,9 @@ const refractionFilter = (
   field,
 ) => `<filter id="${id}" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
   <feImage href="img/${field}" xlink:href="img/${field}" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="field"/>
-  <feDisplacementMap in="SourceGraphic" in2="field" scale=".13122" xChannelSelector="R" yChannelSelector="G" result="warp-r"/>
-  <feDisplacementMap in="SourceGraphic" in2="field" scale=".120285" xChannelSelector="R" yChannelSelector="G" result="warp-g"/>
-  <feDisplacementMap in="SourceGraphic" in2="field" scale=".10935" xChannelSelector="R" yChannelSelector="G" result="warp-b"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".091854" xChannelSelector="R" yChannelSelector="G" result="warp-r"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".0841995" xChannelSelector="R" yChannelSelector="G" result="warp-g"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".076545" xChannelSelector="R" yChannelSelector="G" result="warp-b"/>
   <feColorMatrix in="warp-r" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
   <feColorMatrix in="warp-g" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>
   <feColorMatrix in="warp-b" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>

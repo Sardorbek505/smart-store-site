@@ -18,7 +18,7 @@ vec3 refractPhoto(vec2 p){
   float left=1.-smoothstep(0.,extent,p.x);
   float right=1.-smoothstep(0.,extent,1.-p.x);
   vec2 shift=vec2(.40*(left-right)*(.30+.70*s*s),.32*(left+right)*sin(6.2831853*p.y));
-  return vec3(source(p+.13122*shift).r,source(p+.120285*shift).g,source(p+.10935*shift).b);
+  return vec3(source(p+.091854*shift).r,source(p+.0841995*shift).g,source(p+.076545*shift).b);
 }
 void main(){
   float extent=.0405+.1035*pow(max(0.,sin(3.14159265*uv.y)),.65);
