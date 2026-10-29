@@ -1,4 +1,4 @@
-"""Persistent motion control, atlas reuse, offline login and static help navigation."""
+"""Continuous visible motion, atlas reuse, offline login and static help navigation."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import json,os,shutil
@@ -19,24 +19,34 @@ with sync_playwright() as p:
     page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(BASE,wait_until='networkidle')
     page.wait_for_function('()=>document.querySelector(".ribbon-window").dataset.optics==="webgl"')
-    pause=page.locator('.ribbon-pause');assert pause.is_visible()
-    box=pause.bounding_box();assert box['height']>=44 and box['y']>=0 and box['y']+box['height']<=844
-    pause.click();page.mouse.move(1,1);page.evaluate('document.activeElement.blur()')
-    page.wait_for_function('()=>{const a=document.querySelector(".ribbon-track").getAnimations()[0];return a.playState==="paused"&&!a.pending}')
-    stopped=page.locator('.ribbon-track').evaluate('e=>e.getAnimations()[0].currentTime')
-    page.wait_for_timeout(150)
-    assert page.locator('.ribbon-track').evaluate('e=>e.getAnimations()[0].currentTime')==stopped
-    assert pause.inner_text()=='Продолжить'
+    assert page.locator('.ribbon-pause').count()==0
+    page.evaluate('window.testFlow=document.querySelector(".ribbon-track").getAnimations()[0]')
+    def advancing():
+        page.wait_for_function('()=>testFlow.playState==="running"&&!testFlow.pending')
+        before=page.evaluate('testFlow.currentTime');page.wait_for_timeout(200)
+        assert page.evaluate('testFlow.currentTime')>before+50
+    advancing()
+    page.evaluate('scrollTo({top:100,behavior:"instant"})');advancing()
+    page.locator('.hero-gallery').focus();advancing()
+    stage=page.locator('.gallery-stage')
+    event={'pointerId':7,'pointerType':'touch','isPrimary':True,'button':0,'clientX':290,'clientY':600}
+    stage.dispatch_event('pointerdown',event);advancing()
+    stage.dispatch_event('pointermove',{**event,'clientX':120})
+    stage.dispatch_event('pointerup',{**event,'buttons':0,'clientX':120})
+    stage.dispatch_event('click',{'clientX':120,'clientY':600})
+    assert not page.locator('#preview-dialog').evaluate('e=>e.open')
+    page.wait_for_function('()=>document.querySelector(".ribbon-track").getAnimations().length===1')
+    advancing()  # no old 2-second hold after the finite swipe
     page.locator('[data-gallery-card]').first.evaluate('e=>e.click()')
     page.wait_for_function('()=>document.getElementById("preview-dialog").open')
-    page.keyboard.press('Escape');page.evaluate('document.activeElement.blur()')
-    assert page.locator('.gallery-stage').get_attribute('data-motion')=='paused'
-    pause.click();page.wait_for_function('()=>document.querySelector(".gallery-stage").dataset.motion==="running"')
+    advancing()
+    page.keyboard.press('Escape');advancing()
     # Browser-bar resize notifications must not upload unchanged images again.
     page.locator('.ribbon-optics').evaluate('''c=>{const gl=c.getContext('webgl');const upload=gl.texImage2D.bind(gl);window.uploads=0;gl.texImage2D=(...args)=>{uploads++;return upload(...args)}}''')
     page.evaluate('()=>{for(let i=0;i<4;i++)dispatchEvent(new Event("resize"))}')
     page.wait_for_timeout(100);assert page.evaluate('uploads')==0
-    page.emulate_media(reduced_motion='reduce');pause.wait_for(state='hidden')
+    page.emulate_media(reduced_motion='reduce')
+    page.wait_for_function('()=>testFlow.playState==="paused"&&!testFlow.pending')
     # These are offline browser states, not real requests to a store.
     page.locator('a[href="#store"]').first.evaluate('e=>e.click()')
     page.wait_for_function('()=>document.getElementById("store").open')
@@ -61,7 +71,7 @@ with sync_playwright() as p:
     page.evaluate('pending[0]({ok:true,json:async()=>({found:true})})');page.wait_for_timeout(100)
     assert 'fixture-shop-2.metov.store' not in page.url
     assert not errors,errors
-    print(json.dumps({'browser':BROWSER,'persistentPause':'pass','atlasUploadsOnUnchangedResize':0,'offlineLookupRequests':0,'onlineRetry':'manual only','staleOfflineResult':'ignored'}),flush=True)
+    print(json.dumps({'browser':BROWSER,'visibleAutoplay':'scroll/focus/touch/modal/swipe pass','atlasUploadsOnUnchangedResize':0,'offlineLookupRequests':0,'onlineRetry':'manual only','staleOfflineResult':'ignored'}),flush=True)
     c.close()
     for width in [320,390,1440]:
         c=browser.new_context(viewport={'width':width,'height':900},java_script_enabled=False)

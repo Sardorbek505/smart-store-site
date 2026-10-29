@@ -29,6 +29,7 @@ with sync_playwright() as p:
     page.goto(BASE,wait_until='networkidle')
     page.wait_for_function('()=>document.querySelector(".ribbon-window").dataset.optics==="webgl"')
     page.add_style_tag(content='.ribbon-refraction{filter:none!important}')
+    page.emulate_media(reduced_motion='reduce')
     page.locator('.hero-gallery').focus()
     page.evaluate('window.flow=document.querySelector(".ribbon-track").getAnimations()[0]')
     page.wait_for_function('()=>flow.playState==="paused"&&!flow.pending')

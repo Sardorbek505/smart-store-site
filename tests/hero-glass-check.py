@@ -1,4 +1,4 @@
-"""Curved chromatic refraction, a sharp centre, readable originals and swipe/rest behaviour."""
+"""Curved chromatic refraction, a sharp centre, readable originals and continuous swipe behaviour."""
 from io import BytesIO
 from pathlib import Path
 import json, os, shutil
@@ -13,15 +13,18 @@ OUT.mkdir(parents=True, exist_ok=True)
 with sync_playwright() as p:
     launch = {'headless': True}
     if BROWSER == 'chromium':
-        launch.update(executable_path=shutil.which('chromium'), args=['--no-sandbox'])
+        launch.update(executable_path=shutil.which('chromium'), args=['--no-sandbox','--enable-unsafe-swiftshader'])
     browser = getattr(p, BROWSER).launch(**launch)
     for w,h,dpr in [(320,568,3),(390,844,3),(768,1024,2),(1440,900,2)]:
         page = browser.new_page(viewport={'width':w,'height':h},device_scale_factor=dpr,has_touch=w<851,is_mobile=w<851)
+        for host in ['zavod.metov.store','connect.metov.store','api.github.com']:
+            page.route('https://'+host+'/**',lambda r:r.fulfill(status=204))
         errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(BASE,wait_until='networkidle')
         page.locator('[data-gallery-card] img').evaluate_all('(xs)=>Promise.all(xs.map(i=>i.decode()))')
         page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.ready==="true")')
         if w<851:page.wait_for_function('()=>document.querySelector(".ribbon-window").dataset.optics==="webgl"')
+        page.emulate_media(reduced_motion='reduce')
         page.locator('.hero-gallery').focus()
         page.evaluate('window.flow=document.querySelector(".ribbon-track").getAnimations()[0]')
         page.wait_for_function('() => (flow.playState==="paused"&&!flow.pending)')
@@ -85,6 +88,7 @@ with sync_playwright() as p:
         assert page.locator('#preview-image').evaluate('e=>getComputedStyle(e).filter')=='none'
         page.keyboard.press('Escape')
         if w==390:
+            page.emulate_media(reduced_motion='no-preference')
             page.mouse.move(1,1)
             page.evaluate('document.activeElement.blur()')
             page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
@@ -98,18 +102,17 @@ with sync_playwright() as p:
             swipe()
             page.wait_for_function("() => (document.querySelector('.ribbon-track').getAnimations().every(a=>a.animationName==='ribbon-flow'))")
             assert page.locator('#preview-dialog').evaluate('e=>!e.open')
-            page.wait_for_function('() => (flow.playState==="paused"&&!flow.pending)')
-            frozen=page.evaluate('flow.currentTime')
-            page.wait_for_timeout(700)
-            assert abs(page.evaluate('flow.currentTime')-frozen)<1
-            page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")',timeout=3000)
-            # The swipe timer must not resume motion after the visitor scrolls away.
-            swipe();page.evaluate('scrollTo(0,100)')
-            page.wait_for_timeout(2800)
-            assert page.locator('.gallery-stage').get_attribute('data-motion')=='paused'
-            page.evaluate('scrollTo(0,0)')
-            page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
+            page.wait_for_function('() => (flow.playState==="running"&&!flow.pending)')
+            start=page.evaluate('flow.currentTime');page.wait_for_timeout(300)
+            assert page.evaluate('flow.currentTime')>start+50
+            # Scrolling with the ribbon still on screen must not stop it.
+            swipe();page.evaluate('scrollTo({top:100,behavior:"instant"})')
+            page.wait_for_function('() => document.querySelector(".ribbon-track").getAnimations().length===1')
+            page.wait_for_function('() => (flow.playState==="running"&&!flow.pending)')
+            start=page.evaluate('flow.currentTime');page.wait_for_timeout(300)
+            assert page.evaluate('flow.currentTime')>start+50
+            page.evaluate('scrollTo({top:0,behavior:"instant"})')
         assert not errors,errors
-        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'dpr':dpr,'edgeEffect':'curved displacement + chromatic split','movingPhotoFrame':'pass' if w<851 else 'not applicable','centreMeanDifference':round(middle_mean,4),'edgeMeanDifference':round(edge_mean,4),'photoTapThroughGlass':'pass','swipeRestAndScroll':'pass' if w==390 else 'not repeated'}),flush=True)
+        print(json.dumps({'browser':BROWSER,'viewport':[w,h],'dpr':dpr,'edgeEffect':'curved displacement + chromatic split','movingPhotoFrame':'pass' if w<851 else 'not applicable','centreMeanDifference':round(middle_mean,4),'edgeMeanDifference':round(edge_mean,4),'photoTapThroughGlass':'pass','continuousSwipeAndScroll':'pass' if w==390 else 'not repeated'}),flush=True)
         page.close()
     browser.close()

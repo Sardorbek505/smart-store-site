@@ -4,18 +4,11 @@ export function init() {
   const stage = gallery.querySelector(".gallery-stage");
   const track = gallery.querySelector("[data-ribbon-track]");
   const cards = [...track.querySelectorAll("[data-gallery-card]")];
-  const dialogs = [...document.querySelectorAll("dialog")];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const pauseButton = gallery.querySelector(".ribbon-pause");
   const wrap = (n) => ((n % cards.length) + cards.length) % cards.length;
   const transformAt = (n) =>
     `translate3d(calc(-1 * var(--ribbon-cycle) + var(--ribbon-offset) - ${n} * var(--ribbon-step)), 0, 0)`;
-  let focused = false,
-    pausedByVisitor = false,
-    hovering = false,
-    inView = true,
-    resting = false;
-  let restTimer;
+  let inView = true;
   let optics;
   let pointer = null,
     dragged = false,
@@ -39,26 +32,17 @@ export function init() {
       `${index + 1} из ${cards.length}: ${cards[index].dataset.title}`;
   };
   const sync = () => {
+    // Visible photos keep flowing through scrolling, hover, focus and taps.
+    // Suspend only when unseen/system motion is reduced, or a finite swipe
+    // supplies its own continuously moving transform.
     const running =
-      !!flow &&
-      !focused &&
-      !pausedByVisitor &&
-      !reduced.matches &&
-      !hovering &&
-      !resting &&
-      !pointer &&
-      !manual &&
-      inView &&
-      !document.hidden &&
-      !dialogs.some((dialog) => dialog.open) &&
-      scrollY <= 1;
+      !!flow && !reduced.matches && !manual && inView && !document.hidden;
     if (flow && (flow.playState === "running") !== running) {
       if (running) flow.play();
       else flow.pause();
     }
     if (manual) {
-      const advancing =
-        inView && !document.hidden && !dialogs.some((dialog) => dialog.open);
+      const advancing = inView && !document.hidden;
       if ((manual.playState === "running") !== advancing) {
         if (advancing) manual.play();
         else manual.pause();
@@ -66,18 +50,7 @@ export function init() {
     }
     const motion = running ? "running" : "paused";
     if (stage.dataset.motion !== motion) stage.dataset.motion = motion;
-    if (pauseButton && pauseButton.hidden !== reduced.matches)
-      pauseButton.hidden = reduced.matches;
     optics?.update(running || manual?.playState === "running");
-  };
-  const restAfterSwipe = () => {
-    resting = true;
-    clearTimeout(restTimer);
-    // The finite transition takes 650 ms; leave about two seconds to inspect it.
-    restTimer = setTimeout(() => {
-      resting = false;
-      sync();
-    }, 2650);
   };
   const go = (next) => {
     sync();
@@ -115,46 +88,10 @@ export function init() {
     sync();
   };
   const move = (direction) => go(Math.round(target ?? phase()) + direction);
-  pauseButton?.addEventListener("click", () => {
-    pausedByVisitor = !pausedByVisitor;
-    pauseButton.dataset.paused = String(pausedByVisitor);
-    pauseButton.querySelector("span").textContent = pausedByVisitor
-      ? "Продолжить"
-      : "Пауза";
-    pauseButton.setAttribute(
-      "aria-label",
-      pausedByVisitor
-        ? "Продолжить движение фотографий"
-        : "Пауза: приостановить движение фотографий",
-    );
-    sync();
-  });
   gallery.addEventListener("keydown", (event) => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
     event.preventDefault();
     move(event.key === "ArrowRight" ? 1 : -1);
-  });
-  gallery.addEventListener("focusin", (event) => {
-    if (event.target === pauseButton) return;
-    focused = true;
-    sync();
-    const index = cards.indexOf(event.target);
-    if (index >= 0 && !pointer) go(index);
-  });
-  gallery.addEventListener("focusout", (event) => {
-    focused =
-      gallery.contains(event.relatedTarget) &&
-      event.relatedTarget !== pauseButton;
-    sync();
-  });
-  stage.addEventListener("pointerenter", (event) => {
-    if (event.pointerType !== "mouse") return;
-    hovering = true;
-    sync();
-  });
-  stage.addEventListener("pointerleave", () => {
-    hovering = false;
-    sync();
   });
   stage.addEventListener("pointerdown", (event) => {
     if (!event.isPrimary || event.button !== 0) return;
@@ -173,7 +110,6 @@ export function init() {
     const dx = event.clientX - pointer.x;
     pointer = null;
     if (dragged && Math.abs(dx) > 35) {
-      restAfterSwipe();
       move(dx < 0 ? 1 : -1);
     }
     sync();
@@ -197,18 +133,11 @@ export function init() {
   stage.addEventListener("dragstart", (event) => event.preventDefault());
   // The photo strip stays on one native transform. Optional phone optics read
   // its animation clock; their decoding and GPU setup never block navigation.
-  window.addEventListener("scroll", sync, { passive: true });
   document.addEventListener("visibilitychange", sync);
   reduced.addEventListener("change", () => {
     if (reduced.matches && manual) manual.finish();
     sync();
   });
-  const dialogObserver = new MutationObserver(sync);
-  for (const dialog of dialogs)
-    dialogObserver.observe(dialog, {
-      attributes: true,
-      attributeFilter: ["open"],
-    });
   new IntersectionObserver(([entry]) => {
     inView = entry.isIntersecting;
     sync();
