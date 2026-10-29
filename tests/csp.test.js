@@ -6,18 +6,14 @@ import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 
 const root = new URL("../", import.meta.url);
-const pages = [
-  "index.html",
-  "privacy.html",
-  "404.html",
-  "demo/index.html",
-  "programma-dlya-magazina-instrumentov/index.html",
-];
+const pages = JSON.parse(
+  await readFile(new URL("tools/pages.json", root), "utf8"),
+).map((page) => page.file);
 
 async function fixture(ending, action) {
   const dir = await mkdtemp(join(tmpdir(), "smart-store-csp-"));
   try {
-    for (const name of ["tools/sync-csp.mjs", ...pages]) {
+    for (const name of ["tools/sync-csp.mjs", "tools/pages.json", ...pages]) {
       const file = join(dir, name);
       await mkdir(dirname(file), { recursive: true });
       const source = await readFile(new URL(name, root), "utf8");

@@ -1,14 +1,14 @@
-import { cp, mkdir, readdir, rm, lstat } from "node:fs/promises";
+import { cp, mkdir, readdir, rm, lstat, readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const PAGES = JSON.parse(
+  await readFile(new URL("pages.json", import.meta.url), "utf8"),
+);
 const FILES = [
-  "index.html",
-  "privacy.html",
-  "404.html",
-  "demo/index.html",
-  "programma-dlya-magazina-instrumentov/index.html",
+  ...PAGES.map((p) => p.file),
+  ".well-known/security.txt",
   "app.js",
   "robots.txt",
   "sitemap.xml",

@@ -14,6 +14,7 @@
 - [Возможности и ограничения программы](https://metov.store/programma-dlya-magazina-instrumentov/)
 - [От первого запуска до чека](https://metov.store/programma-dlya-magazina-instrumentov/#first-sale)
 - [Активация лицензии](https://metov.store/programma-dlya-magazina-instrumentov/#activation)
+- [Справка: копии и доступ с телефона](https://metov.store/pomoshch/)
 - [Официальные выпуски для Windows](https://github.com/Sardorbek505/smart-store-releases/releases)
 - [Конфиденциальность и условия](https://metov.store/privacy.html)
 - [Поддержка в WhatsApp](https://wa.me/77066352006)
@@ -53,6 +54,12 @@ python -m http.server 4173
 проверяется в CI; форматирование после генерации требует повторной генерации.
 
 ## Страница
+
+В v89 облегчён мобильный эффект херо: поле искажения вычисляется один раз,
+рисуются только боковые полосы, одинаковый resize не загружает атлас заново.
+Сила, размытие и контур v88 сохранены. Добавлены постоянная пауза движения,
+обработка потери сети при входе и три статические страницы справки.
+Текущая архитектура и границы проверки: [v89](docs/site-improvements-v89.md).
 
 В v88 искажение уменьшено ещё на 30%; размытие и форма затухания v87 сохранены.
 Актуальная [сверка всех списков со скриншотов](docs/checklist-status-2026-10-29.md)

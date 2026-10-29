@@ -14,9 +14,12 @@ const previous = await readFile(manifestUrl, "utf8")
     throw error;
   });
 const retained = {};
+const sitePages = JSON.parse(
+  await readFile(new URL("tools/pages.json", root), "utf8"),
+);
 const bundles = [
   {
-    pages: ["index.html"],
+    pages: sitePages.filter((p) => p.styles === "site").map((p) => p.file),
     name: "site",
     sources: [
       "styles.css",
@@ -33,11 +36,7 @@ const bundles = [
     ],
   },
   {
-    pages: [
-      "privacy.html",
-      "404.html",
-      "programma-dlya-magazina-instrumentov/index.html",
-    ],
+    pages: sitePages.filter((p) => p.styles === "privacy").map((p) => p.file),
     name: "privacy",
     sources: ["styles.css", "buttons.css"],
   },
@@ -59,7 +58,7 @@ for (const { pages, name, sources } of bundles) {
   if (warnings.length) throw new Error(JSON.stringify(warnings));
   const hash = createHash("sha256").update(code).digest("hex").slice(0, 12);
   const file = `${name}.${hash}.css`;
-  // Pages and the Worker can serve different releases; keep both prior sheets.
+  // Cached HTML can reference older releases; keep both previously published sheets.
   retained[name] = [...new Set([file, ...(previous[name] || [])])].slice(0, 3);
   for (const sheet of retained[name]) expected.add(sheet);
   const url = new URL(`assets/${file}`, root);

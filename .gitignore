@@ -8,3 +8,5 @@ __pycache__/
 test-results/
 edge/public/
 edge/.wrangler/
+
+.venv-browser/

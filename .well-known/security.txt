@@ -1,0 +1,4 @@
+Contact: https://metov.store/privacy.html#data-requests
+Expires: 2027-04-29T00:00:00Z
+Preferred-Languages: ru
+Canonical: https://metov.store/.well-known/security.txt

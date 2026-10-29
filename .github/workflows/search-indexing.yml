@@ -6,6 +6,8 @@ on:
       - index.html
       - privacy.html
       - programma-dlya-magazina-instrumentov/index.html
+      - pomoshch/**
+      - tools/pages.json
       - robots.txt
       - sitemap.xml
       - llms.txt
@@ -22,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 7
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - name: Verify the Pages publication and notify IndexNow once
         run: python3 tools/notify-indexnow.py --submit --wait-for-publish 240
