@@ -30,7 +30,7 @@ with sync_playwright() as p:
             page.keyboard.press('Escape')
             page.wait_for_function('()=>!document.getElementById("preview-dialog").open')
         page.locator('#assistant').scroll_into_view_if_needed()
-        assert page.locator('#assistant input,#assistant textarea,#assistant button:not(#depth-toggle)').count()==0
+        assert page.locator('#assistant input,#assistant textarea,#assistant button').count()==0
         assert 'демоданных' in page.locator('.assistant-scene figcaption').inner_text()
         assert page.locator('#site-nav a[href="#assistant"]').count()==1
         visual=page.locator('.assistant-art')
