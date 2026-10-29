@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get('SITE_TEST_URL', 'http://127.0.0.1:4173').rstrip('/')
 BROWSER = os.environ.get('BROWSER', 'chromium')
-OUT = Path('/tmp/smart-store-refraction-v83') / BROWSER
+OUT = Path('/tmp/smart-store-refraction-v84') / BROWSER
 OUT.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as p:
@@ -21,24 +21,30 @@ with sync_playwright() as p:
         page.goto(BASE,wait_until='networkidle')
         page.locator('[data-gallery-card] img').evaluate_all('(xs)=>Promise.all(xs.map(i=>i.decode()))')
         page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.ready==="true")')
+        if w<851:page.wait_for_function('()=>document.querySelector(".ribbon-window").dataset.optics==="webgl"')
         page.locator('.hero-gallery').focus()
         page.evaluate('window.flow=document.querySelector(".ribbon-track").getAnimations()[0]')
         page.wait_for_function('() => (flow.playState==="paused"&&!flow.pending)')
         # Check the actual phone opening frame, which the desktop-sized field
         # left completely undistorted. Desktop still uses the narrower field.
         page.evaluate('(n)=>flow.currentTime=flow.effect.getTiming().duration*n',0 if w<851 else .11)
+        if w<851:
+            page.evaluate('dispatchEvent(new Event("resize"))');page.wait_for_timeout(100)
         filter_id='hero-refraction-mobile' if w<851 else 'hero-refraction'
         maps=page.locator(f'#{filter_id} feDisplacementMap')
         lens = page.locator('.ribbon-refraction').evaluate('''e=>({pointer:getComputedStyle(e).pointerEvents,filter:getComputedStyle(e).filter,trackFilter:getComputedStyle(e.querySelector('.ribbon-track')).filter})''')
-        assert f'#{filter_id}' in lens['filter'] and lens['trackFilter']=='none'
+        assert lens['trackFilter']=='none'
+        assert lens['filter']=='none' if w<851 else f'#{filter_id}' in lens['filter']
         scales=maps.evaluate_all('xs=>xs.map(e=>e.getAttribute("scale"))')
         assert len(scales)==3 and len(set(scales))==3 and all(float(n)>0 for n in scales)
         with_lens = page.locator('.ribbon-window').screenshot()
-        # Neutralize displacement while preserving the same filter graph and blur.
-        # This difference measures refraction, rather than an ordinary blur overlay.
-        maps.evaluate_all('xs=>xs.forEach(e=>e.setAttribute("scale","0"))')
+        # Desktop: neutralize displacement in the same filter graph.
+        # Phone: hide the independent GPU layer; the centre must be unchanged.
+        if w<851:hide=page.add_style_tag(content='.ribbon-optics{visibility:hidden!important}')
+        else:maps.evaluate_all('xs=>xs.forEach(e=>e.setAttribute("scale","0"))')
         without_lens = page.locator('.ribbon-window').screenshot()
-        maps.evaluate_all('(xs,ss)=>xs.forEach((e,i)=>e.setAttribute("scale",ss[i]))',scales)
+        if w<851:hide.evaluate('e=>e.remove()')
+        else:maps.evaluate_all('(xs,ss)=>xs.forEach((e,i)=>e.setAttribute("scale",ss[i]))',scales)
         a=Image.open(BytesIO(with_lens)).convert('RGB')
         b=Image.open(BytesIO(without_lens)).convert('RGB')
         difference=ImageChops.difference(a,b)
@@ -53,7 +59,7 @@ with sync_playwright() as p:
         assert 3<edge_mean<90, {'edgeDifference':edge_mean}
         (OUT/f'lens-{w}.png').write_bytes(with_lens)
         (OUT/f'no-lens-{w}.png').write_bytes(without_lens)
-        if w in [390,1440]:
+        if w==1440:
             # Anchor the fixture to the aperture so a stripe crosses the narrow outer band
             # regardless of the translated cards or viewport size.
             grid=page.add_style_tag(content='.ribbon-track{visibility:hidden!important}.ribbon-refraction{background:repeating-linear-gradient(90deg,#101010 0 10px,#fafafa 10px 20px)!important}')
