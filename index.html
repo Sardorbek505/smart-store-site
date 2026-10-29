@@ -129,9 +129,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.5c442069fad4.css" />
+    <link rel="stylesheet" href="assets/site.593cf3914ead.css" />
     <!-- styles:end -->
-    <script src="app.js?v=82" type="module"></script>
+    <script src="app.js?v=83" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -278,7 +278,13 @@
           tabindex="-1"
         >
           <div class="gallery-stage">
-            <svg class="ribbon-defs" width="0" height="0" aria-hidden="true">
+            <svg
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              class="ribbon-defs"
+              width="0"
+              height="0"
+              aria-hidden="true"
+            >
               <defs>
                 <clipPath
                   id="hero-ribbon-clip"
@@ -299,6 +305,88 @@
                 >
                   <feImage
                     href="img/hero-refraction-field-v82.png"
+                    xlink:href="img/hero-refraction-field-v82.png"
+                    x="0"
+                    y="0"
+                    width="1"
+                    height="1"
+                    preserveAspectRatio="none"
+                    result="field"
+                  />
+                  <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="field"
+                    scale=".162"
+                    xChannelSelector="R"
+                    yChannelSelector="G"
+                    result="warp-r"
+                  />
+                  <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="field"
+                    scale=".1485"
+                    xChannelSelector="R"
+                    yChannelSelector="G"
+                    result="warp-g"
+                  />
+                  <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="field"
+                    scale=".135"
+                    xChannelSelector="R"
+                    yChannelSelector="G"
+                    result="warp-b"
+                  />
+                  <feColorMatrix
+                    in="warp-r"
+                    values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"
+                    result="red"
+                  />
+                  <feColorMatrix
+                    in="warp-g"
+                    values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"
+                    result="green"
+                  />
+                  <feColorMatrix
+                    in="warp-b"
+                    values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"
+                    result="blue"
+                  />
+                  <feBlend in="red" in2="green" mode="screen" result="rg" />
+                  <feBlend in="rg" in2="blue" mode="screen" result="spectrum" />
+                  <feGaussianBlur
+                    in="spectrum"
+                    stdDeviation=".0072 .0027"
+                    result="soft-spectrum"
+                  />
+                  <feColorMatrix
+                    in="field"
+                    values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0"
+                    result="periphery"
+                  />
+                  <feComposite
+                    in="soft-spectrum"
+                    in2="periphery"
+                    operator="in"
+                    result="edge-optics"
+                  />
+                  <feMerge>
+                    <feMergeNode in="SourceGraphic" />
+                    <feMergeNode in="edge-optics" />
+                  </feMerge>
+                </filter>
+                <filter
+                  id="hero-refraction-mobile"
+                  x="0"
+                  y="0"
+                  width="1"
+                  height="1"
+                  primitiveUnits="objectBoundingBox"
+                  color-interpolation-filters="sRGB"
+                >
+                  <feImage
+                    href="img/hero-refraction-mobile-v83.png"
+                    xlink:href="img/hero-refraction-mobile-v83.png"
                     x="0"
                     y="0"
                     width="1"
