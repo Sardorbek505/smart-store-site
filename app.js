@@ -23,6 +23,7 @@ await Promise.allSettled(
     "downloads",
     "store",
     "story",
+    "depth",
     "checkout",
     "micro-scenes",
     "analytics",
