@@ -18,6 +18,7 @@ await Promise.allSettled(
     "interface",
     "preview",
     "media",
+    "tour",
     "gallery",
     "downloads",
     "store",

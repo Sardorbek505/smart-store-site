@@ -33,7 +33,7 @@ with sync_playwright() as p:
         assert page.locator('#assistant input,#assistant textarea,#assistant button').count()==0
         assert 'демоданных' in page.locator('.assistant-scene figcaption').inner_text()
         assert page.locator('#site-nav a[href="#assistant"]').count()==1
-        visual=page.locator('.assistant-scene>img')
+        visual=page.locator('.assistant-scene img')
         visual.evaluate('(i)=>i.decode()')
         assert visual.evaluate('(i)=>i.naturalWidth>0 && i.getBoundingClientRect().width>=Math.min(300,innerWidth-36)')
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')

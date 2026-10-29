@@ -4,6 +4,10 @@ import { Sidebar } from "@app/components/Sidebar";
 import { SalesPage } from "@app/routes/sales/SalesPage";
 import { ProductsPage } from "@app/routes/products/ProductsPage";
 import { DashboardPage } from "@app/routes/dashboard/DashboardPage";
+import { AssistantPage } from "@app/routes/assistant/AssistantPage";
+import { InvoiceDialog } from "@app/routes/purchases/InvoiceDialog";
+import { PurchaseDialog } from "@app/routes/purchases/PurchaseDialog";
+import { PromoPage } from "@app/routes/promo/PromoPage";
 import { BackupsPanel } from "@app/routes/system/BackupsPanel";
 import {
   catalog,
@@ -19,7 +23,103 @@ import {
 
 const ok = (data: any) => Promise.resolve({ ok: true, data });
 let draft = initialDraft;
+const tourCalls: string[] = [];
+(window as any).demoTourCalls = tourCalls;
+const supplier = { id: "demo-supplier", name: "Демо-поставщик" };
+let purchase: any = null;
+const invoiceLines = [0, 1].map((i) => ({
+  productId: catalog[i].id, productName: catalog[i].name, unit: "pcs",
+  id: "tour-line-"+i, qty: i === 0 ? 5000 : 50000,
+  unitCost: i === 0 ? 1890000 : 38000,
+  lineTotal: i === 0 ? 9450000 : 1900000,
+  priceSell: catalog[i].priceSell, supplierCode: catalog[i].sku,
+  unitCostCur: null, lineTotalCur: null,
+}));
+const preparedAnswer = {
+  id: "tour-answer", at: NOW, model: "Демонстрационный ответ",
+  question: "Что происходит с магазином?",
+  facts: [{label:"Выручка сегодня",value:"396 950 ₸"},{label:"Чеков сегодня",value:"17"},{label:"Прибыль",value:"142 880 ₸"},{label:"Покупатели должны",value:"61 300 ₸"}],
+  text: "За день оформлено 17 чеков на 396 950 ₸.\n\n- Прибыль — 142 880 ₸.\n- Покупатели должны 61 300 ₸. Посмотрите список должников и сроки возврата.",
+};
 const handlers: any = {
+  "ai.ask": async () => { await new Promise(r=>setTimeout(r,900)); return preparedAnswer; },
+  "ai.advise": async () => { await new Promise(r=>setTimeout(r,900)); return preparedAnswer; },
+  "ai.invoiceToDraft": () => {
+    purchase = {id:"tour-purchase",purchaseNo:null,supplierId:supplier.id,supplierName:supplier.name,supplierPaymentQr:null,docNo:"ДЕМО-014",docDate:NOW,total:11350000,comment:null,status:"draft",createdAt:NOW,postedAt:null,itemCount:2,currency:"KZT",fxRate:null,totalCur:0,debtCur:0,dueAt:null,items:invoiceLines};
+    return purchase;
+  },
+  "purchases.get": () => purchase,
+  "purchases.list": () => [],
+  "purchases.post": () => {
+    if(purchase.status!=="draft")throw new Error("Demo receipt already posted");
+    purchase={...purchase,status:"posted",purchaseNo:14,postedAt:NOW};
+    for(const line of invoiceLines)catalog.find(p=>p.id===line.productId)!.stockQty+=line.qty;
+    return purchase;
+  },
+  "suppliers.list": () => [supplier],
+
+  // Isolated marketing captures: synthetic facts, no Gemini call or database.
+  "ai.status": () => ({
+    provider: "gemini",
+    model: "Demo capture",
+    hasKey: true,
+    encryptionAvailable: true,
+  }),
+  "ai.history": () =>
+    new URLSearchParams(location.search).get("variant") !== "answer"
+      ? []
+      : [
+          {
+            id: "demo-answer",
+            question: "Что происходит с магазином?",
+            at: NOW,
+            model: "Демонстрационный ответ",
+            facts: [
+              { label: "Выручка сегодня", value: "396 950 ₸" },
+              { label: "Чеков сегодня", value: "17" },
+              { label: "Прибыль", value: "142 880 ₸" },
+              { label: "Покупатели должны", value: "61 300 ₸" },
+            ],
+            text: "За день оформлено 17 чеков на 396 950 ₸.\n\n- Прибыль — 142 880 ₸.\n- Покупатели должны 61 300 ₸. Посмотрите список должников и сроки возврата.",
+          },
+        ],
+  "ai.suggestions": () => [
+    { text: "Что происходит с магазином?", args: [] },
+    { text: "Какие товары пора заказать?", args: [] },
+    { text: "Кто должен вернуть деньги?", args: [] },
+  ],
+  "ai.readInvoice": () => ({
+    supplierId: "demo-supplier",
+    supplierName: "Демо-поставщик",
+    docNo: "ДЕМО-014",
+    docDate: NOW,
+    currency: "KZT",
+    fxRate: null,
+    imageDataUrl: null,
+    warnings: [],
+    lines: [
+      {
+        index: 0,
+        code: "MK-DF333",
+        name: catalog[0].name,
+        qty: 5000,
+        unitCost: 1890000,
+        match: { productId: catalog[0].id, name: catalog[0].name, by: "code" },
+        candidates: [],
+      },
+      {
+        index: 1,
+        code: "CR-D125",
+        name: catalog[1].name,
+        qty: 50000,
+        unitCost: 38000,
+        match: { productId: catalog[1].id, name: catalog[1].name, by: "code" },
+        candidates: [],
+      },
+    ],
+  }),
+  "promo.storyCandidates": () => [],
+
   "owner.state": () => ({ unlocked: true, pinSet: false }),
   "license.state": () => ({
     status: "trial",
@@ -27,7 +127,7 @@ const handlers: any = {
     canWrite: true,
     expiresAt: NOW + 14 * 86400000,
   }),
-  "system.updateState": () => ({ status: "idle", currentVersion: "1.29.4" }),
+  "system.updateState": () => ({ status: "idle", currentVersion: "1.30.0" }),
   "system.scannerEnabled": () => true,
   "system.storeDetails": () => ({
     name: STORE,
@@ -164,6 +264,8 @@ const handlers: any = {
   ],
 };
 const namespaces = [
+  "ai",
+  "promo",
   "owner",
   "license",
   "system",
@@ -173,6 +275,7 @@ const namespaces = [
   "photos",
   "sales",
   "reports",
+  "purchases",
   "backup",
   "suppliers",
   "customers",
@@ -184,13 +287,14 @@ for (const namespace of namespaces)
     {
       get:
         (_, key) =>
-        (...args: any[]) => {
+        async (...args: any[]) => {
           const name = namespace + "." + String(key);
           if (!handlers[name]) {
             console.warn("Unimplemented demo API: " + name);
             return ok(null);
           }
-          return ok(handlers[name](...args));
+          tourCalls.push(name);
+          return ok(await handlers[name](...args));
         },
     },
   );
@@ -198,16 +302,40 @@ for (const namespace of namespaces)
 function Demo() {
   const initial = new URLSearchParams(location.search).get("screen") || "sales";
   const [tab, setTab] = useState(initial);
+  const [purchaseId, setPurchaseId] = useState<string | null>(null);
   const noop = () => {};
   return (
     <div className="app-bg flex min-h-full">
+      {new URLSearchParams(location.search).has("tour") && <div style={{position:"fixed",bottom:12,left:12,zIndex:10000,padding:"8px 14px",background:"#111827",color:"white",borderRadius:10,fontSize:13}}>Демоданные · AI-результаты подготовлены</div>}
       <Sidebar
         tab={(tab === "backups" ? "system" : tab) as any}
         onGo={setTab as any}
         onShortcuts={noop}
       />
       <main className="min-w-0 flex-1 pt-6 pr-7 pb-8 pl-3">
-        {tab === "sales" ? (
+        {tab === "assistant" ? (
+          <AssistantPage
+            onInvoice={() => setTab("invoice")}
+            onOpenPurchase={noop}
+            onSlow={noop}
+            onDebts={noop}
+          />
+        ) : tab === "invoice" ? (
+          <>
+            <h1 className="text-2xl">Приход</h1>
+            <InvoiceDialog
+              suppliers={[
+                { id: "demo-supplier", name: "Демо-поставщик" } as any,
+              ]}
+              onClose={() => setTab("assistant")}
+              onCreated={(id) => {setPurchaseId(id);setTab("purchase");}}
+            />
+          </>
+        ) : tab === "purchase" && purchaseId ? (
+          <PurchaseDialog purchaseId={purchaseId} suppliers={[supplier] as any} onClose={() => setTab("products")} />
+        ) : tab === "promo" ? (
+          <PromoPage />
+        ) : tab === "sales" ? (
           <SalesPage />
         ) : tab === "backups" ? (
           <BackupsPanel />

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <!-- security:start -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-9cOAE/1qUXNXv80YRHg7Jr/rH7g+fHAsiZz+6FIXZnk=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-n4ZJmPogIAXcGT3clqZGA0UfhLyq08aKDROEeM6mPHY=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
     <!-- security:end -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#111116" />
@@ -20,58 +20,73 @@
     <link rel="canonical" href="https://metov.store/" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "WebSite",
-            "@id": "https://metov.store/#website",
-            "url": "https://metov.store/",
-            "name": "Smart Store",
-            "inLanguage": "ru"
-          },
-          {
-            "@type": "SoftwareApplication",
-            "@id": "https://metov.store/#software",
-            "name": "Smart Store",
-            "url": "https://metov.store/",
-            "applicationCategory": "BusinessApplication",
-            "publisher": {
-              "@type": "Person",
-              "name": "Эрметов Сардорбек",
-              "url": "https://metov.store/privacy.html"
-            },
-            "operatingSystem": "Windows 10, Windows 11",
-            "inLanguage": ["ru", "kk"],
-            "description": "Касса, склад, закупки и долги для небольших магазинов: продукты, одежда, хозтовары, инструменты и запчасти. Основной учёт работает без интернета. Пробный период — 14 дней; затем для новых операций нужна лицензия.",
-            "image": "https://metov.store/img/smart-store-share-v39.jpg",
-            "screenshot": "https://metov.store/img/demo-sale.png",
-            "license": "https://metov.store/privacy.html#license-terms",
-            "featureList": [
-              "Продажи и поиск по штрихкоду",
-              "Склад и закупки",
-              "Долги покупателей",
-              "Сроки возврата долгов и напоминания",
-              "AI-помощник и черновики прихода по накладным",
-              "Промоматериалы: визитка, карточка товара и прайс-лист",
-              "Аренда инструмента",
-              "Продажи, выручка и прибыль в отчётах",
-              "Доступ с телефона при включённом компьютере"
-            ],
-            "subjectOf": [
-              {
-                "@id": "https://metov.store/programma-dlya-ucheta-magazina/#page"
-              },
-              {
-                "@id": "https://metov.store/programma-dlya-magazina-instrumentov/#page"
-              },
-              {
-                "@id": "https://metov.store/istorii/elektroinstrumenty-shymkent/#page"
-              }
-            ]
-          }
-        ]
-      }
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://metov.store/#website",
+      "url": "https://metov.store/",
+      "name": "Smart Store",
+      "inLanguage": "ru"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://metov.store/#software",
+      "name": "Smart Store",
+      "url": "https://metov.store/",
+      "applicationCategory": "BusinessApplication",
+      "publisher": {
+        "@type": "Person",
+        "name": "Эрметов Сардорбек",
+        "url": "https://metov.store/privacy.html"
+      },
+      "operatingSystem": "Windows 10, Windows 11",
+      "inLanguage": [
+        "ru",
+        "kk"
+      ],
+      "description": "Касса, склад, закупки и долги для небольших магазинов: продукты, одежда, хозтовары, инструменты и запчасти. Основной учёт работает без интернета. Пробный период — 14 дней; затем для новых операций нужна лицензия.",
+      "image": "https://metov.store/img/smart-store-share-v39.jpg",
+      "screenshot": "https://metov.store/img/demo-sale.png",
+      "license": "https://metov.store/privacy.html#license-terms",
+      "featureList": [
+        "Продажи и поиск по штрихкоду",
+        "Склад и закупки",
+        "Долги покупателей",
+        "Сроки возврата долгов и напоминания",
+        "AI-помощник и черновики прихода по накладным",
+        "Промоматериалы: визитка, карточка товара и прайс-лист",
+        "Аренда инструмента",
+        "Продажи, выручка и прибыль в отчётах",
+        "Доступ с телефона при включённом компьютере"
+      ],
+      "subjectOf": [
+        {
+          "@id": "https://metov.store/programma-dlya-ucheta-magazina/#page"
+        },
+        {
+          "@id": "https://metov.store/programma-dlya-magazina-instrumentov/#page"
+        },
+        {
+          "@id": "https://metov.store/istorii/elektroinstrumenty-shymkent/#page"
+        }
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://metov.store/#ai-tour-video",
+      "name": "Smart Store: накладная, приход и AI-помощник",
+      "description": "Запись интерфейса Smart Store 1.30.0 на демоданных: проверка строк накладной, черновик, подтверждение прихода и вопрос помощнику. Результаты AI подготовлены; живой запрос Gemini не выполнялся.",
+      "thumbnailUrl": "https://metov.store/img/ai-tour-poster-v94.webp",
+      "contentUrl": "https://metov.store/media/smart-store-ai-tour-v94.mp4",
+      "uploadDate": "2026-10-29T10:23:00Z",
+      "duration": "PT30.72S",
+      "inLanguage": "ru",
+      "isAccessibleForFree": true
+    }
+  ]
+}
     </script>
     <meta
       property="og:title"
@@ -140,9 +155,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.fc3d951e7202.css" />
+    <link rel="stylesheet" href="assets/site.4e9e6849c1d7.css" />
     <!-- styles:end -->
-    <script src="app.js?v=93" type="module"></script>
+    <script src="app.js?v=94" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -790,11 +805,14 @@
       <p class="assistant-summary">Помощник объяснит продажи, остатки и долги. Текстом или голосом.</p>
     </div>
     <figure class="assistant-scene">
+      <a href="media/smart-store-ai-tour-v94.mp4" class="assistant-tour-link" data-tour aria-label="Смотреть запись интерфейса Smart Store, 31 секунда">
       <img src="img/assistant-studio-1448-v93.webp"
         srcset="img/assistant-studio-768-v93.webp 768w, img/assistant-studio-1152-v93.webp 1152w, img/assistant-studio-1448-v93.webp 1448w"
         sizes="(max-width: 850px) calc(100vw - 36px), (max-width: 1280px) 60vw, 760px"
         width="1448" height="1086" loading="lazy" decoding="async"
         alt="Ноутбук на синем подиуме и небольшой робот Smart Store рядом: на экране вопрос «Что с магазином?» и ответ «17 чеков · 396 950 ₸». Иллюстрация на демонстрационных данных." />
+      <span class="assistant-play"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 2.5 13 8l-9 5.5Z" fill="currentColor"/></svg> Смотреть программу · 31 с</span>
+      </a>
       <figcaption>Иллюстрация на демоданных. Для AI нужны интернет и ключ Gemini. <a href="#ai-info">Подробнее →</a></figcaption>
     </figure>
   </div>
@@ -1363,6 +1381,17 @@
           </svg>
         </button>
       </div>
+    </dialog>
+
+    <dialog id="ai-tour" class="tour-dialog" aria-labelledby="tour-title" aria-describedby="tour-note">
+      <header class="tour-header"><h2 id="tour-title">Накладная → приход → помощник</h2><form method="dialog"><button aria-label="Закрыть видео" autofocus>×</button></form></header>
+      <video id="tour-video" controls playsinline preload="none" width="1280" height="800" data-src="media/smart-store-ai-tour-v94.mp4" data-poster="img/ai-tour-poster-v94.webp" aria-label="Запись интерфейса Smart Store с описанием шагов">
+        <track kind="captions" srclang="ru" label="Описание шагов" data-src="media/smart-store-ai-tour-v94.vtt" default />
+      </video>
+      <p id="tour-note">Интерфейс версии 1.30.0. Демоданные; результаты AI подготовлены.</p>
+      <p id="tour-status" role="status" aria-live="polite"></p>
+      <details class="tour-transcript"><summary>Шаги и текстовая версия</summary><ol><li>Открываем «Накладная из фото». В записи результат распознавания подготовлен.</li><li>Проверяем две строки: 5 шуруповёртов по 18 900 ₸ и 50 дисков по 380 ₸.</li><li>Создаём черновик на 113 500 ₸. После проверки отдельно подтверждаем проведение.</li><li>В демокаталоге остатки меняются с 12 до 17 и с 240 до 290.</li><li>Задаём вопрос «Что происходит с магазином?». Подготовленный ответ показывает 17 чеков, выручку 396 950 ₸ и предлагает посмотреть должников.</li></ol><p>Для настоящего распознавания и ответов нужны интернет и собственный ключ Gemini. Запись не измеряет скорость или точность модели.</p></details>
+      <a class="tour-file" href="media/smart-store-ai-tour-v94.mp4">Открыть видео отдельным файлом →</a>
     </dialog>
   </body>
 </html>

@@ -16,7 +16,7 @@ const FILES = [
   "yandex_3ab61845d04cfe19.html",
   "b7f1bcd1cf3b163793889feb50602152.txt",
 ];
-const FOLDERS = ["scripts", "assets", "img", "third-party"];
+const FOLDERS = ["scripts", "assets", "img", "media", "third-party"];
 
 // Publish only the public site. Never upload .git, .env, tools, docs or tests.
 export async function publicFiles(root = ROOT) {
