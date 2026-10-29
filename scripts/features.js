@@ -52,32 +52,41 @@ export function init() {
   const dialogs = [...document.querySelectorAll("dialog")];
   let pageHidden = false;
   const build = (scene) => {
-    const duration = 8000; // transition followed by a long, quiet result hold
-    const phase = scenes.indexOf(scene) * .07;
+    const duration = 8400;
+    const phase = scenes.indexOf(scene) * .035;
     const animate = (element, frames) => {
       const a = element.animate(frames, { duration, iterations: Infinity, easing: "linear" });
       a.pause(); a.currentTime = 0; scene.animations.push(a);
     };
-    for (const before of scene.element.querySelectorAll(".feature-before"))
+    // First the product enters, then the amount/stock changes, then confirmation.
+    for (const group of scene.element.querySelectorAll(".feature-value,.feature-state")) {
+      const at = (group.matches(".feature-state") ? .31 : .17) + phase;
+      const before = group.querySelector(".feature-before");
+      const after = group.querySelector(".feature-after");
+      if (!before || !after) continue; // Cached v100 HTML has a static sale total.
       animate(before, [
-        { opacity: 0, offset: 0 }, { opacity: 1, offset: .05 },
-        { opacity: 1, offset: .18 + phase, easing: "ease-out" },
-        { opacity: 0, offset: .24 + phase }, { opacity: 0, offset: 1 },
+        { opacity: 0, offset: 0 }, { opacity: 1, offset: .04 },
+        { opacity: 1, offset: at, easing: "ease-out" },
+        { opacity: 0, offset: at + .05 }, { opacity: 0, offset: 1 },
       ]);
-    for (const after of scene.element.querySelectorAll(".feature-after"))
       animate(after, [
-        { opacity: 0, transform: "translateY(3px)", offset: 0 },
-        { opacity: 0, transform: "translateY(3px)", offset: .2 + phase, easing: "ease-out" },
-        { opacity: 1, transform: "none", offset: .28 + phase },
+        { opacity: 0, transform: "translateY(4px)", offset: 0 },
+        { opacity: 0, transform: "translateY(4px)", offset: at + .025, easing: "ease-out" },
+        { opacity: 1, transform: "none", offset: at + .1 },
         { opacity: 1, transform: "none", offset: .96 },
         { opacity: 0, transform: "none", offset: 1 },
       ]);
-    animate(scene.element.querySelector(".feature-illustration"), [
-      { transform: "translateY(2px)", offset: 0 },
-      { transform: "translateY(2px)", offset: .16, easing: "ease-out" },
-      { transform: "translateY(-3px)", offset: .28, easing: "ease-in-out" },
-      { transform: "none", offset: .46 }, { transform: "none", offset: 1 },
-    ]);
+    }
+    for (const element of scene.element.querySelectorAll("[data-feature-enter]")) {
+      const at = .04 + phase;
+      animate(element, [
+        { opacity: 0, transform: "translate(12px,4px)", offset: 0 },
+        { opacity: 0, transform: "translate(12px,4px)", offset: at, easing: "ease-out" },
+        { opacity: 1, transform: "none", offset: at + .1 },
+        { opacity: 1, transform: "none", offset: .96 },
+        { opacity: 0, transform: "none", offset: 1 },
+      ]);
+    }
   };
   const sync = () => {
     const blocked = pageHidden || document.hidden || dialogs.some((d) => d.open);

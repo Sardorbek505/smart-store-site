@@ -167,9 +167,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.660e55722ada.css" />
+    <link rel="stylesheet" href="assets/site.1260e4285049.css" />
     <!-- styles:end -->
-    <script src="app.js?v=100" type="module"></script>
+    <script src="app.js?v=101" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -515,40 +515,49 @@
             <p class="feature-lead">Один чек связывает кассу, товары и отчёты.</p>
           </div>
           <nav class="feature-switcher" aria-label="Выбрать возможность">
-            <a href="#feature-sale" aria-current="true"><span>01</span> Продажа</a>
-            <a href="#feature-stock"><span>02</span> Склад</a>
-            <a href="#feature-reports"><span>03</span> Отчёт</a>
+            <a href="#feature-sale" aria-current="true">Продажа</a>
+            <a href="#feature-stock">Склад</a>
+            <a href="#feature-reports">Отчёт</a>
           </nav>
           <div class="feature-deck" tabindex="0" role="region" aria-label="Продажа, склад и отчёт. На телефоне можно листать карточки.">
             <article class="feature-card" id="feature-sale" aria-labelledby="feature-sale-title">
-              <div class="feature-card-copy"><p class="feature-kicker"><span>01</span>ПРОДАЖА</p><h3 id="feature-sale-title">Пробили чек.</h3><p>Нашли товары. Приняли оплату.</p></div>
+              <div class="feature-card-copy"><h3 id="feature-sale-title">Товар — в чеке.</h3><p>Находите по названию или штрихкоду.</p></div>
               <figure class="feature-scene" data-feature-scene="sale">
-                <div class="feature-illustration" aria-hidden="true"><img src="img/feature-sale-960-v100.webp" srcset="img/feature-sale-480-v100.webp 480w, img/feature-sale-960-v100.webp 960w" sizes="(max-width: 850px) 85vw, (max-width: 1280px) 30vw, 390px" width="1536" height="1024" loading="lazy" decoding="async" alt="" /></div>
-                <div class="feature-result" aria-hidden="true"><div class="feature-receipt-lines"><span>3 позиции · 4 товара</span><span>Чек № 18</span></div><strong class="feature-value">82 300 ₸</strong><div class="feature-state"><span class="feature-before">К оплате</span><span class="feature-after"><svg class="icon"><use href="#i-check" /></svg>Оплата принята</span></div></div>
-                <figcaption class="visually-hidden">Демонстрационный чек: 3 позиции, 4 единицы товара. Оплата 82 300 ₸ принята.</figcaption>
+                <div class="feature-demo" aria-hidden="true">
+                  <div class="feature-sale-product" data-feature-enter><div class="feature-illustration"><img src="img/feature-drill-640-v101.webp" srcset="img/feature-drill-320-v101.webp 320w, img/feature-drill-640-v101.webp 640w" sizes="(max-width: 359px) 88px, 112px" width="1280" height="1280" loading="lazy" decoding="async" alt="" /></div><div><strong>Шуруповёрт 18 В</strong><span>2 × 39 900 ₸</span></div><span class="feature-added"><svg class="icon"><use href="#i-check" /></svg></span></div>
+                  <div class="feature-other-products"><span>Диск и бур</span><span>2 500 ₸</span></div>
+                  <div class="feature-result"><div class="feature-result-label">Итого</div><strong class="feature-value"><span class="feature-before">2 500 ₸</span><span class="feature-after">82 300 ₸</span></strong><div class="feature-state"><span class="feature-before">Добавляем товар в чек</span><span class="feature-after"><svg class="icon"><use href="#i-check" /></svg>Оплата принята</span></div></div>
+                </div>
+                <figcaption class="visually-hidden">В чек с диском и буром за 2 500 ₸ добавили два шуруповёрта по 39 900 ₸. Всего 82 300 ₸. Оплата принята. Демонстрационные данные.</figcaption>
               </figure>
-              <a class="feature-screen-link" href="img/demo-sale.png" data-preview data-title="Smart Store / Касса" aria-label="Рассмотреть настоящий интерфейс: Касса">Открыть кассу<svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></a>
+              <a class="feature-screen-link" href="img/demo-sale.png" data-preview data-title="Smart Store / Касса" aria-label="Рассмотреть настоящий интерфейс: Касса">Посмотреть кассу<svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></a>
             </article>
             <article class="feature-card" id="feature-stock" aria-labelledby="feature-stock-title">
-              <div class="feature-card-copy"><p class="feature-kicker"><span>02</span>СКЛАД</p><h3 id="feature-stock-title">Склад уже в курсе.</h3><p>Проданные товары списались сами.</p></div>
+              <div class="feature-card-copy"><h3 id="feature-stock-title">Остаток обновлён.</h3><p>Проданные товары списываются сами.</p></div>
               <figure class="feature-scene" data-feature-scene="stock">
-                <div class="feature-illustration" aria-hidden="true"><img src="img/feature-stock-960-v100.webp" srcset="img/feature-stock-480-v100.webp 480w, img/feature-stock-960-v100.webp 960w" sizes="(max-width: 850px) 85vw, (max-width: 1280px) 30vw, 390px" width="1536" height="1024" loading="lazy" decoding="async" alt="" /></div>
-                <div class="feature-result" aria-hidden="true"><div class="feature-result-label">Шуруповёрт 18 В</div><div class="feature-stock-count"><span>12 <small>было</small></span><svg class="icon"><use href="#i-arrow" /></svg><strong class="feature-value"><span class="feature-before">12</span><span class="feature-after">10</span><small>осталось</small></strong></div><div class="feature-state"><span class="feature-before">Остаток до продажи</span><span class="feature-after"><svg class="icon"><use href="#i-check" /></svg>2 шт. списано</span></div></div>
-                <figcaption class="visually-hidden">После той же продажи два шуруповёрта списались со склада: было 12, осталось 10.</figcaption>
+                <div class="feature-demo" aria-hidden="true">
+                  <div class="feature-stock-product"><div class="feature-illustration"><img src="img/feature-drill-640-v101.webp" srcset="img/feature-drill-320-v101.webp 320w, img/feature-drill-640-v101.webp 640w" sizes="(max-width: 359px) 88px, 112px" width="1280" height="1280" loading="lazy" decoding="async" alt="" /></div><div><strong>Шуруповёрт 18 В</strong><span>Тот же товар на складе</span></div><span class="feature-deduction" data-feature-enter>−2 шт.</span></div>
+                  <div class="feature-other-products"><span>Продано в этом чеке</span><span>2 шт.</span></div>
+                  <div class="feature-result"><div class="feature-stock-count"><span>12<small>было</small></span><svg class="icon"><use href="#i-arrow" /></svg><strong class="feature-value"><span class="feature-before">12</span><span class="feature-after">10</span><small>осталось</small></strong></div><div class="feature-state"><span class="feature-before">Проводим продажу</span><span class="feature-after"><svg class="icon"><use href="#i-check" /></svg>Склад уже учёл продажу</span></div></div>
+                </div>
+                <figcaption class="visually-hidden">После той же продажи два шуруповёрта списались со склада: было 12, осталось 10. Вручную менять остаток не нужно.</figcaption>
               </figure>
               <a class="feature-screen-link" href="img/demo-products.png" data-preview data-title="Smart Store / Товары и остатки" aria-label="Рассмотреть настоящий интерфейс: Товары и остатки">Посмотреть склад<svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></a>
             </article>
             <article class="feature-card" id="feature-reports" aria-labelledby="feature-reports-title">
-              <div class="feature-card-copy"><p class="feature-kicker"><span>03</span>ОТЧЁТ</p><h3 id="feature-reports-title">Всё видно в цифрах.</h3><p>Выручка и прибыль — в отчёте.</p></div>
+              <div class="feature-card-copy"><h3 id="feature-reports-title">Продажа — в отчёте.</h3><p>Выручка растёт на сумму чека.</p></div>
               <figure class="feature-scene" data-feature-scene="reports">
-                <div class="feature-illustration" aria-hidden="true"><img src="img/feature-reports-960-v100.webp" srcset="img/feature-reports-480-v100.webp 480w, img/feature-reports-960-v100.webp 960w" sizes="(max-width: 850px) 85vw, (max-width: 1280px) 30vw, 390px" width="1536" height="1024" loading="lazy" decoding="async" alt="" /></div>
-                <div class="feature-result" aria-hidden="true"><div class="feature-result-label">Выручка за сегодня</div><strong class="feature-value"><span class="feature-before">396 950 ₸</span><span class="feature-after">479 250 ₸</span></strong><div class="feature-state"><span class="feature-before">До продажи</span><span class="feature-after"><svg class="icon"><use href="#i-check" /></svg>+82 300 ₸ в выручке</span></div></div>
+                <div class="feature-demo" aria-hidden="true">
+                  <div class="feature-report-visual"><div class="feature-illustration feature-chart-art"><img src="img/feature-reports-960-v100.webp" srcset="img/feature-reports-480-v100.webp 480w, img/feature-reports-960-v100.webp 960w" sizes="(max-width: 359px) 180px, 220px" width="1536" height="1024" loading="lazy" decoding="async" alt="" /></div><span class="feature-revenue-add" data-feature-enter>+82 300 ₸<small>эта продажа</small></span></div>
+                  <div class="feature-other-products"><span>До продажи</span><span>396 950 ₸</span></div>
+                  <div class="feature-result"><div class="feature-result-label">Выручка за сегодня</div><strong class="feature-value"><span class="feature-before">396 950 ₸</span><span class="feature-after">479 250 ₸</span></strong><div class="feature-state"><span class="feature-before">Учитываем сумму чека</span><span class="feature-after"><svg class="icon"><use href="#i-check" /></svg>Продажа учтена в выручке</span></div></div>
+                </div>
                 <figcaption class="visually-hidden">Та же продажа добавила в выручку 82 300 ₸: было 396 950 ₸, стало 479 250 ₸. Демонстрационные данные.</figcaption>
               </figure>
-              <a class="feature-screen-link" href="img/demo-home.png" data-preview data-title="Smart Store / Итоги дня" aria-label="Рассмотреть настоящий интерфейс: Итоги дня">Открыть отчёт<svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></a>
+              <a class="feature-screen-link" href="img/demo-home.png" data-preview data-title="Smart Store / Итоги дня" aria-label="Рассмотреть настоящий интерфейс: Итоги дня">Посмотреть отчёт<svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></a>
             </article>
           </div>
-          <div class="feature-footnote"><p>Пример одной продажи · Демоданные</p><a href="media/smart-store-sale-v99.mp4" data-sale-tour aria-label="Посмотреть запись продажи в настоящем интерфейсе, 14 секунд">В программе <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 2.5 13 8l-9 5.5Z" fill="currentColor" /></svg><span>14 с</span></a></div>
+          <div class="feature-footnote"><p>Пример на демоданных</p><a href="media/smart-store-sale-v99.mp4" data-sale-tour aria-label="Посмотреть запись продажи в настоящем интерфейсе, 14 секунд">В программе <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 2.5 13 8l-9 5.5Z" fill="currentColor" /></svg><span>14 с</span></a></div>
           <div
             class="extra-features"
             role="group"
