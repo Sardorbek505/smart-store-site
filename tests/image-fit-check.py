@@ -80,10 +80,8 @@ with sync_playwright() as p:
         page.locator('#workspace').evaluate('e=>e.scrollIntoView()')
         check(page.locator('#product-screen'))
         page.locator('#mobile').evaluate('e=>e.scrollIntoView()')
-        for i in range(3):
-            check(page.locator('#phone-mockup'))
-            page.locator('#phone-demo-action').click()
-            page.wait_for_function('(n)=>document.querySelector(".mobile-story").dataset.phoneStep===String(n)',arg=(i+1)%3)
+        check(page.locator('#phone-mockup'))
+        assert page.locator('#phone-example').get_attribute('href')=='img/demo-phone.png'
         page.locator('#license').evaluate('e=>e.scrollIntoView()')
         check(page.locator('.trial-scene img'))
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
