@@ -10,6 +10,9 @@ with sync_playwright() as p:
  for width in [390,1440]:
   c=browser.new_context(viewport={'width':width,'height':900},reduced_motion='reduce')
   c.route('https://**',lambda r:r.fulfill(status=204))
+  # A real source failure must fall back to the other supported format.
+  if ENGINE=='chromium' and width==390:
+   c.route('**/media/*.mp4',lambda r:r.fulfill(status=404))
   page=c.new_page();errors=[];media=[]
   page.on('pageerror',lambda e:errors.append(str(e)))
   page.on('request',lambda r:media.append(r.url) if '/media/' in r.url else None)
@@ -20,6 +23,7 @@ with sync_playwright() as p:
   page.locator('[data-tour]').click()
   page.wait_for_function('()=>document.getElementById("ai-tour").open')
   page.wait_for_function('()=>{const v=document.getElementById("tour-video");return v.readyState>=2&&v.videoWidth>0}')
+  if ENGINE=='chromium' and width==390:assert page.locator('#tour-video').evaluate('(v)=>v.currentSrc.endsWith(".webm")')
   page.locator('#tour-video').evaluate('(v)=>v.play()')
   start=page.locator('#tour-video').evaluate('(v)=>v.currentTime')
   page.wait_for_timeout(900)

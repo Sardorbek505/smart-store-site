@@ -11,7 +11,8 @@ export function init() {
   const open = (play, push) => {
     if (!loaded) {
       video.poster = video.dataset.poster;
-      video.src = video.dataset.src;
+      for (const source of video.querySelectorAll("source"))
+        source.src = source.dataset.src;
       const track = video.querySelector("track");
       track.src = track.dataset.src;
       loaded = true;

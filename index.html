@@ -1385,7 +1385,9 @@
 
     <dialog id="ai-tour" class="tour-dialog" aria-labelledby="tour-title" aria-describedby="tour-note">
       <header class="tour-header"><h2 id="tour-title">Накладная → приход → помощник</h2><form method="dialog"><button aria-label="Закрыть видео" autofocus>×</button></form></header>
-      <video id="tour-video" controls playsinline preload="none" width="1280" height="800" data-src="media/smart-store-ai-tour-v94.mp4" data-poster="img/ai-tour-poster-v94.webp" aria-label="Запись интерфейса Smart Store с описанием шагов">
+      <video id="tour-video" controls playsinline preload="none" width="1280" height="800" data-poster="img/ai-tour-poster-v94.webp" aria-label="Запись интерфейса Smart Store с описанием шагов">
+        <source data-src="media/smart-store-ai-tour-v94.mp4" type='video/mp4; codecs="avc1.640020"' />
+        <source data-src="media/smart-store-ai-tour-v94.webm" type='video/webm; codecs="vp9"' />
         <track kind="captions" srclang="ru" label="Описание шагов" data-src="media/smart-store-ai-tour-v94.vtt" default />
       </video>
       <p id="tour-note">Интерфейс версии 1.30.0. Демоданные; результаты AI подготовлены.</p>
