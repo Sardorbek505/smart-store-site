@@ -19,10 +19,16 @@ import {
   ledger,
   today,
   draft as initialDraft,
+  makeDraft,
 } from "./fixture.mjs";
 
 const ok = (data: any) => Promise.resolve({ ok: true, data });
 let draft = initialDraft;
+let completedDemoSale: any = null;
+(window as any).saleCaptureState = () => ({
+  stock: catalog.map((p) => ({id:p.id, stockQty:p.stockQty})),
+  today: {...today}, completed: completedDemoSale,
+});
 const tourCalls: string[] = [];
 (window as any).demoTourCalls = tourCalls;
 const supplier = { id: "demo-supplier", name: "Демо-поставщик" };
@@ -184,6 +190,26 @@ const handlers: any = {
     const p = catalog.find((p) => p.id === id);
     return p?.photo ? `/products/${p.photo}.webp` : null;
   },
+  // An isolated cash sale for recording the released UI; no database or printer.
+  "sales.complete": ({saleId,payment}: any) => {
+    if (completedDemoSale) return completedDemoSale;
+    if (saleId !== draft.id || !draft.items.length) throw new Error("Empty demo sale");
+    if (payment.cash + payment.kaspi + payment.debt !== draft.total) throw new Error("Demo payment mismatch");
+    const costTotal = draft.items.reduce((sum,line) => sum + line.unitCost * line.qty / 1000, 0);
+    const profit = draft.total - costTotal;
+    completedDemoSale = {...draft,id:"demo-completed-18",status:"completed",saleNo:18,
+      costTotal,profit,paidCash:payment.cash,paidKaspi:payment.kaspi,paidDebt:payment.debt,
+      cashReceived:payment.cashReceived,changeGiven:payment.cashReceived-payment.cash,completedAt:NOW};
+    for (const line of draft.items) catalog.find(p=>p.id===line.productId)!.stockQty -= line.qty;
+    ledger.push({id:completedDemoSale.id,at:NOW,lines:draft.items.map(l=>({productId:l.productId,qty:l.qty})),revenue:draft.total,profit,method:"cash"});
+    for (const total of [today,dashboard.sales14Days[dashboard.sales14Days.length-1]]) {
+      total.grossSales += draft.total; total.revenue += draft.total; total.profit += profit;
+      total.receiptCount += 1; total.averageReceipt = Math.round(total.revenue / total.receiptCount);
+    }
+    draft = {...makeDraft([]),id:"demo-next-draft"};
+    return completedDemoSale;
+  },
+  "sales.receipt": () => null,
   "sales.heldList": () => [],
   "sales.list": () => ({ items: ledger.slice(-5), total: ledger.length }),
   "sales.draftGet": () => draft,
@@ -306,6 +332,7 @@ function Demo() {
   const noop = () => {};
   return (
     <div className="app-bg flex min-h-full">
+      {new URLSearchParams(location.search).has("sale-tour") && <div style={{position:"fixed",bottom:10,left:10,zIndex:10000,padding:"7px 12px",background:"#111827",color:"white",borderRadius:8,fontSize:12}}>ДЕМОДАННЫЕ · ЗАПИСЬ ИНТЕРФЕЙСА</div>}
       {new URLSearchParams(location.search).has("tour") && <div style={{position:"fixed",bottom:12,left:12,zIndex:10000,padding:"8px 14px",background:"#111827",color:"white",borderRadius:10,fontSize:13}}>Демоданные · AI-результаты подготовлены</div>}
       <Sidebar
         tab={(tab === "backups" ? "system" : tab) as any}

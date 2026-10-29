@@ -29,11 +29,11 @@ const bundles = [
       "components.css",
       "story.css",
       "checkout-3d.css",
-      "micro-scenes.css",
       "trial.css",
       "journey.css",
       "glass.css",
       "responsive.css",
+      "sale-proof.css",
     ],
   },
   {

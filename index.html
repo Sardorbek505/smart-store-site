@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <!-- security:start -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-n4ZJmPogIAXcGT3clqZGA0UfhLyq08aKDROEeM6mPHY=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-uzyz3U8MZoYeLbunIjDpZVGGG/uGl1dQ+TPrwplMRV8=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
     <!-- security:end -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#111116" />
@@ -84,6 +84,18 @@
       "duration": "PT30.72S",
       "inLanguage": "ru",
       "isAccessibleForFree": true
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://metov.store/#sale-tour-video",
+      "name": "Smart Store: одна продажа — чек, остаток и отчёт",
+      "description": "Запись интерфейса Smart Store 1.30.0 на демоданных: продажа на 82 300 ₸, остаток шуруповёртов 12 → 10 и выручка дня 396 950 → 479 250 ₸.",
+      "thumbnailUrl": "https://metov.store/img/sale-cash-1280-v99.webp",
+      "contentUrl": "https://metov.store/media/smart-store-sale-v99.mp4",
+      "uploadDate": "2026-10-29",
+      "duration": "PT14S",
+      "inLanguage": "ru",
+      "isAccessibleForFree": true
     }
   ]
 }
@@ -155,9 +167,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.f9836d5d148d.css" />
+    <link rel="stylesheet" href="assets/site.dbf0bb924db1.css" />
     <!-- styles:end -->
-    <script src="app.js?v=98" type="module"></script>
+    <script src="app.js?v=99" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -496,274 +508,44 @@
           </div>
         </div>
       </section>
-      <section
-        id="features"
-        class="section screen-section"
-        aria-labelledby="features-title"
-      >
-        <div class="screen-content wrap">
-          <div class="section-heading">
-            <div>
-              <p class="audience-note">Возможности Smart Store</p>
-              <h2 id="features-title">Продажи. Склад. Контроль.</h2>
-            </div>
+      <section id="features" class="section sale-proof-section" aria-labelledby="features-title">
+        <div class="screen-content wrap sale-proof-layout">
+          <div class="sale-proof-intro">
+            <p class="eyebrow">Одна продажа — три результата</p>
+            <h2 id="features-title">Продали товар.<br /><span>Остальное — само.</span></h2>
+            <p class="sale-proof-lead">Оформляете чек. Smart Store списывает товары со склада и учитывает продажу в отчётах.</p>
           </div>
-          <div
-            class="bento-grid"
-            tabindex="0"
-            role="region"
-            aria-label="Возможности Smart Store"
-          >
-            <article class="bento bento-sale story-feature">
-              <figure class="feature-art micro-scene" data-micro="sale">
-                <div class="micro-visual" aria-hidden="true">
-                  <div class="micro-backdrop-layer"></div>
-                  <div class="micro-frame">
-                    <div class="micro-widget micro-receipt">
-                      <div class="micro-heading">
-                        <span>Чек</span><span class="micro-demo">ПРИМЕР</span>
-                      </div>
-                      <div class="micro-row micro-item">
-                        <span class="micro-product-icon"
-                          ><svg class="icon"><use href="#i-box" /></svg></span
-                        ><span>Шуруповёрт 18 В<small>1 × 39 900 ₸</small></span
-                        ><strong>39 900 ₸</strong>
-                        <span class="micro-scan" aria-hidden="true"></span>
-                      </div>
-                      <div class="micro-row micro-item">
-                        <span class="micro-product-icon"
-                          ><svg class="icon"><use href="#i-box" /></svg></span
-                        ><span>Диск отрезной<small>1 × 650 ₸</small></span
-                        ><strong>650 ₸</strong>
-                        <span class="micro-scan" aria-hidden="true"></span>
-                      </div>
-                      <div class="micro-total">
-                        <span>Итого</span
-                        ><strong
-                          ><span class="micro-swap"
-                            ><span class="micro-before">0 ₸</span
-                            ><span class="micro-middle">39 900 ₸</span
-                            ><span class="micro-after">40 550 ₸</span></span
-                          ></strong
-                        >
-                      </div>
-                      <div class="micro-status">
-                        <span class="micro-swap"
-                          ><span class="micro-before">Сканируем товары…</span
-                          ><span class="micro-after"
-                            ><svg class="icon" aria-hidden="true">
-                              <use href="#i-check" />
-                            </svg>
-                            Оплата принята</span
-                          ></span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <figcaption class="visually-hidden">
-                  Шуруповёрт за 39 900 ₸ и диск за 650 ₸ добавлены в чек. Итого
-                  40 550 ₸. Оплата принята.
-                </figcaption>
-              </figure>
-              <div class="bento-copy">
-                <div class="bento-top">
-                  <span class="pill">ПРОДАЖА</span
-                  ><span class="feature-screen-label" aria-hidden="true"
-                    >Экран <svg class="icon"><use href="#i-zoom" /></svg
-                  ></span>
-                </div>
-                <h3>Продажа оформлена.</h3>
-                <p>Добавили товары в чек и приняли оплату — 40 550 ₸.</p>
-              </div>
-              <a
-                class="feature-screen-link"
-                href="img/demo-sale.png"
-                data-preview
-                data-title="Smart Store / Касса"
-                aria-label="Рассмотреть экран: Касса"
-              ></a>
-            </article>
-            <article class="bento bento-stock story-feature">
-              <figure class="feature-art micro-scene" data-micro="stock">
-                <div class="micro-visual" aria-hidden="true">
-                  <div class="micro-backdrop-layer"></div>
-                  <div class="micro-frame">
-                    <div class="micro-widget micro-inventory">
-                      <div class="micro-heading">
-                        <span>Остаток, шт.</span
-                        ><span class="micro-demo">ПРИМЕР</span>
-                      </div>
-                      <div class="micro-row">
-                        <span class="micro-product-icon"
-                          ><svg class="icon"><use href="#i-box" /></svg></span
-                        ><span>Шуруповёрт 18 В<small>После продажи</small></span
-                        ><strong
-                          ><span class="micro-swap"
-                            ><span class="micro-before">12</span
-                            ><span class="micro-after">11</span></span
-                          ><small>шт.</small></strong
-                        >
-                        <span class="micro-update" aria-hidden="true"></span>
-                      </div>
-                      <div class="micro-row">
-                        <span class="micro-product-icon"
-                          ><svg class="icon"><use href="#i-box" /></svg></span
-                        ><span>Диск отрезной<small>После продажи</small></span
-                        ><strong
-                          ><span class="micro-swap"
-                            ><span class="micro-before">240</span
-                            ><span class="micro-after">239</span></span
-                          ><small>шт.</small></strong
-                        >
-                        <span class="micro-update" aria-hidden="true"></span>
-                      </div>
-                      <div class="micro-note">
-                        Чек № 174 <span>−1 шт. каждого</span>
-                      </div>
-                      <div class="micro-status">
-                        <span class="micro-swap"
-                          ><span class="micro-before">Обновляем остатки…</span
-                          ><span class="micro-after"
-                            ><svg class="icon" aria-hidden="true">
-                              <use href="#i-check" />
-                            </svg>
-                            Остатки обновлены</span
-                          ></span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <figcaption class="visually-hidden">
-                  После продажи остаток шуруповёртов уменьшился с 12 до 11 штук,
-                  дисков — с 240 до 239. Остатки обновлены.
-                </figcaption>
-              </figure>
-              <div class="bento-copy">
-                <div class="bento-top">
-                  <span class="pill">СКЛАД</span
-                  ><span class="feature-screen-label" aria-hidden="true"
-                    >Экран <svg class="icon"><use href="#i-zoom" /></svg
-                  ></span>
-                </div>
-                <h3>Остаток обновился сам.</h3>
-                <p>Продали один шуруповёрт: было 12, осталось 11.</p>
-              </div>
-              <a
-                class="feature-screen-link"
-                href="img/demo-products.png"
-                data-preview
-                data-title="Smart Store / Товары и остатки"
-                aria-label="Рассмотреть экран: Товары и остатки"
-              ></a>
-            </article>
-            <article class="bento bento-reports story-feature">
-              <figure class="feature-art micro-scene" data-micro="reports">
-                <div class="micro-visual" aria-hidden="true">
-                  <div class="micro-backdrop-layer"></div>
-                  <div class="micro-frame">
-                    <div class="micro-widget micro-report">
-                      <div class="micro-heading">
-                        <span>Выручка дня</span
-                        ><span class="micro-demo">ПРИМЕР</span>
-                      </div>
-                      <div class="micro-revenue">
-                        <span>Выручка</span
-                        ><strong
-                          ><span class="micro-swap"
-                            ><span class="micro-before">396 950 ₸</span
-                            ><span class="micro-after">437 500 ₸</span></span
-                          ></strong
-                        >
-                      </div>
-                      <div class="micro-chart">
-                        <span style="--bar: 30%"></span
-                        ><span style="--bar: 48%"></span
-                        ><span style="--bar: 40%"></span
-                        ><span style="--bar: 64%"></span
-                        ><span style="--bar: 54%"></span
-                        ><span style="--bar: 72%"></span
-                        ><span
-                          style="--bar: 100%"
-                          class="micro-last-bar"
-                        ></span>
-                      </div>
-                      <div class="micro-profit">
-                        <span>Прибыль</span
-                        ><strong
-                          ><span class="micro-swap"
-                            ><span class="micro-before">142 880 ₸</span
-                            ><span class="micro-after">164 150 ₸</span></span
-                          ></strong
-                        >
-                      </div>
-                      <div class="micro-status">
-                        <span class="micro-swap"
-                          ><span class="micro-before">Считаем результат…</span
-                          ><span class="micro-after"
-                            ><svg class="icon" aria-hidden="true">
-                              <use href="#i-check" />
-                            </svg>
-                            Чек +40 550 ₸</span
-                          ></span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <figcaption class="visually-hidden">
-                  После продажи на 40 550 ₸ выручка выросла с 396 950 до 437 500
-                  ₸, прибыль — с 142 880 до 164 150 ₸. Демонстрационные данные.
-                </figcaption>
-              </figure>
-              <div class="bento-copy">
-                <div class="bento-top">
-                  <span class="pill">ОТЧЁТ</span
-                  ><span class="feature-screen-label" aria-hidden="true"
-                    >Экран <svg class="icon"><use href="#i-zoom" /></svg
-                  ></span>
-                </div>
-                <h3>Продажа попала в отчёт.</h3>
-                <p>Выручка дня выросла на сумму чека — 40 550 ₸.</p>
-              </div>
-              <a
-                class="feature-screen-link"
-                href="img/demo-home.png"
-                data-preview
-                data-title="Smart Store / Итоги дня"
-                aria-label="Рассмотреть экран: Итоги дня"
-              ></a>
-            </article>
+          <figure class="sale-proof-screen">
+            <a class="feature-screen-link" href="img/demo-sale.png" data-preview data-title="Smart Store / Касса перед оплатой" data-preview-alt="Настоящий интерфейс кассы на демоданных: два шуруповёрта, диск и бур. К оплате 82 300 ₸." aria-label="Увеличить настоящий экран кассы Smart Store">
+              <picture>
+                <source media="(max-width: 620px)" srcset="img/sale-cash-phone-640-v99.webp 640w, img/sale-cash-phone-1160-v99.webp 1160w" sizes="calc(100vw - 40px)" />
+                <img class="sale-proof-poster" src="img/sale-cash-full-v99.webp" srcset="img/sale-cash-1280-v99.webp 1280w, img/sale-cash-full-v99.webp 2560w" sizes="(max-width: 1280px) calc(100vw - 56px), 1120px" width="2560" height="1280" loading="lazy" decoding="async" data-fallback="img/demo-sale.png" alt="Экран кассы Smart Store перед оплатой: три позиции, четыре единицы товара, итог 82 300 ₸." />
+              </picture>
+              <span class="sale-proof-zoom" aria-hidden="true"><svg class="icon"><use href="#i-zoom" /></svg></span>
+            </a>
+            <figcaption>Один чек на 82 300 ₸. Ниже — что меняется после оплаты.</figcaption>
+          </figure>
+          <div class="sale-proof-actions">
+            <a class="sale-watch" href="media/smart-store-sale-v99.mp4" data-sale-tour aria-label="Посмотреть запись продажи в Smart Store, 14 секунд"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 2.5 13 8l-9 5.5Z" fill="currentColor" /></svg>Посмотреть продажу <span>14 с</span></a>
+            <p>Настоящий интерфейс · Демоданные</p>
           </div>
-          <div
-            class="feature-controls"
-            role="group"
-            aria-label="Листать возможности"
-            hidden
-          >
-            <button
-              id="feature-prev"
-              type="button"
-              aria-label="Предыдущая возможность"
-            >
-              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg>
-            </button>
-            <span
-              id="feature-count"
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-              >01 / 03</span
-            >
-            <button
-              id="feature-next"
-              type="button"
-              aria-label="Следующая возможность"
-            >
-              <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg>
-            </button>
-          </div>
+          <ol class="sale-proof-steps" role="list" aria-label="Что происходит после оплаты">
+            <li class="sale-step">
+              <span class="sale-step-number" aria-hidden="true">01</span>
+              <div class="sale-step-copy"><h3>Чек сохранён.</h3><p>Оплата принята. Продажа № 18 на 82 300 ₸ записана.</p></div>
+              <a class="sale-step-screen" href="img/sale-receipt-v99.webp" data-preview data-title="Smart Store / Продажа проведена" aria-label="Увеличить подтверждение продажи"><img src="img/sale-receipt-v99.webp" width="880" height="280" loading="lazy" decoding="async" alt="Подтверждение в программе: продажа № 18 проведена, оплата принята." /></a>
+            </li>
+            <li class="sale-step">
+              <span class="sale-step-number" aria-hidden="true">02</span>
+              <div class="sale-step-copy"><h3>Остаток уменьшился.</h3><p>Продали два шуруповёрта. Было 12 — осталось 10.</p></div>
+              <a class="sale-step-screen" href="img/sale-stock-v99.webp" data-preview data-title="Smart Store / Остаток после продажи" aria-label="Увеличить остаток товара после продажи"><img src="img/sale-stock-v99.webp" width="342" height="242" loading="lazy" decoding="async" alt="Фрагмент настоящей карточки товара: шуруповёрт 18 В, осталось 10 штук." /></a>
+            </li>
+            <li class="sale-step">
+              <span class="sale-step-number" aria-hidden="true">03</span>
+              <div class="sale-step-copy"><h3>Продажа — в отчёте.</h3><p>Выручка дня выросла на сумму чека: с 396 950 до 479 250 ₸.</p></div>
+              <a class="sale-step-screen" href="img/sale-report-v99.webp" data-preview data-title="Smart Store / Выручка после продажи" aria-label="Увеличить выручку после продажи"><img src="img/sale-report-v99.webp" width="658" height="304" loading="lazy" decoding="async" alt="Фрагмент главного экрана после этой продажи: выручка дня 479 250 ₸." /></a>
+            </li>
+          </ol>
           <div
             class="extra-features"
             role="group"
@@ -790,7 +572,6 @@
           </div>
         </div>
       </section>
-
 
 <section id="assistant" class="assistant-section section" aria-labelledby="assistant-title">
   <div class="wrap assistant-scene-layout">
@@ -1328,6 +1109,19 @@
       <p id="tour-status" role="status" aria-live="polite"></p>
       <details class="tour-transcript"><summary>Шаги и текстовая версия</summary><ol><li>Открываем «Накладная из фото». В записи результат распознавания подготовлен.</li><li>Проверяем две строки: 5 шуруповёртов по 18 900 ₸ и 50 дисков по 380 ₸.</li><li>Создаём черновик на 113 500 ₸. После проверки отдельно подтверждаем проведение.</li><li>В демокаталоге остатки меняются с 12 до 17 и с 240 до 290.</li><li>Задаём вопрос «Что происходит с магазином?». Подготовленный ответ показывает 17 чеков, выручку 396 950 ₸ и предлагает посмотреть должников.</li></ol><p>Для настоящего распознавания и ответов нужны интернет и собственный ключ Gemini. Запись не измеряет скорость или точность модели.</p></details>
       <a class="tour-file" href="media/smart-store-ai-tour-v94.mp4">Открыть видео отдельным файлом →</a>
+    </dialog>
+
+    <dialog id="sale-tour" class="tour-dialog sale-tour-dialog" aria-labelledby="sale-tour-title" aria-describedby="sale-tour-note">
+      <header class="tour-header"><h2 id="sale-tour-title">Чек → остаток → отчёт</h2><form method="dialog"><button aria-label="Закрыть запись продажи" autofocus>×</button></form></header>
+      <video id="sale-tour-video" controls playsinline preload="none" width="1280" height="640" data-poster="img/sale-cash-1280-v99.webp" aria-label="Запись одной продажи в настоящем интерфейсе Smart Store на демоданных">
+        <source data-src="media/smart-store-sale-v99.mp4" type="video/mp4" />
+        <source data-src="media/smart-store-sale-v99.webm" type='video/webm; codecs="vp9"' />
+        <track kind="captions" srclang="ru" label="Описание шагов" data-src="media/smart-store-sale-v99.vtt" default />
+      </video>
+      <p id="sale-tour-note">Интерфейс версии 1.30.0 на демоданных. В записи — одна продажа на 82 300 ₸.</p>
+      <p id="sale-tour-status" role="status" aria-live="polite"></p>
+      <details class="tour-transcript"><summary>Шаги и текстовая версия</summary><ol><li>В чеке два шуруповёрта по 39 900 ₸, диск за 650 ₸ и бур за 1 850 ₸. Всего 82 300 ₸.</li><li>Открываем оплату наличными и проводим продажу № 18.</li><li>В карточке шуруповёрта осталось 10 штук вместо 12.</li><li>Открываем главную: выручка выросла с 396 950 до 479 250 ₸. Чеков за день стало 18.</li></ol></details>
+      <a class="tour-file" href="media/smart-store-sale-v99.mp4">Открыть видео отдельным файлом →</a>
     </dialog>
   </body>
 </html>

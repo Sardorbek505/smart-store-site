@@ -1,0 +1,19 @@
+{
+  "appVersion": "1.30.0",
+  "appSourceRef": "ee421dc69534dead20d650a09a737412325da022",
+  "captureViewport": [
+    1280,
+    640
+  ],
+  "deviceScaleFactor": 2,
+  "demoData": true,
+  "productionRequests": 0,
+  "printer": "none",
+  "saleTotal": 82300.0,
+  "drillStockBefore": 12.0,
+  "drillStockAfter": 10.0,
+  "revenueBefore": 396950.0,
+  "revenueAfter": 479250.0,
+  "receiptCountAfter": 18,
+  "callsComplete": 1
+}

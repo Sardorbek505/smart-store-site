@@ -34,7 +34,7 @@ with sync_playwright() as p:
   page.keyboard.press('Escape')
   page.wait_for_function('()=>!document.getElementById("ai-tour").open&&location.hash!=="#ai-tour"')
   assert page.locator('#tour-video').evaluate('(v)=>v.paused')
-  assert page.locator('[data-tour]').evaluate('(e)=>document.activeElement===e')
+  page.wait_for_function('()=>document.activeElement===document.querySelector("[data-tour]")')
   page.locator('[data-tour]').click()
   page.wait_for_function('()=>document.getElementById("ai-tour").open')
   page.go_back()
