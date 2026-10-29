@@ -140,7 +140,7 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.56b78e8cd2c0.css" />
+    <link rel="stylesheet" href="assets/site.4e6c3424eebd.css" />
     <!-- styles:end -->
     <script src="app.js?v=91" type="module"></script>
     <noscript
@@ -290,552 +290,63 @@
           tabindex="-1"
         >
           <div class="gallery-stage">
-            <svg
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              class="ribbon-defs"
-              width="0"
-              height="0"
-              aria-hidden="true"
-            >
-              <defs>
-                <clipPath
-                  id="hero-ribbon-clip"
-                  clipPathUnits="objectBoundingBox"
-                >
-                  <path
-                    d="M0 .035 C.16 .07 .32 .10 .5 .10 C.68 .10 .84 .07 1 .035 L1 .965 C.84 .93 .68 .90 .5 .90 C.32 .90 .16 .93 0 .965 Z"
-                  />
-                </clipPath>
-                <filter
-                  id="hero-refraction"
-                  x="0"
-                  y="0"
-                  width="1"
-                  height="1"
-                  primitiveUnits="objectBoundingBox"
-                  color-interpolation-filters="sRGB"
-                >
-                  <feImage
-                    href="img/hero-refraction-field-v86.png"
-                    xlink:href="img/hero-refraction-field-v86.png"
-                    x="0"
-                    y="0"
-                    width="1"
-                    height="1"
-                    preserveAspectRatio="none"
-                    result="field"
-                  />
-                  <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="field"
-                    scale=".091854"
-                    xChannelSelector="R"
-                    yChannelSelector="G"
-                    result="warp-r"
-                  />
-                  <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="field"
-                    scale=".0841995"
-                    xChannelSelector="R"
-                    yChannelSelector="G"
-                    result="warp-g"
-                  />
-                  <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="field"
-                    scale=".076545"
-                    xChannelSelector="R"
-                    yChannelSelector="G"
-                    result="warp-b"
-                  />
-                  <feColorMatrix
-                    in="warp-r"
-                    values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"
-                    result="red"
-                  />
-                  <feColorMatrix
-                    in="warp-g"
-                    values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"
-                    result="green"
-                  />
-                  <feColorMatrix
-                    in="warp-b"
-                    values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"
-                    result="blue"
-                  />
-                  <feBlend in="red" in2="green" mode="screen" result="rg" />
-                  <feBlend in="rg" in2="blue" mode="screen" result="spectrum" />
-                  <feGaussianBlur
-                    in="spectrum"
-                    stdDeviation=".007776 .002916"
-                    result="soft-spectrum"
-                  />
-                  <feColorMatrix
-                    in="field"
-                    values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0"
-                    result="periphery"
-                  />
-                  <feComposite
-                    in="soft-spectrum"
-                    in2="periphery"
-                    operator="in"
-                    result="edge-optics"
-                  />
-                  <feMerge>
-                    <feMergeNode in="SourceGraphic" />
-                    <feMergeNode in="edge-optics" />
-                  </feMerge>
-                </filter>
-                <filter
-                  id="hero-refraction-mobile"
-                  x="0"
-                  y="0"
-                  width="1"
-                  height="1"
-                  primitiveUnits="objectBoundingBox"
-                  color-interpolation-filters="sRGB"
-                >
-                  <feImage
-                    href="img/hero-refraction-mobile-v86.png"
-                    xlink:href="img/hero-refraction-mobile-v86.png"
-                    x="0"
-                    y="0"
-                    width="1"
-                    height="1"
-                    preserveAspectRatio="none"
-                    result="field"
-                  />
-                  <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="field"
-                    scale=".091854"
-                    xChannelSelector="R"
-                    yChannelSelector="G"
-                    result="warp-r"
-                  />
-                  <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="field"
-                    scale=".0841995"
-                    xChannelSelector="R"
-                    yChannelSelector="G"
-                    result="warp-g"
-                  />
-                  <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="field"
-                    scale=".076545"
-                    xChannelSelector="R"
-                    yChannelSelector="G"
-                    result="warp-b"
-                  />
-                  <feColorMatrix
-                    in="warp-r"
-                    values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"
-                    result="red"
-                  />
-                  <feColorMatrix
-                    in="warp-g"
-                    values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"
-                    result="green"
-                  />
-                  <feColorMatrix
-                    in="warp-b"
-                    values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"
-                    result="blue"
-                  />
-                  <feBlend in="red" in2="green" mode="screen" result="rg" />
-                  <feBlend in="rg" in2="blue" mode="screen" result="spectrum" />
-                  <feGaussianBlur
-                    in="spectrum"
-                    stdDeviation=".007776 .002916"
-                    result="soft-spectrum"
-                  />
-                  <feColorMatrix
-                    in="field"
-                    values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0"
-                    result="periphery"
-                  />
-                  <feComposite
-                    in="soft-spectrum"
-                    in2="periphery"
-                    operator="in"
-                    result="edge-optics"
-                  />
-                  <feMerge>
-                    <feMergeNode in="SourceGraphic" />
-                    <feMergeNode in="edge-optics" />
-                  </feMerge>
-                </filter>
-              </defs>
-            </svg>
-            <div class="ribbon-window">
-              <div class="ribbon-refraction">
-                <div class="ribbon-track motion-ready" data-ribbon-track>
-                  <div
-                    class="ribbon-set"
-                    data-ribbon-set="before"
-                    aria-hidden="true"
-                  >
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-sale.png"
-                      data-ribbon-copy
-                      data-source-index="0"
-                      tabindex="-1"
-                      data-preview
-                      data-title="Продажи без пауз"
-                      data-preview-alt="Экран Smart Store: Продажи без пауз"
-                      aria-label="Продажи без пауз. Открыть оригинальный экран"
-                      data-visual="laptop"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-laptop-1536.webp"
-                        srcset="
-                          img/hero-demo-laptop-768.webp   768w,
-                          img/hero-demo-laptop-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целый ноутбук с кассой Smart Store и синей подставкой, вид три четверти"
-                        width="1536"
-                        height="1024"
-                        fetchpriority="high" /><span
-                        class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-receipt" /></svg
-                          >Продажи без пауз</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-home.png"
-                      data-ribbon-copy
-                      data-source-index="1"
-                      tabindex="-1"
-                      data-preview
-                      data-title="Главное — перед глазами"
-                      data-preview-alt="Экран Smart Store: Главное — перед глазами"
-                      aria-label="Главное — перед глазами. Открыть оригинальный экран"
-                      data-visual="monitor"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-monitor-1536.webp"
-                        srcset="
-                          img/hero-demo-monitor-768.webp   768w,
-                          img/hero-demo-monitor-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целый монитор с итогами Smart Store и сканер рядом"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-chart" /></svg
-                          >Главное — перед глазами</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-phone.png"
-                      data-ribbon-copy
-                      data-source-index="2"
-                      tabindex="-1"
-                      data-preview
-                      data-title="Магазин всегда рядом"
-                      data-preview-alt="Экран Smart Store: Магазин всегда рядом"
-                      aria-label="Магазин всегда рядом. Открыть оригинальный экран"
-                      data-visual="phone"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-phone-1536.webp"
-                        srcset="
-                          img/hero-demo-phone-768.webp   768w,
-                          img/hero-demo-phone-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целый iPhone с показателями Smart Store на компактном синем цилиндре"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-phone" /></svg
-                          >Магазин всегда рядом</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-sale.png"
-                      data-ribbon-copy
-                      data-source-index="3"
-                      tabindex="-1"
-                      data-preview
-                      data-title="На своём рабочем месте"
-                      data-preview-alt="Экран Smart Store: На своём рабочем месте"
-                      aria-label="На своём рабочем месте. Открыть оригинальный экран"
-                      data-visual="flatlay"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-flatlay-1536.webp"
-                        srcset="
-                          img/hero-demo-flatlay-768.webp   768w,
-                          img/hero-demo-flatlay-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Вид сверху: ноутбук с кассой, сканер, чек и блокнот"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-receipt" /></svg
-                          >На своём рабочем месте</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-sale.png"
-                      data-ribbon-copy
-                      data-source-index="4"
-                      tabindex="-1"
-                      data-preview
-                      data-title="От сканера до оплаты"
-                      data-preview-alt="Экран Smart Store: От сканера до оплаты"
-                      aria-label="От сканера до оплаты. Открыть оригинальный экран"
-                      data-visual="scanner"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-full-scanner-1536.webp"
-                        srcset="
-                          img/hero-full-scanner-768.webp   768w,
-                          img/hero-full-scanner-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целые сканер, шуруповёрт и коробки со штрихкодами"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-box" /></svg
-                          >От сканера до оплаты</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                  </div>
-                  <div class="ribbon-set" data-ribbon-set="main">
-                    <a class="gallery-card editorial-card" href="img/demo-sale.png" data-gallery-card data-preview data-title="Продажа и склад" data-preview-alt="Экран Smart Store с демонстрационными данными: Продажа и склад" aria-label="Продажа и склад. Рассмотреть экран" data-visual="laptop"><img class="editorial-photo" src="img/hero-demo-laptop-1536.webp" srcset="img/hero-demo-laptop-768.webp 768w, img/hero-demo-laptop-1024-v91.webp 1024w, img/hero-demo-laptop-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Ноутбук с экраном продажи Smart Store на синей подставке" width="1536" height="1024" fetchpriority="high" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-receipt" /></svg>Продажа и склад</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
-                    <a class="gallery-card editorial-card" href="img/hero-ai-assistant-source-v91.png" data-gallery-card data-preview data-title="AI-помощник" data-preview-alt="Иллюстрация возможности Smart Store: AI-помощник" aria-label="AI-помощник. Рассмотреть иллюстрацию" data-visual="monitor"><img class="editorial-photo" src="img/hero-ai-assistant-1536-v91.webp" srcset="img/hero-ai-assistant-768-v91.webp 768w, img/hero-ai-assistant-1024-v91.webp 1024w, img/hero-ai-assistant-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Монитор с примером ответа AI-помощника и робот Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>AI-помощник</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
-                    <a class="gallery-card editorial-card" href="img/demo-phone.png" data-gallery-card data-preview data-title="Магазин в телефоне" data-preview-alt="Экран Smart Store с демонстрационными данными: Магазин в телефоне" aria-label="Магазин в телефоне. Рассмотреть экран" data-visual="phone"><img class="editorial-photo" src="img/hero-demo-phone-1536.webp" srcset="img/hero-demo-phone-768.webp 768w, img/hero-demo-phone-1024-v91.webp 1024w, img/hero-demo-phone-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Телефон с демонстрационными итогами магазина Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>Магазин в телефоне</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
-                    <a class="gallery-card editorial-card" href="img/hero-ai-invoice-source-v91.png" data-gallery-card data-preview data-title="Накладные с AI" data-preview-alt="Иллюстрация возможности Smart Store: Накладные с AI" aria-label="Накладные с AI. Рассмотреть иллюстрацию" data-visual="flatlay"><img class="editorial-photo" src="img/hero-ai-invoice-1536-v91.webp" srcset="img/hero-ai-invoice-768-v91.webp 768w, img/hero-ai-invoice-1024-v91.webp 1024w, img/hero-ai-invoice-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: накладная рядом с ноутбуком и результатом распознавания" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>Накладные с AI</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
-                    <a class="gallery-card editorial-card" href="img/hero-ai-promo-source-v91.png" data-gallery-card data-preview data-title="Промо из каталога" data-preview-alt="Иллюстрация возможности Smart Store: Промо из каталога" aria-label="Промо из каталога. Рассмотреть иллюстрацию" data-visual="scanner"><img class="editorial-photo" src="img/hero-ai-promo-1536-v91.webp" srcset="img/hero-ai-promo-768-v91.webp 768w, img/hero-ai-promo-1024-v91.webp 1024w, img/hero-ai-promo-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: раздел Промо, карточка товара, прайс-лист и визитки" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>Промо из каталога</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
-                  </div>
-                  <div
-                    class="ribbon-set"
-                    data-ribbon-set="after"
-                    aria-hidden="true"
-                  >
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-sale.png"
-                      data-ribbon-copy
-                      data-source-index="0"
-                      tabindex="-1"
-                      data-preview
-                      data-title="Продажи без пауз"
-                      data-preview-alt="Экран Smart Store: Продажи без пауз"
-                      aria-label="Продажи без пауз. Открыть оригинальный экран"
-                      data-visual="laptop"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-laptop-1536.webp"
-                        srcset="
-                          img/hero-demo-laptop-768.webp   768w,
-                          img/hero-demo-laptop-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целый ноутбук с кассой Smart Store и синей подставкой, вид три четверти"
-                        width="1536"
-                        height="1024"
-                        fetchpriority="high" /><span
-                        class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-receipt" /></svg
-                          >Продажи без пауз</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-home.png"
-                      data-ribbon-copy
-                      data-source-index="1"
-                      tabindex="-1"
-                      data-preview
-                      data-title="Главное — перед глазами"
-                      data-preview-alt="Экран Smart Store: Главное — перед глазами"
-                      aria-label="Главное — перед глазами. Открыть оригинальный экран"
-                      data-visual="monitor"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-monitor-1536.webp"
-                        srcset="
-                          img/hero-demo-monitor-768.webp   768w,
-                          img/hero-demo-monitor-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целый монитор с итогами Smart Store и сканер рядом"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-chart" /></svg
-                          >Главное — перед глазами</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-phone.png"
-                      data-ribbon-copy
-                      data-source-index="2"
-                      tabindex="-1"
-                      data-preview
-                      data-title="Магазин всегда рядом"
-                      data-preview-alt="Экран Smart Store: Магазин всегда рядом"
-                      aria-label="Магазин всегда рядом. Открыть оригинальный экран"
-                      data-visual="phone"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-phone-1536.webp"
-                        srcset="
-                          img/hero-demo-phone-768.webp   768w,
-                          img/hero-demo-phone-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целый iPhone с показателями Smart Store на компактном синем цилиндре"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-phone" /></svg
-                          >Магазин всегда рядом</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-sale.png"
-                      data-ribbon-copy
-                      data-source-index="3"
-                      tabindex="-1"
-                      data-preview
-                      data-title="На своём рабочем месте"
-                      data-preview-alt="Экран Smart Store: На своём рабочем месте"
-                      aria-label="На своём рабочем месте. Открыть оригинальный экран"
-                      data-visual="flatlay"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-demo-flatlay-1536.webp"
-                        srcset="
-                          img/hero-demo-flatlay-768.webp   768w,
-                          img/hero-demo-flatlay-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Вид сверху: ноутбук с кассой, сканер, чек и блокнот"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-receipt" /></svg
-                          >На своём рабочем месте</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                    <a
-                      class="gallery-card editorial-card"
-                      href="img/demo-sale.png"
-                      data-ribbon-copy
-                      data-source-index="4"
-                      tabindex="-1"
-                      data-preview
-                      data-title="От сканера до оплаты"
-                      data-preview-alt="Экран Smart Store: От сканера до оплаты"
-                      aria-label="От сканера до оплаты. Открыть оригинальный экран"
-                      data-visual="scanner"
-                      ><img
-                        class="editorial-photo"
-                        src="img/hero-full-scanner-1536.webp"
-                        srcset="
-                          img/hero-full-scanner-768.webp   768w,
-                          img/hero-full-scanner-1536.webp 1536w
-                        "
-                        sizes="(max-width: 620px) 62vw, (max-width: 850px) 48vw, 35vw"
-                        decoding="async"
-                        alt="Целые сканер, шуруповёрт и коробки со штрихкодами"
-                        width="1536"
-                        height="1024"
-                        loading="eager" /><span class="gallery-card-caption"
-                        ><span
-                          ><svg class="icon" aria-hidden="true">
-                            <use href="#i-box" /></svg
-                          >От сканера до оплаты</span
-                        ><svg class="icon" aria-hidden="true">
-                          <use href="#i-zoom" /></svg></span
-                    ></a>
-                  </div>
-                </div>
-              </div>
-              <svg
-                class="ribbon-rim"
-                viewBox="0 0 1000 1000"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <defs>
-                  <linearGradient id="ribbon-rim-light">
-                    <stop stop-color="#ededf5" stop-opacity=".65" />
-                    <stop offset=".4" stop-color="#8aa9ff" stop-opacity=".12" />
-                    <stop
-                      offset=".65"
-                      stop-color="#ededf5"
-                      stop-opacity=".25"
-                    />
-                    <stop offset="1" stop-color="#8aa9ff" stop-opacity=".65" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M0 35 C160 70 320 100 500 100 C680 100 840 70 1000 35 L1000 965 C840 930 680 900 500 900 C320 900 160 930 0 965 Z"
-                  fill="none"
-                  stroke="url(#ribbon-rim-light)"
-                  stroke-width="1.5"
-                  vector-effect="non-scaling-stroke"
-                />
-              </svg>
-            </div>
-          </div>
-          <!-- hero-ribbon:end -->
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="ribbon-defs" width="0" height="0" aria-hidden="true"><defs><clipPath id="hero-ribbon-clip" clipPathUnits="objectBoundingBox"><path d="M0 .035 C.16 .07 .32 .10 .5 .10 C.68 .10 .84 .07 1 .035 L1 .965 C.84 .93 .68 .90 .5 .90 C.32 .90 .16 .93 0 .965 Z"/></clipPath>
+<filter id="hero-refraction" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+  <feImage href="img/hero-refraction-field-v86.png" xlink:href="img/hero-refraction-field-v86.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="field"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".091854" xChannelSelector="R" yChannelSelector="G" result="warp-r"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".0841995" xChannelSelector="R" yChannelSelector="G" result="warp-g"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".076545" xChannelSelector="R" yChannelSelector="G" result="warp-b"/>
+  <feColorMatrix in="warp-r" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
+  <feColorMatrix in="warp-g" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>
+  <feColorMatrix in="warp-b" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>
+  <feBlend in="red" in2="green" mode="screen" result="rg"/>
+  <feBlend in="rg" in2="blue" mode="screen" result="spectrum"/>
+  <feGaussianBlur in="spectrum" stdDeviation=".007776 .002916" result="soft-spectrum"/>
+  <feColorMatrix in="field" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0" result="periphery"/>
+  <feComposite in="soft-spectrum" in2="periphery" operator="in" result="edge-optics"/>
+  <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="edge-optics"/></feMerge>
+</filter><filter id="hero-refraction-mobile" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+  <feImage href="img/hero-refraction-mobile-v86.png" xlink:href="img/hero-refraction-mobile-v86.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="field"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".091854" xChannelSelector="R" yChannelSelector="G" result="warp-r"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".0841995" xChannelSelector="R" yChannelSelector="G" result="warp-g"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".076545" xChannelSelector="R" yChannelSelector="G" result="warp-b"/>
+  <feColorMatrix in="warp-r" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
+  <feColorMatrix in="warp-g" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>
+  <feColorMatrix in="warp-b" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>
+  <feBlend in="red" in2="green" mode="screen" result="rg"/>
+  <feBlend in="rg" in2="blue" mode="screen" result="spectrum"/>
+  <feGaussianBlur in="spectrum" stdDeviation=".007776 .002916" result="soft-spectrum"/>
+  <feColorMatrix in="field" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0" result="periphery"/>
+  <feComposite in="soft-spectrum" in2="periphery" operator="in" result="edge-optics"/>
+  <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="edge-optics"/></feMerge>
+</filter></defs></svg>
+  <div class="ribbon-window">
+    <div class="ribbon-refraction">
+    <div class="ribbon-track motion-ready" data-ribbon-track>
+      <div class="ribbon-set" data-ribbon-set="before" aria-hidden="true"><a class="gallery-card editorial-card" href="img/demo-sale.png" data-ribbon-copy data-source-index="0" tabindex="-1" data-preview data-title="Продажа и склад" data-preview-alt="Экран Smart Store с демонстрационными данными: Продажа и склад" aria-label="Продажа и склад. Рассмотреть экран" data-visual="laptop"><img class="editorial-photo" src="img/hero-demo-laptop-1536.webp" srcset="img/hero-demo-laptop-768.webp 768w, img/hero-demo-laptop-1024-v91.webp 1024w, img/hero-demo-laptop-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Ноутбук с экраном продажи Smart Store на синей подставке" width="1536" height="1024" fetchpriority="high" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-receipt" /></svg>Продажа и склад</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/hero-ai-assistant-source-v91.png" data-ribbon-copy data-source-index="1" tabindex="-1" data-preview data-title="AI-помощник" data-preview-alt="Иллюстрация возможности Smart Store: AI-помощник" aria-label="AI-помощник. Рассмотреть иллюстрацию" data-visual="monitor"><img class="editorial-photo" src="img/hero-ai-assistant-1536-v91.webp" srcset="img/hero-ai-assistant-768-v91.webp 768w, img/hero-ai-assistant-1024-v91.webp 1024w, img/hero-ai-assistant-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Монитор с примером ответа AI-помощника и робот Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>AI-помощник</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/demo-phone.png" data-ribbon-copy data-source-index="2" tabindex="-1" data-preview data-title="Магазин в телефоне" data-preview-alt="Экран Smart Store с демонстрационными данными: Магазин в телефоне" aria-label="Магазин в телефоне. Рассмотреть экран" data-visual="phone"><img class="editorial-photo" src="img/hero-demo-phone-1536.webp" srcset="img/hero-demo-phone-768.webp 768w, img/hero-demo-phone-1024-v91.webp 1024w, img/hero-demo-phone-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Телефон с демонстрационными итогами магазина Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>Магазин в телефоне</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/hero-ai-invoice-source-v91.png" data-ribbon-copy data-source-index="3" tabindex="-1" data-preview data-title="Накладные с AI" data-preview-alt="Иллюстрация возможности Smart Store: Накладные с AI" aria-label="Накладные с AI. Рассмотреть иллюстрацию" data-visual="flatlay"><img class="editorial-photo" src="img/hero-ai-invoice-1536-v91.webp" srcset="img/hero-ai-invoice-768-v91.webp 768w, img/hero-ai-invoice-1024-v91.webp 1024w, img/hero-ai-invoice-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: накладная рядом с ноутбуком и результатом распознавания" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>Накладные с AI</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/hero-ai-promo-source-v91.png" data-ribbon-copy data-source-index="4" tabindex="-1" data-preview data-title="Промо из каталога" data-preview-alt="Иллюстрация возможности Smart Store: Промо из каталога" aria-label="Промо из каталога. Рассмотреть иллюстрацию" data-visual="scanner"><img class="editorial-photo" src="img/hero-ai-promo-1536-v91.webp" srcset="img/hero-ai-promo-768-v91.webp 768w, img/hero-ai-promo-1024-v91.webp 1024w, img/hero-ai-promo-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: раздел Промо, карточка товара, прайс-лист и визитки" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>Промо из каталога</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a></div>
+      <div class="ribbon-set" data-ribbon-set="main"><a class="gallery-card editorial-card" href="img/demo-sale.png" data-gallery-card data-preview data-title="Продажа и склад" data-preview-alt="Экран Smart Store с демонстрационными данными: Продажа и склад" aria-label="Продажа и склад. Рассмотреть экран" data-visual="laptop"><img class="editorial-photo" src="img/hero-demo-laptop-1536.webp" srcset="img/hero-demo-laptop-768.webp 768w, img/hero-demo-laptop-1024-v91.webp 1024w, img/hero-demo-laptop-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Ноутбук с экраном продажи Smart Store на синей подставке" width="1536" height="1024" fetchpriority="high" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-receipt" /></svg>Продажа и склад</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/hero-ai-assistant-source-v91.png" data-gallery-card data-preview data-title="AI-помощник" data-preview-alt="Иллюстрация возможности Smart Store: AI-помощник" aria-label="AI-помощник. Рассмотреть иллюстрацию" data-visual="monitor"><img class="editorial-photo" src="img/hero-ai-assistant-1536-v91.webp" srcset="img/hero-ai-assistant-768-v91.webp 768w, img/hero-ai-assistant-1024-v91.webp 1024w, img/hero-ai-assistant-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Монитор с примером ответа AI-помощника и робот Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>AI-помощник</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/demo-phone.png" data-gallery-card data-preview data-title="Магазин в телефоне" data-preview-alt="Экран Smart Store с демонстрационными данными: Магазин в телефоне" aria-label="Магазин в телефоне. Рассмотреть экран" data-visual="phone"><img class="editorial-photo" src="img/hero-demo-phone-1536.webp" srcset="img/hero-demo-phone-768.webp 768w, img/hero-demo-phone-1024-v91.webp 1024w, img/hero-demo-phone-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Телефон с демонстрационными итогами магазина Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>Магазин в телефоне</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/hero-ai-invoice-source-v91.png" data-gallery-card data-preview data-title="Накладные с AI" data-preview-alt="Иллюстрация возможности Smart Store: Накладные с AI" aria-label="Накладные с AI. Рассмотреть иллюстрацию" data-visual="flatlay"><img class="editorial-photo" src="img/hero-ai-invoice-1536-v91.webp" srcset="img/hero-ai-invoice-768-v91.webp 768w, img/hero-ai-invoice-1024-v91.webp 1024w, img/hero-ai-invoice-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: накладная рядом с ноутбуком и результатом распознавания" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>Накладные с AI</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/hero-ai-promo-source-v91.png" data-gallery-card data-preview data-title="Промо из каталога" data-preview-alt="Иллюстрация возможности Smart Store: Промо из каталога" aria-label="Промо из каталога. Рассмотреть иллюстрацию" data-visual="scanner"><img class="editorial-photo" src="img/hero-ai-promo-1536-v91.webp" srcset="img/hero-ai-promo-768-v91.webp 768w, img/hero-ai-promo-1024-v91.webp 1024w, img/hero-ai-promo-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: раздел Промо, карточка товара, прайс-лист и визитки" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>Промо из каталога</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a></div>
+      <div class="ribbon-set" data-ribbon-set="after" aria-hidden="true"><a class="gallery-card editorial-card" href="img/demo-sale.png" data-ribbon-copy data-source-index="0" tabindex="-1" data-preview data-title="Продажа и склад" data-preview-alt="Экран Smart Store с демонстрационными данными: Продажа и склад" aria-label="Продажа и склад. Рассмотреть экран" data-visual="laptop"><img class="editorial-photo" src="img/hero-demo-laptop-1536.webp" srcset="img/hero-demo-laptop-768.webp 768w, img/hero-demo-laptop-1024-v91.webp 1024w, img/hero-demo-laptop-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Ноутбук с экраном продажи Smart Store на синей подставке" width="1536" height="1024" fetchpriority="high" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-receipt" /></svg>Продажа и склад</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/hero-ai-assistant-source-v91.png" data-ribbon-copy data-source-index="1" tabindex="-1" data-preview data-title="AI-помощник" data-preview-alt="Иллюстрация возможности Smart Store: AI-помощник" aria-label="AI-помощник. Рассмотреть иллюстрацию" data-visual="monitor"><img class="editorial-photo" src="img/hero-ai-assistant-1536-v91.webp" srcset="img/hero-ai-assistant-768-v91.webp 768w, img/hero-ai-assistant-1024-v91.webp 1024w, img/hero-ai-assistant-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Монитор с примером ответа AI-помощника и робот Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>AI-помощник</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/demo-phone.png" data-ribbon-copy data-source-index="2" tabindex="-1" data-preview data-title="Магазин в телефоне" data-preview-alt="Экран Smart Store с демонстрационными данными: Магазин в телефоне" aria-label="Магазин в телефоне. Рассмотреть экран" data-visual="phone"><img class="editorial-photo" src="img/hero-demo-phone-1536.webp" srcset="img/hero-demo-phone-768.webp 768w, img/hero-demo-phone-1024-v91.webp 1024w, img/hero-demo-phone-1536.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Телефон с демонстрационными итогами магазина Smart Store" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>Магазин в телефоне</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/hero-ai-invoice-source-v91.png" data-ribbon-copy data-source-index="3" tabindex="-1" data-preview data-title="Накладные с AI" data-preview-alt="Иллюстрация возможности Smart Store: Накладные с AI" aria-label="Накладные с AI. Рассмотреть иллюстрацию" data-visual="flatlay"><img class="editorial-photo" src="img/hero-ai-invoice-1536-v91.webp" srcset="img/hero-ai-invoice-768-v91.webp 768w, img/hero-ai-invoice-1024-v91.webp 1024w, img/hero-ai-invoice-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: накладная рядом с ноутбуком и результатом распознавания" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-ai" /></svg>Накладные с AI</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a>
+<a class="gallery-card editorial-card" href="img/hero-ai-promo-source-v91.png" data-ribbon-copy data-source-index="4" tabindex="-1" data-preview data-title="Промо из каталога" data-preview-alt="Иллюстрация возможности Smart Store: Промо из каталога" aria-label="Промо из каталога. Рассмотреть иллюстрацию" data-visual="scanner"><img class="editorial-photo" src="img/hero-ai-promo-1536-v91.webp" srcset="img/hero-ai-promo-768-v91.webp 768w, img/hero-ai-promo-1024-v91.webp 1024w, img/hero-ai-promo-1536-v91.webp 1536w" sizes="(max-width: 620px) 78vw, (max-width: 850px) 56vw, 36vw" decoding="async" alt="Иллюстрация: раздел Промо, карточка товара, прайс-лист и визитки" width="1536" height="1024" loading="eager" /><span class="gallery-card-caption"><span><svg class="icon" aria-hidden="true"><use href="#i-box" /></svg>Промо из каталога</span><svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></span></a></div>
+    </div>
+    </div>
+    <svg class="ribbon-rim" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="ribbon-rim-light"><stop stop-color="#ededf5" stop-opacity=".65"/><stop offset=".4" stop-color="#8aa9ff" stop-opacity=".12"/><stop offset=".65" stop-color="#ededf5" stop-opacity=".25"/><stop offset="1" stop-color="#8aa9ff" stop-opacity=".65"/></linearGradient></defs>
+      <path d="M0 35 C160 70 320 100 500 100 C680 100 840 70 1000 35 L1000 965 C840 930 680 900 500 900 C320 900 160 930 0 965 Z" fill="none" stroke="url(#ribbon-rim-light)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+    </svg>
+  </div>
+</div>
+<!-- hero-ribbon:end -->
           <p
             id="gallery-status"
             class="visually-hidden"
