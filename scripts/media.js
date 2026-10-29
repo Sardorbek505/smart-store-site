@@ -9,6 +9,8 @@ export function init() {
       if (!source || image.src === new URL(source, location.href).href) return;
       // Clear responsive candidates as well; otherwise Safari retries the WebP.
       image.removeAttribute("srcset");
+      for (const candidate of image.closest("picture")?.querySelectorAll("source") || [])
+        candidate.removeAttribute("srcset");
       if (image.alt)
         image.alt =
           link?.dataset.previewAlt ||

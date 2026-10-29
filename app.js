@@ -25,7 +25,6 @@ await Promise.allSettled(
     "story",
     "depth",
     "checkout",
-    "micro-scenes",
     "analytics",
   ].map(async (name) => {
     try {

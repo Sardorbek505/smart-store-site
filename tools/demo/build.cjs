@@ -19,7 +19,7 @@ const { build } = require(path.join(modules, "esbuild"));
     outfile: path.join(out, "entry.js"),
     jsx: "automatic",
     loader: { ".png": "dataurl" },
-    nodePaths: [modules],
+    nodePaths: [modules, ...((process.env.DEMO_EXTRA_MODULES || "").split(path.delimiter).filter(Boolean))],
     alias: {
       "@app": path.join(source, "src/renderer"),
       "@shared": path.join(source, "src/shared"),

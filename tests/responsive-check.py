@@ -42,8 +42,9 @@ with sync_playwright() as p:
   frame=page.locator('#'+slug+' .screen-content');assert frame.evaluate('e=>getComputedStyle(e).overflowY==="visible"'),slug
   assert frame.evaluate('e=>e.scrollHeight<=e.clientHeight+5'),(slug,frame.evaluate('e=>[e.scrollHeight,e.clientHeight]'))
  assert page.locator('#license').evaluate('e=>e.querySelector(".trial-scene").getBoundingClientRect().bottom<=e.querySelector(".license-copy").getBoundingClientRect().top+1'), 'Trial image must not overlap the offer'
- for card in page.locator('#features .bento').all():
-  assert card.evaluate('e=>e.querySelector(".bento-copy").getBoundingClientRect().bottom<=e.getBoundingClientRect().bottom+2'), 'Feature copy must not be clipped by its carousel'
+ assert page.locator('#features .sale-step').count()==3
+ for step in page.locator('#features .sale-step').all():
+  assert step.evaluate('e=>e.querySelector(".sale-step-copy").getBoundingClientRect().bottom<=e.querySelector(".sale-step-screen").getBoundingClientRect().top+2'), 'Proof image must follow its text'
  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
  # Width-changing rotation updates the layout; browser-bar height changes while
  # reading do not resize all preceding sections or displace the reader.
