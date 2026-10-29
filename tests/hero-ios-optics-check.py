@@ -10,7 +10,7 @@ from playwright.sync_api import sync_playwright
 
 BASE=os.environ.get('SITE_TEST_URL','http://127.0.0.1:4173').rstrip('/')
 BROWSER=os.environ.get('BROWSER','chromium')
-OUT=Path('/tmp/smart-store-ios-optics-v84')/BROWSER
+OUT=Path('/tmp/smart-store-ios-optics-v85')/BROWSER
 OUT.mkdir(parents=True,exist_ok=True)
 
 with sync_playwright() as p:
@@ -18,6 +18,9 @@ with sync_playwright() as p:
     if BROWSER=='chromium':opts.update(executable_path=shutil.which('chromium'),args=['--no-sandbox'])
     browser=getattr(p,BROWSER).launch(**opts)
     page=browser.new_page(**p.devices['iPhone 13'])
+    # Reproduce the iOS WebView compositor convention that exposed bright arcs
+    # when v84 supplied straight RGB at fractional alpha.
+    page.add_init_script('''const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,options){return original.call(this,type,type==='webgl'?{...options,premultipliedAlpha:true}:options)}''')
     errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
     # The new renderer cannot rely on SVG filter resources or CSS filter support.
     page.route('**/hero-refraction-*.png',lambda r:r.abort())
@@ -39,6 +42,8 @@ with sync_playwright() as p:
         edge=Image.new('RGB',(margin*2,a.height));edge.paste(diff.crop((0,0,margin,a.height)),(0,0));edge.paste(diff.crop((a.width-margin,0,a.width,a.height)),(margin,0))
         edge_mean=max(ImageStat.Stat(edge).mean)
         assert centre<.35 and edge_mean>5,(n,centre,edge_mean)
+        alpha=page.locator('.ribbon-optics').evaluate('''c=>{const gl=c.getContext('webgl');const pixels=new Uint8Array(c.width*c.height*4);gl.readPixels(0,0,c.width,c.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);let bad=0,translucent=0;for(let i=0;i<pixels.length;i+=4){const a=pixels[i+3];if(a>0&&a<255)translucent++;if(Math.max(pixels[i],pixels[i+1],pixels[i+2])>a+1)bad++}return {bad,translucent,premultiplied:gl.getContextAttributes().premultipliedAlpha}}''')
+        assert alpha['premultiplied'] and alpha['bad']==0 and alpha['translucent']>100,alpha
         a.save(OUT/f'no-svg-{n}.png')
         print(json.dumps({'browser':BROWSER,'phase':n,'SVG':'disabled','GPU':'rendered','centreDiff':centre,'edgeDiff':edge_mean}),flush=True)
     assert page.locator('.ribbon-optics').evaluate('e=>getComputedStyle(e).pointerEvents')=='none'
