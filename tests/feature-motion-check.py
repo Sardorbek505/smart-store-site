@@ -21,14 +21,14 @@ with sync_playwright() as p:
   assert scene.locator('.feature-state .feature-after').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
   y=page.evaluate('scrollY');page.wait_for_timeout(350)
   assert abs(page.evaluate('scrollY')-y)<1,'Motion cannot shift the page'
-  page.locator('#preview-dialog').evaluate('e=>e.showModal()');page.wait_for_timeout(60)
-  assert scene.evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.playState==="paused")')
+  page.locator('#preview-dialog').evaluate('e=>e.showModal()')
+  page.wait_for_function('()=>document.querySelector("[data-feature-scene=sale]").getAnimations({subtree:true}).every(a=>a.playState==="paused"&&!a.pending)')
   t=scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime');page.wait_for_timeout(150)
   assert scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime')==t
   page.keyboard.press('Escape');page.wait_for_timeout(80)
   assert scene.evaluate('e=>e.getAnimations({subtree:true}).some(a=>a.playState==="running")')
-  page.locator('#assistant').evaluate('e=>e.scrollIntoView({block:"start",behavior:"instant"})');page.wait_for_timeout(150)
-  assert scene.evaluate('e=>e.getAnimations({subtree:true}).every(a=>a.playState==="paused")')
+  page.locator('#assistant').evaluate('e=>e.scrollIntoView({block:"start",behavior:"instant"})')
+  page.wait_for_function('()=>document.querySelector("[data-feature-scene=sale]").getAnimations({subtree:true}).every(a=>a.playState==="paused"&&!a.pending)')
   page.emulate_media(reduced_motion='reduce');page.wait_for_timeout(80)
   assert scene.evaluate('e=>e.getAnimations({subtree:true}).length')==0
   assert scene.locator('.feature-state .feature-after').evaluate('e=>getComputedStyle(e).opacity')=='1'
