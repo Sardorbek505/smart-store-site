@@ -1,4 +1,4 @@
-// Each story has its own interaction. Motion is finite and only follows a tap.
+// Product interactions and the one-time AI entrance use finite, optional motion.
 export function init() {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const animate = (element) => {
@@ -94,105 +94,44 @@ export function init() {
       });
     });
   }
-  function setupPhone() {
-    const image = document.getElementById("phone-mockup");
-    if (!image) return;
-    const scenes = [
-      {
-        image: "mobile-demo-overview.webp",
-        original: "demo-phone.png",
-        label: "Сегодня в магазине",
-        value: "396 950 ₸",
-        description: "17 чеков. Теперь найдём шуруповёрт.",
-        action: "Найти шуруповёрт",
-        title: "Главная",
-        alt: "iPhone 18 Pro Max целиком с итогами дня Smart Store",
-      },
-      {
-        image: "mobile-demo-drill.webp",
-        original: "demo-phone-drill.png",
-        label: "Шуруповёрт 18 В · 12 шт",
-        value: "39 900 ₸",
-        description: "В корзине уже есть диск за 650 ₸.",
-        action: "Добавить в корзину",
-        title: "Найденный товар",
-        alt: "iPhone 18 Pro Max целиком: шуруповёрт 18 В за 39 900 ₸, в наличии 12 шт",
-      },
-      {
-        image: "mobile-demo-cart.webp",
-        original: "demo-phone-cart.png",
-        label: "Шуруповёрт + отрезной диск",
-        value: "40 550 ₸",
-        description: "2 товара в корзине. Оплата — на компьютере.",
-        action: "Повторить пример",
-        title: "Корзина",
-        alt: "iPhone 18 Pro Max целиком с корзиной Smart Store: два товара на 40 550 ₸",
-      },
-    ];
-    const button = document.getElementById("phone-demo-action");
-    const label = button.querySelector(".button-label");
-    const link = document.getElementById("phone-screen-link");
-    const story = document.querySelector(".mobile-story");
-    let selected = 0;
-    let loading = false;
-    const load = async (src) => {
-      const next = new Image();
-      next.src = `img/${src}`;
-      await next.decode();
-      return next.src;
-    };
-    button.addEventListener("click", async () => {
-      if (loading) return;
-      loading = true;
-      button.disabled = true;
-      button.setAttribute("aria-busy", "true");
-      label.textContent = "Загружаем…";
-      const index = (selected + 1) % scenes.length;
-      const scene = scenes[index];
-      try {
-        let source;
-        try {
-          source = await load(scene.image);
-        } catch {
-          source = await load(scene.original);
-        }
-        selected = index;
-        image.src = source;
-        image.alt = scene.alt;
-        link.href = `img/${scene.original}`;
-        link.dataset.title = `Smart Store на телефоне / ${scene.title}`;
-        link.dataset.previewAlt = `${scene.label}: ${scene.value}. ${scene.description}`;
-        document.getElementById("phone-demo-label").textContent = scene.label;
-        document.getElementById("phone-demo-value").textContent = scene.value;
-        document.getElementById("phone-demo-description").textContent =
-          scene.description;
-        story.dataset.phoneStep = String(index);
-        document
-          .querySelectorAll(".demo-progress > span")
-          .forEach((dot, i) => dot.classList.toggle("current", i <= index));
-        animate(image);
-      } catch {
-        document.getElementById("phone-demo-description").textContent =
-          "Не удалось загрузить экран. Нажмите ещё раз.";
-      } finally {
-        loading = false;
-        button.disabled = false;
-        button.removeAttribute("aria-busy");
-        label.textContent = scenes[selected].action;
-      }
-    });
-    button.disabled = false;
+  function setupAssistant() {
+    const scene = document.querySelector("[data-assistant-scene]");
+    if (!scene || !("IntersectionObserver" in window)) return;
+    let shown = false;
+    const observer = new IntersectionObserver((entries) => {
+      if (shown || !entries.some((entry) => entry.isIntersecting)) return;
+      shown = true;
+      observer.disconnect();
+      scene.dataset.entered = "true";
+      if (reduced.matches || !scene.animate) return;
+      const layers = [scene.querySelector(".assistant-art"), ...scene.querySelectorAll(".assistant-token")];
+      layers.forEach((layer, i) => {
+        const rest = getComputedStyle(layer).transform;
+        const basis = rest === "none" ? "" : rest;
+        layer.animate([
+          { opacity: .55, transform: `translateY(${i ? 12 : 20}px) scale(.97) ${basis}` },
+          { opacity: 1, transform: `translateY(-3px) scale(1.005) ${basis}`, offset: .75 },
+          { opacity: 1, transform: rest },
+        ], {duration: i ? 700 : 1100, delay: i * 150, easing: "cubic-bezier(.2,.7,.2,1)"});
+      });
+      scene.querySelector(".assistant-aura").animate([
+        {opacity: .3, transform: "scale(.85)"},
+        {opacity: 1, transform: "scale(1.06)", offset: .65},
+        {opacity: 1, transform: "none"},
+      ], {duration: 1400, easing: "ease-out"});
+    }, {threshold: .3});
+    observer.observe(scene);
   }
   reduced.addEventListener("change", () => {
     if (reduced.matches) {
       for (const element of document.querySelectorAll(
-        "#phone-mockup, .checkout-reading",
+        ".assistant-composition *, .checkout-reading",
       )) {
         for (const animation of element.getAnimations()) animation.cancel();
       }
     }
   });
-  for (const setup of [setupCheckout, setupPhone]) {
+  for (const setup of [setupCheckout, setupAssistant]) {
     try {
       setup();
     } catch {

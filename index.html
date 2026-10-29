@@ -155,9 +155,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.4e9e6849c1d7.css" />
+    <link rel="stylesheet" href="assets/site.1aab9ea4b67a.css" />
     <!-- styles:end -->
-    <script src="app.js?v=94" type="module"></script>
+    <script src="app.js?v=95" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -805,14 +805,17 @@
       <p class="assistant-summary">Помощник объяснит продажи, остатки и долги. Текстом или голосом.</p>
     </div>
     <figure class="assistant-scene">
-      <a href="media/smart-store-ai-tour-v94.mp4" class="assistant-tour-link" data-tour aria-label="Смотреть запись интерфейса Smart Store, 31 секунда">
-      <img src="img/assistant-studio-1448-v93.webp"
-        srcset="img/assistant-studio-768-v93.webp 768w, img/assistant-studio-1152-v93.webp 1152w, img/assistant-studio-1448-v93.webp 1448w"
-        sizes="(max-width: 850px) calc(100vw - 36px), (max-width: 1280px) 60vw, 760px"
-        width="1448" height="1086" loading="lazy" decoding="async"
-        alt="Ноутбук на синем подиуме и небольшой робот Smart Store рядом: на экране вопрос «Что с магазином?» и ответ «17 чеков · 396 950 ₸». Иллюстрация на демонстрационных данных." />
-      <span class="assistant-play"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 2.5 13 8l-9 5.5Z" fill="currentColor"/></svg> Смотреть программу · 31 с</span>
-      </a>
+      <div class="assistant-composition" data-assistant-scene>
+        <div class="assistant-aura" aria-hidden="true"></div>
+        <span class="assistant-token assistant-token-voice"><svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3m-4 0h8"/></svg>Голос или текст</span>
+        <img class="assistant-art" src="img/assistant-cutout-1448-v95.webp"
+          srcset="img/assistant-cutout-768-v95.webp 768w, img/assistant-cutout-1152-v95.webp 1152w, img/assistant-cutout-1448-v95.webp 1448w"
+          sizes="(max-width: 850px) calc(100vw - 40px), (max-width: 1280px) 60vw, 800px"
+          width="1448" height="1086" loading="lazy" decoding="async"
+          alt="Ноутбук с AI-помощником, небольшой робот и объёмная белая лента. На экране — вопрос о магазине и демонстрационный ответ." />
+        <span class="assistant-token assistant-token-facts"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg>По данным магазина</span>
+      </div>
+      <a href="media/smart-store-ai-tour-v94.mp4" class="assistant-watch" data-tour aria-label="Смотреть запись интерфейса Smart Store, 31 секунда"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 2.5 13 8l-9 5.5Z" fill="currentColor"/></svg>Смотреть программу <span>31 с</span></a>
       <figcaption>Иллюстрация на демоданных. Для AI нужны интернет и ключ Gemini. <a href="#ai-info">Подробнее →</a></figcaption>
     </figure>
   </div>
@@ -965,83 +968,19 @@
           </div>
         </div>
       </section>
-      <section
-        id="mobile"
-        class="phone-section screen-section"
-        aria-labelledby="phone-title"
-      >
-        <div class="screen-content wrap mobile-story" data-phone-step="0">
+      <section id="mobile" class="phone-section section" aria-labelledby="phone-title">
+        <div class="wrap mobile-story">
           <div class="mobile-heading">
-            <h2 id="phone-title">Магазин.<br /><span>Под рукой.</span></h2>
+            <h2 id="phone-title">Ваш магазин —<br/><span>в телефоне.</span></h2>
+            <p class="mobile-summary">Посмотрите продажи за день, найдите товар и проверьте остаток прямо в браузере.</p>
           </div>
           <div class="mobile-stage">
             <div class="mobile-orbit" aria-hidden="true"></div>
-            <a
-              class="mobile-device"
-              id="phone-screen-link"
-              href="img/demo-phone.png"
-              data-preview
-              data-title="Smart Store на телефоне / Главная"
-              data-preview-alt="Главная телефона: выручка 396 950 ₸, прибыль 142 880 ₸"
-              aria-label="Увеличить исходный экран телефона"
-              ><img
-                id="phone-mockup"
-                src="img/mobile-demo-overview.webp"
-                width="1024"
-                height="1536"
-                loading="lazy"
-                decoding="async"
-                alt="iPhone 18 Pro Max целиком с итогами дня Smart Store" /><span
-                class="mobile-zoom"
-                ><svg class="icon" aria-hidden="true">
-                  <use href="#i-zoom" /></svg></span
-            ></a>
+            <div class="mobile-device"><img id="phone-mockup" src="img/mobile-demo-overview.webp" data-fallback="img/demo-phone.png" width="1024" height="1536" loading="lazy" decoding="async" alt="Пример Smart Store в телефоне: продажи за день и остатки доступны в браузере"/></div>
           </div>
           <div class="mobile-demo">
-            <div class="demo-progress" aria-hidden="true">
-              <span class="current"></span><span></span><span></span
-              ><small>ПРИМЕР</small>
-            </div>
-            <div
-              class="mobile-reading"
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-            >
-              <p id="phone-demo-label">Сегодня в магазине</p>
-              <strong id="phone-demo-value">396 950 ₸</strong>
-              <p id="phone-demo-description">
-                17 чеков. Теперь найдём шуруповёрт.
-              </p>
-            </div>
-            <button
-              id="phone-demo-action"
-              class="button mobile-action"
-              type="button"
-              disabled
-              aria-controls="phone-mockup"
-            >
-              <span class="button-label">Найти шуруповёрт</span
-              ><span class="button-icon" aria-hidden="true"
-                ><svg class="icon" aria-hidden="true">
-                  <use href="#i-arrow" /></svg
-              ></span>
-            </button>
-            <div class="mobile-bottom">
-              <a
-                href="#store"
-                aria-haspopup="dialog"
-                aria-controls="store"
-                class="story-text-link"
-                >Войти в свой магазин
-                <svg class="icon" aria-hidden="true">
-                  <use href="#i-arrow" /></svg
-              ></a>
-              <p class="connection-note">
-                В браузере, без установки. Компьютер должен быть включён. Вне
-                магазина нужен интернет.
-              </p>
-            </div>
+            <a id="phone-example" href="img/demo-phone.png" data-preview data-title="Smart Store в телефоне" data-preview-alt="Настоящий экран телефона Smart Store: демонстрационные продажи, выручка и поиск товаров" class="button mobile-action"><span class="button-label">Посмотреть пример</span><span class="button-icon" aria-hidden="true"><svg class="icon"><use href="#i-zoom"/></svg></span></a>
+            <p class="connection-note">Компьютер со Smart Store должен быть включён. Для доступа вне магазина нужен интернет.</p>
           </div>
         </div>
       </section>

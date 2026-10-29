@@ -34,7 +34,7 @@ with sync_playwright() as p:
         assert 'демоданных' in page.locator('.assistant-scene figcaption').inner_text()
         assert page.locator('#site-nav a[href="#assistant"]').count()==1
         visual=page.locator('.assistant-scene img')
-        visual.evaluate('(i)=>i.decode()')
+        page.wait_for_function('()=>{const i=document.querySelector(".assistant-scene img");return i.complete&&i.naturalWidth>0}')
         assert visual.evaluate('(i)=>i.naturalWidth>0 && i.getBoundingClientRect().width>=Math.min(300,innerWidth-36)')
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
         assert not unexpected,unexpected

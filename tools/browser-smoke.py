@@ -10,7 +10,7 @@ server=ThreadingHTTPServer(('127.0.0.1',0),partial(Quiet,directory=str(ROOT)))
 thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
 os.environ['SITE_TEST_URL']=f'http://127.0.0.1:{server.server_port}'
 try:
-    for name in ['readiness-check.py','site-improvements-check.py','ai-hero-check.py','ai-tour-check.py','hero-motion-check.py','accessibility-check.py','hero-ios-optics-check.py','hero-optics-alpha-check.py']:
+    for name in ['readiness-check.py','site-improvements-check.py','ai-hero-check.py','ai-tour-check.py','story-check.py','hero-motion-check.py','accessibility-check.py','hero-ios-optics-check.py','hero-optics-alpha-check.py']:
         print('Browser check:',name,flush=True)
         runpy.run_path(str(ROOT/'tests'/name),run_name='__main__')
 finally:

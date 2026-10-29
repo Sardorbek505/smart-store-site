@@ -136,7 +136,7 @@ with sync_playwright() as p:
     plain.goto(BASE)
     assert plain.locator('#site-nav').is_visible()
     assert plain.locator('#store-submit').is_disabled()
-    assert plain.locator('#phone-demo-action').is_disabled()
+    assert plain.locator('#phone-example').get_attribute('href')=='img/demo-phone.png'
     assert plain.locator('#download').get_attribute('href') == '#installation'
     plain.locator('#download').click()
     assert plain.locator('#installation').is_visible()
