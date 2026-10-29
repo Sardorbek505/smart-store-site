@@ -14,6 +14,7 @@ export function init() {
     inView = true,
     resting = false;
   let restTimer;
+  let optics;
   let pointer = null,
     dragged = false,
     manual = null,
@@ -62,6 +63,7 @@ export function init() {
     }
     const motion = running ? "running" : "paused";
     if (stage.dataset.motion !== motion) stage.dataset.motion = motion;
+    optics?.update(running || manual?.playState === "running");
   };
   const restAfterSwipe = () => {
     resting = true;
@@ -171,8 +173,8 @@ export function init() {
     true,
   );
   stage.addEventListener("dragstart", (event) => event.preventDefault());
-  // The browser animates one transform. There is no JavaScript frame loop,
-  // image decoding barrier, Canvas, or geometry update during scrolling.
+  // The photo strip stays on one native transform. Optional phone optics read
+  // its animation clock; their decoding and GPU setup never block navigation.
   window.addEventListener("scroll", sync, { passive: true });
   document.addEventListener("visibilitychange", sync);
   reduced.addEventListener("change", () => {
@@ -192,4 +194,19 @@ export function init() {
   sync();
   stage.dataset.renderer = "native";
   stage.dataset.ready = "true";
+  // Optional phone renderer: a missing GPU must never prevent native motion,
+  // original photo links, keyboard navigation or store login.
+  const version = new URL(import.meta.url).search;
+  void import(`./hero-optics.js${version}`)
+    .then(({ mount }) => {
+      optics = mount({
+        window: gallery.querySelector(".ribbon-window"),
+        track,
+        cards,
+        flow,
+        getManual: () => manual,
+      });
+      sync();
+    })
+    .catch(() => {});
 }

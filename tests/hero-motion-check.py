@@ -1,4 +1,4 @@
-"""Full-bleed, seamless native motion with no script frame loop or scroll work."""
+"""Seamless native motion; optional phone GPU optics stop with the animation."""
 from playwright.sync_api import sync_playwright
 from PIL import Image, ImageChops, ImageStat
 from io import BytesIO
@@ -16,6 +16,7 @@ with sync_playwright() as p:
         errors = []; page.on('pageerror', lambda e: errors.append(str(e)))
         page.goto(BASE, wait_until='networkidle')
         page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="running")')
+        if w<851:page.wait_for_function('()=>document.querySelector(".ribbon-window").dataset.optics==="webgl"')
         box = page.locator('.ribbon-window').bounding_box()
         assert box['x'] == 0 and 0 <= w-box['width'] <= 16, box
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
@@ -34,19 +35,22 @@ with sync_playwright() as p:
         page.wait_for_timeout(400)
         assert page.locator('.ribbon-track').evaluate('e=>getComputedStyle(e).transform') != first
         assert page.evaluate('heroMutations') == 0, 'motion must not rewrite the DOM'
-        assert page.evaluate('heroFrames') == 0, 'motion must not run JavaScript frames'
+        frame_count=page.evaluate('heroFrames')
+        assert 0<frame_count<40 if w<851 else frame_count==0, 'only the optional phone lens schedules frames'
         page.locator('.hero-gallery').focus()
         page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="paused")')
         page.wait_for_function('() => (!testFlow.pending)')
         paused = page.evaluate('testFlow.currentTime'); page.wait_for_timeout(200)
         assert abs(page.evaluate('testFlow.currentTime')-paused) < 1
         # Identical frames either side of a complete loop: no blank end or reset flash.
-        page.evaluate('testFlow.currentTime=0')
+        page.evaluate('()=>{testFlow.currentTime=0;dispatchEvent(new Event("resize"))}')
+        if w<851:page.wait_for_timeout(100)
         a = page.locator('.ribbon-window').screenshot()
         original = page.locator('[data-gallery-card]').first.bounding_box()
         duration = page.evaluate('testFlow.effect.getTiming().duration')
         assert duration == 44000
-        page.evaluate('(duration)=>testFlow.currentTime=duration-1',duration)
+        page.evaluate('(duration)=>{testFlow.currentTime=duration-1;dispatchEvent(new Event("resize"))}',duration)
+        if w<851:page.wait_for_timeout(100)
         z = page.locator('.ribbon-window').screenshot()
         copy = page.locator('[data-ribbon-set="after"] .gallery-card').first.bounding_box()
         assert abs(copy['x']-original['x']) < .2
@@ -61,9 +65,12 @@ with sync_playwright() as p:
         page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="paused")')
         page.wait_for_function('() => (!testFlow.pending)')
         paused = page.evaluate('testFlow.currentTime')
+        page.wait_for_timeout(100)
+        stopped_frames=page.evaluate('heroFrames')
         for y in [150, 200, 250, 300]:
             page.evaluate('(y)=>scrollTo(0,y)', y); page.wait_for_timeout(100)
         assert abs(page.evaluate('testFlow.currentTime')-paused) < 1
+        assert page.evaluate('heroFrames')-stopped_frames<=2, 'phone lens must stop scheduling frames while scrolled away'
         page.locator('#features').scroll_into_view_if_needed()
         page.wait_for_timeout(200)
         assert abs(page.evaluate('testFlow.currentTime')-paused) < 1
@@ -93,6 +100,6 @@ with sync_playwright() as p:
         current=page.locator('.ribbon-track').evaluate('e=>getComputedStyle(e).transform')
         page.wait_for_function('(before)=>getComputedStyle(document.querySelector(".ribbon-track")).transform!==before',arg=current,timeout=3000)
         assert not errors, errors
-        print(json.dumps({'browser': BROWSER, 'width': w, 'fullWidth': box['width'], 'ribbonHeight': box['height'], 'cardWidth': card_width, 'loop': 'seamless', 'scriptFramesDuringMotion': 0, 'DOMMutationsDuringMotion': 0, 'scrollPause': 'pass', 'reducedMotion': 'pass'}), flush=True)
+        print(json.dumps({'browser': BROWSER, 'width': w, 'fullWidth': box['width'], 'ribbonHeight': box['height'], 'cardWidth': card_width, 'loop': 'seamless', 'scriptFramesDuringMotion': frame_count, 'DOMMutationsDuringMotion': 0, 'scrollPause': 'pass', 'reducedMotion': 'pass'}), flush=True)
         page.close()
     b.close()
