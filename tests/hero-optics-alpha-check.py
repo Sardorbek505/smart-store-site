@@ -16,6 +16,7 @@ with sync_playwright() as p:
  page.add_init_script('''const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,options){return original.call(this,type,type==='webgl'?{...options,premultipliedAlpha:true}:options)}''')
  page.goto(os.environ.get('SITE_TEST_URL','http://127.0.0.1:4173'),wait_until='networkidle')
  page.wait_for_function('()=>document.querySelector(".ribbon-window").dataset.optics==="webgl"')
+ page.emulate_media(reduced_motion='reduce')
  page.locator('.hero-gallery').focus();page.wait_for_function('()=>{const a=document.querySelector(".ribbon-track").getAnimations()[0];return a.playState==="paused"&&!a.pending}')
  # Replace only this test's photo elements with a transparent data image. The
  # underlying HTML and uploaded atlas must then render the same uniform panel.

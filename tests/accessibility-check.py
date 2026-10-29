@@ -1,4 +1,4 @@
-"""WCAG checks for the public pages and visible motion control; services are stubs."""
+"""WCAG checks for the public pages and autoplay gallery; services are stubs."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import json,os,shutil
@@ -25,9 +25,9 @@ with sync_playwright() as p:
             print(json.dumps({'browser':BROWSER,'width':width,'path':path,'axeViolations':0}),flush=True)
             if path=='/':
                 page.emulate_media(reduced_motion='no-preference')
-                page.locator('.ribbon-pause').wait_for(state='visible')
+                assert page.locator('.ribbon-pause').count()==0
                 result=page.evaluate('async()=>await axe.run(document,{runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21aa","wcag22aa","best-practice"]}})')
-                assert not result['violations'],(width,'motion-control',result['violations'])
+                assert not result['violations'],(width,'autoplay-gallery',result['violations'])
                 page.locator('a[href="#store"]').first.evaluate('e=>e.click()')
                 page.wait_for_function('()=>document.getElementById("store").open')
                 result=page.evaluate('async()=>await axe.run(document,{runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21aa","wcag22aa","best-practice"]}})')
