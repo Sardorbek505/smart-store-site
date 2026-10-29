@@ -33,8 +33,8 @@ with sync_playwright() as p:
         assert page.locator('#assistant input,#assistant textarea,#assistant button').count()==0
         assert 'демоданных' in page.locator('.assistant-scene figcaption').inner_text()
         assert page.locator('#site-nav a[href="#assistant"]').count()==1
-        visual=page.locator('.assistant-scene img')
-        page.wait_for_function('()=>{const i=document.querySelector(".assistant-scene img");return i.complete&&i.naturalWidth>0}')
+        visual=page.locator('.assistant-art')
+        page.wait_for_function('()=>{const i=document.querySelector(".assistant-art");return i.complete&&i.naturalWidth>0}')
         assert visual.evaluate('(i)=>i.naturalWidth>0 && i.getBoundingClientRect().width>=Math.min(300,innerWidth-36)')
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
         assert not unexpected,unexpected

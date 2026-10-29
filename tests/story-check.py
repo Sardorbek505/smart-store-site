@@ -28,6 +28,8 @@ with sync_playwright() as p:
   page.locator('[data-assistant-scene]').scroll_into_view_if_needed()
   page.wait_for_function('()=>document.querySelector("[data-assistant-scene]").dataset.entered==="true"')
   page.wait_for_function('()=>{const i=document.querySelector(".assistant-art");return i.complete&&i.naturalWidth>0}')
+  page.wait_for_function('()=>[...document.querySelectorAll("[data-generated-accent] img")].length===2&&[...document.querySelectorAll("[data-generated-accent] img")].every(i=>i.complete&&i.naturalWidth>0)')
+  assert page.locator('[data-generated-accent] img').evaluate_all('(xs)=>xs.map(i=>i.alt)')==['Голос или текст','По данным магазина']
   assert page.locator('.assistant-art').evaluate('''i=>{const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;const x=c.getContext('2d');x.drawImage(i,0,0);return [[0,0],[c.width-1,0],[0,c.height-1],[c.width-1,c.height-1]].every(([a,b])=>x.getImageData(a,b,1,1).data[3]===0)}''')
   page.wait_for_timeout(1900)
   assert page.locator('[data-assistant-scene]').evaluate('(e)=>e.getAnimations({subtree:true}).length===0')
