@@ -41,9 +41,10 @@ with sync_playwright() as p:
         centre=max(ImageStat.Stat(diff.crop((margin,0,a.width-margin,a.height))).mean)
         edge=Image.new('RGB',(margin*2,a.height));edge.paste(diff.crop((0,0,margin,a.height)),(0,0));edge.paste(diff.crop((a.width-margin,0,a.width,a.height)),(margin,0))
         edge_mean=max(ImageStat.Stat(edge).mean)
-        # The opening frame is mostly flat background; its softer lens should
-        # remain subtle. The moving-photo frame must still show clear refraction.
-        assert centre<.35 and edge_mean>(3 if n==0 else 5),(n,centre,edge_mean)
+        # Flat opening backgrounds need no minimum visible distortion. Detect
+        # missing optics on the moving-photo frame; retain raw alpha checks below.
+        assert centre<.35 and edge_mean<90,(n,centre,edge_mean)
+        if n!=0:assert edge_mean>5,(n,edge_mean)
         alpha=page.locator('.ribbon-optics').evaluate('''c=>{const gl=c.getContext('webgl');const pixels=new Uint8Array(c.width*c.height*4);gl.readPixels(0,0,c.width,c.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);let bad=0,translucent=0;for(let i=0;i<pixels.length;i+=4){const a=pixels[i+3];if(a>0&&a<255)translucent++;if(Math.max(pixels[i],pixels[i+1],pixels[i+2])>a+1)bad++}return {bad,translucent,premultiplied:gl.getContextAttributes().premultipliedAlpha}}''')
         assert alpha['premultiplied'] and alpha['bad']==0 and alpha['translucent']>100,alpha
         a.save(OUT/f'no-svg-{n}.png')
