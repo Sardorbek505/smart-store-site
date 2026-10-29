@@ -30,7 +30,9 @@ void main(){
   color+=.15*refractPhoto(uv-vec2(.0072,0.));
   color+=.15*refractPhoto(uv+vec2(0.,.0027));
   color+=.15*refractPhoto(uv-vec2(0.,.0027));
-  gl_FragColor=vec4(color,mask);
+  // Match the browser compositor's premultiplied canvas convention. Straight
+  // RGB at fractional alpha produces bright blue/white arcs in iOS WebViews.
+  gl_FragColor=vec4(color*mask,mask);
 }`;
 
 export function mount({ window: aperture, track, cards, flow, getManual }) {
@@ -206,7 +208,7 @@ export function mount({ window: aperture, track, cards, flow, getManual }) {
         antialias: false,
         depth: false,
         stencil: false,
-        premultipliedAlpha: false,
+        premultipliedAlpha: true,
         preserveDrawingBuffer: true,
         powerPreference: "low-power",
       });
