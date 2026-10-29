@@ -63,6 +63,7 @@ export function init() {
       const at = (group.matches(".feature-state") ? .31 : .17) + phase;
       const before = group.querySelector(".feature-before");
       const after = group.querySelector(".feature-after");
+      if (!before || !after) continue; // Cached v100 HTML has a static sale total.
       animate(before, [
         { opacity: 0, offset: 0 }, { opacity: 1, offset: .04 },
         { opacity: 1, offset: at, easing: "ease-out" },
