@@ -1,4 +1,4 @@
-"""AI hero pictures open their illustrations; the readable example stays offline."""
+"""AI illustrations load responsively without invoking live AI services."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import os,shutil,json
@@ -31,12 +31,13 @@ with sync_playwright() as p:
             page.wait_for_function('()=>!document.getElementById("preview-dialog").open')
         page.locator('#assistant').scroll_into_view_if_needed()
         assert page.locator('#assistant input,#assistant textarea,#assistant button').count()==0
-        assert 'демонстрационными' in page.locator('.assistant-example-note').inner_text()
+        assert 'демоданных' in page.locator('.assistant-scene figcaption').inner_text()
         assert page.locator('#site-nav a[href="#assistant"]').count()==1
-        assert page.locator('.assistant-character img,.assistant-faces img').count()==3
-        page.locator('.assistant-character img,.assistant-faces img').evaluate_all('(xs)=>Promise.all(xs.map(i=>i.decode()))')
+        visual=page.locator('.assistant-scene>img')
+        visual.evaluate('(i)=>i.decode()')
+        assert visual.evaluate('(i)=>i.naturalWidth>0 && i.getBoundingClientRect().width>=Math.min(300,innerWidth-36)')
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
         assert not unexpected,unexpected
-        print(json.dumps({'width':width,'AIImagePreviews':'pass','readableDemo':'static, no AI request','mascotFaces':3}),flush=True)
+        print(json.dumps({'width':width,'AIImagePreviews':'pass','assistantScene':'loaded, no AI request'}),flush=True)
         c.close()
     browser.close()
