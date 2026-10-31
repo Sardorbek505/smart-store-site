@@ -168,7 +168,7 @@ html:has(dialog[open]) {
   transform: rotate(180deg);
 }
 #feature-count {
-  font-size: 12px;
+  font-size: 13px;
   font-variant-numeric: tabular-nums;
   color: var(--muted);
 }
@@ -212,6 +212,16 @@ html:has(dialog[open]) {
   max-width: 1040px;
   gap: clamp(20px, calc(var(--screen-height) * 0.03), 32px);
   align-items: start;
+}
+@media (min-width: 851px) {
+  .landing-page .faq-section {
+    min-height: 0;
+  }
+  .faq-section .screen-content {
+    grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
+    max-width: 1248px;
+    column-gap: clamp(32px, 5vw, 72px);
+  }
 }
 .viewport-ready .faq-section .screen-content.is-scrollable {
   overflow: visible;

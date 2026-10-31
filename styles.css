@@ -120,7 +120,7 @@ a:hover {
 }
 .eyebrow {
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 1.5px;
   font-weight: 700;
   display: flex;
@@ -185,7 +185,7 @@ a:hover {
   flex-wrap: wrap;
 }
 .trial-note {
-  font-size: 12px;
+  font-size: 13px;
   color: #5b5b70;
   margin-top: 16px;
 }
@@ -233,7 +233,7 @@ a:hover {
   border: 1px solid currentColor;
   border-radius: 30px;
   padding: 7px 10px;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 1.2px;
 }
 .bento-top > .icon {
@@ -352,7 +352,7 @@ a:hover {
   height: 17px;
 }
 .note {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   margin-top: 12px;
 }
@@ -367,7 +367,7 @@ a:hover {
   overflow: hidden;
 }
 .license-copy .eyebrow {
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 1px;
   margin-bottom: 20px;
 }
@@ -387,7 +387,7 @@ a:hover {
   font-size: 14px;
 }
 .license-copy .license-note {
-  font-size: 12px !important;
+  font-size: 13px !important;
   max-width: 400px;
   margin-bottom: 0 !important;
   color: #55556f;
@@ -438,7 +438,7 @@ summary::-webkit-details-marker {
 }
 .store-help {
   margin-top: 16px;
-  font-size: 12px;
+  font-size: 13px;
 }
 .store-help summary {
   text-decoration: underline;
@@ -509,7 +509,7 @@ summary::-webkit-details-marker {
   font-size: 18px;
 }
 .foot p {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   margin-top: 14px;
 }
@@ -519,6 +519,17 @@ summary::-webkit-details-marker {
   align-items: flex-end;
   gap: 13px;
   font-size: 14px;
+}
+@media (min-width: 851px) {
+  .foot {
+    align-items: center;
+  }
+  .foot nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px 24px;
+  }
 }
 .preview-dialog {
   border: 1px solid #b2b2cb;
@@ -588,7 +599,7 @@ summary::-webkit-details-marker {
   margin-bottom: 15px;
 }
 .doc-updated {
-  font-size: 12px !important;
+  font-size: 13px !important;
   color: var(--muted);
   margin-top: 20px;
 }
@@ -627,10 +638,9 @@ summary::-webkit-details-marker {
   margin: 24px 0;
 }
 .guide-deployment {
-  border-left: 3px solid var(--blue);
   padding: 16px 20px;
   background: var(--accent-soft);
-  border-radius: 0 14px 14px 0;
+  border-radius: 14px;
   margin-block: 24px;
 }
 .guide-deployment p {
@@ -727,7 +737,7 @@ summary::-webkit-details-marker {
     gap: 15px;
   }
   .enter-link {
-    font-size: 12px;
+    font-size: 13px;
     padding: 11px;
   }
   .brand {
@@ -802,7 +812,7 @@ summary::-webkit-details-marker {
     font-size: 14px;
   }
   .trial-note {
-    font-size: 12px;
+    font-size: 13px;
   }
   .section {
     padding-block: 72px;
@@ -811,7 +821,7 @@ summary::-webkit-details-marker {
     gap: 25px;
   }
   .section-heading > p {
-    font-size: 12px;
+    font-size: 13px;
   }
   h2 {
     font-size: 41px;
@@ -842,7 +852,7 @@ summary::-webkit-details-marker {
     height: 18px;
   }
   .pill {
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.6px;
     padding: 6px 8px;
   }
@@ -890,7 +900,7 @@ summary::-webkit-details-marker {
     font-size: 33px;
   }
   .license-copy .eyebrow {
-    font-size: 12px;
+    font-size: 13px;
   }
   .license-copy > p:not(.eyebrow) {
     font-size: 16px;
@@ -912,7 +922,7 @@ summary::-webkit-details-marker {
     gap: 40px;
   }
   .faq-list summary {
-    font-size: 12px;
+    font-size: 13px;
     padding-block: 20px;
   }
   .faq-list p {
@@ -955,7 +965,7 @@ summary::-webkit-details-marker {
     display: inline;
   }
   .enter-link {
-    font-size: 12px;
+    font-size: 13px;
     padding: 11px 12px;
     gap: 6px;
   }
@@ -972,7 +982,7 @@ summary::-webkit-details-marker {
     padding-inline: 20px;
   }
   .trial-note {
-    font-size: 12px;
+    font-size: 13px;
     margin-top: 14px;
   }
   .section {
@@ -994,7 +1004,7 @@ summary::-webkit-details-marker {
     letter-spacing: -1.8px;
   }
   .section-heading .eyebrow {
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 17px;
   }
   .bento {
@@ -1016,7 +1026,7 @@ summary::-webkit-details-marker {
     height: 23px;
   }
   .pill {
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 1px;
   }
   .bento h3 {
@@ -1076,7 +1086,7 @@ summary::-webkit-details-marker {
     font-size: 35px;
   }
   .license-copy .eyebrow {
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 17px;
   }
   .license-copy > p:not(.eyebrow) {
@@ -1095,7 +1105,7 @@ summary::-webkit-details-marker {
     font-size: 14px;
   }
   .license-copy .license-note {
-    font-size: 12px !important;
+    font-size: 13px !important;
   }
   .faq-section {
     display: block;
@@ -1104,7 +1114,7 @@ summary::-webkit-details-marker {
     margin-bottom: 28px;
   }
   .faq-section .eyebrow {
-    font-size: 12px;
+    font-size: 13px;
   }
   .faq-list summary {
     font-size: 13px;
@@ -1129,7 +1139,7 @@ summary::-webkit-details-marker {
     display: block;
   }
   .foot p {
-    font-size: 12px;
+    font-size: 13px;
   }
   .foot nav {
     align-items: flex-start;
@@ -1141,7 +1151,7 @@ summary::-webkit-details-marker {
     padding: 8px 12px;
   }
   .dialog-bar h2 {
-    font-size: 12px;
+    font-size: 13px;
   }
   .dialog-bar button {
     width: 40px;
@@ -1278,7 +1288,7 @@ main {
 .preview-original {
   display: block;
   padding: 16px 20px;
-  font-size: 12px;
+  font-size: 13px;
   text-align: center;
   border-top: 1px solid var(--line);
   text-decoration: underline;

@@ -17,10 +17,10 @@ with sync_playwright() as p:
   a=scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime');page.wait_for_timeout(200)
   assert scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime')>a
   # A product enters the basket before its price updates; payment follows.
-  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=1200)');page.wait_for_timeout(40)
+  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=620)');page.wait_for_timeout(40)
   assert scene.locator('[data-feature-enter]').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
   assert scene.locator('.feature-value .feature-before').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
-  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=2450)');page.wait_for_timeout(40)
+  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=1150)');page.wait_for_timeout(40)
   assert scene.locator('.feature-value .feature-after').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
   assert scene.locator('.feature-state .feature-before').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
   # The result remains readable for more than three seconds per cycle.
