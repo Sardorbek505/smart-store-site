@@ -67,6 +67,8 @@
 #features .extra-features strong { display: block; font-size: 14px; }
 #features .extra-features p span { display: block; color: #606278; font-size: 13px; }
 #features .extra-feature-link { font-size: 14px; font-weight: 600; min-height: 36px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+#features .extra-feature-link { justify-content: flex-start; padding: 0; margin: 0; }
+@media (min-width: 851px) { #features .extra-feature-link { min-height: 0; } }
 #features .extra-feature-link .icon { width: 14px; height: 14px; }
 .sale-tour-dialog video { aspect-ratio: 2; }
 @media (min-width: 851px) and (max-width: 1100px) {

@@ -9,7 +9,6 @@ export function init() {
   const transformAt = (n) =>
     `translate3d(calc(-1 * var(--ribbon-cycle) + var(--ribbon-offset) - ${n} * var(--ribbon-step)), 0, 0)`;
   let inView = true;
-  let optics;
   let pointer = null,
     dragged = false,
     manual = null,
@@ -50,7 +49,6 @@ export function init() {
     }
     const motion = running ? "running" : "paused";
     if (stage.dataset.motion !== motion) stage.dataset.motion = motion;
-    optics?.update(running || manual?.playState === "running");
   };
   const go = (next) => {
     sync();
@@ -131,8 +129,6 @@ export function init() {
     true,
   );
   stage.addEventListener("dragstart", (event) => event.preventDefault());
-  // The photo strip stays on one native transform. Optional phone optics read
-  // its animation clock; their decoding and GPU setup never block navigation.
   document.addEventListener("visibilitychange", sync);
   reduced.addEventListener("change", () => {
     if (reduced.matches && manual) manual.finish();
@@ -145,19 +141,4 @@ export function init() {
   sync();
   stage.dataset.renderer = "native";
   stage.dataset.ready = "true";
-  // Optional phone renderer: a missing GPU must never prevent native motion,
-  // original photo links, keyboard navigation or store login.
-  const version = new URL(import.meta.url).search;
-  void import(`./hero-optics.js${version}`)
-    .then(({ mount }) => {
-      optics = mount({
-        window: gallery.querySelector(".ribbon-window"),
-        track,
-        cards,
-        flow,
-        getManual: () => manual,
-      });
-      sync();
-    })
-    .catch(() => {});
 }

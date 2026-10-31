@@ -244,8 +244,6 @@ Windows-приложения; это инструмент разработки �
 - `scripts/preview.js`, `scripts/media.js`, `scripts/gallery.js`,
   `scripts/viewport.js`, `scripts/interface.js` — просмотр экранов, отказ
   изображений, лента, стабильная высота и навигация.
-- `scripts/hero-optics.js` — независимое мобильное преломление и безопасный
-  возврат к исходным фотографиям при отказе GPU.
 - `components.css`, `third-party/` — адаптированные компоненты и их лицензии.
 - `assets/`, `tools/build-styles.mjs`, `tools/build-checkout.mjs` — готовые
   статические файлы и воспроизводимая сборка.
