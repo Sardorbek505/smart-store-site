@@ -60,7 +60,7 @@ export function init() {
     };
     // First the product enters, then the amount/stock changes, then confirmation.
     for (const group of scene.element.querySelectorAll(".feature-value,.feature-state")) {
-      const at = (group.matches(".feature-state") ? .15 : .08) + phase;
+      const at = (group.matches(".feature-state") ? .17 : .09) + phase;
       const before = group.querySelector(".feature-before");
       const after = group.querySelector(".feature-after");
       if (!before || !after) continue; // Cached v100 HTML has a static sale total.
