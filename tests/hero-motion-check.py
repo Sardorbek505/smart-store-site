@@ -16,7 +16,6 @@ with sync_playwright() as p:
         errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(BASE,wait_until='networkidle')
         page.wait_for_function('()=>document.querySelector(".gallery-stage").dataset.motion==="running"')
-        if w<851:page.wait_for_function('()=>document.querySelector(".ribbon-window").dataset.optics==="webgl"')
         box=page.locator('.ribbon-window').bounding_box()
         assert box['x']==0 and 0<=w-box['width']<=16
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')

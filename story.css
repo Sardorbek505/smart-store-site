@@ -133,14 +133,14 @@
 }
 
 .checkout-proof > span {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.4;
 }
 
 .checkout-proof small {
   display: block;
   color: #626276;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .checkout-proof > strong {
@@ -224,11 +224,11 @@
   }
 
 .checkout-proof > span {
-    font-size: 12px;
+    font-size: 13px;
   }
 
 .checkout-proof small {
-    font-size: 11px;
+    font-size: 13px;
   }
 
 .checkout-proof .proof-icon {
@@ -238,7 +238,7 @@
 
 .checkout-detail .story-text-link {
     margin-top: 0;
-    font-size: 12px;
+    font-size: 13px;
   }
 
 }
@@ -257,7 +257,7 @@
   }
 
 .checkout-reading p {
-    font-size: 12px;
+    font-size: 13px;
     margin: 4px 0;
   }
 
@@ -298,7 +298,7 @@
 
 .checkout-reading p {
     margin: 4px 0;
-    font-size: 12px;
+    font-size: 13px;
     min-height: 2.9em;
   }
 
@@ -317,7 +317,7 @@
   }
 
 .checkout-proof > span {
-    font-size: 12px;
+    font-size: 13px;
   }
 
 }
@@ -367,7 +367,7 @@
 #mobile .mobile-orbit{inset:12% 0 10%;max-width:440px;margin-inline:auto}
 #mobile .mobile-demo{align-self:start}
 #mobile .button.mobile-action{min-width:240px}
-#mobile .connection-note{font-size:12px;line-height:1.6;max-width:380px;margin-top:18px}
+#mobile .connection-note{font-size: 13px;line-height:1.6;max-width:380px;margin-top:18px}
 @media(max-width:850px){#mobile .mobile-story{gap:22px 28px}#mobile .mobile-stage{height:400px}#mobile .mobile-summary{font-size:16px}}
-@media(max-width:620px){#mobile.phone-section{padding-block:48px}#mobile .mobile-story{grid-template-columns:1fr;grid-template-rows:auto auto auto;grid-template-areas:"heading" "stage" "demo";gap:24px}#mobile h2{font-size:36px}#mobile .mobile-summary{font-size:16px;line-height:1.55;margin-top:16px}#mobile .mobile-stage{height:320px;max-height:none}#mobile .mobile-device{max-width:240px}#mobile .mobile-orbit{inset:8% 6% 6%;max-width:320px}#mobile .button.mobile-action{width:100%;min-width:0;--action-size:48px;font-size:13px}#mobile .connection-note{margin-top:14px;font-size:12px;max-width:none}}
+@media(max-width:620px){#mobile.phone-section{padding-block:48px}#mobile .mobile-story{grid-template-columns:1fr;grid-template-rows:auto auto auto;grid-template-areas:"heading" "stage" "demo";gap:24px}#mobile h2{font-size:36px}#mobile .mobile-summary{font-size:16px;line-height:1.55;margin-top:16px}#mobile .mobile-stage{height:320px;max-height:none}#mobile .mobile-device{max-width:240px}#mobile .mobile-orbit{inset:8% 6% 6%;max-width:320px}#mobile .button.mobile-action{width:100%;min-width:0;--action-size:48px;font-size:13px}#mobile .connection-note{margin-top:14px;font-size: 13px;max-width:none}}
 @media(max-width:360px){#mobile h2{font-size:32px}#mobile .mobile-stage{height:285px}#mobile .mobile-summary{font-size:15px}}

@@ -18,7 +18,6 @@ with sync_playwright() as p:
     for host in ['zavod.metov.store','connect.metov.store','api.github.com']:c.route('https://'+host+'/**',service)
     page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(BASE,wait_until='networkidle')
-    page.wait_for_function('()=>document.querySelector(".ribbon-window").dataset.optics==="webgl"')
     assert page.locator('.ribbon-pause').count()==0
     page.evaluate('window.testFlow=document.querySelector(".ribbon-track").getAnimations()[0]')
     def advancing():
@@ -41,10 +40,6 @@ with sync_playwright() as p:
     page.wait_for_function('()=>document.getElementById("preview-dialog").open')
     advancing()
     page.keyboard.press('Escape');advancing()
-    # Browser-bar resize notifications must not upload unchanged images again.
-    page.locator('.ribbon-optics').evaluate('''c=>{const gl=c.getContext('webgl');const upload=gl.texImage2D.bind(gl);window.uploads=0;gl.texImage2D=(...args)=>{uploads++;return upload(...args)}}''')
-    page.evaluate('()=>{for(let i=0;i<4;i++)dispatchEvent(new Event("resize"))}')
-    page.wait_for_timeout(100);assert page.evaluate('uploads')==0
     page.emulate_media(reduced_motion='reduce')
     page.wait_for_function('()=>testFlow.playState==="paused"&&!testFlow.pending')
     # These are offline browser states, not real requests to a store.

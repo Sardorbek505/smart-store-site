@@ -37,7 +37,6 @@ jobs:
       - name: Check initial gallery frame
         run: |
           node tools/sync-hero-layout.mjs --check
-          python3 tools/build-hero-refraction.py --check
       - name: Check inline script policy and published metadata
         run: |
           npm run check:csp

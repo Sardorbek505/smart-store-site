@@ -60,29 +60,29 @@ export function init() {
     };
     // First the product enters, then the amount/stock changes, then confirmation.
     for (const group of scene.element.querySelectorAll(".feature-value,.feature-state")) {
-      const at = (group.matches(".feature-state") ? .31 : .17) + phase;
+      const at = (group.matches(".feature-state") ? .17 : .09) + phase;
       const before = group.querySelector(".feature-before");
       const after = group.querySelector(".feature-after");
       if (!before || !after) continue; // Cached v100 HTML has a static sale total.
       animate(before, [
         { opacity: 0, offset: 0 }, { opacity: 1, offset: .04 },
         { opacity: 1, offset: at, easing: "ease-out" },
-        { opacity: 0, offset: at + .05 }, { opacity: 0, offset: 1 },
+        { opacity: 0, offset: at + .03 }, { opacity: 0, offset: 1 },
       ]);
       animate(after, [
         { opacity: 0, transform: "translateY(4px)", offset: 0 },
-        { opacity: 0, transform: "translateY(4px)", offset: at + .025, easing: "ease-out" },
-        { opacity: 1, transform: "none", offset: at + .1 },
+        { opacity: 0, transform: "translateY(4px)", offset: at + .01, easing: "ease-out" },
+        { opacity: 1, transform: "none", offset: at + .05 },
         { opacity: 1, transform: "none", offset: .96 },
         { opacity: 0, transform: "none", offset: 1 },
       ]);
     }
     for (const element of scene.element.querySelectorAll("[data-feature-enter]")) {
-      const at = .04 + phase;
+      const at = .015 + phase;
       animate(element, [
         { opacity: 0, transform: "translate(12px,4px)", offset: 0 },
         { opacity: 0, transform: "translate(12px,4px)", offset: at, easing: "ease-out" },
-        { opacity: 1, transform: "none", offset: at + .1 },
+        { opacity: 1, transform: "none", offset: at + .055 },
         { opacity: 1, transform: "none", offset: .96 },
         { opacity: 0, transform: "none", offset: 1 },
       ]);
