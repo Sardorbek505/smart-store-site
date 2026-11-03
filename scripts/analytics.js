@@ -1,4 +1,4 @@
-// Visits, button labels and section reads for the developer's dashboard.
+// Visits, button labels and visible section headings for the developer's dashboard.
 // No executable third-party SDK, query strings, form values or browser credentials.
 // Labels come from the page itself (button text, section headings), so new buttons are
 // counted without any markup. Downloads are labelled "Скачать — …" so the dashboard can put
@@ -95,17 +95,48 @@ export function init({ analyticsAllowed, referrerOrigin }) {
     { capture: true },
   );
   if (!("IntersectionObserver" in window)) return;
-  // A section counts as read when a third of it has been on screen.
+  // Observe headings: a long section may never fit one third of itself on a phone.
+  // Visibility is an observation, not proof that someone read the section.
+  const labels = new Map();
+  const visible = new Set();
+  const reported = new WeakSet();
+  const report = (target) => {
+    if (
+      document.visibilityState !== "visible" ||
+      !analyticsAllowed() ||
+      reported.has(target)
+    ) return;
+    const label = labels.get(target);
+    if (!label) return;
+    tell("seen", label);
+    reported.add(target);
+    seen.unobserve(target);
+    visible.delete(target);
+    labels.delete(target);
+  };
   const seen = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        seen.unobserve(entry.target);
-        tell("seen", sectionName(entry.target));
+        if (reported.has(entry.target)) continue;
+        if (!entry.isIntersecting || entry.intersectionRatio < 0.5) {
+          visible.delete(entry.target);
+          continue;
+        }
+        visible.add(entry.target);
+        report(entry.target);
       }
     },
-    { threshold: 0.33 },
+    { threshold: 0.5 },
   );
-  for (const section of document.querySelectorAll("section[aria-labelledby]"))
-    seen.observe(section);
+  for (const section of document.querySelectorAll("section[aria-labelledby]")) {
+    const heading = document.getElementById(section.getAttribute("aria-labelledby"));
+    const label = heading && cleanLabel(heading.innerText || heading.textContent);
+    if (!label) continue;
+    labels.set(heading, label);
+    seen.observe(heading);
+  }
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible")
+      for (const target of visible) report(target);
+  });
 }
