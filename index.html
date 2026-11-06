@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <!-- security:start -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-uzyz3U8MZoYeLbunIjDpZVGGG/uGl1dQ+TPrwplMRV8=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-K0lP2vZmZFsBvVNgsVdI8CK4NVc+8lx3P0jH9rEfR/M=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
     <!-- security:end -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#111116" />
@@ -96,6 +96,85 @@
       "duration": "PT14S",
       "inLanguage": "ru",
       "isAccessibleForFree": true
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://metov.store/#faq",
+      "inLanguage": "ru",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Что будет, если пропадёт интернет?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "На компьютере можно продолжать продажи, работать со складом и основными отчётами. Онлайн-функции — курс, AI, обновления и удалённый доступ с телефона — потребуют подключения."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Нужно ли устанавливать приложение на телефон?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Нет. Сначала установите Smart Store на Windows, затем откройте QR-код из настроек телефона в программе. На телефоне можно добавить страницу на главный экран. Компьютер со Smart Store должен оставаться включённым. Интерфейс доступен на русском и казахском."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как работает проба и лицензия?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Первые 14 дней программа работает без кода активации. Затем для новых операций нужна лицензия на один компьютер. Данные сохраняются: их можно просматривать, печатать и выгружать. Стоимость, срок действия и активацию уточните в WhatsApp . Код вводится в Smart Store: «Система» → «Лицензия»."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Где хранятся данные и резервные копии?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "База магазина хранится на компьютере. Smart Store создаёт локальные автокопии каждые 2 часа. Для отдельной копии нажмите «Копия на флешку» и храните флешку отдельно от компьютера. Как сохранить и восстановить копию →"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "AI и распознавание накладных уже включены?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Для AI нужно настроить собственный ключ Gemini на компьютере. Функция работает через интернет; доступность и стоимость запросов зависят от квот и условий Google. Распознанные данные нужно проверить перед проведением прихода."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как установить и обновлять Smart Store?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Скачайте установщик по кнопке этого сайта. Установщик пока без цифровой подписи, поэтому Windows может показать предупреждение. Проверьте источник файла: этот сайт или официальный репозиторий Smart Store. Если есть сомнения, напишите в WhatsApp перед установкой. Обновления скачиваются в фоне при наличии интернета. Примените обновление из программы, предварительно закончив продажу."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Где взять код магазина?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Код, адрес и QR-код — в Smart Store на компьютере: «Система» → настройки телефона. Компьютер должен быть включён и подключён к интернету. Если забыли пароль или потеряли телефон →"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Шаги и текстовая версия",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Открываем «Накладная из фото». В записи результат распознавания подготовлен. Проверяем две строки: 5 шуруповёртов по 18 900 ₸ и 50 дисков по 380 ₸. Создаём черновик на 113 500 ₸. После проверки отдельно подтверждаем проведение. В демокаталоге остатки меняются с 12 до 17 и с 240 до 290. Задаём вопрос «Что происходит с магазином?». Подготовленный ответ показывает 17 чеков, выручку 396 950 ₸ и предлагает посмотреть должников. Для настоящего распознавания и ответов нужны интернет и собственный ключ Gemini. Запись не измеряет скорость или точность модели."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Шаги и текстовая версия",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "В чеке два шуруповёрта по 39 900 ₸, диск за 650 ₸ и бур за 1 850 ₸. Всего 82 300 ₸. Открываем оплату наличными и проводим продажу № 18. В карточке шуруповёрта осталось 10 штук вместо 12. Открываем главную: выручка выросла с 396 950 до 479 250 ₸. Чеков за день стало 18."
+          }
+        }
+      ]
     }
   ]
 }
