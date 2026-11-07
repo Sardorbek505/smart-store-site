@@ -27,7 +27,7 @@ const copies = cards.map((card, i) =>
 const gallery = `<div class="gallery-stage">
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="ribbon-defs" width="0" height="0" aria-hidden="true"><defs><clipPath id="hero-ribbon-clip" clipPathUnits="objectBoundingBox"><path d="M0 .035 C.16 .07 .32 .10 .5 .10 C.68 .10 .84 .07 1 .035 L1 .965 C.84 .93 .68 .90 .5 .90 C.32 .90 .16 .93 0 .965 Z"/></clipPath>
 <filter id="hero-refraction" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
-  <feImage href="img/hero-refraction-field-v86.png" xlink:href="img/hero-refraction-field-v86.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="field"/>
+  <feImage href="img/hero-refraction-field-v90.png" xlink:href="img/hero-refraction-field-v90.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="field"/>
   <feDisplacementMap in="SourceGraphic" in2="field" scale=".091854" xChannelSelector="R" yChannelSelector="G" result="warp-r"/>
   <feDisplacementMap in="SourceGraphic" in2="field" scale=".0841995" xChannelSelector="R" yChannelSelector="G" result="warp-g"/>
   <feDisplacementMap in="SourceGraphic" in2="field" scale=".076545" xChannelSelector="R" yChannelSelector="G" result="warp-b"/>
