@@ -44,7 +44,8 @@ with sync_playwright() as p:
  assert page.locator('#license').evaluate('e=>e.querySelector(".trial-scene").getBoundingClientRect().bottom<=e.querySelector(".license-copy").getBoundingClientRect().top+1'), 'Trial image must not overlap the offer'
  assert page.locator('#features .feature-card').count()==3
  for card in page.locator('#features .feature-card').all():
-  assert card.evaluate('e=>e.querySelector(".feature-card-copy").getBoundingClientRect().bottom<=e.querySelector(".feature-scene").getBoundingClientRect().top+2'), 'Card art must follow its text'
+  assert card.evaluate('e=>e.querySelector(".feature-card-copy").getBoundingClientRect().right<=e.querySelector(".feature-visual").getBoundingClientRect().left'), 'Card art must stay beside the heading'
+  assert card.evaluate('e=>e.querySelector(".feature-card-copy").getBoundingClientRect().bottom<=e.querySelector(".feature-demo").getBoundingClientRect().top+2'), 'Card text and demo must remain separate'
  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
  # Width-changing rotation updates the layout; browser-bar height changes while
  # reading do not resize all preceding sections or displace the reader.

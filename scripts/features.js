@@ -1,50 +1,12 @@
-// Native swiping and short, visible-only demonstrations. Text works without JS.
+// Short, visible-only demonstrations. Text works without JavaScript.
 export function init() {
   const deck = document.querySelector(".feature-deck");
   if (!deck) return;
   const cards = [...deck.querySelectorAll(".feature-card")];
-  const links = [...document.querySelectorAll(".feature-switcher a")];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const compact = matchMedia("(max-width: 850px)");
-  let active = 0, scrollFrame = 0;
-  const current = () => {
-    const left = deck.getBoundingClientRect().left;
-    active = cards.reduce((best, card, i) =>
-      Math.abs(card.getBoundingClientRect().left - left) <
-      Math.abs(cards[best].getBoundingClientRect().left - left) ? i : best, 0);
-    links.forEach((link, i) => {
-      if (i === active) link.setAttribute("aria-current", "true");
-      else link.removeAttribute("aria-current");
-    });
-  };
-  const select = (i) => {
-    if (!compact.matches) return;
-    deck.scrollTo({
-      left: cards[i].offsetLeft - cards[0].offsetLeft,
-      behavior: reduced.matches ? "instant" : "smooth",
-    });
-  };
-  links.forEach((link, i) => link.addEventListener("click", (event) => {
-    if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    if (!compact.matches) return;
-    event.preventDefault();
-    select(i);
-  }));
-  deck.addEventListener("keydown", (event) => {
-    if (event.target !== deck || !compact.matches) return;
-    const next = { ArrowLeft: Math.max(0, active - 1), ArrowRight: Math.min(2, active + 1), Home: 0, End: 2 };
-    if (!(event.key in next)) return;
-    event.preventDefault(); select(next[event.key]);
-  });
-  deck.addEventListener("scroll", () => {
-    if (scrollFrame) return;
-    scrollFrame = requestAnimationFrame(() => { scrollFrame = 0; current(); });
-  }, { passive: true });
-  if (window.ResizeObserver)
-    new ResizeObserver(() => { select(active); current(); }).observe(deck);
-  current();
 
-  // Static final values are the fallback for reduced motion and failed assets.
+  // Compact cards and reduced-motion users read the final values immediately.
   if (!window.IntersectionObserver || !Element.prototype.animate) return;
   const scenes = cards.map((card) => ({
     element: card.querySelector(".feature-scene"), visible: false, animations: [],
@@ -91,7 +53,7 @@ export function init() {
   const sync = () => {
     const blocked = pageHidden || document.hidden || dialogs.some((d) => d.open);
     for (const scene of scenes) {
-      if (reduced.matches) {
+      if (reduced.matches || compact.matches) {
         scene.animations.forEach((a) => a.cancel()); scene.animations = [];
         continue;
       }
@@ -115,6 +77,7 @@ export function init() {
   window.addEventListener("pagehide", () => { pageHidden = true; sync(); });
   window.addEventListener("pageshow", () => { pageHidden = false; sync(); });
   reduced.addEventListener("change", sync);
+  compact.addEventListener("change", sync);
   const modalObserver = new MutationObserver(sync);
   dialogs.forEach((d) => modalObserver.observe(d, { attributes: true, attributeFilter: ["open"] }));
   // A missing decorative image must never hide the explanation or its values.

@@ -1,4 +1,4 @@
-"""Capability animation freezes outside view/dialogs and respects reduced motion."""
+"""Desktop animation pauses as needed; compact cards keep final values visible."""
 from playwright.sync_api import sync_playwright
 import os, shutil, json
 BASE=os.environ.get('SITE_TEST_URL','http://127.0.0.1:4203')
@@ -13,19 +13,28 @@ with sync_playwright() as p:
   page.goto(BASE,wait_until='networkidle')
   scene=page.locator('[data-feature-scene="sale"]')
   scene.evaluate('e=>e.scrollIntoView({block:"center",inline:"nearest",behavior:"instant"})')
+  if width==390:
+   assert scene.evaluate('e=>e.getAnimations({subtree:true}).length===0')
+   assert scene.locator('.feature-value .feature-after').evaluate('e=>getComputedStyle(e).opacity')=='1'
+   assert scene.locator('.feature-value .feature-after').inner_text()=='82 300 ₸'
+   assert not errors,errors
+   print(json.dumps({'browser':ENGINE,'width':width,'motion':'static final values'}),flush=True)
+   c.close()
+   continue
   page.wait_for_function('()=>document.querySelector("[data-feature-scene=sale]").getAnimations({subtree:true}).some(a=>a.playState==="running")')
   a=scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime');page.wait_for_timeout(200)
   assert scene.evaluate('e=>e.getAnimations({subtree:true})[0].currentTime')>a
   # A product enters the basket before its price updates; payment follows.
-  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=620)');page.wait_for_timeout(40)
+  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>{a.pause(); a.currentTime=620})')
   assert scene.locator('[data-feature-enter]').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
   assert scene.locator('.feature-value .feature-before').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
-  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=1220)');page.wait_for_timeout(40)
+  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=1220)')
   assert scene.locator('.feature-value .feature-after').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
   assert scene.locator('.feature-state .feature-before').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
   # The result remains readable for more than three seconds per cycle.
-  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=4000)');page.wait_for_timeout(50)
+  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.currentTime=4000)')
   assert scene.locator('.feature-state .feature-after').evaluate('e=>parseFloat(getComputedStyle(e).opacity)')>.99
+  scene.evaluate('e=>e.getAnimations({subtree:true}).forEach(a=>a.play())')
   y=page.evaluate('scrollY');page.wait_for_timeout(350)
   assert abs(page.evaluate('scrollY')-y)<1,'Motion cannot shift the page'
   page.locator('#preview-dialog').evaluate('e=>e.showModal()')

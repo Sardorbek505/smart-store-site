@@ -1,4 +1,4 @@
-"""Native gallery: no Canvas work, sharp sources, swipes, keyboard and fallback."""
+"""Native gallery, optional phone optics, sharp sources and navigation."""
 from playwright.sync_api import sync_playwright
 from PIL import Image
 from io import BytesIO
@@ -32,6 +32,8 @@ with sync_playwright() as p:
     page.wait_for_function('() => (document.getElementById("gallery-status").textContent.startsWith("1 из 5:"))')
     page.keyboard.press('ArrowRight')
     page.wait_for_function('() => (document.getElementById("gallery-status").textContent.startsWith("2 из 5:"))')
+    page.emulate_media(reduced_motion='reduce')
+    page.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.motion==="paused")')
     card=page.locator('[data-gallery-card]').nth(1)
     original=card.get_attribute('href');card.click()
     assert page.locator('#preview-dialog').is_visible()
@@ -45,7 +47,8 @@ with sync_playwright() as p:
     touch=c.new_page();touch.add_init_script(INSTRUMENT)
     touch.goto(BASE,wait_until='networkidle')
     touch.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.ready==="true")')
-    assert touch.locator('canvas').count()==0
+    assert touch.locator('.hero-gallery canvas:not(.ribbon-optics)').count()==0
+    assert touch.locator('.ribbon-optics').count()<=1
     source=touch.locator('.hero-gallery img').first.evaluate('e=>e.currentSrc')
     response=touch.request.get(source)
     assert Image.open(BytesIO(response.body())).width>=768
@@ -65,11 +68,11 @@ with sync_playwright() as p:
     fallback.add_init_script('HTMLCanvasElement.prototype.getContext=()=>null')
     fallback.goto(BASE,wait_until='networkidle')
     fallback.wait_for_function('() => (document.querySelector(".gallery-stage").dataset.ready==="true")')
-    assert fallback.locator('canvas').count()==0
+    assert fallback.locator('.hero-gallery canvas').count()==0
     assert fallback.locator('#store-submit').is_enabled()
     fallback.evaluate('scrollTo({top:100,behavior:"instant"})')
     fallback.locator('.hero-gallery').focus();fallback.keyboard.press('ArrowRight')
     fallback.wait_for_function('() => (document.getElementById("gallery-status").textContent.startsWith("2 из 5:"))')
     assert not errors,errors
-    print('PASS',BROWSER,'native gallery, no Canvas/WebGL drawing, burst scrolling, keyboard, originals, Retina, swipe/tap, unavailable graphics APIs.')
+    print('PASS',BROWSER,'desktop gallery, optional phone optics, burst scrolling, keyboard, originals, Retina, swipe/tap and graphics fallback.')
     b.close()

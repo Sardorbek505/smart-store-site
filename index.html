@@ -246,9 +246,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.deca08af7952.css" />
+    <link rel="stylesheet" href="assets/site.7b7f61ff292d.css" />
     <!-- styles:end -->
-    <script src="app.js?v=103" type="module"></script>
+    <script src="app.js?v=105" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -313,6 +313,9 @@
       <symbol id="i-zoom" viewBox="0 0 24 24">
         <circle cx="10" cy="10" r="6" />
         <path d="m15 15 6 6M7 10h6m-3-3v6" />
+      </symbol>
+      <symbol id="feature-card-curve" viewBox="0 0 400 88">
+        <path d="M0 3h108c27 0 38 14 53 24 12 8 22 11 38 11h167c16 0 26 4 34 11v39H0Z" />
       </symbol>
     </svg>
 
@@ -397,7 +400,21 @@
         >
           <div class="gallery-stage">
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="ribbon-defs" width="0" height="0" aria-hidden="true"><defs><clipPath id="hero-ribbon-clip" clipPathUnits="objectBoundingBox"><path d="M0 .035 C.16 .07 .32 .10 .5 .10 C.68 .10 .84 .07 1 .035 L1 .965 C.84 .93 .68 .90 .5 .90 C.32 .90 .16 .93 0 .965 Z"/></clipPath>
-</defs></svg>
+<filter id="hero-refraction" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+  <feImage href="img/hero-refraction-field-v86.png" xlink:href="img/hero-refraction-field-v86.png" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="field"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".091854" xChannelSelector="R" yChannelSelector="G" result="warp-r"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".0841995" xChannelSelector="R" yChannelSelector="G" result="warp-g"/>
+  <feDisplacementMap in="SourceGraphic" in2="field" scale=".076545" xChannelSelector="R" yChannelSelector="G" result="warp-b"/>
+  <feColorMatrix in="warp-r" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
+  <feColorMatrix in="warp-g" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>
+  <feColorMatrix in="warp-b" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>
+  <feBlend in="red" in2="green" mode="screen" result="rg"/>
+  <feBlend in="rg" in2="blue" mode="screen" result="spectrum"/>
+  <feGaussianBlur in="spectrum" stdDeviation=".007776 .002916" result="soft-spectrum"/>
+  <feColorMatrix in="field" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0" result="periphery"/>
+  <feComposite in="soft-spectrum" in2="periphery" operator="in" result="edge-optics"/>
+  <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="edge-optics"/></feMerge>
+</filter></defs></svg>
   <div class="ribbon-window">
     <div class="ribbon-refraction">
     <div class="ribbon-track motion-ready" data-ribbon-track>
@@ -565,17 +582,17 @@
             <div><p class="audience-note">Возможности Smart Store</p><h2 id="features-title">Продажи. Склад. Контроль.</h2></div>
             <p class="feature-lead">Один чек связывает кассу, товары и отчёты.</p>
           </div>
-          <nav class="feature-switcher" aria-label="Выбрать возможность">
-            <a href="#feature-sale" aria-current="true">Продажа</a>
-            <a href="#feature-stock">Склад</a>
-            <a href="#feature-reports">Отчёт</a>
-          </nav>
-          <div class="feature-deck" tabindex="0" role="region" aria-label="Продажа, склад и отчёт. На телефоне можно листать карточки.">
+          <div class="feature-deck" role="region" aria-label="Пример продажи, обновления остатка и отчёта">
             <article class="feature-card" id="feature-sale" aria-labelledby="feature-sale-title">
-              <div class="feature-card-copy"><h3 id="feature-sale-title">Товар в чеке.</h3><p>Находите по названию или штрихкоду.</p></div>
               <figure class="feature-scene" data-feature-scene="sale">
+                <div class="feature-visual" aria-hidden="true">
+                  <div class="feature-illustration"><img src="img/feature-drill-640-v101.webp" srcset="img/feature-drill-320-v101.webp 320w, img/feature-drill-640-v101.webp 640w" sizes="(max-width: 620px) 48vw, 200px" width="1280" height="1280" loading="lazy" decoding="async" alt="" /></div>
+                  <svg class="feature-curve" viewBox="0 0 400 88" preserveAspectRatio="none"><use href="#feature-card-curve" /></svg>
+                  <span class="feature-step">01</span>
+                </div>
+                <div class="feature-card-copy"><h3 id="feature-sale-title">Товар в чеке.</h3><p>Находите по названию или штрихкоду.</p></div>
                 <div class="feature-demo" aria-hidden="true">
-                  <div class="feature-sale-product" data-feature-enter><div class="feature-illustration"><img src="img/feature-drill-640-v101.webp" srcset="img/feature-drill-320-v101.webp 320w, img/feature-drill-640-v101.webp 640w" sizes="(max-width: 359px) 88px, 112px" width="1280" height="1280" loading="lazy" decoding="async" alt="" /></div><div><strong>Шуруповёрт 18 В</strong><span>2 × 39 900 ₸</span></div><span class="feature-added"><svg class="icon"><use href="#i-check" /></svg></span></div>
+                  <div class="feature-product" data-feature-enter><div><strong>Шуруповёрт 18 В</strong><span>2 × 39 900 ₸</span></div><span class="feature-added"><svg class="icon"><use href="#i-check" /></svg></span></div>
                   <div class="feature-other-products"><span>Диск и бур</span><span>2 500 ₸</span></div>
                   <div class="feature-result"><div class="feature-result-label">Итого</div><strong class="feature-value"><span class="feature-before">2 500 ₸</span><span class="feature-after">82 300 ₸</span></strong><div class="feature-state"><span class="feature-before">Добавляем товар в чек</span><span class="feature-after"><svg class="icon"><use href="#i-check" /></svg>Оплата принята</span></div></div>
                 </div>
@@ -584,10 +601,15 @@
               <a class="feature-screen-link" href="img/demo-sale.png" data-preview data-title="Smart Store / Касса" aria-label="Рассмотреть настоящий интерфейс: Касса">Посмотреть кассу<svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></a>
             </article>
             <article class="feature-card" id="feature-stock" aria-labelledby="feature-stock-title">
-              <div class="feature-card-copy"><h3 id="feature-stock-title">Остаток обновлён.</h3><p>Проданные товары списываются сами.</p></div>
               <figure class="feature-scene" data-feature-scene="stock">
+                <div class="feature-visual" aria-hidden="true">
+                  <div class="feature-illustration feature-illustration-wide"><img src="img/feature-stock-960-v100.webp" srcset="img/feature-stock-480-v100.webp 480w, img/feature-stock-960-v100.webp 960w" sizes="(max-width: 620px) 66vw, 285px" width="960" height="640" loading="lazy" decoding="async" alt="" /></div>
+                  <svg class="feature-curve" viewBox="0 0 400 88" preserveAspectRatio="none"><use href="#feature-card-curve" /></svg>
+                  <span class="feature-step">02</span>
+                </div>
+                <div class="feature-card-copy"><h3 id="feature-stock-title">Остаток обновлён.</h3><p>Проданные товары списываются сами.</p></div>
                 <div class="feature-demo" aria-hidden="true">
-                  <div class="feature-stock-product"><div class="feature-illustration"><img src="img/feature-drill-640-v101.webp" srcset="img/feature-drill-320-v101.webp 320w, img/feature-drill-640-v101.webp 640w" sizes="(max-width: 359px) 88px, 112px" width="1280" height="1280" loading="lazy" decoding="async" alt="" /></div><div><strong>Шуруповёрт 18 В</strong><span>Тот же товар на складе</span></div><span class="feature-deduction" data-feature-enter>−2 шт.</span></div>
+                  <div class="feature-product"><div><strong>Шуруповёрт 18 В</strong><span>Тот же товар на складе</span></div><span class="feature-badge" data-feature-enter>−2 шт.</span></div>
                   <div class="feature-other-products"><span>Продано в этом чеке</span><span>2 шт.</span></div>
                   <div class="feature-result"><div class="feature-stock-count"><span>12<small>было</small></span><svg class="icon"><use href="#i-arrow" /></svg><strong class="feature-value"><span class="feature-before">12</span><span class="feature-after">10</span><small>осталось</small></strong></div><div class="feature-state"><span class="feature-before">Проводим продажу</span><span class="feature-after"><svg class="icon"><use href="#i-check" /></svg>Склад уже учёл продажу</span></div></div>
                 </div>
@@ -596,10 +618,15 @@
               <a class="feature-screen-link" href="img/demo-products.png" data-preview data-title="Smart Store / Товары и остатки" aria-label="Рассмотреть настоящий интерфейс: Товары и остатки">Посмотреть склад<svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg></a>
             </article>
             <article class="feature-card" id="feature-reports" aria-labelledby="feature-reports-title">
-              <div class="feature-card-copy"><h3 id="feature-reports-title">Продажа в отчёте.</h3><p>Выручка растёт на сумму чека.</p></div>
               <figure class="feature-scene" data-feature-scene="reports">
+                <div class="feature-visual" aria-hidden="true">
+                  <div class="feature-illustration feature-illustration-wide"><img src="img/feature-reports-960-v100.webp" srcset="img/feature-reports-480-v100.webp 480w, img/feature-reports-960-v100.webp 960w" sizes="(max-width: 620px) 66vw, 285px" width="960" height="640" loading="lazy" decoding="async" alt="" /></div>
+                  <svg class="feature-curve" viewBox="0 0 400 88" preserveAspectRatio="none"><use href="#feature-card-curve" /></svg>
+                  <span class="feature-step">03</span>
+                </div>
+                <div class="feature-card-copy"><h3 id="feature-reports-title">Продажа в отчёте.</h3><p>Выручка растёт на сумму чека.</p></div>
                 <div class="feature-demo" aria-hidden="true">
-                  <div class="feature-report-visual"><div class="feature-illustration feature-chart-art"><img src="img/feature-reports-960-v100.webp" srcset="img/feature-reports-480-v100.webp 480w, img/feature-reports-960-v100.webp 960w" sizes="(max-width: 359px) 180px, 220px" width="1536" height="1024" loading="lazy" decoding="async" alt="" /></div><span class="feature-revenue-add" data-feature-enter>+82 300 ₸<small>эта продажа</small></span></div>
+                  <div class="feature-product"><div><strong>Эта продажа</strong><span>Прибавка к выручке</span></div><span class="feature-badge" data-feature-enter>+82 300 ₸</span></div>
                   <div class="feature-other-products"><span>До продажи</span><span>396 950 ₸</span></div>
                   <div class="feature-result"><div class="feature-result-label">Выручка за сегодня</div><strong class="feature-value"><span class="feature-before">396 950 ₸</span><span class="feature-after">479 250 ₸</span></strong><div class="feature-state"><span class="feature-before">Учитываем сумму чека</span><span class="feature-after"><svg class="icon"><use href="#i-check" /></svg>Продажа учтена в выручке</span></div></div>
                 </div>

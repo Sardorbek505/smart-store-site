@@ -1,4 +1,4 @@
-"""Illustrated capability cards, native swiping and opt-in real UI recording."""
+"""Responsive capability cards and opt-in recording of the real UI."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import os,shutil,json
@@ -22,27 +22,21 @@ with sync_playwright() as p:
   assert page.locator('.feature-card').count()==3
   assert page.locator('.feature-kicker').count()==0
   assert page.locator('#feature-sale img').get_attribute('src').endswith('feature-drill-640-v101.webp')
+  assert len(set(page.locator('.feature-illustration img').evaluate_all('images=>images.map(image=>image.src)')))==3
   assert not media,media
   for image in page.locator('.feature-illustration img').all():
    image.evaluate('i=>{i.loading="eager";return i.decode()}')
   assert page.locator('#feature-sale .feature-value .feature-after').inner_text()=='82 300 ₸'
   assert page.locator('#feature-stock .feature-value .feature-after').inner_text()=='10'
   assert page.locator('#feature-reports .feature-value .feature-after').inner_text()=='479 250 ₸'
+  assert page.locator('.feature-deck').evaluate('e=>e.scrollWidth<=e.clientWidth+2')
+  first, second, third = page.locator('.feature-card').evaluate_all('xs=>xs.map(x=>x.getBoundingClientRect().toJSON())')
   if w<=850:
-   y=page.evaluate('scrollY');page.locator('.feature-switcher a').nth(1).click()
-   page.wait_for_function('()=>document.querySelectorAll(".feature-switcher a")[1].getAttribute("aria-current")==="true"')
-   page.wait_for_timeout(550)
-   assert abs(page.evaluate('scrollY')-y)<2,'Switching cards must not jump the page'
-   deck=page.locator('.feature-deck');deck.evaluate('e=>e.focus({preventScroll:true})');page.keyboard.press('End')
-   page.wait_for_function('()=>document.querySelectorAll(".feature-switcher a")[2].getAttribute("aria-current")==="true"')
-   page.wait_for_timeout(550);assert abs(page.evaluate('scrollY')-y)<2
-   page.keyboard.press('Home');page.wait_for_timeout(600)
-   # Native scroll gestures work without the selector controls too.
-   deck.evaluate('e=>e.scrollTo({left:e.scrollWidth,behavior:"instant"})');page.wait_for_timeout(200)
-   assert page.locator('.feature-switcher a').nth(2).get_attribute('aria-current')=='true'
-   deck.evaluate('e=>e.scrollTo({left:0,behavior:"instant"})');page.wait_for_timeout(200)
+   assert first['left']==second['left']==third['left']
+   assert first['bottom']<second['top'] and second['bottom']<third['top']
+   assert page.locator('.feature-screen-link').evaluate_all('links=>links.every(link=>link.getBoundingClientRect().height>=44)')
   else:
-   assert page.locator('.feature-deck').evaluate('e=>e.scrollWidth<=e.clientWidth+2')
+   assert first['top']==second['top']==third['top']
   page.locator('.feature-screen-link').first.click();page.wait_for_function('()=>document.getElementById("preview-dialog").open&&!document.getElementById("preview-image").hidden')
   assert page.locator('#preview-original').get_attribute('href').endswith('/img/demo-sale.png')
   page.keyboard.press('Escape');page.wait_for_function('()=>!document.getElementById("preview-dialog").open')
