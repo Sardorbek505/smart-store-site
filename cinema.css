@@ -387,15 +387,9 @@
   overflow: hidden;
   position: absolute;
   inset: 0;
-  filter: url(#hero-refraction);
+  /* Optics are drawn by the GPU layer (scripts/hero-optics.js) on every
+     screen; an SVG filter here re-ran over the whole moving ribbon. */
   pointer-events: auto;
-}
-@media (max-width: 850px) {
-  .ribbon-refraction {
-    /* The optional GPU layer owns phone optics. Keep the initial/fallback
-       photograph cheap and visible while that layer loads or is unavailable. */
-    filter: none;
-  }
 }
 .ribbon-rim {
   position: absolute;

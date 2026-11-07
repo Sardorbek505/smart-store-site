@@ -32,8 +32,10 @@ void main(){
 // Precompute the curved field once instead of evaluating powers and trigonometry
 // for every blur tap on every pixel of every animation frame. No image request
 // or SVG filter is required by this independent phone renderer.
-function refractionField() {
-  const w = 256,
+// Phone: a wider contact zone, so the lens is visible at the opening frame.
+// Desktop: the narrow v86 zone that the SVG filter used to draw.
+function refractionField(minimum, span) {
+  const w = 512,
     h = 128,
     pixels = new Uint8Array(w * h * 4);
   const smooth = (t) => {
@@ -44,7 +46,7 @@ function refractionField() {
   for (let j = 0; j < h; j++) {
     const y = j / (h - 1),
       s = Math.sin(Math.PI * y);
-    const extent = 0.0405 + 0.1035 * s ** 0.65;
+    const extent = minimum + span * s ** 0.65;
     const bow = 0.3 + 0.7 * s * s,
       vertical = Math.sin(2 * Math.PI * y);
     for (let i = 0; i < w; i++) {
@@ -89,7 +91,24 @@ export function mount({ window: aperture, track, cards, flow, getManual }) {
     interval = 1000 / 60,
     painted = 0,
     slowFrames = 0;
-  const eligible = () => phone.matches && !clear.matches;
+  // Desktop uses this GPU layer too: the SVG displacement filter over the
+  // whole moving ribbon re-ran on every frame and dropped the hero to ~12 fps.
+  const eligible = () => !clear.matches;
+  let fieldMode;
+  function uploadField() {
+    const mode = phone.matches ? "phone" : "desktop";
+    if (mode === fieldMode) return;
+    fieldMode = mode;
+    const data =
+      mode === "phone"
+        ? refractionField(0.0405, 0.1035)
+        : refractionField(0.0225, 0.0495);
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, fieldTexture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, data.w, data.h, 0, gl.RGBA, gl.UNSIGNED_BYTE, data.pixels);
+    gl.activeTexture(gl.TEXTURE0);
+  }
+  let fieldTexture;
 
   function initialize() {
     atlasKey = "";
@@ -139,24 +158,16 @@ export function mount({ window: aperture, track, cards, flow, getManual }) {
       ]),
     );
     gl.uniform1i(gl.getUniformLocation(program, "atlas"), 0);
-    const data = refractionField();
     gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+    fieldTexture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, fieldTexture);
     for (const parameter of [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T])
       gl.texParameteri(gl.TEXTURE_2D, parameter, gl.CLAMP_TO_EDGE);
     for (const parameter of [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER])
       gl.texParameteri(gl.TEXTURE_2D, parameter, gl.LINEAR);
-    gl.texImage2D(
-      gl.TEXTURE_2D,
-      0,
-      gl.RGBA,
-      data.w,
-      data.h,
-      0,
-      gl.RGBA,
-      gl.UNSIGNED_BYTE,
-      data.pixels,
-    );
+    fieldMode = undefined;
+    uploadField();
+    gl.activeTexture(gl.TEXTURE1);
     gl.uniform1i(gl.getUniformLocation(program, "field"), 1);
     gl.activeTexture(gl.TEXTURE0);
   }
@@ -168,6 +179,7 @@ export function mount({ window: aperture, track, cards, flow, getManual }) {
     width = aperture.clientWidth;
     height = aperture.clientHeight;
     if (!width || !height) return;
+    uploadField();
     const cardWidth = cards[0].getBoundingClientRect().width;
     const gap = parseFloat(getComputedStyle(cards[0].parentElement).columnGap);
     cycle = cards.length * (cardWidth + gap);
