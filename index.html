@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <!-- security:start -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-K0lP2vZmZFsBvVNgsVdI8CK4NVc+8lx3P0jH9rEfR/M=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none'; script-src 'self' 'sha256-MzXAmOrD8HQySuUtoPeEyG3jITwzIdfZ2YU0Gz+y3xQ=' 'sha256-lTzETxmcoA752VgtZRIy7XY9W/5Gp3iLq7h+OqaZsVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://connect.metov.store https://zavod.metov.store; form-action 'self'" />
     <!-- security:end -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#111116" />
@@ -57,7 +57,11 @@
         "Сроки возврата долгов и напоминания",
         "AI-помощник и черновики прихода по накладным",
         "Промоматериалы: визитка, карточка товара и прайс-лист",
-        "Аренда инструмента",
+        "Прокат и аренда",
+        "Весы и этикетки с весов",
+        "Сроки годности",
+        "Размеры и цвета",
+        "IMEI и серийные номера",
         "Продажи, выручка и прибыль в отчётах",
         "Доступ с телефона при включённом компьютере"
       ],
@@ -629,8 +633,36 @@
             <div data-depth-scene="feature">
               <span data-depth="0.4" class="extra-icon generated-accent" aria-hidden="true"><img class="generated-feature-icon" src="img/accent-rental-192-v96.webp" srcset="img/accent-rental-96-v96.webp 96w, img/accent-rental-192-v96.webp 192w" sizes="(max-width: 620px) 44px, 52px" data-fallback="img/accent-rental-source-v96.png" width="192" height="192" loading="lazy" decoding="async" alt=""/></span>
               <p>
-                <strong>Аренда инструмента</strong
-                ><span>Выдача, тарифы и сроки возврата.</span>
+                <strong>Прокат и аренда</strong
+                ><span>Выдача по часам и дням, залог и напоминания о возврате.</span>
+              </p>
+            </div>
+            <div data-depth-scene="feature">
+              <span class="extra-icon" aria-hidden="true"><svg class="icon"><use href="#i-receipt" /></svg></span>
+              <p>
+                <strong>Весы</strong
+                ><span>Касса читает этикетку с весов: товар по артикулу, количество по весу.</span>
+              </p>
+            </div>
+            <div data-depth-scene="feature">
+              <span class="extra-icon" aria-hidden="true"></span>
+              <p>
+                <strong>Сроки годности</strong
+                ><span>Срок в приходе, предупреждение заранее и списание просрочки.</span>
+              </p>
+            </div>
+            <div data-depth-scene="feature">
+              <span class="extra-icon" aria-hidden="true"><svg class="icon"><use href="#i-box" /></svg></span>
+              <p>
+                <strong>Размеры и цвета</strong
+                ><span>Модель с сеткой размеров: у каждого варианта свой штрихкод и остаток.</span>
+              </p>
+            </div>
+            <div data-depth-scene="feature">
+              <span class="extra-icon" aria-hidden="true"><svg class="icon"><use href="#i-phone" /></svg></span>
+              <p>
+                <strong>IMEI и серийные номера</strong
+                ><span>Телефон не продаётся без номера; по номеру видно, кому продан.</span>
               </p>
             </div>
             <div data-depth-scene="feature">
