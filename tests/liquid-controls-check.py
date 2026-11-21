@@ -43,6 +43,10 @@ with sync_playwright() as p:
         page.wait_for_function('()=>!document.getElementById("download").hasAttribute("data-rim")')
         for selector in ['#download','.assistant-watch','#store']:
             assert page.locator(selector).evaluate('e=>getComputedStyle(e).backdropFilter')=='none',selector
+        page.locator('#product-screen-link').click()
+        page.wait_for_function('()=>getComputedStyle(document.getElementById("preview-close")).backgroundColor==="rgb(48, 52, 64)"')
+        assert page.locator('#preview-close').evaluate('e=>getComputedStyle(e).color')=='rgb(247, 248, 255)'
+        page.locator('#preview-close').click()
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
         assert not errors,errors
         print(json.dumps({'width':width,'glassPrimaryAndPanels':True,'loginInputAndFocus':True,'dockLensAndZoom':True,'noNestedBackdropFilters':True,'closedDockReleasesFilter':True,'reducedTransparency':True}),flush=True)

@@ -96,6 +96,7 @@
 }
 .preview-toolbar[data-liquid] [data-liquid] {
   --liquid-fill: rgb(255 255 255 / 7%);
+  --liquid-solid: #303440;
   --liquid-ink: #f7f8ff;
   --liquid-edge: rgb(255 255 255 / 12%);
   --liquid-shine: rgb(255 255 255 / 18%);
@@ -104,6 +105,16 @@
 }
 .preview-toolbar[data-liquid] [aria-pressed="true"][data-liquid] {
   --liquid-fill: #1d4ed8;
+  --liquid-solid: #1d4ed8;
+}
+/* The original toolbar uses ID selectors; keep all three controls on the same material. */
+.preview-dialog .preview-toolbar :is(#preview-close, #preview-original, #preview-zoom)[data-liquid] {
+  background-color: var(--liquid-fill);
+  color: var(--liquid-ink);
+  border-color: var(--liquid-edge);
+  box-shadow: inset 0 0.5px 0 var(--liquid-shine);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 /* Broad reading/form surfaces use a quieter, denser sheet. */
 [data-liquid="sheet"] {
@@ -163,7 +174,8 @@
 @media (prefers-reduced-transparency: reduce), (forced-colors: active) {
   .landing-page [data-liquid]:not([data-liquid="sheet"]),
   .button.button[data-liquid], [data-liquid="sheet"],
-  .preview-dialog .preview-toolbar[data-liquid="dock"] {
+  .preview-dialog .preview-toolbar[data-liquid="dock"],
+  .preview-dialog .preview-toolbar :is(#preview-close, #preview-original, #preview-zoom)[data-liquid] {
     background: var(--liquid-solid);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
@@ -175,6 +187,9 @@
   }
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  [data-liquid] { background: var(--liquid-solid); }
+  .landing-page [data-liquid]:not([data-liquid="sheet"]),
+  .button.button[data-liquid], [data-liquid="sheet"],
+  .preview-dialog .preview-toolbar[data-liquid="dock"],
+  .preview-dialog .preview-toolbar :is(#preview-close, #preview-original, #preview-zoom)[data-liquid] { background: var(--liquid-solid); }
 }
 .checkout-return[data-liquid] { position: absolute; }
