@@ -1,6 +1,6 @@
 // A visible, idle story may load 3D. Everything else stays a static poster.
 // checkout-bundle:start
-const loadScene = () => import("../assets/checkout3d.ba32c8dc116e.js");
+const loadScene = () => import("../assets/checkout3d.b2caf8067709.js");
 // checkout-bundle:end
 export function init() {
   const object = document.querySelector(".checkout-object");
@@ -218,17 +218,18 @@ export function init() {
       syncAmbient();
     } else if (!failed) ensure();
   }
+  const webgl = () =>
+    (context ||= canvas.getContext("webgl2", {
+      alpha: true,
+      antialias: true,
+      stencil: false,
+      powerPreference: "low-power",
+    }));
   async function ensure() {
     if (loading || api || failed || !active()) return;
     loading = true;
     try {
-      context ||= canvas.getContext("webgl2", {
-        alpha: true,
-        antialias: true,
-        stencil: false,
-        powerPreference: "low-power",
-      });
-      if (!context) throw new Error("No WebGL2");
+      if (!webgl()) throw new Error("No WebGL2");
       factory ||= (await loadScene()).createCheckoutScene;
       if (!active()) return;
       api = await factory({ canvas, context });
@@ -316,6 +317,27 @@ export function init() {
       back.click();
     }
   });
+  // Start downloading the 3D module a screen and a half before the block: on mobile
+  // data it took 3–4 s, and the static poster in the meantime looked broken.
+  const nearby = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry.isIntersecting || factory || failed) return;
+      nearby.disconnect();
+      // Without WebGL2 the poster stays, and the engine is not worth downloading.
+      if (!webgl()) return;
+      const fetchScene = () =>
+        loadScene()
+          .then((module) => {
+            factory ||= module.createCheckoutScene;
+          })
+          .catch(() => {});
+      if (globalThis.requestIdleCallback)
+        requestIdleCallback(fetchScene, { timeout: 1500 });
+      else setTimeout(fetchScene, 200);
+    },
+    { rootMargin: "150% 0px" },
+  );
+  nearby.observe(stage);
   new IntersectionObserver(
     ([entry]) => {
       visible = entry.isIntersecting && entry.intersectionRatio >= 0.1;

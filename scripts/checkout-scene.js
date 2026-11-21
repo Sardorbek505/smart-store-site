@@ -30,6 +30,13 @@ import {
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
 
+// Give the phone a breath between heavy setup steps: one long task froze scrolling
+// and taps for about a second on mid-range phones (measured 0.9–1.0 s at 4x CPU).
+const breathe = () =>
+  globalThis.scheduler?.yield
+    ? globalThis.scheduler.yield()
+    : new Promise((resolve) => setTimeout(resolve, 0));
+
 export async function createCheckoutScene({ canvas, context }) {
   const renderer = new WebGLRenderer({
     canvas,
@@ -127,6 +134,8 @@ export async function createCheckoutScene({ canvas, context }) {
     const texture = await loader.loadAsync(
       new URL(`../img/${name}`, import.meta.url).href,
     );
+    // Decode off the main thread now, not during the first texture upload.
+    await texture.image.decode?.().catch(() => {});
     texture.colorSpace = SRGBColorSpace;
     texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     texture.minFilter = LinearMipmapLinearFilter;
@@ -156,7 +165,9 @@ export async function createCheckoutScene({ canvas, context }) {
     studio.dispose();
     pmrem.dispose();
   }
+  await breathe();
   bakeEnvironment();
+  await breathe();
   const screenGeometry = new ShapeGeometry(roundedShape(2.7, 1.6875, 0.025), 5);
   const positions = screenGeometry.attributes.position,
     uv = screenGeometry.attributes.uv;
@@ -171,6 +182,7 @@ export async function createCheckoutScene({ canvas, context }) {
   screen.position.set(-0.45, 1.66, 0.101);
   assembly.add(screen);
   block(0.1, 0.018, 0.008, 0.005, blue, [0.75, 0.765, 0.081]);
+  await breathe();
   // Thermal printer: rounded white housing, dark slot, curved paper and a button.
   block(0.86, 0.55, 0.91, 0.08, white, [1.47, 0.5, 0.42]);
   block(0.76, 0.065, 0.81, 0.035, ink, [1.47, 0.79, 0.41]);
@@ -179,6 +191,7 @@ export async function createCheckoutScene({ canvas, context }) {
   const panel = material({ color: "#e4e6ed", roughness: 0.42 });
   block(0.73, 0.31, 0.012, 0.045, panel, [1.47, 0.48, 0.883]);
   block(0.052, 0.02, 0.012, 0.009, blue, [1.73, 0.65, 0.895]);
+  await breathe();
   const paperCanvas = document.createElement("canvas");
   paperCanvas.width = 768;
   paperCanvas.height = 1280;
@@ -210,6 +223,7 @@ export async function createCheckoutScene({ canvas, context }) {
     x += w + 2;
   }
   const paperTexture = new CanvasTexture(paperCanvas);
+  await breathe();
   paperTexture.colorSpace = SRGBColorSpace;
   paperTexture.anisotropy = Math.min(
     8,
@@ -303,6 +317,7 @@ export async function createCheckoutScene({ canvas, context }) {
     contactPaint.fillRect(-1, -1, 2, 2);
     contactPaint.restore();
   }
+  await breathe();
   const contactTexture = new CanvasTexture(contactCanvas);
   const contactMaterial = new MeshBasicMaterial({
     map: contactTexture,
@@ -436,6 +451,21 @@ export async function createCheckoutScene({ canvas, context }) {
   destination = pose(view);
   camera.position.copy(destination.position);
   target.copy(destination.target);
+  // Upload textures and compile shaders in separate short steps before the first
+  // frame; otherwise the first draw does all of it at once.
+  for (const texture of [
+    sale,
+    payment,
+    paperTexture,
+    shadowTexture,
+    contactTexture,
+  ]) {
+    await breathe();
+    renderer.initTexture(texture);
+  }
+  await breathe();
+  await renderer.compileAsync(scene, camera);
+  await breathe();
   const api = {
     restore() {
       // Render-target pixels are lost with the GPU context; ordinary image
