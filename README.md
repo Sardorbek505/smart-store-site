@@ -48,7 +48,8 @@ python -m http.server 4173
 ```
 
 Готовые CSS и 3D-бандл находятся в `assets/`; для обычного просмотра сборка не нужна.
-Навигация использует оптику Glisse без React: [v107](docs/liquid-glass-v107.md).
+Навигация и элементы управления используют Glisse без React:
+[v107](docs/liquid-glass-v107.md), [единый стиль v108](docs/liquid-glass-v108.md).
 После изменения `tools/glisse/` выполнять `npm run build:glass`.
 После изменения CSS выполнять `npm run build:styles`; после изменения самой
 3D-сцены — `npm run build:checkout`. Сборщики сохраняют предыдущие опубликованные

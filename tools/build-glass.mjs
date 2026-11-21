@@ -13,7 +13,7 @@ if (result.warnings.length) throw Error(JSON.stringify(result.warnings));
 const code = '/*! Glisse (MIT), Kelvin Zhang. License: ../third-party/Glisse.LICENSE */\n' + result.outputFiles[0].text;
 const hash = createHash('sha256').update(code).digest('hex').slice(0,12);
 const file = `glisse-nav.${hash}.js`;
-const loader = `// Load optical maps only when the navigation first becomes visible.\nexport function init() {\n  const header = document.querySelector('.landing-page .top');\n  if (!header) return;\n  const open = () => {\n    if (header.inert || !document.body.classList.contains('has-scrolled')) return;\n    observer.disconnect();\n    void import('../assets/${file}').then(m => m.init()).catch(() => {});\n  };\n  const observer = new MutationObserver(open);\n  observer.observe(header, { attributes: true, attributeFilter: ['inert'] });\n  open();\n}\n`;
+const loader = `// Apply the optional Glisse optics after first paint; native CSS is immediate.\nexport function init() {\n  const start = () => { void import('../assets/${file}').then(m => m.init()).catch(() => {}); };\n  if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 700 });\n  else setTimeout(start, 150);\n}\n`;
 const files = [['assets/'+file,code],['scripts/liquid-glass.js',loader]];
 for (const [path,text] of files) {
   if (check) { if (await readFile(new URL(path,root),'utf8') !== text) throw Error('Stale glass bundle: '+path); }

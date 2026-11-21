@@ -1,0 +1,180 @@
+/* One Liquid Glass material for native controls and floating panels.
+   Refraction and Glisse's measured rim enhance these surfaces independently. */
+:root {
+  --liquid-light: rgb(255 255 255 / 72%);
+  --liquid-dark: rgb(32 35 43 / 76%);
+  --liquid-blue: rgb(24 66 191 / 94%);
+}
+[data-liquid] {
+  --liquid-fill: var(--liquid-light);
+  --liquid-solid: #f6f7fc;
+  --liquid-ink: #151722;
+  --liquid-edge: rgb(0 0 0 / 10%);
+  --liquid-shine: rgb(255 255 255 / 75%);
+  --liquid-drop: rgb(24 35 64 / 8%);
+}
+:is(.cinema-hero, .license-section) [data-liquid],
+.preview-toolbar[data-liquid] {
+  --liquid-fill: var(--liquid-dark);
+  --liquid-solid: #242731;
+  --liquid-ink: #f7f8ff;
+  --liquid-edge: rgb(255 255 255 / 13%);
+  --liquid-shine: rgb(255 255 255 / 28%);
+  --liquid-drop: rgb(0 0 0 / 16%);
+}
+[data-liquid="accent"],
+:is(.cinema-hero, .license-section) [data-liquid="accent"],
+.preview-toolbar [aria-pressed="true"][data-liquid],
+[data-liquid][data-copied="true"] {
+  --liquid-fill: var(--liquid-blue);
+  --liquid-solid: #1842bf;
+  --liquid-ink: #fff;
+  --liquid-edge: rgb(255 255 255 / 22%);
+  --liquid-shine: rgb(255 255 255 / 42%);
+}
+/* Raised glass controls keep their original geometry and real hit targets. */
+.landing-page [data-liquid]:not([data-liquid="sheet"]),
+.button.button[data-liquid],
+[data-liquid="sheet"] {
+  color: var(--liquid-ink);
+  background-color: var(--liquid-fill);
+  border-color: var(--liquid-edge);
+  box-shadow:
+    inset 0 0.5px 0 var(--liquid-shine),
+    inset 0 -0.5px 0 var(--liquid-edge),
+    0 2px 6px var(--liquid-drop);
+  -webkit-backdrop-filter: blur(3px) saturate(1.5);
+  backdrop-filter: blur(3px) saturate(1.5) var(--lg-filter, brightness(1));
+}
+/* Existing button dot animations give way to a stable tinted glass surface. */
+.button.button[data-liquid]::before {
+  display: none;
+}
+.button.button[data-liquid] .button-icon {
+  background: rgb(255 255 255 / 12%);
+  box-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 16%);
+}
+[data-liquid="control"], [data-liquid="accent"] {
+  position: relative;
+  isolation: isolate;
+}
+[data-liquid][data-rim] {
+  background-image: var(--lg-rim);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+/* The secondary hero action uses one label on a translucent capsule. */
+.cinema-explore.interactive-link[data-liquid] .interactive-dot {
+  background: currentColor;
+  transform: none;
+}
+.cinema-explore.interactive-link[data-liquid] .interactive-main > span:last-child {
+  opacity: 1;
+  transform: none;
+}
+.cinema-explore.interactive-link[data-liquid] .interactive-hover {
+  display: none;
+}
+/* Floating screenshot controls share the navigation's dark glass. */
+.preview-dialog .preview-toolbar[data-liquid="dock"] {
+  --glass-base: transparent;
+  background: var(--liquid-fill);
+  border-color: var(--liquid-edge);
+  box-shadow: 0 2px 8px var(--liquid-drop);
+}
+.preview-toolbar[data-liquid]::before {
+  background: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.preview-toolbar[data-liquid]::after {
+  padding: 0;
+  background: var(--lg-rim, linear-gradient(135deg, #ffffff20, transparent 45%, #ffffff10)) 0 0 / 100% 100%;
+  -webkit-mask: none;
+  mask: none;
+}
+.preview-toolbar[data-liquid] [data-liquid] {
+  --liquid-fill: rgb(255 255 255 / 7%);
+  --liquid-ink: #f7f8ff;
+  --liquid-edge: rgb(255 255 255 / 12%);
+  --liquid-shine: rgb(255 255 255 / 18%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.preview-toolbar[data-liquid] [aria-pressed="true"][data-liquid] {
+  --liquid-fill: #1d4ed8;
+}
+/* Broad reading/form surfaces use a quieter, denser sheet. */
+[data-liquid="sheet"] {
+  --liquid-fill: rgb(249 250 255 / 94%);
+  --liquid-solid: #f9faff;
+  -webkit-backdrop-filter: blur(10px) saturate(1.25);
+  backdrop-filter: blur(10px) saturate(1.25);
+  background-image: linear-gradient(135deg, #ffffff52, transparent 50%, #dce5ff26);
+}
+.store-dialog[data-liquid] input {
+  background: rgb(255 255 255 / 92%);
+}
+.copy-field[data-liquid="field"] {
+  --liquid-fill: rgb(255 255 255 / 82%);
+}
+.copy-field[data-liquid="field"] input {
+  background: transparent;
+}
+.assistant-watch[data-liquid] > span {
+  color: #535b70;
+}
+.scene-point b,
+.scene-point span {
+  background: var(--liquid-light);
+  color: #151722;
+  border-color: rgb(0 0 0 / 10%);
+  box-shadow: inset 0 0.5px 0 #ffffffb3, 0 2px 6px #18234014;
+  -webkit-backdrop-filter: blur(3px) saturate(1.5);
+  backdrop-filter: blur(3px) saturate(1.5);
+}
+.scene-point[aria-pressed="true"] b {
+  background: var(--liquid-blue);
+  color: white;
+}
+.landing-page .menu-open .top-links {
+  background: var(--nav-menu);
+  border-color: var(--nav-line);
+  box-shadow: inset 0 0.5px 0 #ffffff66, 0 6px 18px #10172d18;
+}
+[data-liquid]:is(a, button):focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 4px;
+}
+:is(.cinema-hero, .license-section, .preview-toolbar) [data-liquid]:focus-visible {
+  outline-color: #fff;
+}
+[data-liquid]:is(a, button):disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-liquid]:is(a, button):hover:not(:disabled) {
+    background-image: linear-gradient(#ffffff0d, #ffffff0d), var(--lg-rim, none);
+    border-color: var(--liquid-shine);
+  }
+}
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  .landing-page [data-liquid]:not([data-liquid="sheet"]),
+  .button.button[data-liquid], [data-liquid="sheet"],
+  .preview-dialog .preview-toolbar[data-liquid="dock"] {
+    background: var(--liquid-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .scene-point b, .scene-point span {
+    background: #f6f7fc;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-liquid] { background: var(--liquid-solid); }
+}
+.checkout-return[data-liquid] { position: absolute; }

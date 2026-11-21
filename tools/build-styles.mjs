@@ -34,12 +34,13 @@ const bundles = [
       "glass.css",
       "responsive.css",
       "features.css",
+      "liquid-controls.css",
     ],
   },
   {
     pages: sitePages.filter((p) => p.styles === "privacy").map((p) => p.file),
     name: "privacy",
-    sources: ["styles.css", "buttons.css"],
+    sources: ["styles.css", "buttons.css", "liquid-controls.css"],
   },
 ];
 const expected = new Set();

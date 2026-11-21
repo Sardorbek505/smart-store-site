@@ -250,9 +250,9 @@
       })();
     </script>
     <!-- styles:start -->
-    <link rel="stylesheet" href="assets/site.fe99a33ef15a.css" />
+    <link rel="stylesheet" href="assets/site.9bd8e8947e19.css" />
     <!-- styles:end -->
-    <script src="app.js?v=107" type="module"></script>
+    <script src="app.js?v=108" type="module"></script>
     <noscript
       ><style>
         .landing-page .top {
@@ -378,12 +378,12 @@
               data-download
               class="button primary"
               href="#installation"
-              ><span id="download-label" class="button-label"
+               data-liquid="accent"><span id="download-label" class="button-label"
                 >Попробовать бесплатно</span
               ><span class="button-icon" aria-hidden="true"
                 ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" /></svg></span></a
-            ><a class="cinema-explore interactive-link" href="#workspace">
+            ><a class="cinema-explore interactive-link" href="#workspace" data-liquid="control">
               <span class="interactive-main"
                 ><span class="interactive-dot" aria-hidden="true"></span
                 ><span>Как работает</span></span
@@ -482,7 +482,7 @@
               >Магазин уже подключён? Войти →</a
             >
           </div>
-          <div class="installation-card">
+          <div class="installation-card" data-liquid="sheet">
             <div id="windows-install">
               <svg class="icon setup-device" aria-hidden="true">
                 <use href="#i-computer" />
@@ -494,7 +494,7 @@
                 data-download
                 class="button primary"
                 href="https://github.com/Sardorbek505/smart-store-releases/releases/latest"
-                ><span class="button-label">Скачать установщик</span
+                 data-liquid="accent"><span class="button-label">Скачать установщик</span
                 ><span class="button-icon" aria-hidden="true"
                   ><svg class="icon"><use href="#i-arrow" /></svg></span
               ></a>
@@ -505,7 +505,7 @@
             <div id="handoff-tools" class="installation-actions">
               <h3>Передайте ссылку на компьютер</h3>
               <label for="installation-url">Ссылка на установку</label>
-              <div class="copy-field">
+              <div class="copy-field" data-liquid="field">
                 <input
                   id="installation-url"
                   readonly
@@ -520,7 +520,7 @@
                   aria-label="Скопировать ссылку"
                   aria-describedby="copy-status"
                   disabled
-                >
+                 data-liquid="control">
                   <svg
                     class="icon copy-field-icon"
                     viewBox="0 0 24 24"
@@ -546,7 +546,7 @@
                   type="button"
                   class="button primary"
                   hidden
-                >
+                 data-liquid="accent">
                   <span class="button-label">Отправить себе ссылку</span
                   ><span class="button-icon" aria-hidden="true"
                     ><svg class="icon"><use href="#i-arrow" /></svg
@@ -698,7 +698,7 @@
           alt="Ноутбук с AI-помощником, небольшой робот и объёмная белая лента. На экране — вопрос о магазине и демонстрационный ответ." />
         <span class="assistant-token assistant-token-facts" data-generated-accent="data" data-depth="1.05"><img src="img/accent-data-960-v96.webp" srcset="img/accent-data-480-v96.webp 480w, img/accent-data-960-v96.webp 960w" sizes="(max-width: 620px) 225px, 300px" data-fallback="img/accent-data-source-v96.png" width="960" height="320" loading="lazy" decoding="async" alt="По данным магазина"/></span>
       </div>
-      <a href="media/smart-store-ai-tour-v94.mp4" class="assistant-watch" data-tour aria-label="Смотреть запись интерфейса Smart Store, 31 секунда"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 2.5 13 8l-9 5.5Z" fill="currentColor"/></svg>Смотреть программу <span>31 с</span></a>
+      <a href="media/smart-store-ai-tour-v94.mp4" class="assistant-watch" data-tour aria-label="Смотреть запись интерфейса Smart Store, 31 секунда" data-liquid="control"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 2.5 13 8l-9 5.5Z" fill="currentColor"/></svg>Смотреть программу <span>31 с</span></a>
       <figcaption>Иллюстрация на демоданных. Для AI нужны интернет и ключ Gemini. <a href="#ai-info">Подробнее →</a></figcaption>
     </figure>
   </div>
@@ -807,7 +807,7 @@
                     title="Общий вид"
                     aria-controls="checkout-object"
                     disabled
-                  >
+                   data-liquid="control">
                     <svg class="icon" aria-hidden="true">
                       <use href="#i-arrow" />
                     </svg>
@@ -862,7 +862,7 @@
             <div class="mobile-device" data-depth="1"><img id="phone-mockup" src="img/mobile-demo-overview.webp" data-fallback="img/demo-phone.png" width="1024" height="1536" loading="lazy" decoding="async" alt="Пример Smart Store в телефоне: продажи за день и остатки доступны в браузере"/></div>
           </div>
           <div class="mobile-demo">
-            <a id="phone-example" href="img/demo-phone.png" data-preview data-title="Smart Store в телефоне" data-preview-alt="Настоящий экран телефона Smart Store: демонстрационные продажи, выручка и поиск товаров" class="button mobile-action"><span class="button-label">Посмотреть пример</span><span class="button-icon" aria-hidden="true"><svg class="icon"><use href="#i-zoom"/></svg></span></a>
+            <a id="phone-example" href="img/demo-phone.png" data-preview data-title="Smart Store в телефоне" data-preview-alt="Настоящий экран телефона Smart Store: демонстрационные продажи, выручка и поиск товаров" class="button mobile-action" data-liquid="control"><span class="button-label">Посмотреть пример</span><span class="button-icon" aria-hidden="true"><svg class="icon"><use href="#i-zoom"/></svg></span></a>
             <p class="connection-note">Компьютер со Smart Store должен быть включён. Для доступа вне магазина нужен интернет.</p>
           </div>
         </div>
@@ -892,7 +892,7 @@
             <p class="offer-terms">Разовая оплата · Лицензия на 1 компьютер</p>
             <div class="actions">
               <a href="#installation" data-download class="button dark"
-                ><span id="license-download-label" class="button-label"
+                 data-liquid="accent"><span id="license-download-label" class="button-label"
                   ><span class="platform-windows">Скачать для Windows</span
                   ><span class="platform-handoff">Как установить</span></span
                 ><span class="button-icon" aria-hidden="true"
@@ -901,7 +901,7 @@
               ><a
                 class="button secondary"
                 href="https://wa.me/77066352006?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D0%B8%20Smart%20Store%20%D0%BD%D0%B0%20%D0%BE%D0%B4%D0%B8%D0%BD%20%D0%BA%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80.%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%20%D1%81%D1%80%D0%BE%D0%BA%20%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D0%B8%D1%8F%20%D0%B8%20%D0%BF%D0%BE%D1%80%D1%8F%D0%B4%D0%BE%D0%BA%20%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%B0%D1%86%D0%B8%D0%B8."
-                ><span class="button-label">Стоимость в WhatsApp</span
+                 data-liquid="control"><span class="button-label">Стоимость в WhatsApp</span
                 ><span class="button-icon" aria-hidden="true"
                   ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M5 12h14m-6-6 6 6-6 6" /></svg></span
@@ -1062,7 +1062,7 @@
       </nav>
     </footer>
 
-    <dialog id="store" class="store-dialog" aria-labelledby="store-title">
+    <dialog id="store" class="store-dialog" aria-labelledby="store-title" data-liquid="sheet">
       <div class="store-dialog-heading">
         <h2 id="store-title">Войти в магазин.</h2>
         <button
@@ -1070,7 +1070,7 @@
           class="store-close"
           type="button"
           aria-label="Закрыть вход"
-        >
+         data-liquid="control">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
             <path d="m6 6 12 12M18 6 6 18" />
           </svg>
@@ -1118,7 +1118,7 @@
             type="submit"
             id="store-submit"
             disabled
-          >
+           data-liquid="accent">
             <span class="button-label">Открыть магазин</span
             ><span class="button-icon" aria-hidden="true"
               ><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -1164,7 +1164,7 @@
         class="dialog-bar preview-toolbar glass-surface"
         role="group"
         aria-label="Управление просмотром экрана"
-      >
+       data-liquid="dock">
         <div class="preview-caption">
           <h2 id="preview-title">Экран Smart Store</h2>
           <p id="preview-hint">Увеличьте, чтобы прочитать детали.</p>
@@ -1176,7 +1176,7 @@
             aria-pressed="false"
             aria-controls="preview-stage"
             disabled
-          >
+           data-liquid="control">
             <svg class="icon" aria-hidden="true"><use href="#i-zoom" /></svg
             ><span>Увеличить</span>
           </button>
@@ -1187,7 +1187,7 @@
           target="_blank"
           rel="noopener"
           aria-label="Открыть оригинал экрана"
-        >
+         data-liquid="control">
           <svg class="icon diagonal-arrow" aria-hidden="true">
             <use href="#i-arrow" /></svg
           ><span>Оригинал</span>
@@ -1197,7 +1197,7 @@
           id="preview-close"
           aria-label="Закрыть просмотр"
           autofocus
-        >
+         data-liquid="control">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
             <path d="m6 6 12 12M6 18 18 6" />
           </svg>
@@ -1205,8 +1205,8 @@
       </div>
     </dialog>
 
-    <dialog id="ai-tour" class="tour-dialog" aria-labelledby="tour-title" aria-describedby="tour-note">
-      <header class="tour-header"><h2 id="tour-title">Накладная → приход → помощник</h2><form method="dialog"><button aria-label="Закрыть видео" autofocus>×</button></form></header>
+    <dialog id="ai-tour" class="tour-dialog" aria-labelledby="tour-title" aria-describedby="tour-note" data-liquid="sheet">
+      <header class="tour-header"><h2 id="tour-title">Накладная → приход → помощник</h2><form method="dialog"><button aria-label="Закрыть видео" autofocus data-liquid="control">×</button></form></header>
       <video id="tour-video" controls playsinline preload="none" width="1280" height="800" data-poster="img/ai-tour-poster-v94.webp" aria-label="Запись интерфейса Smart Store с описанием шагов">
         <source data-src="media/smart-store-ai-tour-v94.mp4" type='video/mp4; codecs="avc1.640020"' />
         <source data-src="media/smart-store-ai-tour-v94.webm" type='video/webm; codecs="vp9"' />
@@ -1218,7 +1218,7 @@
       <a class="tour-file" href="media/smart-store-ai-tour-v94.mp4">Открыть видео отдельным файлом →</a>
     </dialog>
 
-    <dialog id="sale-tour" class="tour-dialog sale-tour-dialog" aria-labelledby="sale-tour-title" aria-describedby="sale-tour-note">
+    <dialog id="sale-tour" class="tour-dialog sale-tour-dialog" aria-labelledby="sale-tour-title" aria-describedby="sale-tour-note" data-liquid="sheet">
       <header class="tour-header"><h2 id="sale-tour-title">Чек → остаток → отчёт</h2><form method="dialog"><button aria-label="Закрыть запись продажи" autofocus>×</button></form></header>
       <video id="sale-tour-video" controls playsinline preload="none" width="1280" height="640" data-poster="img/sale-cash-1280-v99.webp" aria-label="Запись одной продажи в настоящем интерфейсе Smart Store на демоданных">
         <source data-src="media/smart-store-sale-v99.mp4" type="video/mp4" />

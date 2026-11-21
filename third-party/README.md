@@ -41,5 +41,6 @@ The mobile section now uses three newly generated transparent iPhone cutouts on 
 
 Navigation glass uses Glisse 0.6.0's MIT lens/SVG helpers and rim rasterizer
 by Kelvin Zhang, adapted to native HTML without React. Source provenance,
-browser limits and checks: [liquid-glass-v107.md](../docs/liquid-glass-v107.md).
+browser limits and checks: [liquid-glass-v107.md](../docs/liquid-glass-v107.md),
+[shared controls v108](../docs/liquid-glass-v108.md).
 License: [Glisse.LICENSE](Glisse.LICENSE).
