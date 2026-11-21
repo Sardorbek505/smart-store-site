@@ -16,6 +16,7 @@ await Promise.allSettled(
   [
     "viewport",
     "interface",
+    "liquid-glass",
     "features",
     "preview",
     "media",

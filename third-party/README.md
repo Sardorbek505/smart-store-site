@@ -38,3 +38,8 @@ The mobile section now uses three newly generated transparent iPhone cutouts on 
 ## Standalone training store (v35)
 
 `/demo/` is original HTML/CSS/JavaScript. It uses the same isolated fixture and product photographs as the landing screenshots. The sales cards, stock rows and report hierarchy were checked against the native Smart Store renderer; no Electron APIs or framework runtime are shipped. The installed UI UX Pro Max skill informed keyboard, focus, touch and responsive checks. Its generic design-system searches did not provide a product-specific system matching the supplied palette; general flat-interface guidance was adapted to the existing brand and native product. There is no newly copied library component or new third-party runtime dependency.
+
+Navigation glass uses Glisse 0.6.0's MIT lens/SVG helpers and rim rasterizer
+by Kelvin Zhang, adapted to native HTML without React. Source provenance,
+browser limits and checks: [liquid-glass-v107.md](../docs/liquid-glass-v107.md).
+License: [Glisse.LICENSE](Glisse.LICENSE).

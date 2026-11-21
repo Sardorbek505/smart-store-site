@@ -38,6 +38,9 @@ with sync_playwright() as p:
         assert page.locator('.top').evaluate('e=>e.inert')
         for selector,tone in [('.cinema-hero','dark'),('#features','light'),('#workspace','light'),('#mobile','light'),('#license','dark'),('#faq','light')]:
             page.locator(selector).evaluate('e=>scrollTo(0,e.offsetTop+(e.classList.contains("cinema-hero")?30:0))')
+            # A short final section may not reach the capsule before scroll ends.
+            if page.locator(selector).bounding_box()['y'] > 40:
+                tone=page.evaluate('''()=>{const section=[...document.querySelectorAll("main > section")].find(e=>{const r=e.getBoundingClientRect();return r.top<=40&&r.bottom>40});return section?.matches(".cinema-hero, .license-section")?"dark":"light"}''')
             page.wait_for_function('(tone)=>document.querySelector(".top").dataset.surface===tone',arg=tone)
             assert page.locator('.top-inner').evaluate('e=>e.scrollWidth<=e.clientWidth+1')
         page.locator('#features').evaluate('e=>scrollTo(0,e.offsetTop)')
