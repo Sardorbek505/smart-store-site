@@ -3,6 +3,7 @@
 const MODULES = new Set([
   "viewport",
   "interface",
+  "liquid-glass",
   "preview",
   "media",
   "gallery",

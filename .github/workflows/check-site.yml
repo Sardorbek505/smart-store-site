@@ -32,6 +32,8 @@ jobs:
         run: python3 -m unittest discover -s tests -p 'test_*.py'
       - name: Check published CSS matches its sources
         run: npm run check:styles
+      - name: Check the navigation optics bundle
+        run: npm run check:glass
       - name: Check the deferred 3D bundle
         run: npm run check:checkout
       - name: Check initial gallery frame
