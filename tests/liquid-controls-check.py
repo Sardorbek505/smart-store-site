@@ -11,6 +11,11 @@ with sync_playwright() as p:
         page.route('https://**',lambda r:r.fulfill(status=204))
         errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(BASE,wait_until='networkidle')
+        # Both the overview and compact camera controls keep plain text labels.
+        for view in ['overview','0','1','2']:
+            page.locator('.checkout-object').evaluate('(e,v)=>e.dataset.checkoutView=v',view)
+            assert page.locator('.scene-point > span').evaluate_all('xs=>xs.every(e=>{const s=getComputedStyle(e);return s.backdropFilter==="none"&&s.boxShadow==="none"&&parseFloat(s.borderTopWidth)===0&&s.backgroundColor==="rgba(0, 0, 0, 0)"})')
+        page.locator('.checkout-object').evaluate('e=>e.dataset.checkoutView="overview"')
         hero=page.locator('#download')
         page.wait_for_function('()=>document.getElementById("download").hasAttribute("data-rim")')
         assert hero.get_attribute('data-liquid')=='accent'
